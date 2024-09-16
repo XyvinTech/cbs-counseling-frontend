@@ -58,7 +58,7 @@ const AddRemarks = ({ rowData, onSubmitSuccess }) => {
                   Name: {rowData?.user_name}
                 </Typography>
                 <Typography variant="h6" fontWeight={500}>
-                  Counselling Type: {rowData?.counselling_type}
+                  Counselling Type: {rowData?.couselling_type}
                 </Typography>
                 <Typography variant="h6" paddingBottom={5}>
                   Description: {rowData?.description}

@@ -16,7 +16,7 @@ const Remarks = () => {
     { title: "Case ID", field: "case_id" },
     // { title: "Session ID", field: "session_id" },
     { title: "Student Name", field: "user_name" },
-    { title: "Type of Counseling", field: "counselling_type" },
+    { title: "Type of Counseling", field: "couselling_type" },
     { title: "Status", field: "status" },
   ];
 
