@@ -5,6 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import StyledInput from "../ui/StyledInput";
 import { StyledMultilineTextField } from "../ui/StyledMultilineTextField ";
 import { useCounsellorTypeStore } from "../store/admin/CounsellorTypeStore";
+import { toast } from "react-toastify";
 
 const CreateType = ({ open, onClose, rowId, onChange }) => {
   const {
@@ -16,15 +17,20 @@ const CreateType = ({ open, onClose, rowId, onChange }) => {
   const { addTypes } = useCounsellorTypeStore();
   const [loading, setLoading] = useState(false);
   const onSubmit = async (data) => {
-    setLoading(true);
-    const formData = {
-      name: data?.name,
-    };
-    await addTypes(formData);
-    setLoading(false);
-    reset();
-    onChange();
-    onClose();
+    try {
+      setLoading(true);
+      const formData = {
+        name: data?.name,
+      };
+      await addTypes(formData);
+      reset();
+      onChange();
+      onClose();
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleClear = (event) => {
@@ -51,7 +57,13 @@ const CreateType = ({ open, onClose, rowId, onChange }) => {
               name="name"
               control={control}
               defaultValue=""
-              rules={{ required: " Type of Counseling is required" }}
+              rules={{
+                required: " Type of Counseling is required",
+                pattern: {
+                  value: /^[A-Za-z\s]+$/,
+                  message: "Type of Counseling  must only contain letters",
+                },
+              }}
               render={({ field }) => (
                 <>
                   <StyledInput

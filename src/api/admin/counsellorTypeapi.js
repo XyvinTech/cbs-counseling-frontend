@@ -7,7 +7,7 @@ export const addType = async (data) => {
     toast.success(response.data.message);
     return response.data;
   } catch (error) {
-    toast.error(error.response.data.message);
+    throw error.response.data;
   }
 };
 export const editType = async (id, data) => {
@@ -24,7 +24,10 @@ export const editType = async (id, data) => {
 };
 export const deleteType = async (data) => {
   try {
-    const response = await axiosInstance.post(`/admin/counselling-type/delete-many`, data);
+    const response = await axiosInstance.post(
+      `/admin/counselling-type/delete-many`,
+      data
+    );
     toast.success(response.data.message);
     return response.data;
   } catch (error) {

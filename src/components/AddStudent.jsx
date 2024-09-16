@@ -70,7 +70,14 @@ const AddStudent = ({ onChange, setSelectedTab }) => {
               name="name"
               control={control}
               defaultValue=""
-              rules={{ required: "Name is required" }}
+              rules={{
+                required: "Name is required",
+                pattern: {
+                  value: /^[A-Za-z\s]+$/,
+                  message:
+                    "Name should not contain numbers or special characters",
+                },
+              }}
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Enter Full Name" {...field} />{" "}
@@ -94,7 +101,13 @@ const AddStudent = ({ onChange, setSelectedTab }) => {
               name="email"
               control={control}
               defaultValue=""
-              rules={{ required: "Email is required" }}
+              rules={{
+                required: "Email is required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Enter a valid email",
+                },
+              }}
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Email" {...field} />
@@ -118,7 +131,13 @@ const AddStudent = ({ onChange, setSelectedTab }) => {
               name="designation"
               control={control}
               defaultValue=""
-              rules={{ required: "Standard is required" }}
+              rules={{
+                required: "Standard is required",
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: "Standard must be a number",
+                },
+              }}
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Standard" {...field} />{" "}
@@ -144,7 +163,13 @@ const AddStudent = ({ onChange, setSelectedTab }) => {
               name="division"
               control={control}
               defaultValue=""
-              rules={{ required: "Division is required" }}
+              rules={{
+                required: "Division is required",
+                pattern: {
+                  value: /^[A-Za-z\s]+$/, 
+                  message: "Division must only contain letters",
+                },
+              }}
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Division" {...field} />
@@ -170,7 +195,13 @@ const AddStudent = ({ onChange, setSelectedTab }) => {
               name="mobile"
               control={control}
               defaultValue=""
-              rules={{ required: "Contact is required" }}
+              rules={{
+                required: "Contact is required",
+                // pattern: {
+                //   value: /^\+?\d{10,15}$/,
+                //   message: "Enter a valid contact number",
+                // },
+              }}
               render={({ field }) => (
                 <>
                   <StyledInput mobile placeholder="Conatct Number" {...field} />{" "}
@@ -196,7 +227,13 @@ const AddStudent = ({ onChange, setSelectedTab }) => {
               name="parentContact"
               control={control}
               defaultValue=""
-              rules={{ required: " Alternative Contact Number is required" }}
+              rules={{
+                required: " Alternative Contact Number is required",
+                // pattern: {
+                //   value: /^\+?\d{10,15}$/,
+                //   message: "Enter a valid contact number",
+                // },
+              }}
               render={({ field }) => (
                 <>
                   <StyledInput
@@ -213,97 +250,6 @@ const AddStudent = ({ onChange, setSelectedTab }) => {
               )}
             />
           </Grid>{" "}
-          {/* <Grid item md={6}>
-            <Typography
-              sx={{ marginBottom: 1 }}
-              variant="h6"
-              fontWeight={500}
-              color={"#333333"}
-            >
-              Upload Image
-            </Typography>{" "}
-            <Controller
-              name="image"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Image is required" }}
-              render={({ field: { onChange } }) => (
-                <>
-                  <StyledEventUpload
-                    placeholder={"Upload your image here"}
-                    onChange={onChange}
-                  />
-                  {errors.image && (
-                    <span style={{ color: "red" }}>{errors.image.message}</span>
-                  )}
-                </>
-              )}
-            />
-          </Grid> */}
-          {/* <Grid item md={6}>
-            <Typography
-              sx={{ marginBottom: 1 }}
-              variant="h6"
-              fontWeight={500}
-              color={"#333333"}
-            >
-              Add Description
-            </Typography>
-            <Controller
-              name="description"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Description is required" }}
-              render={({ field }) => (
-                <>
-                  <StyledMultilineTextField
-                    {...field}
-                    rows={8}
-                    placeholder={"Add Description in less than 500 words"}
-                  />{" "}
-                  {errors.description && (
-                    <span style={{ color: "red" }}>
-                      {errors.description.message}
-                    </span>
-                  )}{" "}
-                </>
-              )}
-            />
-          </Grid> */}
-          {/* <Grid item md={6}>
-            <Stack direction={"row"} justifyContent={"space-between"}>
-              <Typography
-                sx={{ marginBottom: 1 }}
-                variant="h6"
-                fontWeight={500}
-                color={"#333333"}
-              >
-                Activate
-              </Typography>
-              <Controller
-                name="status"
-                control={control}
-                defaultValue={false}
-                rules={{ required: "Activate is required" }}
-                render={({ field }) => (
-                  <>
-                    <StyledSwitch
-                      checked={field.value}
-                      onChange={(e) => {
-                        field.onChange(e.target.checked);
-                        handleSwitchChange(e);
-                      }}
-                    />{" "}
-                    {errors.status && (
-                      <span style={{ color: "red" }}>
-                        {errors.status.message}
-                      </span>
-                    )}{" "}
-                  </>
-                )}
-              />
-            </Stack>
-          </Grid> */}
           <Grid item xs={12}>
             <Divider />
           </Grid>

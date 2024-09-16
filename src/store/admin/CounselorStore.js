@@ -14,6 +14,7 @@ const useCounselorStore = create((set) => ({
   counselor: [],
   types: [],
   showBackButton: false,
+  loading: false,
   setShowBackButton: (show) => set({ showBackButton: show }),
   addCounselors: async (data) => {
     await addCounselor(data);
@@ -22,8 +23,10 @@ const useCounselorStore = create((set) => ({
     await editCounsellor(id, data);
   },
   fetchUser: async (id) => {
+    set({ loading: true });
     const session = await getUser(id);
     set({ counselor: session.data });
+    set({ loading: false });
   },
   fetchCounselors: async (filter) => {
     set({ counselors: [] });

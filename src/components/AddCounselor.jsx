@@ -86,7 +86,14 @@ const AddCounselor = ({ onChange, setSelectedTab }) => {
               name="name"
               control={control}
               defaultValue=""
-              rules={{ required: "Name is required" }}
+              rules={{
+                required: "Name is required",
+                pattern: {
+                  value: /^[A-Za-z\s]+$/,
+                  message:
+                    "Name should not contain numbers or special characters",
+                },
+              }}
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Enter Full Name" {...field} />{" "}
@@ -110,7 +117,14 @@ const AddCounselor = ({ onChange, setSelectedTab }) => {
               name="designation"
               control={control}
               defaultValue=""
-              rules={{ required: "Designation is required" }}
+              rules={{
+                required: "Designation is required",
+                pattern: {
+                  value: /^[A-Za-z\s]+$/,
+                  message:
+                    "Designation  should not contain numbers or special characters",
+                },
+              }}
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Designation" {...field} />{" "}
@@ -136,7 +150,13 @@ const AddCounselor = ({ onChange, setSelectedTab }) => {
               name="email"
               control={control}
               defaultValue=""
-              rules={{ required: "Email is required" }}
+              rules={{
+                required: "Email is required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Enter a valid email",
+                },
+              }}
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Email" {...field} />
@@ -193,6 +213,10 @@ const AddCounselor = ({ onChange, setSelectedTab }) => {
               defaultValue=""
               rules={{
                 required: "Contact is required",
+                // pattern: {
+                //   value: /^\+?\d{10,15}$/,
+                //   message: "Enter a valid contact number",
+                // },
               }}
               render={({ field }) => (
                 <>

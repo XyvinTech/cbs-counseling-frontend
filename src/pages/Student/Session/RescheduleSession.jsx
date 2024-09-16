@@ -274,8 +274,7 @@ export default function RescheduleSession() {
               />
             </Stack>
           </Grid> */}
-              <Grid item xs={6}></Grid> <Grid item xs={6}></Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} display={"flex"} justifyContent={"end"}>
                 {" "}
                 <Stack direction={"row"} spacing={2}>
                   <StyledButton
