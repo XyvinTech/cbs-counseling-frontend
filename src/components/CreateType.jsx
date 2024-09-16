@@ -7,7 +7,7 @@ import { StyledMultilineTextField } from "../ui/StyledMultilineTextField ";
 import { useCounsellorTypeStore } from "../store/admin/CounsellorTypeStore";
 import { toast } from "react-toastify";
 
-const CreateType = ({ open, onClose, rowId, onChange }) => {
+const CreateType = ({ open, onClose, rowId, setIsChange }) => {
   const {
     control,
     handleSubmit,
@@ -23,8 +23,8 @@ const CreateType = ({ open, onClose, rowId, onChange }) => {
         name: data?.name,
       };
       await addTypes(formData);
+      setIsChange((prev) => !prev);
       reset();
-      onChange();
       onClose();
     } catch (error) {
       toast.error(error.message);
@@ -93,8 +93,7 @@ const CreateType = ({ open, onClose, rowId, onChange }) => {
           />
           <StyledButton
             variant="primary"
-            name="Save"
-            disabled={loading}
+            name={loading ? "Saving..." : "Save"}
             type="submit"
           />
         </Stack>{" "}

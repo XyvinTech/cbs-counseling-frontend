@@ -47,23 +47,29 @@ export default function AddType() {
   };
 
   const handleDelete = async () => {
-    if (selectedRows.length > 0) {
-      const deleteData = {
-        ids: selectedRows,
-      };
-      await deleteTypes(deleteData);
-      console.log(selectedRows);
-      setIsChange(!isChange);
-      setSelectedRows([]);
+    try {
+      if (selectedRows.length > 0) {
+        const deleteData = {
+          ids: selectedRows,
+        };
+        await deleteTypes(deleteData);
+        setIsChange(!isChange);
+        setSelectedRows([]);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   const handleRow = async (id) => {
-    const deleteData = {
-      ids: [id],
-    };
-    await deleteTypes(deleteData);
-    // console.log(selectedRows);
-    setIsChange(!isChange);
+    try {
+      const deleteData = {
+        ids: [id],
+      };
+      await deleteTypes(deleteData);
+      setIsChange(!isChange);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const userColumns = [
@@ -78,7 +84,7 @@ export default function AddType() {
     }
     filter.page = pageNo;
     fetchLists(filter);
-  }, [isChange, fetchLists, search, pageNo]);
+  }, [isChange, search, pageNo]);
 
   return (
     <>
@@ -125,7 +131,7 @@ export default function AddType() {
               open={createOpen}
               onClose={handleCloseCreate}
               rowId={selectedRowId}
-              onChange={handleIsChange}
+              setIsChange={setIsChange}
             />
             <EditType
               open={editOpen}

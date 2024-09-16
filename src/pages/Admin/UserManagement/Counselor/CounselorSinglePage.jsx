@@ -31,16 +31,16 @@ const CounselorSinglePage = () => {
   }, [id, fetchUser]);
 
   return (
-    <>
+    <>  {loading ? (
+      <LinearProgress />
+    ) : (
+      <>
       <Box padding={"30px"} bgcolor={"#FFFFFF"}>
         <Typography variant="h4" color={"#4A4647"}>
           Counselor / {counselor?.name}
         </Typography>
       </Box>{" "}
-      {loading ? (
-        <LinearProgress />
-      ) : (
-        <>
+    
           <Grid container spacing={4} padding={4}>
             <Grid item md={4} spacing={2} xs={12}>
               <UserCard user={counselor} />

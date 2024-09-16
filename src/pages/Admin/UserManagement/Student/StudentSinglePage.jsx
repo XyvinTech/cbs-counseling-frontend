@@ -75,15 +75,17 @@ const StudentSinglePage = () => {
   ];
   return (
     <>
-      <Box padding={"30px"} bgcolor={"#FFFFFF"}>
-        <Typography variant="h4" color={"#4A4647"}>
-          Student List / {counselor.name}
-        </Typography>
-      </Box>
+      {" "}
       {loading ? (
         <LinearProgress />
       ) : (
         <>
+          <Box padding={"30px"} bgcolor={"#FFFFFF"}>
+            <Typography variant="h4" color={"#4A4647"}>
+              Student List / {counselor.name}
+            </Typography>
+          </Box>
+
           <Grid container spacing={4} padding={4}>
             <Grid item md={5} spacing={2} xs={12}>
               <UserCard user={counselor} />
