@@ -156,7 +156,7 @@ console.log('data',counselors);
     const currentFormData = getValues();
     localStorage.setItem("formData", JSON.stringify(currentFormData));
     setShowBackButton(true);
-    navigate(`/counselor/session/case/${rowData.case_id}`);
+    navigate(`/counselor/session/case/${rowData.case_id._id}`);
   };
   const handleClear = (event) => {
     event.preventDefault();
