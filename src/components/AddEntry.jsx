@@ -139,7 +139,7 @@ console.log('data',counselors);
         formData.time = data?.time.value;
       }
       // console.log( formData)
-      await counsellorAddEntry(rowData.case_id, formData);
+      await counsellorAddEntry(rowData.case_id._id, formData);
      
       reset();
       navigate(`/counselor/session`);
