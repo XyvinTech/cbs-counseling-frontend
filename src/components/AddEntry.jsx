@@ -49,7 +49,7 @@ export default function AddEntry() {
   const [day, setDay] = useState([]);
   const [date, setDate] = useState();
   const [loading, setLoading] = useState(false);
-console.log('data',rowData);
+  console.log("data", rowData);
   const formatDate = (dateString, format = "MMM DD, YYYY ") => {
     return moment.tz(dateString, "Asia/Muscat").format(format);
   };
@@ -62,7 +62,6 @@ console.log('data',rowData);
   };
   useEffect(() => {
     if (counselor) {
-
       allSlot(counselor);
     }
   }, [counselor]);
@@ -75,7 +74,7 @@ console.log('data',rowData);
       timeSlot(counselor, filter);
     }
   }, [counselor, day, timeSlot, date]);
-  
+
   useEffect(() => {
     let filter = {};
 
@@ -94,7 +93,7 @@ console.log('data',rowData);
           label: list?.name,
         }))
       : [];
-console.log('data',counselors);
+  console.log("data", counselors);
   const timeOptions =
     slots?.map((slot) => ({
       value: slot,
@@ -115,7 +114,7 @@ console.log('data',counselors);
         session_id: rowData?._id,
         user_id: rowData?.user?._id,
         interactions: data?.interactions,
-      }
+      };
       if (!showDatePicker) {
         formData.concern_raised = data?.concern_raised;
       } else {
@@ -130,9 +129,7 @@ console.log('data',counselors);
         formData.close = true;
       }
       if (type === "Refer") {
-        
         formData.refer = counselor;
-
       }
       if (type !== "Refer" && type !== "Close Case") {
         formData.date = data?.date;
@@ -140,7 +137,7 @@ console.log('data',counselors);
       }
       // console.log( formData)
       await counsellorAddEntry(rowData.case_id._id, formData);
-     
+
       reset();
       navigate(`/counselor/session`);
     } catch (error) {
@@ -148,7 +145,6 @@ console.log('data',counselors);
     } finally {
       setLoading(false);
     }
-  
   };
   console.log(counselor);
   const handleViewHistory = (event) => {
@@ -254,7 +250,8 @@ console.log('data',counselors);
                             fontWeight={500}
                             color={"#0072bc"}
                           >
-                            {rowData?.user?.designation} {rowData?.user?.division}
+                            {rowData?.user?.designation}{" "}
+                            {rowData?.user?.division}
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -421,9 +418,10 @@ console.log('data',counselors);
                             </TableCell>
                           </TableRow>
                         )}
+                      {console.log(rowData)}
 
-                      {rowData?.referer_remark &&
-                        rowData.referer_remark.filter(
+                      {rowData?.case_id.referer_remark &&
+                        rowData.case_id.referer_remark.filter(
                           (remark) => remark !== null
                         ).length > 0 && (
                           <TableRow>
@@ -448,7 +446,7 @@ console.log('data',counselors);
                                     listStyleType: "none",
                                   }}
                                 >
-                                  {rowData.referer_remark.map(
+                                  {rowData.case_id.referer_remark.map(
                                     (remark, index) => (
                                       <li
                                         key={index}
