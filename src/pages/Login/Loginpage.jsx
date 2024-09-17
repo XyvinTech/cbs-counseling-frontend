@@ -8,6 +8,7 @@ import {
   InputAdornment,
   IconButton,
   List,
+  CircularProgress,
 } from "@mui/material";
 import image from "../../assets/images/logo.jpg";
 
@@ -25,9 +26,10 @@ function LoginPage() {
     formState: { errors },
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       const user = await getLogin(data);
       // console.log(user.data);
       localStorage.setItem("userType", user.data.userType);
@@ -51,6 +53,8 @@ function LoginPage() {
       }
     } catch (error) {
       console.error("error", error);
+    } finally {
+      setLoading(false);
     }
   };
   const handleClickShowPassword = () => {
@@ -164,7 +168,11 @@ function LoginPage() {
                 borderRadius: "20px",
               }}
             >
-              Sign In
+               {loading ? (
+                <CircularProgress size={24} sx={{ color: "#fff" }} /> 
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </Box>
           <Box sx={{ textAlign: "right", mt: 1, mb: 2 }}>
