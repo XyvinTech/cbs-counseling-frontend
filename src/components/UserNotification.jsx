@@ -42,7 +42,7 @@ const UserNotification = ({ open, onClose }) => {
                 component={Link}
                 to={`/student/session/case/${notification?.case_id}`}
                 style={{ textDecoration: "none" }}
-                onClick={() => handleNotificationClick(notification?.id)}
+                onClick={() => handleNotificationClick(notification?._id)}
                 sx={{
                   display: "block",
                   padding: 2,

@@ -38,11 +38,11 @@ const Notification = ({ open, onClose }) => {
         {noti && noti.length > 0 ? (
           noti.map((notification) => (
             <Grid item xs={12} key={notification?.id}>
-               <Box
+              <Box
                 component={Link}
                 to={`/counselor/session/case/${notification?.case_id}`}
                 style={{ textDecoration: "none" }}
-                onClick={() => handleNotificationClick(notification?.id)}
+                onClick={() => handleNotificationClick(notification?._id)}
                 sx={{
                   display: "block",
                   padding: 2,
@@ -58,10 +58,10 @@ const Notification = ({ open, onClose }) => {
                 <Typography variant="h6" fontWeight="bold" color="#333333">
                   {notification?.details}
                 </Typography>
-             
-              <Typography variant="body2" color="#333333">
-                {new Date(notification?.createdAt).toLocaleString()}
-              </Typography> </Box>
+                <Typography variant="body2" color="#333333">
+                  {new Date(notification?.createdAt).toLocaleString()}
+                </Typography>{" "}
+              </Box>
             </Grid>
           ))
         ) : (
