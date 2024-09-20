@@ -1,7 +1,8 @@
 import axios from "axios";
 import axiosInstance from "../axiosintercepter";
 import { toast } from "react-toastify";
-const baseURL = "https://counseling-str5.onrender.com/api/v1/";
+// const baseURL = "https://counseling-str5.onrender.com/api/v1/";
+const baseURL = "/api/v1/";
 export const getLogin = async (datas) => {
   try {
     const response = await axios.post(`${baseURL}admin/login`, datas);
