@@ -23,12 +23,6 @@ pipeline {
             }
         }
 
-        stage('Check Vite Installation') {
-            steps {
-               bat 'dir node_modules\\vite'
-
-            }
-        }
 
         stage('Build') {
             steps {
