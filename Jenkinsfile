@@ -22,7 +22,7 @@ pipeline {
             steps {
                 // Copy the build files to the appropriate directory
                 // For example, if your server exposes static files via IIS or Apache:
-                bat 'xcopy /E /I /Y build\\* C:\\data\\jenkins_home\\workspace\\cbs-counseling-backend\\build'
+                bat 'xcopy /E /I /Y dist\\* C:\\data\\jenkins_home\\workspace\\cbs-counseling-backend\\dist'
             }
         }
     }
