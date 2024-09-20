@@ -17,24 +17,12 @@ pipeline {
                 git url: 'https://github.com/XyvinTech/cbs-counseling-frontend.git', branch: 'main'
             }
         }
-        stage('Install dependencies') {
-            steps {
-                bat 'npm ci'
-            }
-        }
 
-
-        stage('Build') {
-            steps {
-                bat 'npm run build'
-                bat 'npm run build'
-            }
-        }
-        stage('Deploy') {
+        stage('Deploy to backend') {
             steps {
                 // Copy the build files to the appropriate directory
                 // For example, if your server exposes static files via IIS or Apache:
-                bat 'xcopy /E /I /Y build\\* C:\\data\\jenkins_home\\workspace\\cbs-backend-v1@2\\build'
+                bat 'xcopy /E /I /Y build\\* C:\\data\\jenkins_home\\workspace\\cbs-counseling-backend\\build'
             }
         }
     }
