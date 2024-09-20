@@ -19,6 +19,7 @@ pipeline {
         }
         stage('Install dependencies') {
             steps {
+                bat 'npm install vite --save-dev'
                 bat 'npm install'
             }
         }
