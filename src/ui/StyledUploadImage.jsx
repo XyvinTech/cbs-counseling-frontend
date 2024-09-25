@@ -46,6 +46,7 @@ const StyledUploadImage = ({ label, onChange, rowData }) => {
   const [selectedImage, setSelectedImage] = useState(
     rowData?.requisition_image || ""
   );
+  
   const handleIconClick = () => {
     fileInputRef.current.click();
   };

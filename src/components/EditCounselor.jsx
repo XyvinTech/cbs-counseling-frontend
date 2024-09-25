@@ -36,10 +36,10 @@ const EditCounselor = ({ open, onClose, onChange, rowData }) => {
         name: rowData.name || "",
         designation: rowData.designation || "",
         email: rowData.email || "",
-        // counsellorType:
-        //   rowData.counsellorType.map((value) =>
-        //     option.find((type) => type.value === value)
-        //   ) || [],
+        counsellorType:
+          rowData?.counsellorType?.map((value) =>
+            option?.find((type) => type.value === value)
+          ) || [],
         mobile: rowData.mobile || "",
       });
     }
@@ -56,7 +56,7 @@ const EditCounselor = ({ open, onClose, onChange, rowData }) => {
         mobile: data?.mobile,
       };
 
-      await editCounsellor(rowData?.id, formData);
+      await editCounsellor(rowData?._id, formData);
       onClose();
       onChange();
     } catch (error) {

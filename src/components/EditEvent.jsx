@@ -9,9 +9,9 @@ import { StyledCalender } from "../ui/StyledCalender";
 import StyledUploadImage from "../ui/StyledUploadImage";
 import { StyledMultilineTextField } from "../ui/StyledMultilineTextField ";
 import { useEventStore } from "../store/eventStore";
-import uploadFileToS3 from "../utils/s3Upload";
 import StyledSelectField from "../ui/StyledSelectField";
 import { toast } from "react-toastify";
+import { upload } from "../api/admin/adminapi";
 
 const EditEvent = ({ open, onClose, onChange, rowData }) => {
   const { editEvents, updateChange, change } = useEventStore();
@@ -36,7 +36,7 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
         venue: rowData.venue || "",
         guest: rowData.guest || "",
         time: rowData.time ? rowData.time.slice(0, -3) : "", // Slice to remove seconds if present
-        image: rowData.requisition_image || "",
+        event_image: rowData.requisition_image || "",
         description: rowData.details || "",
         requisition_description: rowData.requisition_description || "",
         remainder:
@@ -54,12 +54,15 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
 
       if (imageFile) {
         try {
-          imageUrl = await new Promise((resolve, reject) => {
-            uploadFileToS3(
-              imageFile,
-              (location) => resolve(location),
-              (error) => reject(error)
-            );
+          // Use the `upload` function instead of the S3 upload
+          imageUrl = await new Promise(async (resolve, reject) => {
+            try {
+              // Call the `upload` function and pass the image file
+              const response = await upload(imageFile);
+              resolve(response.data); // Assuming `fileUrl` is the key returned in the API response
+            } catch (error) {
+              reject(error);
+            }
           });
         } catch (error) {
           console.error("Failed to upload image:", error);
@@ -71,14 +74,14 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
         venue: data?.venue,
         guest: data?.guest,
         time: data?.time + ":00",
-        requisition_image: imageUrl || rowData.requisition_image,
+        requisition_image: imageUrl ?  imageUrl :'',
         details: data?.description,
         requisition_description: data?.requisition_description,
         title: data?.title,
         remainder: data.remainder.map((option) => option.value),
       };
 
-      await editEvents(rowData?.id, formData);
+      await editEvents(rowData?._id, formData);
       updateChange(change);
       onChange();
       reset();
@@ -238,28 +241,24 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
               sx={{ marginBottom: 1 }}
               variant="h6"
               fontWeight={500}
-              color="#333333"
+              color={"#333333"}
             >
               Upload Requisition
             </Typography>
             <Controller
-              name="image"
+              name="event_image"
               control={control}
               defaultValue=""
-              rules={{ required: "Image is required" }}
               render={({ field: { onChange } }) => (
                 <>
                   <StyledUploadImage
-                    label="Upload your Image here"
+                    label="Upload  Requisition Image here"
+                    rowData={rowData}
                     onChange={(file) => {
                       setImageFile(file);
-                      onChange(file);
+                      onChange(file); 
                     }}
-                    rowData={rowData}
                   />
-                  {errors.image && (
-                    <span style={{ color: "red" }}>{errors.image.message}</span>
-                  )}
                 </>
               )}
             />
