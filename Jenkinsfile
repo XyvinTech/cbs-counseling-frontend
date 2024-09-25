@@ -8,6 +8,20 @@ pipeline {
         NODE_ENV = 'production'
     }
     stages {
+
+         stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('Check Node Version') {
+            steps {
+                bat 'node -v'
+                bat 'npm-v'
+            }
+        }
+
+
         stage('Clone repository') {
             steps {
                 // Cloning the repository from GitHub
@@ -18,9 +32,16 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 // Install the dependencies using npm
-                bat 'npm install'
+                bat 'npm install --verbose'
             }
         }
+
+        stage('List Installed Node Modules') {
+            steps {
+                bat 'dir node_modules'
+            }
+        }
+
         
         stage('Build Project') {
             steps {
