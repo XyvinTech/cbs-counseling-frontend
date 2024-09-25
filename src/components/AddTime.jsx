@@ -25,7 +25,8 @@ const AddTime = () => {
   const [newTime, setNewTime] = useState({ start: "", end: "" });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
-
+  const [isAnySelected, setIsAnySelected] = useState(false);
+  const [showCheckboxes, setShowCheckboxes] = useState(false);
   const daysOfWeek = [
     "Sunday",
     "Monday",
@@ -59,12 +60,17 @@ const AddTime = () => {
     setSelectedTab(newValue);
     setDay(daysOfWeek[newValue]);
     setIsDialogOpen(false);
+    setShowCheckboxes(false);
   };
 
   const handleCheckboxChange = (index) => {
     setDayTimes((prev) => {
       const newDayTimes = { ...prev, [index]: !prev[index] };
       setValue(index.toString(), newDayTimes[index]);
+      const isSelected = Object.values(newDayTimes).some(
+        (isChecked) => isChecked
+      );
+      setIsAnySelected(isSelected);
       return newDayTimes;
     });
   };
@@ -95,10 +101,10 @@ const AddTime = () => {
 
   const onSubmit = async (data) => {
     const dayObject = times.find((time) => time.day === day);
-  
+
     if (dayObject && dayObject.times) {
       const checkedIndexes = Object.keys(data).filter((index) => data[index]);
-  
+
       const timesToDelete = checkedIndexes
         .map((index) => {
           const timeSlot = dayObject.times[index];
@@ -110,19 +116,20 @@ const AddTime = () => {
           }
           return null;
         })
-        .filter((timeSlot) => timeSlot !== null); // Ensure that only valid time slots are added
-  
+        .filter((timeSlot) => timeSlot !== null);
+
       const requestBody = {
         times: timesToDelete,
       };
-  
+
       if (timesToDelete.length > 0) {
         await deleteTime(dayObject._id, requestBody);
         setIsChange(!isChange);
+        setIsAnySelected(false);
+        setShowCheckboxes(false);
       }
     }
   };
-  
 
   const selectedDayTimes = times.find((time) => time.day === day)?.times || [];
 
@@ -173,13 +180,16 @@ const AddTime = () => {
                         {...field}
                         checked={dayTimes[index] || false}
                         onChange={() => handleCheckboxChange(index)}
+                        sx={{
+                          display: showCheckboxes ? "inline-flex" : "none",
+                        }}
                       />
                     }
                     label={`${timeSlot.start} - ${timeSlot.end}`}
                     sx={{
                       backgroundColor: "#ecf6fc",
                       borderRadius: "8px",
-                      padding: "8px 16px",
+                      padding:showCheckboxes ? "8px 16px" : "16px 16px",
                       boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
                       width: "100%",
                       color: "#0072bc",
@@ -215,16 +225,15 @@ const AddTime = () => {
           justifyContent="flex-end"
           marginTop={2}
         >
-          {selectedDayTimes.length > 0 && (
-            <Grid
-              item
-              xs={12}
-              display="flex"
-              justifyContent="flex-end"
-              marginTop={2}
-            >
-              <StyledButton variant="primary" type="submit" name="Remove" />
-            </Grid>
+          {!showCheckboxes && selectedDayTimes.length > 0 && (
+            <StyledButton
+              variant="red"
+              onClick={() => setShowCheckboxes(true)}
+              name="Select to Remove"
+            />
+          )}
+          {showCheckboxes && selectedDayTimes.length > 0 && (
+            <StyledButton  variant="red" type="submit" name="Remove" />
           )}
         </Grid>
       </Grid>

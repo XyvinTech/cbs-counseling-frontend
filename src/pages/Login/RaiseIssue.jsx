@@ -157,9 +157,10 @@ function RaiseIssuePage() {
             Powered by
           </Typography>
         </div>
+      
         <div>
-          <img src={image} alt="Powered by" style={{ maxWidth: "100%" }} />
-        </div>
+            <img src={image} alt="Powered by" style={{ maxWidth: "200px" }} />
+          </div>
         </Box>
       </Box>
     </Box>

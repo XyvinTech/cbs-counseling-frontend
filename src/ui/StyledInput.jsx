@@ -58,9 +58,6 @@ const StyledInput = ({
             "& .MuiInputBase-input": {
               padding: "14px",
             },
-            "& .MuiInputBase-input": {
-              padding: "14px",
-            },
             "& input::placeholder": {
               color: "#000000",
               fontWeight: "500",

@@ -11,6 +11,7 @@ import StyledUploadImage from "../ui/StyledUploadImage";
 import { useEventStore } from "../store/eventStore";
 import uploadFileToS3 from "../utils/s3Upload";
 import { useNavigate } from "react-router-dom";
+import { upload } from "../api/admin/adminapi.js";
 
 export default function AddEvent({ onChange, setSelectedTab }) {
   const {
@@ -30,27 +31,30 @@ export default function AddEvent({ onChange, setSelectedTab }) {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      // let imageUrl = data?.event_image || "";
-      // if (imageFile) {
-      //   try {
-      //     imageUrl = await new Promise((resolve, reject) => {
-      //       uploadFileToS3(
-      //         imageFile,
-      //         (location) => resolve(location),
-      //         (error) => reject(error)
-      //       );
-      //     });
-      //   } catch (error) {
-      //     console.error("Failed to upload image:", error);
-      //     return; // Exit if image upload fails
-      //   }
-      // }
+      let imageUrl = data?.event_image || "";
+      if (imageFile) {
+        try {
+          // Use the `upload` function instead of the S3 upload
+          imageUrl = await new Promise(async (resolve, reject) => {
+            try {
+              // Call the `upload` function and pass the image file
+              const response = await upload(imageFile);
+              resolve(response.data); // Assuming `fileUrl` is the key returned in the API response
+            } catch (error) {
+              reject(error);
+            }
+          });
+        } catch (error) {
+          console.error("Failed to upload image:", error);
+          return; // Exit if image upload fails
+        }
+      }
       const formData = {
         date: data?.date,
         venue: data?.venue,
         guest: data?.guest,
         time: data?.time + ":00",
-        // requisition_image: imageUrl ?  imageUrl :'',
+        requisition_image: imageUrl ?  imageUrl :'', 
         details: data?.description,
         requisition_description: data?.requisition_description,
         title: data?.title,
@@ -202,7 +206,7 @@ export default function AddEvent({ onChange, setSelectedTab }) {
               )}
             />
           </Grid>
-          {/* <Grid item xs={6}>
+          <Grid item xs={6}>
             <Typography
               sx={{ marginBottom: 1 }}
               variant="h6"
@@ -227,7 +231,7 @@ export default function AddEvent({ onChange, setSelectedTab }) {
                 </>
               )}
             />
-          </Grid> */}
+          </Grid>
           <Grid item xs={6}>
             <Typography
               sx={{ marginBottom: 1 }}

@@ -13,10 +13,10 @@ const ViewEvent = ({ open, onClose, rowData }) => {
       }}
     >
       <Grid container spacing={4} padding={5}>
-        {/* <Grid item xs={12}>
-          {rowData?.event_image ? (
+        <Grid item xs={12}>
+          {rowData?.requisition_image ? (
             <img
-              src={rowData.event_image}
+              src={`http://localhost:3300/images/${rowData?.requisition_image}`}
               alt="Event"
               style={{
                 maxWidth: "400px",
@@ -31,7 +31,7 @@ const ViewEvent = ({ open, onClose, rowData }) => {
               No image available
             </Typography>
           )}
-        </Grid> */}
+        </Grid>
         <Grid item xs={12}>
           <Typography
             sx={{ marginTop: 0 }}
@@ -43,7 +43,6 @@ const ViewEvent = ({ open, onClose, rowData }) => {
             {rowData?.title}
           </Typography>
         </Grid>
-       
         <Grid item xs={12}>
           <Typography
             sx={{ marginTop: 2 }}
@@ -65,7 +64,8 @@ const ViewEvent = ({ open, onClose, rowData }) => {
           >
             {rowData?.details}
           </Typography>
-        </Grid> <Grid item xs={6}>
+        </Grid>{" "}
+        <Grid item xs={6}>
           <Typography
             sx={{ marginTop: 0 }}
             variant="h6"
