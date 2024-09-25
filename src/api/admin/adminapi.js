@@ -2,7 +2,9 @@ import axios from "axios";
 import axiosInstance from "../axiosintercepter";
 import { toast } from "react-toastify";
 // const baseURL = "https://counseling-str5.onrender.com/api/v1/";
-const baseURL = "/api/v1/";
+// const baseURL = "/api/v1/";
+
+const baseURL = "http://localhost:3300/api/v1/";
 export const getLogin = async (datas) => {
   try {
     const response = await axios.post(`${baseURL}admin/login`, datas);
@@ -46,5 +48,39 @@ export const edit = async (id, data) => {
     return response.data;
   } catch (error) {
     toast.error(error.response.data.message);
+  }
+};
+
+export const upload = async (file) => {
+  try {
+    // Create FormData and append the file to it
+    const formData = new FormData();
+    formData.append("file", file); // 'file' should match the multer field name in the backend
+
+    // Send a POST request with the form data
+    const response = await axiosInstance.post(`/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Ensure correct headers for file upload
+      },
+    });
+    return response.data;
+  } catch (error) {
+    // Error notification
+    const errorMsg =
+      error.response && error.response.data && error.response.data.message
+        ? error.response.data.message
+        : "An error occurred during file upload";
+    toast.error(errorMsg);
+  }
+};
+
+export const deleteFile = async (filePath) => {
+  try {
+    const response = await axiosInstance.delete(`/delete`, {
+      data: { filePath },
+    });
+    toast.success(response.data);
+  } catch (error) {
+    toast.error("Error deleting the file.");
   }
 };
