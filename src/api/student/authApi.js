@@ -4,7 +4,9 @@ import axiosInstance from "../axiosintercepter";
 import { toast } from "react-toastify";
 
 // const baseURL = "https://api-counselling.xpensea.com/api/v1/";
-const baseURL = "/api/v1/";
+// const baseURL = "/api/v1/";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+console.log("API Base URL:", baseURL);
 
 export const getLogin = async (datas) => {
   try {

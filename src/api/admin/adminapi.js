@@ -2,7 +2,12 @@ import axios from "axios";
 import axiosInstance from "../axiosintercepter";
 import { toast } from "react-toastify";
 // const baseURL = "https://counseling-str5.onrender.com/api/v1/";
-const baseURL = "/api/v1/";
+// const baseURL = "/api/v1/";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+console.log("API Base URL:", baseURL);
+
+// Use baseURL for making API requests
+
 
 // const baseURL = "http://localhost:3300/api/v1/";
 export const getLogin = async (datas) => {
