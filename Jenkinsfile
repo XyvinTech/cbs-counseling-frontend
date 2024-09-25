@@ -32,7 +32,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 // Install the dependencies using npm
-                bat 'npm install --verbose'
+                bat 'npm install --include=dev'
             }
         }
 
