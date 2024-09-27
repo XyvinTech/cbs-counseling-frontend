@@ -16,7 +16,7 @@ const ViewEvent = ({ open, onClose, rowData }) => {
         <Grid item xs={12}>
           {rowData?.requisition_image ? (
             <img
-              src={`http://localhost:3300/images/${rowData?.requisition_image}`}
+              src={`https://able.iswkoman.com/images/${rowData?.requisition_image}`}
               alt="Event"
               style={{
                 maxWidth: "400px",
