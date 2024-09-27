@@ -83,7 +83,7 @@ function LoginPage() {
           }}
         >
           <Typography variant="h2" sx={{ mb: 3 }}>
-            Log 
+            Log In
           </Typography>
           <Box
             component="form"
