@@ -12,8 +12,9 @@ import ViewEvent from "../../../components/ViewEvent";
 export default function Events() {
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(0);
-  const { pageNo, fetchLists } = useListStore();
-
+  const {  fetchLists } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const { deleteEvents, updateChange, change } = useEventStore();
   const [selectedRows, setSelectedRows] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -95,8 +96,9 @@ export default function Events() {
       filter.searchQuery = search;
     }
     filter.page = pageNo;
+    filter.limit = row;
     fetchLists(filter);
-  }, [isChange, fetchLists, search, pageNo]);
+  }, [isChange, fetchLists, search, pageNo,row]);
 
   return (
     <>
@@ -173,6 +175,10 @@ export default function Events() {
                 onIcon={handleView}
                 menu
                 student
+                pageNo={pageNo}
+                setPageNo={setPageNo}
+                rowPerSize={row}
+                setRowPerSize={setRow}
                 onDeleteRow={handleRow}
                 onEdit={handleEdit}
                 onDelete={handleDelete}

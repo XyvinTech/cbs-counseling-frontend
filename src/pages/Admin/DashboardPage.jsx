@@ -10,6 +10,9 @@ import { useListStore } from "../../store/listStore";
 import { useNavigate } from "react-router-dom";
 const DashboardPage = () => {
   const [filterOpen, setFilterOpen] = useState(false);
+  const { dashboardLists } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const handleOpenFilter = () => {
@@ -33,7 +36,6 @@ const DashboardPage = () => {
   const handleView = (id) => {
     navigate(`/cases/session/${id}`);
   };
-  const { dashboardLists, pageNo } = useListStore();
 
   useEffect(() => {
     let filter = { status: "pending" };
@@ -41,8 +43,9 @@ const DashboardPage = () => {
       filter.searchQuery = search;
     }
     filter.page = pageNo;
+    filter.limit = row;
     dashboardLists(filter);
-  }, [dashboardLists, pageNo, search]);
+  }, [dashboardLists, pageNo, search, row]);
 
   return (
     <>
@@ -83,12 +86,22 @@ const DashboardPage = () => {
               <FilterIcon />
             </Box> */}
           </Stack>
-        </Stack><Box padding="2px" marginBottom={4} bgcolor={'white'}borderRadius={'15px'}>
-        <StyledTable
-          columns={userColumns}
-          // data={dashboard}
-          onView={handleView}
-        />  </Box>
+        </Stack>
+        <Box
+          padding="2px"
+          marginBottom={4}
+          bgcolor={"white"}
+          borderRadius={"15px"}
+        >
+          <StyledTable
+            columns={userColumns}
+            pageNo={pageNo}
+            setPageNo={setPageNo}
+            rowPerSize={row}
+            setRowPerSize={setRow}
+            onView={handleView}
+          />{" "}
+        </Box>
       </Box>{" "}
       <StyledFilter open={filterOpen} onClose={handleCloseFilter} />
     </>

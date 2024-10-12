@@ -6,7 +6,6 @@ import { StyledMultilineTextField } from "../ui/StyledMultilineTextField ";
 import StyledSwitch from "../ui/StyledSwitch";
 import { StyledButton } from "../ui/StyledButton";
 import { Controller, useForm } from "react-hook-form";
-import { useCounselorStore } from "../store/admin/CounselorStore";
 import { useStudentStore } from "../store/admin/studentStore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -34,7 +33,8 @@ const AddStudent = ({ onChange, setSelectedTab }) => {
         email: data?.email,
         parentContact: data?.parentContact,
         mobile: data?.mobile,
-        password: "password123",
+        gender: data?.gender.value,
+        StudentReferencesCode : data?.StudentReferencesCode,
         division: data?.division,
         userType: "student",
       };
@@ -53,6 +53,11 @@ const AddStudent = ({ onChange, setSelectedTab }) => {
     event.preventDefault();
     reset();
   };
+  const Types = [
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+    { value: "other", label: "Other" },
+  ];
   return (
     <Box bgcolor={"white"} padding={3} width={"804px"}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -118,6 +123,65 @@ const AddStudent = ({ onChange, setSelectedTab }) => {
               )}
             />
           </Grid>{" "}
+          <Grid item md={6}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              fontWeight={500}
+              color={"#333333"}
+            >
+             Student References Code
+            </Typography>{" "}
+            <Controller
+              name="StudentReferencesCode"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: "Student References Code is required",
+              
+              }}
+              render={({ field }) => (
+                <>
+                  <StyledInput placeholder="Enter Student References Code" {...field} />{" "}
+                  {errors.StudentReferencesCode && (
+                    <span style={{ color: "red" }}>{errors.StudentReferencesCode.message}</span>
+                  )}{" "}
+                </>
+              )}
+            />
+          </Grid>{" "}
+      
+          <Grid item xs={6}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              fontWeight={500}
+              color={"#333333"}
+            >
+              Select Gender
+            </Typography>
+            <Controller
+              name="gender"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Gender is required" }}
+              render={({ field }) => (
+                <>
+                  <StyledSelectField
+                   
+                    placeholder="Select Gender"
+                    options={Types}
+                    {...field}
+                  />
+                  {errors.gender && (
+                    <span style={{ color: "red" }}>
+                      {errors.gender.message}
+                    </span>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
           <Grid item md={6}>
             <Typography
               sx={{ marginBottom: 1 }}

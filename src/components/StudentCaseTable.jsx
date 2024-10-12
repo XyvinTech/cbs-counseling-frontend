@@ -8,7 +8,9 @@ import StyledSearchbar from "../ui/StyledSearchbar";
 import StyledTable from "../ui/StyledTable";
 const StudentCaseTable = () => {
   const navigate = useNavigate();
-  const { pageNo, userSession } = useListStore();
+  const { userSession } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const [selectedTab, setSelectedTab] = useState(0);
   const [status, setStatus] = useState("pending");
   const [search, setSearch] = useState("");
@@ -55,8 +57,9 @@ const StudentCaseTable = () => {
       filter.status = status;
     }
     filter.page = pageNo;
+    filter.limit = row;
     userSession(filter);
-  }, [userSession, search, pageNo, status]);
+  }, [userSession, search, pageNo, status, row]);
   return (
     <>
       <Stack
@@ -126,7 +129,14 @@ const StudentCaseTable = () => {
           <Tab label="Referred" />
           <Tab label="All Cases" />
         </Tabs>
-        <StyledTable columns={userColumns} onView={handleView} />{" "}
+        <StyledTable
+          columns={userColumns}
+          onView={handleView}
+          pageNo={pageNo}
+          setPageNo={setPageNo}
+          rowPerSize={row}
+          setRowPerSize={setRow}
+        />{" "}
       </Box>
     </>
   );

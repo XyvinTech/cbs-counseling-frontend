@@ -20,8 +20,11 @@ const StudentSinglePage = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
-  const { pageNo, fetchSession } = useListStore();
+  const { fetchSession } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const { counselor, fetchUser, loading } = useCounselorStore();
+
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -57,10 +60,11 @@ const StudentSinglePage = () => {
   useEffect(() => {
     let filter = {};
     filter.page = pageNo;
+    filter.limit = row;
     if (id) {
       fetchSession(id, filter);
     }
-  }, [id, fetchSession, pageNo]);
+  }, [id, fetchSession, pageNo, row]);
   useEffect(() => {
     if (id) {
       fetchUser(id);
@@ -158,7 +162,13 @@ const StudentSinglePage = () => {
                   borderRadius={"15px"}
                 >
                   {" "}
-                  <StyledTable columns={sessions} />
+                  <StyledTable
+                    columns={sessions}
+                    pageNo={pageNo}
+                    setPageNo={setPageNo}
+                    rowPerSize={row}
+                    setRowPerSize={setRow}
+                  />
                 </Box>
               )}
               {selectedTab === 1 && <Typography>Not Found</Typography>}

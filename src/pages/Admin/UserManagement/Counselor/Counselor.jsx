@@ -13,7 +13,9 @@ import { useAdminStore } from "../../../../store/admin/AdminStore";
 
 export const Counselor = () => {
   const navigate = useNavigate();
-  const { pageNo, fetchLists } = useListStore();
+  const { fetchLists } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const { deleteUsers } = useAdminStore();
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedTab, setSelectedTab] = useState(
@@ -113,8 +115,9 @@ export const Counselor = () => {
       filter.searchQuery = search;
     }
     filter.page = pageNo;
+    filter.limit = row;
     fetchLists(filter);
-  }, [isChange, fetchLists, search, pageNo, selectedTab]);
+  }, [isChange, fetchLists, search, pageNo, selectedTab, row]);
   return (
     <>
       <Tabs
@@ -190,6 +193,10 @@ export const Counselor = () => {
                 onSelectionChange={handleSelectionChange}
                 onView={handleView}
                 menu
+                pageNo={pageNo}
+                setPageNo={setPageNo}
+                rowPerSize={row}
+                setRowPerSize={setRow}
                 onDeleteRow={handleRow}
                 onReschedule={handleActivate}
                 onEdit={handleEdit}

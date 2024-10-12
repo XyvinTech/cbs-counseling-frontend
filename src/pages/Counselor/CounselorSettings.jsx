@@ -1,40 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box, Typography, Grid, Stack } from "@mui/material";
 import StyledInput from "../../ui/StyledInput";
 import { Controller, useForm } from "react-hook-form";
-import { useAuthStore } from "../../store/counselor/AuthStore.js";
-import { StyledButton } from "../../ui/StyledButton.jsx";
+import { StyledButton } from "../../ui/StyledButton";
+import { resetPassword } from "../../api/admin/adminapi";
 
-export default function CounseloSettings() {
-  const { counselor, update, updateChange,isChange } = useAuthStore();
+export default function CounselorSettings() {
   const {
     control,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm();
-  useEffect(() => {
-    if (counselor) {
-      reset({
-        name: counselor.name || "",
-        email: counselor.email || "",
-        mobile: counselor.mobile || "",
-      });
-    }
-  }, [counselor, reset]);
+
+  const newPassword = watch("newPassword");
+
   const onSubmit = async (data) => {
-    const formData = {
-      name: data?.name,
-      email: data?.email,
-      mobile: data?.mobile,
-      status: counselor?.status,
-      designation: counselor?.designation,
-      experience: counselor?.experience,
-    };
-    await update(counselor.id, formData);
-    updateChange(isChange);
+    await resetPassword(data);
+    reset();
   };
-  // console.log (counselor)
+
   return (
     <Box sx={{ padding: 3 }} bgcolor={"white"} borderRadius={"4px"}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -46,16 +32,14 @@ export default function CounseloSettings() {
               fontWeight={500}
               color={"#333333"}
             >
-              Name
+              Old Password
             </Typography>
             <Controller
-              name="name"
+              name="oldPassword"
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <>
-                  <StyledInput placeholder="Enter Name" {...field} />
-                </>
+                <StyledInput placeholder="Enter Password" {...field} />
               )}
             />
           </Grid>
@@ -67,19 +51,17 @@ export default function CounseloSettings() {
               fontWeight={500}
               color={"#333333"}
             >
-              Email
+              New Password
             </Typography>
             <Controller
-              name="email"
+              name="newPassword"
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <>
-                  <StyledInput placeholder="Enter Email" {...field} />
-                </>
+                <StyledInput placeholder="Enter Password" {...field} />
               )}
             />
-          </Grid>{" "}
+          </Grid>
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <Typography
@@ -88,28 +70,37 @@ export default function CounseloSettings() {
               fontWeight={500}
               color={"#333333"}
             >
-              Mobile
+              Confirm Password
             </Typography>
             <Controller
-              name="mobile"
+              name="confirmPassword"
               control={control}
               defaultValue=""
+              rules={{
+                validate: (value) => {
+                  return value === newPassword || "Passwords do not match";
+                },
+              }}
               render={({ field }) => (
                 <>
-                  <StyledInput placeholder="Enter Mobile" {...field} />
+                  <StyledInput placeholder="Enter Password" {...field} />
+                  {errors.confirmPassword && (
+                    <Typography color="red" variant="caption">
+                      {errors.confirmPassword.message}
+                    </Typography>
+                  )}
                 </>
               )}
             />
           </Grid>
           <Grid item xs={6}></Grid>
-          <Grid item xs={6} alignItems={"flex-end"}>
-            <Stack
-              direction={"row"}
-              spacing={2}
-              justifyContent="flex-end"
-              width={"100px"}
-            >
-              <StyledButton name="Edit" variant="primary" type="submit" />
+          <Grid item xs={6} alignItems={"flex-start"}>
+            <Stack direction={"row"} spacing={2} justifyContent="flex-end">
+              <StyledButton
+                name="Confirm Password"
+                variant="primary"
+                type="submit"
+              />
             </Stack>
           </Grid>
         </Grid>

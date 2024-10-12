@@ -9,7 +9,9 @@ import { useNavigate } from "react-router-dom";
 
 const ActiveCases = () => {
   const navigate = useNavigate();
-  const { pageNo, counselorSessions } = useListStore();
+  const { counselorSessions } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const [status, setStatus] = useState("pending");
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -64,8 +66,9 @@ const ActiveCases = () => {
       filter.status = status;
     }
     filter.page = pageNo;
+    filter.limit = row;
     counselorSessions(filter);
-  }, [counselorSessions, search, pageNo, status]);
+  }, [counselorSessions, search, pageNo, status, row]);
   return (
     <>
       <Box
@@ -110,6 +113,10 @@ const ActiveCases = () => {
           // data={activeSessionData}
           onSelectionChange={handleSelectionChange}
           onView={handleView}
+          pageNo={pageNo}
+          setPageNo={setPageNo}
+          rowPerSize={row}
+          setRowPerSize={setRow}
         />
       </Box>
     </>

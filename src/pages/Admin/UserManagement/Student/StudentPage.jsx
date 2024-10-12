@@ -24,7 +24,9 @@ const StudentPage = () => {
   const [search, setSearch] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const { pageNo, fetchLists } = useListStore();
+  const { fetchLists } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const [selectedRowId, setSelectedRowId] = useState(null);
   const handleOpenFilter = () => {
     setFilterOpen(true);
@@ -99,8 +101,9 @@ const StudentPage = () => {
       filter.searchQuery = search;
     }
     filter.page = pageNo;
+    filter.limit=row
     fetchLists(filter);
-  }, [fetchLists, search, isChange, pageNo, selectedTab]);
+  }, [fetchLists, search, isChange, pageNo, selectedTab,row]);
   return (
     <>
       <Tabs
@@ -183,6 +186,10 @@ const StudentPage = () => {
                 onEdit={handleEdit}
                 onDelete={handleDelete}
                 onDeleteRow={handleRow}
+                pageNo={pageNo}
+                setPageNo={setPageNo}
+                rowPerSize={row}
+                setRowPerSize={setRow}
                 menu
                 student
               />{" "}

@@ -30,7 +30,13 @@ const EditCounselor = ({ open, onClose, onChange, rowData }) => {
     fetchTypeLists(filter);
   }, [fetchTypeLists]);
   const { editCounsellor } = useCounselorStore();
+  const Types = [
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+    { value: "other", label: "Other" },
+  ];
   useEffect(() => {
+    const genderOption = Types?.find((type) => type?.value === rowData?.gender);
     if (rowData) {
       reset({
         name: rowData.name || "",
@@ -41,6 +47,7 @@ const EditCounselor = ({ open, onClose, onChange, rowData }) => {
             option?.find((type) => type.value === value)
           ) || [],
         mobile: rowData.mobile || "",
+        gender: genderOption || "",
       });
     }
   }, [rowData, reset]);
@@ -54,6 +61,8 @@ const EditCounselor = ({ open, onClose, onChange, rowData }) => {
         email: data?.email,
         experience: data?.experience,
         mobile: data?.mobile,
+        mobile: data?.mobile.replace(/\s+/g, ""),
+        gender: data?.gender.value,
       };
 
       await editCounsellor(rowData?._id, formData);
@@ -101,6 +110,36 @@ const EditCounselor = ({ open, onClose, onChange, rowData }) => {
                   <StyledInput placeholder="Enter Full Name" {...field} />
                   {errors.name && (
                     <span style={{ color: "red" }}>{errors.name.message}</span>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              fontWeight={500}
+              color={"#333333"}
+            >
+              Select Gender
+            </Typography>
+            <Controller
+              name="gender"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Gender is required" }}
+              render={({ field }) => (
+                <>
+                  <StyledSelectField
+                    placeholder="Select Gender"
+                    options={Types}
+                    {...field}
+                  />
+                  {errors.gender && (
+                    <span style={{ color: "red" }}>
+                      {errors.gender.message}
+                    </span>
                   )}
                 </>
               )}

@@ -10,7 +10,9 @@ import BigCalendar from "../../../ui/BigCalendar";
 import { useListStore } from "../../../store/listStore";
 const UpcomingSession = () => {
   const navigate = useNavigate();
-  const { pageNo, counselorSessions } = useListStore();
+  const {  counselorSessions } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const [selectedRows, setSelectedRows] = useState([]);
   const [search, setSearch] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
@@ -49,8 +51,9 @@ const UpcomingSession = () => {
       filter.searchQuery = search;
     }
     filter.page = pageNo;
+    filter.limit = row;
     counselorSessions(filter);
-  }, [counselorSessions, search, pageNo]);
+  }, [counselorSessions, search, pageNo,row]);
   return (
     <>
       <Box padding={"30px"} bgcolor={"#FFFFFF"}>
@@ -115,6 +118,10 @@ const UpcomingSession = () => {
               columns={userColumns}
               onSelectionChange={handleSelectionChange}
               onView={handleView}
+              pageNo={pageNo}
+              setPageNo={setPageNo}
+              rowPerSize={row}
+              setRowPerSize={setRow}
             />
           )}
         </>

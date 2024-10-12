@@ -19,6 +19,33 @@ export const getLogin = async (datas) => {
     toast.error(error.response.data.message);
   }
 };
+export const sendOtp = async (datas) => {
+  try {
+    const response = await axios.post(`${baseURL}admin/send-otp`, datas);
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
+};
+export const resetPassword = async (datas) => {
+  try {
+    const response = await axiosInstance.post(`${baseURL}admin/reset-password`, datas);
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
+};
+export const verifyOtp = async (datas) => {
+  try {
+    const response = await axios.post(`${baseURL}admin/verify-otp`, datas);
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
+};
 export const getUser = async () => {
   try {
     const response = await axiosInstance.get("/admin");

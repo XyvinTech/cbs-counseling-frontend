@@ -52,11 +52,11 @@ const subNavigation = [
     to: "/counselor/addavailability",
     icon: <EventAvailableOutlinedIcon />,
   },
-  // {
-  //   name: "Settings",
-  //   to: "/counselor/setting",
-  //   icon: <SettingsOutlinedIcon />,
-  // },
+  {
+    name: "Settings",
+    to: "/counselor/setting",
+    icon: <SettingsOutlinedIcon />,
+  },
 ];
 const SimpleDialog = ({ open, onClose }) => {
   const navigate = useNavigate();

@@ -7,7 +7,9 @@ import { ReactComponent as FilterIcon } from "../../../assets/icons/FilterIcon.s
 import { useListStore } from "../../../store/listStore";
 const SessionPage = () => {
   const navigate = useNavigate();
-  const { pageNo, adminSesssionsByCaseId } = useListStore();
+  const { adminSesssionsByCaseId } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const { id } = useParams();
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -35,10 +37,11 @@ const SessionPage = () => {
   useEffect(() => {
     let filter = {};
     filter.page = pageNo;
+    filter.limit = row;
     if (id) {
       adminSesssionsByCaseId(id, filter);
     }
-  }, [id, adminSesssionsByCaseId, pageNo]);
+  }, [id, adminSesssionsByCaseId, pageNo, row]);
   return (
     <>
       <Box padding={"30px"} bgcolor={"#FFFFFF"}>
@@ -79,7 +82,15 @@ const SessionPage = () => {
             bgcolor={"white"}
             borderRadius={"15px"}
           >
-            <StyledTable columns={userColumns} onView={handleView} dashboard />{" "}
+            <StyledTable
+              columns={userColumns}
+              onView={handleView}
+              pageNo={pageNo}
+              setPageNo={setPageNo}
+              rowPerSize={row}
+              setRowPerSize={setRow}
+              dashboard
+            />{" "}
           </Box>
         </>
       </Box>

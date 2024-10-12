@@ -13,7 +13,9 @@ import ViewEvent from "../../../components/ViewEvent";
 const CounselorEvent = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [filterOpen, setFilterOpen] = useState(false);
-  const { pageNo, fetchLists } = useListStore();
+  const { fetchLists } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const [search, setSearch] = useState("");
   const [viewOpen, setViewOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
@@ -96,8 +98,9 @@ const CounselorEvent = () => {
       filter.searchQuery = search;
     }
     filter.page = pageNo;
+    filter.limit = row;
     fetchLists(filter);
-  }, [isChange, fetchLists, search, pageNo]);
+  }, [isChange, fetchLists, search, pageNo, row]);
   return (
     <>
       {" "}
@@ -175,13 +178,16 @@ const CounselorEvent = () => {
                 onSelectionChange={handleSelectionChange}
                 onDelete={handleDelete}
                 onDeleteRow={handleRow}
+                pageNo={pageNo}
+                setPageNo={setPageNo}
+                rowPerSize={row}
+                setRowPerSize={setRow}
               />{" "}
             </Box>
             <EditEvent
               open={editOpen}
               onClose={handleCloseEdit}
               rowData={selectedRowId}
-              
               onChange={handleIsChange}
             />
             <ViewEvent
@@ -193,9 +199,12 @@ const CounselorEvent = () => {
         )}
         {selectedTab === 1 && (
           <Grid container spacing={2}>
-            <Grid item md={9}xs={12}>
+            <Grid item md={9} xs={12}>
               {" "}
-              <AddEvent onChange={handleIsChange} setSelectedTab={setSelectedTab}/>
+              <AddEvent
+                onChange={handleIsChange}
+                setSelectedTab={setSelectedTab}
+              />
             </Grid>{" "}
           </Grid>
         )}

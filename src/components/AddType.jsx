@@ -9,8 +9,9 @@ import EditType from "./EditType";
 import { useCounsellorTypeStore } from "../store/admin/CounsellorTypeStore";
 export default function AddType() {
   const navigate = useNavigate();
-  const { pageNo, fetchLists } = useListStore();
-
+  const { fetchLists } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const { deleteTypes } = useCounsellorTypeStore();
   const [selectedRows, setSelectedRows] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
@@ -83,8 +84,9 @@ export default function AddType() {
       filter.searchQuery = search;
     }
     filter.page = pageNo;
+    filter.limit = row;
     fetchLists(filter);
-  }, [isChange, search, pageNo]);
+  }, [isChange, search, pageNo, row]);
 
   return (
     <>
@@ -122,6 +124,10 @@ export default function AddType() {
               // data={userData}
               onSelectionChange={handleSelectionChange}
               menu
+              pageNo={pageNo}
+              setPageNo={setPageNo}
+              rowPerSize={row}
+              setRowPerSize={setRow}
               student
               onDeleteRow={handleRow}
               onEdit={handleEdit}

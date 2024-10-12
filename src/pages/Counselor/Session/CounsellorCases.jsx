@@ -32,7 +32,9 @@ const CounsellorCases = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const { pageNo, counselorSessions, lists } = useListStore();
+  const {  counselorSessions, lists } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const [selectedTab, setSelectedTab] = useState(0);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState('pending');
@@ -130,8 +132,9 @@ const CounsellorCases = () => {
       filter.status = status;
     }
     filter.page = pageNo;
+    filter.limit = row;
     counselorSessions(filter);
-  }, [isChange, counselorSessions, search, status, pageNo]);
+  }, [isChange, counselorSessions, search, status, pageNo,row]);
   const handleApplyFilter = () => {
     setSearch(selectFieldValue);
   };
@@ -280,6 +283,10 @@ const CounsellorCases = () => {
           onReschedule={handleReschedule}
           onAdd={handleAddLink}
           onCancel={handleCancel}
+          pageNo={pageNo}
+          setPageNo={setPageNo}
+          rowPerSize={row}
+          setRowPerSize={setRow}
         />
       </Box>
       <Reschedule

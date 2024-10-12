@@ -5,6 +5,8 @@ import { StyledButton } from "../ui/StyledButton";
 import StyledInput from "../ui/StyledInput";
 import { useStudentStore } from "../store/admin/studentStore";
 import { toast } from "react-toastify";
+import StyledSelectField from "../ui/StyledSelectField";
+import { StyledDate } from "../ui/StyledDate";
 
 const EditStudent = ({ open, onClose, setIsChange, rowData }) => {
   const { updateStudent } = useStudentStore();
@@ -15,7 +17,13 @@ const EditStudent = ({ open, onClose, setIsChange, rowData }) => {
     reset,
     formState: { errors },
   } = useForm();
+  const Types = [
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+    { value: "other", label: "Other" },
+  ];
   useEffect(() => {
+    const genderOption = Types?.find((type) => type?.value === rowData?.gender);
     reset({
       name: rowData?.name || "",
       designation: rowData?.designation || "",
@@ -23,6 +31,8 @@ const EditStudent = ({ open, onClose, setIsChange, rowData }) => {
       parentContact: rowData?.parentContact || "",
       mobile: rowData?.mobile || "",
       division : rowData?.division || "",
+      StudentReferencesCode : rowData?.StudentReferencesCode || "",
+      gender: genderOption || "",
     });
   }, [rowData, reset]);
 
@@ -35,7 +45,8 @@ const EditStudent = ({ open, onClose, setIsChange, rowData }) => {
         email: data?.email,
         parentContact: data?.parentContact,
         mobile: data?.mobile,
-        password: "password123",
+        gender: data?.gender.value,
+        StudentReferencesCode : data?.StudentReferencesCode,
         status: true,
       };
 
@@ -155,6 +166,65 @@ const EditStudent = ({ open, onClose, setIsChange, rowData }) => {
                   <StyledInput placeholder="Email" {...field} />
                   {errors.email && (
                     <span style={{ color: "red" }}>{errors.email.message}</span>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              fontWeight={500}
+              color={"#333333"}
+            >
+             Student References Code
+            </Typography>{" "}
+            <Controller
+              name="StudentReferencesCode"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: "Student References Code is required",
+              
+              }}
+              render={({ field }) => (
+                <>
+                  <StyledInput placeholder="Enter Student References Code" {...field} />{" "}
+                  {errors.StudentReferencesCode && (
+                    <span style={{ color: "red" }}>{errors.StudentReferencesCode.message}</span>
+                  )}{" "}
+                </>
+              )}
+            />
+          </Grid>{" "}
+       
+          <Grid item xs={6}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              fontWeight={500}
+              color={"#333333"}
+            >
+              Select Gender
+            </Typography>
+            <Controller
+              name="gender"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Gender is required" }}
+              render={({ field }) => (
+                <>
+                  <StyledSelectField
+                   
+                    placeholder="Select Gender"
+                    options={Types}
+                    {...field}
+                  />
+                  {errors.gender && (
+                    <span style={{ color: "red" }}>
+                      {errors.gender.message}
+                    </span>
                   )}
                 </>
               )}

@@ -7,7 +7,9 @@ import { useEffect, useState } from "react";
 
 const Remarks = () => {
   const navigate = useNavigate();
-  const { pageNo, counselorSessions } = useListStore();
+  const {  counselorSessions } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const [isChange, setIsChange] = useState(false);
   const [showAddRemark, setShowAddRemark] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
@@ -23,8 +25,9 @@ const Remarks = () => {
   useEffect(() => {
     let filter = { type: "remarks" };
     filter.page = pageNo;
+    filter.limit = row;
     counselorSessions(filter);
-  }, [counselorSessions, pageNo, isChange]);
+  }, [counselorSessions, pageNo, isChange, row]);
 
   const handleAddEntry = (rowData) => {
     setSelectedRowData(rowData);
@@ -47,6 +50,10 @@ const Remarks = () => {
           menu
           remark
           onEntry={handleAddEntry}
+          pageNo={pageNo}
+          setPageNo={setPageNo}
+          rowPerSize={row}
+          setRowPerSize={setRow}
         />
       )}
     </Box>

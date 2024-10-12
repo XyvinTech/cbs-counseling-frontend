@@ -73,8 +73,13 @@ const StyledTable = ({
   onEntry,
   onCancel,
   onEdit,
+  pageNo,
+  setPageNo,
   onDeleteRow,
-  student,remark
+  student,
+  remark,
+  rowPerSize,
+  setRowPerSize,
 }) => {
   const navigate = useNavigate();
   const [selectedIds, setSelectedIds] = useState([]);
@@ -82,8 +87,7 @@ const StyledTable = ({
   const [rowId, setRowId] = useState(null);
   const [rowData, setRowData] = useState(null);
 
-  const { lists, totalCount, rowPerSize, rowChange, pageNo, pageInc, pageDec } =
-    useListStore();
+  const { lists, totalCount } = useListStore();
 
   const [loading, setLoading] = useState(true);
 
@@ -216,7 +220,16 @@ const StyledTable = ({
         return "default";
     }
   };
-
+  const pageInc = () => {
+    setPageNo((prev) => prev + 1);
+  };
+  const pageDec = () => {
+    setPageNo((prev) => prev - 1);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowPerSize(parseInt(event.target.value, 10));
+    setPageNo(1);
+  };
   return (
     <Box bgcolor={"white"} borderRadius={"16px"}>
       <TableContainer sx={{ border: "none" }}>
@@ -438,8 +451,9 @@ const StyledTable = ({
                           </>
                         ) : remark ? (
                           <>
-                            <MenuItem onClick={handleAddEntry}>Add Remark</MenuItem>
-                            
+                            <MenuItem onClick={handleAddEntry}>
+                              Add Remark
+                            </MenuItem>
                           </>
                         ) : (
                           <>
@@ -495,6 +509,7 @@ const StyledTable = ({
                 <TablePagination
                   component="div"
                   rowsPerPage={rowPerSize}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
                   labelDisplayedRows={({ from, to }) =>
                     `${pageNo}-${Math.ceil(
                       totalCount / rowPerSize

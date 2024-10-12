@@ -9,6 +9,9 @@ import ViewEvent from "../../../components/ViewEvent";
 const StudentEvents = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const { fetchLists } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const [selectedRowId, setSelectedRowId] = useState(null);
   const [viewOpen, setViewOpen] = useState(false);
   const handleOpenFilter = () => {
@@ -28,7 +31,7 @@ const StudentEvents = () => {
     setSelectedRowId(null);
     // setIsChange(!isChange);
   };
-  const { pageNo, fetchLists } = useListStore();
+
   const userColumns = [
     { title: "Event Date", field: "date", padding: "none" },
 
@@ -45,8 +48,9 @@ const StudentEvents = () => {
       filter.searchQuery = search;
     }
     filter.page = pageNo;
+    filter.limit = row;
     fetchLists(filter);
-  }, [fetchLists, search, pageNo]);
+  }, [fetchLists, search, pageNo, row]);
   return (
     <>
       <Box padding={"30px"} bgcolor={"#FFFFFF"}>
@@ -89,7 +93,14 @@ const StudentEvents = () => {
             bgcolor={"white"}
             borderRadius={"15px"}
           >
-            <StyledTable columns={userColumns} onIcon={handleView} />{" "}
+            <StyledTable
+              columns={userColumns}
+              onIcon={handleView}
+              pageNo={pageNo}
+              setPageNo={setPageNo}
+              rowPerSize={row}
+              setRowPerSize={setRow}
+            />{" "}
           </Box>
           <ViewEvent
             open={viewOpen}

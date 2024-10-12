@@ -9,7 +9,9 @@ import { useNavigate } from "react-router-dom";
 import CancelUserSession from "../../../components/CancelUserSession";
 const SessionHistory = () => {
   const navigate = useNavigate();
-  const { pageNo, userSession } = useListStore();
+  const {  userSession } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -87,8 +89,9 @@ const SessionHistory = () => {
       filter.status = status;
     }
     filter.page = pageNo;
+    filter.limit = row;
     userSession(filter);
-  }, [isChange, userSession, search, status, pageNo]);
+  }, [isChange, userSession, search, status, pageNo, row]);
   // console.log(lists);
   return (
     <>
@@ -158,6 +161,10 @@ const SessionHistory = () => {
           onCancel={handleCancel}
           menu
           onView={handleView}
+          pageNo={pageNo}
+          setPageNo={setPageNo}
+          rowPerSize={row}
+          setRowPerSize={setRow}
           reschedule
           onReschedule={handleReschedule}
         />{" "}

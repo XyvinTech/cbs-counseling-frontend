@@ -8,7 +8,9 @@ import StyledSearchbar from "../../../ui/StyledSearchbar";
 import { useListStore } from "../../../store/listStore";
 export default function CasesSection() {
   const navigate = useNavigate();
-  const { pageNo, fetchLists } = useListStore();
+  const { fetchLists } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const [search, setSearch] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -37,8 +39,9 @@ export default function CasesSection() {
       filter.searchQuery = search;
     }
     filter.page = pageNo;
+    filter.limit = row;
     fetchLists(filter);
-  }, [fetchLists, search, pageNo]);
+  }, [fetchLists, search, pageNo, row]);
   return (
     <>
       {" "}
@@ -82,7 +85,14 @@ export default function CasesSection() {
             bgcolor={"white"}
             borderRadius={"15px"}
           >
-            <StyledTable columns={userColumns} onView={handleView} />{" "}
+            <StyledTable
+              columns={userColumns}
+              pageNo={pageNo}
+              setPageNo={setPageNo}
+              rowPerSize={row}
+              setRowPerSize={setRow}
+              onView={handleView}
+            />{" "}
           </Box>
         </>
       </Box>

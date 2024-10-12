@@ -52,7 +52,7 @@ const subNavigation = [
   { name: "Session", to: "/student/session", icon: <EventOutlinedIcon /> },
   // { name: "Reports", to: "/student/reports", icon: <NewspaperOutlinedIcon /> },
   // { name: "Events", to: "/student/events", icon: <SchoolOutlinedIcon /> },
-  // { name: "Settings", to: "/student/settings", icon: <SettingsOutlinedIcon /> },
+  { name: "Settings", to: "/student/settings", icon: <SettingsOutlinedIcon /> },
 ];
 const SimpleDialog = ({ open, onClose }) => {
   const { student, getAdmin, isChange, logoutAuth } = useAuthStore();
