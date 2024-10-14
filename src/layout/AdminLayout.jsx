@@ -177,10 +177,10 @@ const AdminLayout = (props) => {
     logoutAuth(navigate);
   };
   const drawer = (
-    <div style={{ position: "relative", height: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <Toolbar
         sx={{
-          height: "88px",
+          height: "98px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -191,18 +191,33 @@ const AdminLayout = (props) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            // padding: "15px",
           }}
         >
           <img src={images} alt="Vite Logo" width={"80px"} height="80px" />
-          {/* <img src="/vite.svg" alt="Vite Logo" width={"48px"} height="28px" />
-          <Typography variant="h1" color={"#686465"} sx={{ ml: 1 }}>
-            <span style={{ color: "#0072BC" }}>AIIT</span>S
-          </Typography> */}
         </Box>
       </Toolbar>
       <Divider />
-      <List>
+
+      <List
+        sx={{
+          flexGrow: 1,
+          overflowY: "auto",
+          "&::-webkit-scrollbar": {
+            width: "0px",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "#f1f1f1",
+            borderRadius: "10px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#c1c1c1",
+            borderRadius: "10px",
+            "&:hover": {
+              backgroundColor: "#a1a1a1",
+            },
+          },
+        }}
+      >
         {subNavigation.map((item) =>
           item.name === "User Management" ? (
             <div key={item.name}>
@@ -217,7 +232,10 @@ const AdminLayout = (props) => {
                       open && location.pathname.startsWith("/user")
                         ? "#F2F2F2"
                         : "transparent",
-                    "&:hover": { color: "#0072BC", backgroundColor: "#ECF6FC" },
+                    "&:hover": {
+                      color: "#0072BC",
+                      backgroundColor: "#ECF6FC",
+                    },
                     "&:hover .MuiListItemIcon-root": { color: "#0072BC" },
                   }}
                 >
@@ -233,7 +251,12 @@ const AdminLayout = (props) => {
                   {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
               </ListItem>
-              <Collapse in={open}>
+              <Collapse
+                in={open}
+                timeout="auto"
+                unmountOnExit
+                sx={{ overflow: "hidden" }} // Prevents the shift on expand
+              >
                 <List component="div">
                   {item.subItems.map((subItem) => (
                     <ListItem
@@ -259,7 +282,6 @@ const AdminLayout = (props) => {
                             color: "#0072BC",
                             backgroundColor: "#ECF6FC",
                           },
-                          // "&:hover .MuiListItemIcon-root": { color: "#0072BC" },
                         }}
                       >
                         <ListItemIcon
@@ -325,7 +347,12 @@ const AdminLayout = (props) => {
         )}
       </List>
 
-      <Box sx={{ margin: 4 }}>
+      <Box
+        sx={{
+          margin: 4,
+          mt: "auto", // Ensures the footer stays at the bottom
+        }}
+      >
         <div style={{ marginBottom: "8px" }}>
           <Typography variant="h7" color={"#B4B5B6"} sx={{ ml: 1 }}>
             Powered by

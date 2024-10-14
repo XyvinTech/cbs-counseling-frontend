@@ -161,35 +161,140 @@ const CounselorLayout = (props) => {
     setDialogOpen(false);
   };
   const drawer = (
-    <div style={{ position: "relative", height: "100%" }}>
-     <Toolbar
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    <Toolbar
+      sx={{
+        height: "98px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Box
         sx={{
-          height: "88px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            // padding: "15px",
-          }}
-        >
-          <img src={images} alt="Vite Logo" width={"80px"} height="80px" />
-          {/* <img src="/vite.svg" alt="Vite Logo" width={"48px"} height="28px" />
-          <Typography variant="h1" color={"#686465"} sx={{ ml: 1 }}>
-            <span style={{ color: "#0072BC" }}>AIIT</span>S
-          </Typography> */}
-        </Box>
-      </Toolbar>
-      <Divider />
-      <List>
-        {subNavigation.map((item) => (
+        <img src={images} alt="Vite Logo" width={"80px"} height="80px" />
+      </Box>
+    </Toolbar>
+    <Divider />
+
+    <List
+      sx={{
+        flexGrow: 1,
+        overflowY: "auto",
+        "&::-webkit-scrollbar": {
+          width: "0px",
+        },
+        "&::-webkit-scrollbar-track": {
+          backgroundColor: "#f1f1f1",
+          borderRadius: "10px",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: "#c1c1c1",
+          borderRadius: "10px",
+          "&:hover": {
+            backgroundColor: "#a1a1a1",
+          },
+        },
+      }}
+    >
+      {subNavigation.map((item) =>
+        item.name === "User Management" ? (
+          <div key={item.name}>
+            <ListItem sx={{ paddingBottom: "8px" }} disablePadding>
+              <ListItemButton
+                onClick={handleClick}
+                sx={{
+                  marginLeft: "20px",
+                  marginRight: "10px",
+                  color: "#5F6368",
+                  backgroundColor:
+                    open && location.pathname.startsWith("/user")
+                      ? "#F2F2F2"
+                      : "transparent",
+                  "&:hover": {
+                    color: "#0072BC",
+                    backgroundColor: "#ECF6FC",
+                  },
+                  "&:hover .MuiListItemIcon-root": { color: "#0072BC" },
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: 24, marginRight: 1 }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.name}
+                  primaryTypographyProps={{
+                    variant: "h6",
+                  }}
+                />
+                {open ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+            </ListItem>
+            <Collapse
+              in={open}
+              timeout="auto"
+              unmountOnExit
+              sx={{ overflow: "hidden" }} // Prevents the shift on expand
+            >
+              <List component="div">
+                {item.subItems.map((subItem) => (
+                  <ListItem
+                    key={subItem.name}
+                    sx={{ paddingBottom: "8px" }}
+                    disablePadding
+                  >
+                    <ListItemButton
+                      component={Link}
+                      to={subItem.to}
+                      sx={{
+                        marginLeft: "40px",
+                        marginRight: "40px",
+                        color:
+                          location.pathname === subItem.to
+                            ? "#0072BC"
+                            : "#5F6368",
+                        backgroundColor:
+                          location.pathname === subItem.to
+                            ? "#ECF6FC"
+                            : "transparent",
+                        "&:hover": {
+                          color: "#0072BC",
+                          backgroundColor: "#ECF6FC",
+                        },
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 24,
+                          marginRight: 1,
+                          color:
+                            location.pathname === subItem.to
+                              ? "#0072BC"
+                              : "#686465",
+                        }}
+                      >
+                        {subItem.icon}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={subItem.name}
+                        primaryTypographyProps={{
+                          variant: "h6",
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+            </Collapse>
+          </div>
+        ) : (
           <ListItem
-            sx={{ paddingBottom: "10px" }}
+            sx={{ paddingBottom: "20px" }}
             key={item.name}
             disablePadding
           >
@@ -210,7 +315,8 @@ const CounselorLayout = (props) => {
                 sx={{
                   minWidth: 24,
                   marginRight: 1,
-                  color: location.pathname === item.to ? "#0072BC" : "#686465",
+                  color:
+                    location.pathname === item.to ? "#0072BC" : "#686465",
                 }}
               >
                 {item.icon}
@@ -221,20 +327,27 @@ const CounselorLayout = (props) => {
               />
             </ListItemButton>
           </ListItem>
-        ))}
-      </List>
-   
-        <Box sx={{ margin: 4 }}>
-          <div style={{ marginBottom: "8px" }}>
-            <Typography variant="h7" color={"#B4B5B6"} sx={{ ml: 1 }}>
-              Powered by
-            </Typography>
-          </div>
-          <div>
-            <img src={image} alt="Powered by" style={{ maxWidth: "100%" }} />
-          </div>
-        </Box>
-    </div>
+        )
+      )}
+    </List>
+
+    <Box
+      sx={{
+        margin: 4,
+        mt: "auto", // Ensures the footer stays at the bottom
+      }}
+    >
+      <div style={{ marginBottom: "8px" }}>
+        <Typography variant="h7" color={"#B4B5B6"} sx={{ ml: 1 }}>
+          Powered by
+        </Typography>
+      </div>
+      <div>
+        <img src={image} alt="Powered by" style={{ maxWidth: "100%" }} />
+      </div>
+    </Box>
+  </div>
+  
   );
 
   const container =
