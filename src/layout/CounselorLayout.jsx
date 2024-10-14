@@ -223,14 +223,7 @@ const CounselorLayout = (props) => {
           </ListItem>
         ))}
       </List>
-      <List
-        style={{
-          position: "absolute",
-          bottom: 0,
-          width: "100%",
-          textAlign: "left",
-        }}
-      >
+   
         <Box sx={{ margin: 4 }}>
           <div style={{ marginBottom: "8px" }}>
             <Typography variant="h7" color={"#B4B5B6"} sx={{ ml: 1 }}>
@@ -241,7 +234,6 @@ const CounselorLayout = (props) => {
             <img src={image} alt="Powered by" style={{ maxWidth: "100%" }} />
           </div>
         </Box>
-      </List>
     </div>
   );
 

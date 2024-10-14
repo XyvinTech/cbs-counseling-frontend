@@ -312,25 +312,17 @@ const StudentLayout = (props) => {
           )
         )}
       </List>
-      <List
-        style={{
-          position: "absolute",
-          bottom: 0,
-          width: "100%",
-          textAlign: "left",
-        }}
-      >
-        <Box sx={{ margin: 4 }}>
-          <div style={{ marginBottom: "8px" }}>
-            <Typography variant="h7" color={"#B4B5B6"} sx={{ ml: 1 }}>
-              Powered by
-            </Typography>
-          </div>
-          <div>
-            <img src={image} alt="Powered by" style={{ maxWidth: "100%" }} />
-          </div>
-        </Box>
-      </List>
+
+      <Box sx={{ margin: 4 }}>
+        <div style={{ marginBottom: "8px" }}>
+          <Typography variant="h7" color={"#B4B5B6"} sx={{ ml: 1 }}>
+            Powered by
+          </Typography>
+        </div>
+        <div>
+          <img src={image} alt="Powered by" style={{ maxWidth: "100%" }} />
+        </div>
+      </Box>
     </div>
   );
 
@@ -400,7 +392,6 @@ const StudentLayout = (props) => {
               sx={{ cursor: "pointer", flexShrink: 0, marginLeft: "10px" }}
             >
               <Box sx={{ display: "flex", alignItems: "center" }}>
-              
                 <Box sx={{ marginLeft: "10px" }}>
                   <Typography variant="h6" color={"#292D32"} display="block">
                     {student?.name}

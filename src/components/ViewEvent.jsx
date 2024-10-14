@@ -1,6 +1,7 @@
 import React from "react";
 import { Dialog, Grid, Typography } from "@mui/material";
 import moment from "moment";
+
 const ViewEvent = ({ open, onClose, rowData }) => {
   return (
     <Dialog
@@ -53,7 +54,7 @@ const ViewEvent = ({ open, onClose, rowData }) => {
           >
             {rowData?.description}
           </Typography>
-        </Grid>{" "}
+        </Grid>
         <Grid item xs={12}>
           <Typography
             sx={{ marginTop: 0 }}
@@ -64,7 +65,7 @@ const ViewEvent = ({ open, onClose, rowData }) => {
           >
             {rowData?.details}
           </Typography>
-        </Grid>{" "}
+        </Grid>
         <Grid item xs={6}>
           <Typography
             sx={{ marginTop: 0 }}
@@ -73,9 +74,7 @@ const ViewEvent = ({ open, onClose, rowData }) => {
             color="#333333"
             align="center"
           >
-            {rowData?.date && rowData?.time
-              ? formatDateTime(rowData.date, rowData.time)
-              : ""}
+            {rowData?.date ? formatDate(rowData.date) : ""}
           </Typography>
         </Grid>
         <Grid item xs={6}>
@@ -86,7 +85,7 @@ const ViewEvent = ({ open, onClose, rowData }) => {
             color="#333333"
             align="center"
           >
-            Venu: {rowData?.venue}
+            Venue: {rowData?.venue}
           </Typography>
         </Grid>
       </Grid>
@@ -96,21 +95,10 @@ const ViewEvent = ({ open, onClose, rowData }) => {
 
 export default ViewEvent;
 
-function formatDateTime(dateString, timeString) {
+function formatDate(dateString) {
   // Parse the ISO date string
   const date = moment(dateString);
 
   // Format the date to "August 15, 2024"
-  const formattedDate = date.format("MMMM D, YYYY");
-
-  // Combine the date with the provided time
-  const dateTime = moment(dateString).set({
-    hour: timeString.split(":")[0],
-    minute: timeString.split(":")[1],
-  });
-
-  // Format the time to "3:00 AM" or "3:00 PM"
-  const formattedTime = dateTime.format("h:mm A");
-
-  return `${formattedDate} at ${formattedTime}`;
+  return date.format("MMMM D, YYYY");
 }

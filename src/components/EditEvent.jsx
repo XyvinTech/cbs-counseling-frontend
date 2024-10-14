@@ -3,8 +3,6 @@ import { Dialog, Grid, Stack, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { StyledButton } from "../ui/StyledButton";
 import StyledInput from "../ui/StyledInput";
-import { useStudentStore } from "../store/admin/studentStore";
-import { StyledTime } from "../ui/StyledTime";
 import { StyledCalender } from "../ui/StyledCalender";
 import StyledUploadImage from "../ui/StyledUploadImage";
 import { StyledMultilineTextField } from "../ui/StyledMultilineTextField ";
@@ -35,7 +33,7 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
         date: rowData.date || "",
         venue: rowData.venue || "",
         guest: rowData.guest || "",
-        time: rowData.time ? rowData.time.slice(0, -3) : "", // Slice to remove seconds if present
+        // Slice to remove seconds if present
         event_image: rowData.requisition_image || "",
         description: rowData.details || "",
         requisition_description: rowData.requisition_description || "",
@@ -73,8 +71,7 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
         date: data?.date,
         venue: data?.venue,
         guest: data?.guest,
-        time: data?.time + ":00",
-        requisition_image: imageUrl ?  imageUrl :'',
+        requisition_image: imageUrl ? imageUrl : "",
         details: data?.description,
         requisition_description: data?.requisition_description,
         title: data?.title,
@@ -166,30 +163,6 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
               sx={{ marginBottom: 1 }}
               variant="h6"
               fontWeight={500}
-              color="#333333"
-            >
-              Time
-            </Typography>
-            <Controller
-              name="time"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Time is required" }}
-              render={({ field }) => (
-                <>
-                  <StyledTime label="Select Time" {...field} />
-                  {errors.time && (
-                    <span style={{ color: "red" }}>{errors.time.message}</span>
-                  )}
-                </>
-              )}
-            />
-          </Grid>{" "}
-          <Grid item xs={6}>
-            <Typography
-              sx={{ marginBottom: 1 }}
-              variant="h6"
-              fontWeight={500}
               color={"#333333"}
             >
               Venue
@@ -256,7 +229,7 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
                     rowData={rowData}
                     onChange={(file) => {
                       setImageFile(file);
-                      onChange(file); 
+                      onChange(file);
                     }}
                   />
                 </>

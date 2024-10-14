@@ -368,11 +368,7 @@ function LoginPage() {
                   control={control}
                   defaultValue=""
                   rules={{
-                    required: "Email is required",
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: "Invalid email address",
-                    },
+                    required: "Username is required",
                   }}
                   render={({ field }) => (
                     <TextField
@@ -380,8 +376,7 @@ function LoginPage() {
                       required
                       fullWidth
                       id="email"
-                      label="Email Address"
-                      autoComplete="email"
+                      label="Username"
                       autoFocus
                       error={!!errors.email}
                       helperText={errors.email?.message}

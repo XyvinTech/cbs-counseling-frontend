@@ -42,7 +42,7 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { useAdminStore } from "../store/admin/AdminStore";
 import { useNotificationStore } from "../store/notificationStore";
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import images from "../assets/images/schoolLogo.jpg";
 const drawerWidth = 250;
 const subNavigation = [
@@ -69,7 +69,11 @@ const subNavigation = [
     icon: <SchoolOutlinedIcon />,
   },
   { name: "Events", to: "/events", icon: <InsertInvitationOutlinedIcon /> },
-  { name: "Upcoming Events", to: "/upcommingevents", icon: <CalendarMonthIcon /> },
+  {
+    name: "Upcoming Events",
+    to: "/upcommingevents",
+    icon: <CalendarMonthIcon />,
+  },
   { name: "Counseling Type", to: "/addType", icon: <NewspaperOutlinedIcon /> },
   // {
   //   name: "Notification",
@@ -198,7 +202,7 @@ const AdminLayout = (props) => {
         </Box>
       </Toolbar>
       <Divider />
-      <List style={{ paddingBottom: "72px" }}>
+      <List>
         {subNavigation.map((item) =>
           item.name === "User Management" ? (
             <div key={item.name}>
@@ -320,25 +324,17 @@ const AdminLayout = (props) => {
           )
         )}
       </List>
-      <List
-        style={{
-          position: "absolute",
-          bottom: 0,
-          width: "100%",
-          textAlign: "left",
-        }}
-      >
-        <Box sx={{ margin: 4 }}>
-          <div style={{ marginBottom: "8px" }}>
-            <Typography variant="h7" color={"#B4B5B6"} sx={{ ml: 1 }}>
-              Powered by
-            </Typography>
-          </div>
-          <div>
-            <img src={image} alt="Powered by" style={{ maxWidth: "100%" }} />
-          </div>
-        </Box>
-      </List>
+
+      <Box sx={{ margin: 4 }}>
+        <div style={{ marginBottom: "8px" }}>
+          <Typography variant="h7" color={"#B4B5B6"} sx={{ ml: 1 }}>
+            Powered by
+          </Typography>
+        </div>
+        <div>
+          <img src={image} alt="Powered by" style={{ maxWidth: "100%" }} />
+        </div>
+      </Box>
     </div>
   );
 

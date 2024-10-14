@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Box, Typography, Grid, Stack } from "@mui/material";
-import { StyledTime } from "../ui/StyledTime";
 import StyledSelectField from "../ui/StyledSelectField";
 import { StyledButton } from "../ui/StyledButton";
 import { StyledMultilineTextField } from "../ui/StyledMultilineTextField .jsx";
@@ -12,6 +11,7 @@ import { useEventStore } from "../store/eventStore";
 import uploadFileToS3 from "../utils/s3Upload";
 import { useNavigate } from "react-router-dom";
 import { upload } from "../api/admin/adminapi.js";
+import { toast } from "react-toastify";
 
 export default function AddEvent({ onChange, setSelectedTab }) {
   const {
@@ -53,7 +53,6 @@ export default function AddEvent({ onChange, setSelectedTab }) {
         date: data?.date,
         venue: data?.venue,
         guest: data?.guest,
-        time: data?.time + ":00",
         requisition_image: imageUrl ?  imageUrl :'', 
         details: data?.description,
         requisition_description: data?.requisition_description,
@@ -131,30 +130,6 @@ export default function AddEvent({ onChange, setSelectedTab }) {
               )}
             />
           </Grid>
-          <Grid item xs={6}>
-            <Typography
-              sx={{ marginBottom: 1 }}
-              variant="h6"
-              fontWeight={500}
-              color={"#333333"}
-            >
-              Time
-            </Typography>
-            <Controller
-              name="time"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Time is required" }}
-              render={({ field }) => (
-                <>
-                  <StyledTime label="Select Time" {...field} />
-                  {errors.time && (
-                    <span style={{ color: "red" }}>{errors.time.message}</span>
-                  )}
-                </>
-              )}
-            />
-          </Grid>{" "}
           <Grid item xs={6}>
             <Typography
               sx={{ marginBottom: 1 }}
