@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -119,7 +119,19 @@ function LoginPage() {
       setVerify(false);
     }
   };
-
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      if (localStorage.getItem("userType") === "admin") {
+        navigate("/dashboard");
+      }
+      if (localStorage.getItem("userType") === "counsellor") {
+        navigate("/counselor/session");
+      }
+      if (localStorage.getItem("userType") === "student") {
+        navigate("/student/bookappoinment");
+      }
+    }
+  }, []);
   return (
     <>
       <Box
