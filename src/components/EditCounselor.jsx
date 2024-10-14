@@ -7,6 +7,7 @@ import { useCounselorStore } from "../store/admin/CounselorStore";
 import { useListStore } from "../store/listStore";
 import StyledSelectField from "../ui/StyledSelectField";
 import { toast } from "react-toastify";
+import { fetchList } from "../api/listapi";
 
 const EditCounselor = ({ open, onClose, onChange, rowData }) => {
   const {
@@ -15,20 +16,23 @@ const EditCounselor = ({ open, onClose, onChange, rowData }) => {
     reset,
     formState: { errors },
   } = useForm();
-  const { fetchTypeLists, types } = useCounselorStore();
   const [loading, setLoading] = useState(false);
+  const [counType, setCounType] = useState([]);
   const option =
-    types && Array.isArray(types)
-      ? types.map((i) => ({
+    counType && Array.isArray(counType)
+      ? counType.map((i) => ({
           value: i?.name,
           label: i?.name,
         }))
       : [];
-  useEffect(() => {
-    let filter = { type: "counselling-type" };
 
-    fetchTypeLists(filter);
-  }, [fetchTypeLists]);
+  const getData = async () => {
+    const fetch = await fetchList({ type: "counselling-type" });
+    setCounType(fetch?.data || []);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   const { editCounsellor } = useCounselorStore();
   const Types = [
     { value: "male", label: "Male" },
@@ -63,6 +67,7 @@ const EditCounselor = ({ open, onClose, onChange, rowData }) => {
         mobile: data?.mobile,
         mobile: data?.mobile.replace(/\s+/g, ""),
         gender: data?.gender.value,
+        counsellorType: data.counsellorType.map((option) => option.value),
       };
 
       await editCounsellor(rowData?._id, formData);

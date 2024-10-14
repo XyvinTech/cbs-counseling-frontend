@@ -7,8 +7,7 @@ import * as XLSX from "xlsx";
 import { addCounselorBulk } from "../api/admin/counselorapi";
 import { addStudentBulk } from "../api/admin/studentapi";
 
-
-const AddBulk = ({ member ,onSuccess}) => {
+const AddBulk = ({ member, onSuccess }) => {
   const [files, setFiles] = useState([]);
 
   const handleFileUpload = (file) => {
@@ -28,10 +27,10 @@ const AddBulk = ({ member ,onSuccess}) => {
       if (file.type === "text/csv") {
         // Parse CSV file using PapaParse
         const parsedData = Papa.parse(data, { header: true });
-          const filteredData = parsedData.data.filter(row => 
-        Object.values(row).some(value => value !== null && value !== "")
-      );
-      callback(filteredData);
+        const filteredData = parsedData.data.filter((row) =>
+          Object.values(row).some((value) => value !== null && value !== "")
+        );
+        callback(filteredData);
       } else if (
         file.type === "application/vnd.ms-excel" ||
         file.type ===
@@ -42,8 +41,8 @@ const AddBulk = ({ member ,onSuccess}) => {
         const firstSheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[firstSheetName];
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
-        const filteredData = jsonData.filter(row => 
-          Object.values(row).some(value => value !== null && value !== "")
+        const filteredData = jsonData.filter((row) =>
+          Object.values(row).some((value) => value !== null && value !== "")
         );
         callback(filteredData);
       }
@@ -64,9 +63,8 @@ const AddBulk = ({ member ,onSuccess}) => {
           console.log("Parsed Data:", parsedData);
           if (member == "councelor") {
             await addCounselorBulk(parsedData);
-
-          }else{
-            console.log('Student',member)
+          } else {
+            console.log("Student", member);
             await addStudentBulk(parsedData);
           }
           onSuccess();
@@ -81,7 +79,11 @@ const AddBulk = ({ member ,onSuccess}) => {
   return (
     <Box bgcolor={"white"}>
       <Box padding={9}>
-        <DropZone files={files} onFileUpload={handleFileUpload} />
+        <DropZone
+          files={files}
+          onFileUpload={handleFileUpload}
+          member={member}
+        />
         <Stack spacing={2} mt={4}>
           <Typography variant="h6">Instructions for bulk import:</Typography>
           <ul style={{ fontSize: "12px" }}>
@@ -90,12 +92,7 @@ const AddBulk = ({ member ,onSuccess}) => {
           </ul>
         </Stack>
         <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
-        <Stack
-          direction={"row"}
-          spacing={2}
-          width={"50%"}
-          justifyContent={"end"}
-        >
+        <Stack direction={"row"} spacing={2} justifyContent={"end"}>
           <StyledButton
             name="Cancel"
             variant="secondary"

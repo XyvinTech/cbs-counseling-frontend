@@ -92,7 +92,7 @@ const StudentPage = () => {
     { title: "Class", field: "designation" },
     { title: "Email Id  ", field: "email" },
     { title: "Contact info", field: "mobile" },
-    // { title: "Parent Name", field: "ParentName" },
+    { title: "References Code", field: "StudentReferencesCode" },
     { title: "Parent Contact", field: "parentContact" },
   ];
   useEffect(() => {

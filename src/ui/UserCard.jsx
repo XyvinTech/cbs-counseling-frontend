@@ -39,6 +39,17 @@ const UserCard = ({ user }) => {
               {user?.email}
             </Typography>
           </Stack>
+          {user?.StudentReferencesCode && (
+             <Stack direction="row" alignItems="center" spacing={1}>
+             <Typography variant="h6" color={"#2C2829"}>
+                 References Code :
+               </Typography>
+               <Typography variant="h6" color={"#2C2829"}>
+                 {user?.StudentReferencesCode}
+               </Typography>
+             </Stack>
+          )}
+         
         </Stack>
       </Grid>
     </Grid>

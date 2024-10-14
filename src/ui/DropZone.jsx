@@ -1,10 +1,8 @@
-import  { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Box, Stack, Grid, Button, styled } from '@mui/material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-
-
 
 const StyledDropzone = styled(Box)(({ theme, isDragActive }) => ({
   backgroundColor: '#E0E0E0',
@@ -46,12 +44,13 @@ const DownloadButton = styled(Button)(({ theme }) => ({
   width: '100%',
   backgroundColor: '#E0E0E0',
   color: '#4F4F4F',
-  boxShadow: 'none',  
+  boxShadow: 'none',
   '&:hover': {
     backgroundColor: '#D0D0D0',
-    boxShadow: 'none',  
+    boxShadow: 'none',
   },
 }));
+
 const FileItem = styled(Box)(({ theme }) => ({
   marginBottom: '15px',
   border: '1px solid #ccc',
@@ -64,50 +63,41 @@ const FileContent = styled(Box)(({ theme }) => ({
   marginTop: '10px',
 }));
 
-const FileImage = styled('img')({
-  maxWidth: '100%',
-  maxHeight: '200px',
-  objectFit: 'contain',
-});
-
 const Spacer = styled(Box)({
   height: '40px',
 });
 
-export default function DropZone({files = [], onFileUpload }) {
- 
-
+export default function DropZone({ files = [], onFileUpload, member }) {
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles.length > 0) {
       const newFile = acceptedFiles[0];
       const newFileObj = {
         file: newFile,
-        preview: URL.createObjectURL(newFile)
+        preview: URL.createObjectURL(newFile),
       };
-     
-      onFileUpload(newFileObj); 
+
+      onFileUpload(newFileObj);
     }
   }, [onFileUpload]);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ 
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: ['text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
-    multiple: false
+    multiple: false,
   });
+
   const handleDownload = () => {
-    if (files.length > 0) {
-      const lastFile = files[files.length - 1].file;
-      const href = URL.createObjectURL(lastFile);
-      const link = document.createElement('a');
-      link.href = href;
-      link.download = lastFile.name;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(href);
-    } else {
-      alert("No file uploaded yet!");
-    }
+    const sampleFileUrl =
+      member === 'student'
+        ? "/student-sample.csv"
+        : '/counselor-sample.csv';
+
+    const link = document.createElement('a');
+    link.href = sampleFileUrl;
+    link.download = member === 'student' ? 'student-sample.csv' : 'counselor-sample.csv';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -119,9 +109,7 @@ export default function DropZone({files = [], onFileUpload }) {
             <UploadIcon />
           </IconBackground>
           <DropzoneText>
-            {isDragActive
-              ? 'Drop the file here ...'
-              : 'Drop your CSV/XLS file here to upload or select from storage'}
+            {isDragActive ? 'Drop the file here ...' : 'Drop your CSV/XLS file here to upload or select from storage'}
           </DropzoneText>
         </StyledDropzone>
 
@@ -133,7 +121,7 @@ export default function DropZone({files = [], onFileUpload }) {
                   <div>{fileObj.file.name}</div>
                   <FileContent>
                     {fileObj.file.type.startsWith('image/') ? (
-                      <FileImage src={fileObj.preview} alt={fileObj.file.name} />
+                      <img src={fileObj.preview} alt={fileObj.file.name} style={{ maxWidth: '100%', maxHeight: '200px', objectFit: 'contain' }} />
                     ) : (
                       <div>File type: {fileObj.file.type}</div>
                     )}
@@ -144,14 +132,10 @@ export default function DropZone({files = [], onFileUpload }) {
           </Grid>
         )}
       </Stack>
-      
+
       <Spacer />
-      
-      <DownloadButton
-        variant="contained"
-        startIcon={<ArrowDownwardIcon />}
-        onClick={handleDownload}
-      >
+
+      <DownloadButton variant="contained" startIcon={<ArrowDownwardIcon />} onClick={handleDownload}>
         Download Sample
       </DownloadButton>
     </>
