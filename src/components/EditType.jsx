@@ -26,7 +26,7 @@ const EditType = ({ open, onClose, onChange, rowData }) => {
     const formData = {
       name: data.name,
     };
-    await editTypes(rowData?.id, formData);
+    await editTypes(rowData?._id, formData);
     onClose();
     onChange();
   };
