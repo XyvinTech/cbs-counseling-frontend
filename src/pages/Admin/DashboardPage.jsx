@@ -65,7 +65,7 @@ const DashboardPage = () => {
           alignItems={"center"}
         >
           <Typography variant="h6" color={"#828282"} fontWeight={900}>
-            Session List
+            Awaiting for approval session list
           </Typography>{" "}
           <Stack direction={"row"} spacing={2}>
             <StyledSearchbar

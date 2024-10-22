@@ -130,19 +130,19 @@ const AddStudent = ({ onChange, setSelectedTab }) => {
               fontWeight={500}
               color={"#333333"}
             >
-             Student References Code
+             GRP Number 
             </Typography>{" "}
             <Controller
               name="StudentReferencesCode"
               control={control}
               defaultValue=""
               rules={{
-                required: "Student References Code is required",
+                required: "GRP Number is required",
               
               }}
               render={({ field }) => (
                 <>
-                  <StyledInput placeholder="Enter Student References Code" {...field} />{" "}
+                  <StyledInput placeholder="Enter  GRP Number " {...field} />{" "}
                   {errors.StudentReferencesCode && (
                     <span style={{ color: "red" }}>{errors.StudentReferencesCode.message}</span>
                   )}{" "}

@@ -380,7 +380,7 @@ function LoginPage() {
                   control={control}
                   defaultValue=""
                   rules={{
-                    required: "Username is required",
+                    required: "Email or GRP Number is required",
                   }}
                   render={({ field }) => (
                     <TextField
@@ -388,7 +388,7 @@ function LoginPage() {
                       required
                       fullWidth
                       id="email"
-                      label="Username"
+                      label="Enter Email or GRP Number"
                       autoFocus
                       error={!!errors.email}
                       helperText={errors.email?.message}

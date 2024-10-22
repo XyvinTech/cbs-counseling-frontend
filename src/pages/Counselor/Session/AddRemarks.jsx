@@ -106,7 +106,7 @@ const AddRemarks = ({ rowData, onSubmitSuccess }) => {
               <Typography variant="h6" fontWeight={500}>
                 Counseling Type:
               </Typography>
-              <Typography variant="h6">{rowData?.counseling_type}</Typography>
+              <Typography variant="h6">{rowData?.couselling_type}</Typography>
             </Grid>
             <Grid item md={6}>
               <Typography variant="h6" fontWeight={500}>
