@@ -524,7 +524,7 @@ const StyledTable = ({
                     >
                       {" "}
                       <Box
-                        onClick={pageDec}
+                         onClick={pageNo > 1 ? pageDec : null}
                         sx={{
                           cursor: pageNo > 1 ? "pointer" : "not-allowed",
                           opacity: pageNo > 1 ? 1 : 0.5,
@@ -533,7 +533,11 @@ const StyledTable = ({
                         <LeftIcon />{" "}
                       </Box>
                       <Box
-                        onClick={pageInc}
+                         onClick={
+                          pageNo < Math.ceil(totalCount / rowPerSize)
+                            ? pageInc
+                            : null
+                        }
                         sx={{
                           cursor:
                             pageNo < Math.ceil(totalCount / rowPerSize)
