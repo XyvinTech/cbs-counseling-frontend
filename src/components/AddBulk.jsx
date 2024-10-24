@@ -20,51 +20,77 @@ const AddBulk = ({ member, onSuccess }) => {
 
   const parseFile = (file, callback) => {
     const reader = new FileReader();
-
+  
     reader.onload = (event) => {
       const data = event.target.result;
-
+  
       if (file.type === "text/csv") {
         // Parse CSV file using PapaParse
         const parsedData = Papa.parse(data, { header: true });
-        const filteredData = parsedData.data.filter((row) =>
+        let filteredData = parsedData.data.filter((row) =>
           Object.values(row).some((value) => value !== null && value !== "")
         );
+  
+  
+        // If member is student, rename 'class' to 'designation'
+        if (member === "student") {
+          filteredData = filteredData.map((row) => {
+            if (row.class) {
+              row.designation = row.class;
+              delete row.class;
+            }
+            if (row.grpNumber) {
+              row.StudentReferencesCode = row.grpNumber;
+              delete row.grpNumber;
+            }
+            return row;
+          });
+        }
+  
+  
         callback(filteredData);
       } else if (
         file.type === "application/vnd.ms-excel" ||
-        file.type ===
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) {
         // Parse XLS/XLSX file using XLSX
         const workbook = XLSX.read(data, { type: "binary" });
         const firstSheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[firstSheetName];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
-        const filteredData = jsonData.filter((row) =>
-          Object.values(row).some((value) => value !== null && value !== "")
-        );
-        callback(filteredData);
+        let jsonData = XLSX.utils.sheet_to_json(worksheet);
+  
+  
+        // If member is student, rename 'class' to 'designation'
+        if (member === "student") {
+          jsonData = jsonData.map((row) => {
+            if (row.class) {
+              row.designation = row.class;
+              delete row.class;
+            }
+            return row;
+          });
+        }
+  
+        callback(jsonData);
       }
     };
-
+  
     if (file.type === "text/csv") {
       reader.readAsText(file);
     } else {
       reader.readAsBinaryString(file);
     }
   };
+  
 
   const handleSave = async () => {
     if (files.length > 0) {
       const file = files[0]?.file;
       if (file) {
         parseFile(file, async (parsedData) => {
-          console.log("Parsed Data:", parsedData);
           if (member == "councelor") {
             await addCounselorBulk(parsedData);
           } else {
-            console.log("Student", member);
             await addStudentBulk(parsedData);
           }
           onSuccess();

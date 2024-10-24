@@ -86,7 +86,6 @@ const CounselorEvent = () => {
   const userColumns = [
     { title: "Event Date", field: "date", padding: "none" },
 
-    { title: "Time", field: "time" },
     { title: "Event Name", field: "title" },
     { title: "Venue", field: "venue" },
     // { title: "Experience Level", field: "experience" },

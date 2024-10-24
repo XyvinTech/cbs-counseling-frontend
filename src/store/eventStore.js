@@ -15,8 +15,7 @@ const useEventStore = create((set) => ({
     // set((state) => ({ events: [...state.events, newData] }));
   },
   editEvents: async (id, data) => {
-    const updatedData = await editEvent(id, data);
-    set({ events: updatedData });
+    await editEvent(id, data);
   },
   deleteEvents: async (data) => {
     await deleteEvent(data);
@@ -26,7 +25,7 @@ const useEventStore = create((set) => ({
     if (session && session.data) {
       set({ date: session.data });
     } else {
-      set({ date: [] }); 
+      set({ date: [] });
     }
   },
 }));

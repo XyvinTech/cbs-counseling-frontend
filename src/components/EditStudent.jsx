@@ -30,11 +30,12 @@ const EditStudent = ({ open, onClose, setIsChange, rowData }) => {
       email: rowData?.email || "",
       parentContact: rowData?.parentContact || "",
       mobile: rowData?.mobile || "",
-      division : rowData?.division || "",
-      StudentReferencesCode : rowData?.StudentReferencesCode || "",
+      division: rowData?.division || "",
+      StudentReferencesCode: rowData?.StudentReferencesCode || "",
       gender: genderOption || "",
     });
   }, [rowData, reset]);
+
 
   const onSubmit = async (data) => {
     try {
@@ -43,10 +44,10 @@ const EditStudent = ({ open, onClose, setIsChange, rowData }) => {
         name: data?.name,
         designation: data?.designation,
         email: data?.email,
-        parentContact: data?.parentContact,
-        mobile: data?.mobile,
+        parentContact: data?.parentContact.replace(/\s+/g, ""),
+        mobile: data?.mobile.replace(/\s+/g, ""),
         gender: data?.gender.value,
-        StudentReferencesCode : data?.StudentReferencesCode,
+        StudentReferencesCode: data?.StudentReferencesCode,
         status: true,
       };
 
@@ -123,7 +124,8 @@ const EditStudent = ({ open, onClose, setIsChange, rowData }) => {
                 </>
               )}
             />
-          </Grid> <Grid item md={6}>
+          </Grid>{" "}
+          <Grid item md={6}>
             <Typography
               sx={{ marginBottom: 1 }}
               variant="h6"
@@ -178,7 +180,7 @@ const EditStudent = ({ open, onClose, setIsChange, rowData }) => {
               fontWeight={500}
               color={"#333333"}
             >
-             GRP Number
+              GRP Number
             </Typography>{" "}
             <Controller
               name="StudentReferencesCode"
@@ -186,19 +188,19 @@ const EditStudent = ({ open, onClose, setIsChange, rowData }) => {
               defaultValue=""
               rules={{
                 required: "GRP Number is required",
-              
               }}
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Enter GRP Number" {...field} />{" "}
                   {errors.StudentReferencesCode && (
-                    <span style={{ color: "red" }}>{errors.StudentReferencesCode.message}</span>
+                    <span style={{ color: "red" }}>
+                      {errors.StudentReferencesCode.message}
+                    </span>
                   )}{" "}
                 </>
               )}
             />
           </Grid>{" "}
-       
           <Grid item xs={6}>
             <Typography
               sx={{ marginBottom: 1 }}
@@ -216,7 +218,6 @@ const EditStudent = ({ open, onClose, setIsChange, rowData }) => {
               render={({ field }) => (
                 <>
                   <StyledSelectField
-                   
                     placeholder="Select Gender"
                     options={Types}
                     {...field}
@@ -293,7 +294,11 @@ const EditStudent = ({ open, onClose, setIsChange, rowData }) => {
                 name={"cancel"}
                 onClick={(event) => handleClear(event)}
               />
-              <StyledButton variant="primary" name={loading ? "Saving..." : "save"} type="submit" />
+              <StyledButton
+                variant="primary"
+                name={loading ? "Saving..." : "save"}
+                type="submit"
+              />
             </Stack>
           </Grid>
         </Grid>
