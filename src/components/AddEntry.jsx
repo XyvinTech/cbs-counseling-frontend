@@ -27,6 +27,8 @@ import { useSessionStore } from "../store/counselor/SessionStore";
 import moment from "moment-timezone";
 import StyledInput from "../ui/StyledInput";
 import { toast } from "react-toastify";
+import { upload } from "../api/admin/adminapi";
+import StyledUploadImage from "../ui/StyledUploadImage";
 export default function AddEntry() {
   const {
     control,
@@ -49,7 +51,7 @@ export default function AddEntry() {
   const [day, setDay] = useState([]);
   const [date, setDate] = useState();
   const [loading, setLoading] = useState(false);
-  console.log("data", rowData);
+  const [pdfFile, setPdfFile] = useState(null);
   const formatDate = (dateString, format = "MMM DD, YYYY ") => {
     return moment.tz(dateString, "Asia/Muscat").format(format);
   };
@@ -108,9 +110,27 @@ export default function AddEntry() {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
+      let pdfUrl = data?.report || "";
+      if (pdfFile) {
+        try {
+          // Use the `upload` function instead of the S3 upload
+          pdfUrl = await new Promise(async (resolve, reject) => {
+            try {
+              // Call the `upload` function and pass the image file
+              const response = await upload(pdfFile);
+              resolve(response.data); // Assuming `fileUrl` is the key returned in the API response
+            } catch (error) {
+              reject(error);
+            }
+          });
+        } catch (error) {
+          console.error("Failed to upload image:", error);
+          return; // Exit if image upload fails
+        }
+      }
       const formData = {
         details: data?.details,
-
+        report: pdfUrl ? pdfUrl : "",
         session_id: rowData?._id,
         user_id: rowData?.user?._id,
         interactions: data?.interactions,
@@ -557,6 +577,32 @@ export default function AddEntry() {
                               {errors.interactions.message}
                             </span>
                           )}
+                        </>
+                      )}
+                    />
+                  </>
+                  <>
+                    <Typography
+                      sx={{ marginBottom: 1 }}
+                      variant="h6"
+                      fontWeight={500}
+                      color={"#333333"}
+                    >
+                      Add Document
+                    </Typography>
+                    <Controller
+                      name="report"
+                      control={control}
+                      defaultValue=""
+                      render={({ field: { onChange } }) => (
+                        <>
+                          <StyledUploadImage
+                            label="Upload  Document"
+                            onChange={(file) => {
+                              setPdfFile(file);
+                              onChange(file); // Pass the file to the form
+                            }}
+                          />
                         </>
                       )}
                     />

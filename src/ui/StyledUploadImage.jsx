@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import InputAdornment from "@mui/material/InputAdornment";
 import BackupOutlinedIcon from "@mui/icons-material/BackupOutlined";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 
@@ -39,14 +40,20 @@ const ImagePreview = styled(Box)({
   backgroundRepeat: "no-repeat",
   border: "1px solid rgba(0, 0, 0, 0.2)",
   borderRadius: "4px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: "12px",
+  color: "rgba(0, 0, 0, 0.6)",
 });
 
 const StyledUploadImage = ({ label, onChange, rowData }) => {
   const fileInputRef = useRef(null);
-  const [selectedImage, setSelectedImage] = useState(
+  const [selectedFile, setSelectedFile] = useState(
     rowData?.requisition_image || ""
   );
-  
+  const [isPdf, setIsPdf] = useState(false);
+
   const handleIconClick = () => {
     fileInputRef.current.click();
   };
@@ -54,7 +61,13 @@ const StyledUploadImage = ({ label, onChange, rowData }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setSelectedImage(URL.createObjectURL(file));
+      if (file.type === "application/pdf") {
+        setIsPdf(true);
+        setSelectedFile(file.name); // Set file name for PDF preview
+      } else {
+        setIsPdf(false);
+        setSelectedFile(URL.createObjectURL(file)); // Set image URL for image preview
+      }
       onChange(file);
     }
   };
@@ -80,10 +93,23 @@ const StyledUploadImage = ({ label, onChange, rowData }) => {
         ref={fileInputRef}
         onChange={handleFileChange}
         style={{ display: "none" }}
-        accept="image/*"
+        accept="image/*,application/pdf"
       />
-      {selectedImage && (
-        <ImagePreview style={{ backgroundImage: `url(${selectedImage})` }} />
+      {selectedFile && (
+        <ImagePreview
+          style={
+            isPdf
+              ? { backgroundImage: "none" }
+              : { backgroundImage: `url(${selectedFile})` }
+          }
+        >
+          {isPdf ? (
+            <>
+              <PictureAsPdfIcon style={{ fontSize: "40px", color: "#e57373" }} />
+              <Box>{selectedFile}</Box>
+            </>
+          ) : null}
+        </ImagePreview>
       )}
     </>
   );

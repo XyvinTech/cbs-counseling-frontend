@@ -2,13 +2,14 @@ import React from "react";
 import { Stack, Typography, Grid, Divider, Box } from "@mui/material";
 import moment from "moment-timezone";
 import { useAuthStore } from "../store/counselor/AuthStore";
-
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 const CaseCard = ({ data }) => {
   const formatDate = (dateString, format = "MMM DD, YYYY ") => {
     return moment.tz(dateString, "Asia/Muscat").format(format);
   };
   const { counselor } = useAuthStore();
   const userType = localStorage.getItem("userType");
+  const reportUrl = `https://able.iswkoman.com/images/${data?.report}`;
   return (
     <Stack bgcolor={"white"} borderRadius={"15px"}>
       <Stack direction="row" justifyContent="space-between" padding={2}>
@@ -149,6 +150,35 @@ const CaseCard = ({ data }) => {
             </Stack>
           </Stack>
         )}
+      {data?.report && (
+        <Stack padding={2}>
+          <Typography variant="h6" color={"#828282"}>
+            Uploaded doc
+          </Typography>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <a
+              href={reportUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <PictureAsPdfIcon
+                style={{ color: "#e57373", fontSize: "20px" }}
+              />
+            </a>
+            <a
+              href={reportUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Typography variant="body1" color="textPrimary">
+                {data?.report}
+              </Typography>
+            </a>
+          </Stack>
+        </Stack>
+      )}
     </Stack>
   );
 };
