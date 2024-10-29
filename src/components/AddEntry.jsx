@@ -16,7 +16,7 @@ import {
 import StyledSelectField from "../ui/StyledSelectField";
 import { StyledButton } from "../ui/StyledButton";
 import { StyledCalender } from "../ui/StyledCalender";
-import StyledSwitch from "/src/ui/StyledSwitch.jsx";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import DropZone from "../ui/DropZone";
 import { Controller, useForm } from "react-hook-form";
 import { StyledMultilineTextField } from "../ui/StyledMultilineTextField ";
@@ -35,6 +35,7 @@ export default function AddEntry() {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
     getValues,
   } = useForm();
   const location = useLocation();
@@ -45,7 +46,7 @@ export default function AddEntry() {
     useCounselorStore();
   const { counsellorAddEntry } = useSessionStore();
   const { rowData } = location.state || {};
-  const [type, setType] = useState();
+  const [type, setType] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(true);
   const [counselor, setCounselor] = useState(rowData?.counsellor?._id || "");
   const [day, setDay] = useState([]);
@@ -140,6 +141,9 @@ export default function AddEntry() {
       } else {
         formData.concern_raised = rowData?.session_date;
       }
+      if (type === "") {
+        formData.isEditable = true;
+      }
       if (type === "Refer With Session") {
         formData.refer = counselor;
         formData.with_session = true;
@@ -151,9 +155,9 @@ export default function AddEntry() {
       if (type === "Refer") {
         formData.refer = counselor;
       }
-      if (type !== "Refer" && type !== "Close Case") {
+      if (type !== "Refer" && (type !== "Close Case") & (type !== "")) {
         formData.date = data?.date;
-        formData.time = data?.time.value;
+        formData.time = data?.time?.value;
       }
       // console.log( formData)
       await counsellorAddEntry(rowData.case_id._id, formData);
@@ -185,6 +189,15 @@ export default function AddEntry() {
       localStorage.removeItem("formData");
     }
   }, [reset]);
+  useEffect(() => {
+    if (rowData?.case_details) {
+      setValue("details", rowData.case_details);
+    }
+    if (rowData?.interactions) {
+      setValue("interactions", rowData?.interactions);
+    }
+  }, [rowData, setValue]);
+  const reportUrl = `https://able.iswkoman.com/images/${rowData?.report}`;
   return (
     <>
       <Box padding={"30px"} bgcolor={"#FFFFFF"}>
@@ -484,6 +497,37 @@ export default function AddEntry() {
                         )}
                       <TableRow>
                         <TableCell colSpan={2}>
+                          <Typography
+                            variant="h6"
+                            fontWeight={500}
+                            color={"#0072bc"}
+                          >
+                            Report
+                          </Typography>
+                          <a
+                            href={reportUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ textDecoration: "none", color: "inherit" }}
+                          >
+                            <PictureAsPdfIcon
+                              style={{ color: "#e57373", fontSize: "20px" }}
+                            />
+                          </a>
+                          <a
+                            href={reportUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ textDecoration: "none", color: "inherit" }}
+                          >
+                            <Typography variant="body1" color="textPrimary">
+                              {rowData?.report}
+                            </Typography>
+                          </a>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell colSpan={2}>
                           <StyledButton
                             name="View History"
                             variant="primary"
@@ -581,32 +625,34 @@ export default function AddEntry() {
                       )}
                     />
                   </>
-                  <>
-                    <Typography
-                      sx={{ marginBottom: 1 }}
-                      variant="h6"
-                      fontWeight={500}
-                      color={"#333333"}
-                    >
-                      Add Document
-                    </Typography>
-                    <Controller
-                      name="report"
-                      control={control}
-                      defaultValue=""
-                      render={({ field: { onChange } }) => (
-                        <>
-                          <StyledUploadImage
-                            label="Upload  Document"
-                            onChange={(file) => {
-                              setPdfFile(file);
-                              onChange(file); // Pass the file to the form
-                            }}
-                          />
-                        </>
-                      )}
-                    />
-                  </>
+                  {!rowData?.report && (
+                    <>
+                      <Typography
+                        sx={{ marginBottom: 1 }}
+                        variant="h6"
+                        fontWeight={500}
+                        color={"#333333"}
+                      >
+                        Add Document
+                      </Typography>
+                      <Controller
+                        name="report"
+                        control={control}
+                        defaultValue=""
+                        render={({ field: { onChange } }) => (
+                          <>
+                            <StyledUploadImage
+                              label="Upload  Document"
+                              onChange={(file) => {
+                                setPdfFile(file);
+                                onChange(file); // Pass the file to the form
+                              }}
+                            />
+                          </>
+                        )}
+                      />
+                    </>
+                  )}
                   <>
                     <Typography
                       sx={{ marginBottom: 1 }}
@@ -619,7 +665,6 @@ export default function AddEntry() {
                     <Controller
                       name="details"
                       control={control}
-                      defaultValue=""
                       rules={{ required: "Case details are required" }}
                       render={({ field }) => (
                         <>
