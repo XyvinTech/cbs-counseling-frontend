@@ -3,7 +3,7 @@ import axiosInstance from "../axiosintercepter";
 import { toast } from "react-toastify";
 // const baseURL = "https://counseling-str5.onrender.com/api/v1/";
 // const baseURL = "/api/v1/";
-const baseURL = import.meta.env.VITE_API_BASE_URL;
+const baseURL = import.meta.env.VITE_API_BASE_URL || "/api/v1/";
 console.log("API Base URL:", baseURL);
 
 // Use baseURL for making API requests
