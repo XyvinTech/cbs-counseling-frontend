@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import StyledTable from "../../../ui/StyledTable";
 import BigCalendar from "../../../ui/BigCalendar";
 import { useListStore } from "../../../store/listStore";
+import { set } from "date-fns";
 const UpcomingSession = () => {
   const navigate = useNavigate();
   const {  counselorSessions } = useListStore();
@@ -49,6 +50,8 @@ const UpcomingSession = () => {
     let filter = { type: "sessions", status: "pending" };
     if (search) {
       filter.searchQuery = search;
+      setPageNo(1);
+      
     }
     filter.page = pageNo;
     filter.limit = row;

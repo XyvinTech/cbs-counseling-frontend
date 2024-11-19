@@ -8,6 +8,7 @@ import StyledSearchbar from "../../ui/StyledSearchbar";
 import { useAdminStore } from "../../store/admin/AdminStore";
 import { useListStore } from "../../store/listStore";
 import { useNavigate } from "react-router-dom";
+import { set } from "date-fns";
 const DashboardPage = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const { dashboardLists } = useListStore();
@@ -41,6 +42,7 @@ const DashboardPage = () => {
     let filter = { status: "pending" };
     if (search) {
       filter.searchQuery = search;
+      setPageNo(1);
     }
     filter.page = pageNo;
     filter.limit = row;
@@ -49,7 +51,11 @@ const DashboardPage = () => {
 
   return (
     <>
-      <Box padding={"30px"} bgcolor={"#FFFFFF"}>
+      <Box
+        padding={"30px"}
+        bgcolor={"#FFFFFF"}
+        borderBottom={"1px solid #E0E0E0"}
+      >
         <Typography variant="h4" color={"#4A4647"}>
           Dashboard
         </Typography>
@@ -92,6 +98,7 @@ const DashboardPage = () => {
           marginBottom={4}
           bgcolor={"white"}
           borderRadius={"15px"}
+          boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
         >
           <StyledTable
             columns={userColumns}

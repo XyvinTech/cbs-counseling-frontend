@@ -82,6 +82,7 @@ export default function AddType() {
     let filter = { type: "counselling-type" };
     if (search) {
       filter.searchQuery = search;
+      setPageNo(1);
     }
     filter.page = pageNo;
     filter.limit = row;
@@ -91,7 +92,7 @@ export default function AddType() {
   return (
     <>
       {" "}
-      <Box padding={"30px"} bgcolor={"#FFFFFF"}>
+      <Box padding={"30px"} bgcolor={"#FFFFFF"}borderBottom= "1px solid #E0E0E0">
         <Typography variant="h4" color={"#4A4647"}>
           Counseling Type
         </Typography>

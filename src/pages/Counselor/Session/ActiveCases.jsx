@@ -1,8 +1,5 @@
-import { Box, Stack, Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { StyledButton } from "../../../ui/StyledButton";
-import StyledSearchbar from "../../../ui/StyledSearchbar";
-import { ReactComponent as FilterIcon } from "../../../assets/icons/FilterIcon.svg";
 import StyledTable from "../../../ui/StyledTable";
 import { useListStore } from "../../../store/listStore";
 import { useNavigate } from "react-router-dom";
@@ -61,6 +58,7 @@ const ActiveCases = () => {
     let filter = { type: "cases" };
     if (search) {
       filter.searchQuery = search;
+      setPageNo(1);
     }
     if (status) {
       filter.status = status;
@@ -76,6 +74,7 @@ const ActiveCases = () => {
         marginBottom={4}
         bgcolor={"white"}
         borderRadius={"15px"}
+        boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
       >
         <Tabs
           value={selectedTab}
@@ -83,24 +82,27 @@ const ActiveCases = () => {
           aria-label="session-tabs"
           TabIndicatorProps={{
             style: {
-              backgroundColor: "#0072BC",
+              backgroundColor: "#864DF4",
               height: 4,
               borderRadius: "4px",
             },
           }}
           sx={{
             bgcolor: "white",
+            paddingTop: "34px",
+            borderBottom: "1px solid #E0E0E0",
             "& .MuiTabs-indicator": {
-              backgroundColor: "#0072BC",
+              backgroundColor: "#864DF4",
             },
             "& .MuiTab-root": {
               textTransform: "none",
               fontWeight: 600,
+              fontSize: "16px",
+              color: "#828282",
             },
             "& .Mui-selected": {
-              color: "#0072BC",
+              color: "#864DF4",
             },
-            paddingBottom: "20px",
           }}
         >
           <Tab label="Upcoming Cases" />

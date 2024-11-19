@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import {
+  addForm,
   deleteUser,
   edit,
   getDashboard,
@@ -17,6 +18,9 @@ const useAdminStore = create((set) => ({
   getAdmin: async () => {
     const fetch = await getUser();
     set({ admin: fetch.data });
+  },
+  addFormData: async (data) => {
+    await addForm(data);
   },
   logoutAuth: (navigate) => {
     localStorage.removeItem("token");

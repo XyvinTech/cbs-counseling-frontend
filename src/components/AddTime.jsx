@@ -135,31 +135,40 @@ const AddTime = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid container bgcolor={"white"} padding={2} borderRadius={"12px"}>
+      <Grid
+        container
+        bgcolor={"white"}
+        padding={2}
+        borderRadius={"15px"}
+        boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
+      >
         <Tabs
           value={selectedTab}
           onChange={handleTabChange}
           aria-label="session-tabs"
           TabIndicatorProps={{
             style: {
-              backgroundColor: "#0072BC",
+              backgroundColor: "#864DF4",
               height: 4,
               borderRadius: "4px",
             },
           }}
           sx={{
             bgcolor: "white",
+            paddingTop: "34px",
+            borderBottom: "1px solid #E0E0E0",
             "& .MuiTabs-indicator": {
-              backgroundColor: "#0072BC",
+              backgroundColor: "#864DF4",
             },
             "& .MuiTab-root": {
               textTransform: "none",
               fontWeight: 600,
+              fontSize: "16px",
+              color: "#828282",
             },
             "& .Mui-selected": {
-              color: "#0072BC",
+              color: "#864DF4",
             },
-            paddingBottom: "20px",
           }}
         >
           {daysOfWeek.map((day) => (
@@ -187,12 +196,13 @@ const AddTime = () => {
                     }
                     label={`${timeSlot.start} - ${timeSlot.end}`}
                     sx={{
-                      backgroundColor: "#ecf6fc",
+                      backgroundColor: "#fff",
                       borderRadius: "8px",
-                      padding:showCheckboxes ? "8px 16px" : "16px 16px",
+                      padding: showCheckboxes ? "8px 16px" : "16px 16px",
                       boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
                       width: "100%",
                       color: "#0072bc",
+                      border: "1px solid #0072bc",
                     }}
                   />
                 )}
@@ -233,7 +243,7 @@ const AddTime = () => {
             />
           )}
           {showCheckboxes && selectedDayTimes.length > 0 && (
-            <StyledButton  variant="red" type="submit" name="Remove" />
+            <StyledButton variant="red" type="submit" name="Remove" />
           )}
         </Grid>
       </Grid>

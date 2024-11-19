@@ -1,6 +1,7 @@
+import axios from "axios";
 import { handleAsync } from "../utils/handleAsync";
 import axiosInstance from "./axiosintercepter";
-
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 export const fetchList = handleAsync(async (filter) => {
   const response = await axiosInstance.get("/admin/list", {
     params: filter,
@@ -25,7 +26,7 @@ export const getCounselorCase = handleAsync(async (id) => {
   return response.data;
 });
 export const getUserSession = handleAsync(async (filter) => {
-  const response = await axiosInstance.get("/user/list", {
+  const response = await axios.get(`${baseURL}user/list`, {
     params: filter,
   });
   return response.data;

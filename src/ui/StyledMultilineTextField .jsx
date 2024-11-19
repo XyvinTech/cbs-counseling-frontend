@@ -24,7 +24,7 @@ export const StyledMultilineTextField = ({
         width: "100%",
         padding: "3px",
         backgroundColor: "#ffffff",
-        borderRadius: "5px",
+        borderRadius: "8px",
         "& .MuiOutlinedInput-notchedOutline": {
           borderColor: "1px solid rgba(0, 0, 0, 0.2)",
         },

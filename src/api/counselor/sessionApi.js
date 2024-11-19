@@ -1,11 +1,13 @@
 import { toast } from "react-toastify";
 import { handleAsync } from "../../utils/handleAsync";
 import axiosInstance from "../axiosintercepter";
+import axios from "axios";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 export const addSession = async (data) => {
   try {
-    const response = await axiosInstance.post("/user/session", data);
-    toast.success(response.data.message);
+    const response = await axios.post(`${baseURL}user/session`, data);
+    // toast.success(response.data.message);
     return response.data;
   } catch (error) {
     throw error.response.data;

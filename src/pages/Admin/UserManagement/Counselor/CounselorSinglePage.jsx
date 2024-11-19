@@ -58,7 +58,7 @@ const CounselorSinglePage = () => {
             aria-label="tabs"
             TabIndicatorProps={{
               style: {
-                backgroundColor: "#0072BC",
+                backgroundColor: "#864DF4",
                 height: 4,
                 borderRadius: "4px",
               },
@@ -66,16 +66,18 @@ const CounselorSinglePage = () => {
             sx={{
               bgcolor: "white",
               paddingTop: "34px",
+              borderBottom: "1px solid #E0E0E0",
               "& .MuiTabs-indicator": {
-                backgroundColor: "#0072BC",
+                backgroundColor: "#864DF4",
               },
               "& .MuiTab-root": {
                 textTransform: "none",
-                fontSize: "16px",
                 fontWeight: 600,
+                fontSize: "16px",
+                color: "#828282",
               },
               "& .Mui-selected": {
-                color: "#0072BC",
+                color: "#864DF4",
               },
             }}
           >

@@ -32,12 +32,12 @@ const CounsellorCases = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const {  counselorSessions, lists } = useListStore();
+  const { counselorSessions, lists } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const [selectedTab, setSelectedTab] = useState(0);
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState('pending');
+  const [status, setStatus] = useState("pending");
   const [addLinkOpen, setAddLinkOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
   const [rescheduleOpen, setRescheduleOpen] = useState(false);
@@ -89,7 +89,7 @@ const CounsellorCases = () => {
   const handleReschedule = (rowData) => {
     setSelectedRowId(rowData._id);
     console.log("View item:", rowData);
-    
+
     setCounselor(rowData.counsellor._id);
     setRescheduleOpen(true);
   };
@@ -120,6 +120,7 @@ const CounsellorCases = () => {
     { title: "Type of Counseling", field: "type" },
     { title: "Session Date", field: "session_date" },
     { title: "Session Time", field: "session_time" },
+    { title: "Booked By", field: "referee" },
     { title: "Status", field: "status" },
   ];
 
@@ -127,6 +128,7 @@ const CounsellorCases = () => {
     let filter = { type: "sessions" };
     if (search) {
       filter.searchQuery = search;
+      setPageNo(1);
     }
     if (status) {
       filter.status = status;
@@ -134,7 +136,7 @@ const CounsellorCases = () => {
     filter.page = pageNo;
     filter.limit = row;
     counselorSessions(filter);
-  }, [isChange, counselorSessions, search, status, pageNo,row]);
+  }, [isChange, counselorSessions, search, status, pageNo, row]);
   const handleApplyFilter = () => {
     setSearch(selectFieldValue);
   };
@@ -241,6 +243,7 @@ const CounsellorCases = () => {
         marginBottom={4}
         bgcolor={"white"}
         borderRadius={"15px"}
+        boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
       >
         <Tabs
           value={selectedTab}
@@ -248,24 +251,27 @@ const CounsellorCases = () => {
           aria-label="session-tabs"
           TabIndicatorProps={{
             style: {
-              backgroundColor: "#0072BC",
+              backgroundColor: "#864DF4",
               height: 4,
               borderRadius: "4px",
             },
           }}
           sx={{
             bgcolor: "white",
+            paddingTop: "34px",
+            borderBottom: "1px solid #E0E0E0",
             "& .MuiTabs-indicator": {
-              backgroundColor: "#0072BC",
+              backgroundColor: "#864DF4",
             },
             "& .MuiTab-root": {
               textTransform: "none",
               fontWeight: 600,
+              fontSize: "16px",
+              color: "#828282",
             },
             "& .Mui-selected": {
-              color: "#0072BC",
+              color: "#864DF4",
             },
-            paddingBottom: "20px",
           }}
         >
           <Tab label="Pending For Approval" />

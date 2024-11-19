@@ -46,6 +46,7 @@ const StudentEvents = () => {
     let filter = { type: "events" };
     if (search) {
       filter.searchQuery = search;
+      setPageNo(1);
     }
     filter.page = pageNo;
     filter.limit = row;

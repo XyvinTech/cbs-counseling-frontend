@@ -103,7 +103,7 @@ const AddBulk = ({ member, onSuccess }) => {
     }
   };
   return (
-    <Box bgcolor={"white"}>
+    <Box bgcolor={"white"} borderRadius={"15px"} boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}>
       <Box padding={9}>
         <DropZone
           files={files}

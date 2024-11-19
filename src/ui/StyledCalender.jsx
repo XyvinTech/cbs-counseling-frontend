@@ -17,7 +17,7 @@ const PlaceholderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 5px;
+  border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   padding: 8px;
   background-color: #ffffff;

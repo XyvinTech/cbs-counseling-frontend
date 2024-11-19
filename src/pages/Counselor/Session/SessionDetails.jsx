@@ -34,26 +34,33 @@ const SessionDetails = () => {
   };
   return (
     <>
-      <Box padding={"30px"} bgcolor={"#FFFFFF"}>
-        <Grid container>
-          {" "}
-          <Grid item md={10}>
-            <Typography variant="h4" color={"#4A4647"}>
-              Cases / Case ID / Session No
-            </Typography>{" "}
-          </Grid>{" "}
-          <Grid item md={2}>
-            <StyledButton
-              variant={"filter"}
-              name={"Download report"}
-              onClick={handleDownloadReport}
-            />
-          </Grid>{" "}
-        </Grid>
+      <Box
+        padding={"30px"}
+        bgcolor={"#FFFFFF"}
+        borderBottom={"1px solid #E0E0E0"}
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Typography variant="h4" color={"#4A4647"}>
+          Cases / Case ID / Session No
+        </Typography>
+        <StyledButton
+          variant={"filter"}
+          name={"Download report"}
+          onClick={handleDownloadReport}
+        />
       </Box>
+
       <Grid container spacing={6} padding={4}>
         <Grid item md={5}>
-          <Stack marginBottom={4}>
+          <Stack
+            marginBottom={4}
+            bgcolor={"#FFE5F2"}
+            padding={4}
+            borderRadius={"15px"}
+            boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
+          >
             {" "}
             <Box marginBottom={4}>
               <Typography variant="h6" fontWeight="900" color={"#828282"}>

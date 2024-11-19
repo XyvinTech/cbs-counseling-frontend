@@ -23,7 +23,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import profile from "../assets/images/profile.png";
 import { ReactComponent as ExpandMoreIcon } from "../assets/icons/ExpandMoreIcon.svg";
 import { ReactComponent as NotificationIcon } from "../assets/icons/NotificationIcon.svg";
 import EventAvailableOutlinedIcon from "@mui/icons-material/EventAvailableOutlined";
@@ -32,8 +31,9 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { useAuthStore } from "../store/counselor/AuthStore";
 import image from "../assets/images/logo.jpg";
-import images from "../assets/images/schoolLogo.jpg";
+import images from "../assets/images/schoolLogo.png";
 import Notification from "../components/Notification";
+import background from "../assets/images/bgLow.png";
 import { useNotificationStore } from "../store/notificationStore";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 const drawerWidth = 250;
@@ -161,7 +161,7 @@ const CounselorLayout = (props) => {
     setDialogOpen(false);
   };
   const drawer = (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%", backgroundColor: "#EDE3FF", }}>
     <Toolbar
       sx={{
         height: "98px",
@@ -212,15 +212,16 @@ const CounselorLayout = (props) => {
                   marginLeft: "20px",
                   marginRight: "10px",
                   color: "#5F6368",
+                  borderRadius: "8px",
                   backgroundColor:
                     open && location.pathname.startsWith("/user")
-                      ? "#F2F2F2"
+                      ? "#fff"
                       : "transparent",
                   "&:hover": {
-                    color: "#0072BC",
-                    backgroundColor: "#ECF6FC",
+                    color: "#864DF4",
+                      backgroundColor: "#fff",
                   },
-                  "&:hover .MuiListItemIcon-root": { color: "#0072BC" },
+                  "&:hover .MuiListItemIcon-root": { color: "#864DF4" },
                 }}
               >
                 <ListItemIcon sx={{ minWidth: 24, marginRight: 1 }}>
@@ -254,17 +255,18 @@ const CounselorLayout = (props) => {
                       sx={{
                         marginLeft: "40px",
                         marginRight: "40px",
+                        borderRadius: "8px",
                         color:
                           location.pathname === subItem.to
-                            ? "#0072BC"
+                            ? "#864DF4"
                             : "#5F6368",
                         backgroundColor:
                           location.pathname === subItem.to
-                            ? "#ECF6FC"
+                            ? "#FFF"
                             : "transparent",
                         "&:hover": {
-                          color: "#0072BC",
-                          backgroundColor: "#ECF6FC",
+                          color: "#864DF4",
+                          backgroundColor: "#FFF",
                         },
                       }}
                     >
@@ -274,7 +276,7 @@ const CounselorLayout = (props) => {
                           marginRight: 1,
                           color:
                             location.pathname === subItem.to
-                              ? "#0072BC"
+                              ? "#864DF4"
                               : "#686465",
                         }}
                       >
@@ -304,11 +306,12 @@ const CounselorLayout = (props) => {
               sx={{
                 marginLeft: "20px",
                 marginRight: "10px",
-                color: location.pathname === item.to ? "#0072BC" : "#5F6368",
+                borderRadius: "8px",
+                color: location.pathname === item.to ? "#864DF4" : "#5F6368",
                 backgroundColor:
-                  location.pathname === item.to ? "#ECF6FC" : "transparent",
-                "&:hover": { color: "#0072BC", backgroundColor: "#ECF6FC" },
-                "&:hover .MuiListItemIcon-root": { color: "#0072BC" },
+                  location.pathname === item.to ? "#FFF" : "transparent",
+                "&:hover": { color: "#864DF4", backgroundColor: "#FFF" },
+                "&:hover .MuiListItemIcon-root": { color: "#864DF4" },
               }}
             >
               <ListItemIcon
@@ -316,7 +319,7 @@ const CounselorLayout = (props) => {
                   minWidth: 24,
                   marginRight: 1,
                   color:
-                    location.pathname === item.to ? "#0072BC" : "#686465",
+                    location.pathname === item.to ? "#864DF4" : "#686465",
                 }}
               >
                 {item.icon}
@@ -361,13 +364,13 @@ const CounselorLayout = (props) => {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          background: `white`,
+          background: `#F0E8FF`,
           boxShadow: `none`,
         }}
       >
         <Toolbar
           sx={{
-            height: "88px",
+            height: "98px",
             justifyContent: "space-between",
             paddingRight: "20px",
           }}
@@ -417,7 +420,7 @@ const CounselorLayout = (props) => {
             >
               <Box sx={{ display: "flex", alignItems: "center" }}>
                
-                <Box sx={{ marginLeft: "10px" }}>
+                <Box sx={{ marginLeft: "10px",paddingLeft:"10px" }}>
                   <Typography variant="h6" color={"#292D32"} display="block">
                     {counselor?.name}
                   </Typography>
@@ -481,7 +484,7 @@ const CounselorLayout = (props) => {
         sx={{
           flexGrow: 1,
           minHeight: "100vh",
-          backgroundColor: "#F3F3F3",
+          backgroundImage: `url(${background}) `,
           paddingTop: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}

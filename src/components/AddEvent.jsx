@@ -53,7 +53,7 @@ export default function AddEvent({ onChange, setSelectedTab }) {
         date: data?.date,
         venue: data?.venue,
         guest: data?.guest,
-        requisition_image: imageUrl ?  imageUrl :'', 
+        requisition_image: imageUrl ? imageUrl : "",
         details: data?.description,
         requisition_description: data?.requisition_description,
         title: data?.title,
@@ -76,7 +76,12 @@ export default function AddEvent({ onChange, setSelectedTab }) {
     reset();
   };
   return (
-    <Box sx={{ padding: 3 }} bgcolor={"white"} borderRadius={"4px"}>
+    <Box
+      sx={{ padding: 3 }}
+      bgcolor={"white"}
+      borderRadius={"15px"}
+      boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={4}>
           <Grid item xs={12}>

@@ -28,7 +28,6 @@ import moment from "moment-timezone";
 import { StyledButton } from "./StyledButton";
 const StyledTableCell = styled(TableCell)`
   &.${tableCellClasses.head} {
-    background-color: #fff;
     color: rgba(0, 0, 0, 0.87);
     font-size: 14px;
     padding: 16px;
@@ -37,7 +36,6 @@ const StyledTableCell = styled(TableCell)`
   }
   &.${tableCellClasses.body} {
     font-size: 14px;
-    background-color: #fff;
     padding: 16px;
     font-weight: 400;
     color: rgba(0, 0, 0, 0.87);
@@ -46,15 +44,22 @@ const StyledTableCell = styled(TableCell)`
 `;
 
 const StyledTableRow = styled(TableRow)`
+  &:nth-of-type(odd) {
+    background-color: #ffffff; /* White for odd rows */
+  }
+  &:nth-of-type(even) {
+    background-color: #FFE5F2; /* Gray for even rows */
+  }
   &:last-child td,
   &:last-child th {
     border: 0;
   }
   cursor: ${({ showEdit }) => (showEdit ? "pointer" : "default")};
   &:hover {
-    background-color: ${({ showEdit }) => (showEdit ? "#f0f0f0" : "inherit")};
+    background-color:#FBBFDE;
   }
 `;
+
 const formatDate = (dateString, format = "MMM DD, YYYY ") => {
   return moment.tz(dateString, "Asia/Muscat").format(format);
 };
@@ -524,9 +529,10 @@ const StyledTable = ({
                     >
                       {" "}
                       <Box
-                         onClick={pageNo > 1 ? pageDec : null}
+                        onClick={pageNo > 1 ? pageDec : null}
                         sx={{
-                          display: "flex",alignItems:'center',
+                          display: "flex",
+                          alignItems: "center",
                           cursor: pageNo > 1 ? "pointer" : "not-allowed",
                           opacity: pageNo > 1 ? 1 : 0.5,
                         }}
@@ -534,13 +540,14 @@ const StyledTable = ({
                         <LeftIcon />{" "}
                       </Box>
                       <Box
-                         onClick={
+                        onClick={
                           pageNo < Math.ceil(totalCount / rowPerSize)
                             ? pageInc
                             : null
                         }
                         sx={{
-                          display: "flex",alignItems:'center',
+                          display: "flex",
+                          alignItems: "center",
                           cursor:
                             pageNo < Math.ceil(totalCount / rowPerSize)
                               ? "pointer"

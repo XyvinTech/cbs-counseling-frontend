@@ -22,10 +22,17 @@ export default function CounselorSettings() {
   };
 
   return (
-    <Box sx={{ padding: 3 }} bgcolor={"white"} borderRadius={"4px"}>
+    <Box
+      sx={{ margin: 3, marginTop: 10 }}
+      padding={3}
+      boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
+      bgcolor={"white"}
+      width={"900px"}
+      borderRadius={"15px"}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={4}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Typography
               sx={{ marginBottom: 1 }}
               variant="h6"
@@ -43,8 +50,7 @@ export default function CounselorSettings() {
               )}
             />
           </Grid>
-          <Grid item xs={6}></Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Typography
               sx={{ marginBottom: 1 }}
               variant="h6"
@@ -62,8 +68,7 @@ export default function CounselorSettings() {
               )}
             />
           </Grid>
-          <Grid item xs={6}></Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Typography
               sx={{ marginBottom: 1 }}
               variant="h6"
@@ -93,8 +98,7 @@ export default function CounselorSettings() {
               )}
             />
           </Grid>
-          <Grid item xs={6}></Grid>
-          <Grid item xs={6} alignItems={"flex-start"}>
+          <Grid item xs={12} alignItems={"flex-start"}>
             <Stack direction={"row"} spacing={2} justifyContent="flex-end">
               <StyledButton
                 name="Confirm Password"

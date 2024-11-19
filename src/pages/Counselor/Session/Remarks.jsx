@@ -1,13 +1,13 @@
 import { Box } from "@mui/material";
 import StyledTable from "../../../ui/StyledTable";
-import AddRemarks from "./AddRemarks"; // Update to match your component name
+import AddRemarks from "./AddRemarks";
 import { useNavigate } from "react-router-dom";
 import { useListStore } from "../../../store/listStore";
 import { useEffect, useState } from "react";
 
 const Remarks = () => {
   const navigate = useNavigate();
-  const {  counselorSessions } = useListStore();
+  const { counselorSessions } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const [isChange, setIsChange] = useState(false);
@@ -35,7 +35,13 @@ const Remarks = () => {
   };
 
   return (
-    <Box padding="2px" marginBottom={4} bgcolor={"white"} borderRadius={"15px"}>
+    <Box
+      padding="2px"
+      marginBottom={4}
+      bgcolor={"white"}
+      borderRadius={"15px"}
+      boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
+    >
       {showAddRemark ? (
         <AddRemarks
           rowData={selectedRowData}

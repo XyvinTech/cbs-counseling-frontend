@@ -1,6 +1,8 @@
 import { toast } from "react-toastify";
 import { handleAsync } from "../../utils/handleAsync";
 import axiosInstance from "../axiosintercepter";
+import axios from "axios";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 export const addCounselor = async (data) => {
   try {
@@ -42,7 +44,7 @@ export const getUser = handleAsync(async (id) => {
 });
 //get all counselors with type
 export const fetchCounselor = handleAsync(async (filter) => {
-  const response = await axiosInstance.get("/user/counsellors", {
+  const response = await axios.get(`${baseURL}user/counsellors`, {
     params: filter,
   });
   return response.data;

@@ -113,6 +113,7 @@ export const Counselor = () => {
     let filter = { type: "counsellers" };
     if (search) {
       filter.searchQuery = search;
+      setPageNo(1);
     }
     filter.page = pageNo;
     filter.limit = row;
@@ -126,7 +127,7 @@ export const Counselor = () => {
         aria-label="tabs"
         TabIndicatorProps={{
           style: {
-            backgroundColor: "#0072BC",
+            backgroundColor: "#864DF4",
             height: 4,
             borderRadius: "4px",
           },
@@ -134,16 +135,18 @@ export const Counselor = () => {
         sx={{
           bgcolor: "white",
           paddingTop: "34px",
+          borderBottom: "1px solid #E0E0E0",
           "& .MuiTabs-indicator": {
-            backgroundColor: "#0072BC",
+            backgroundColor: "#864DF4",
           },
           "& .MuiTab-root": {
             textTransform: "none",
             fontWeight: 600,
             fontSize: "16px",
+            color: "#828282",
           },
           "& .Mui-selected": {
-            color: "#0072BC",
+            color: "#864DF4",
           },
         }}
       >
@@ -187,6 +190,7 @@ export const Counselor = () => {
               marginBottom={4}
               bgcolor={"white"}
               borderRadius={"15px"}
+              boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
             >
               <StyledTable
                 columns={userColumns}

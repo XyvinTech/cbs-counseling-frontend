@@ -15,7 +15,9 @@ import {
 
 const useSessionStore = create((set) => ({
   sessions: [],
+  sessionId: null, 
 
+  setSessionId: (id) => set({ sessionId: id }),
   addSessions: async (data) => {
     await addSession(data);
   },

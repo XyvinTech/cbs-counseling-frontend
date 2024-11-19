@@ -41,10 +41,20 @@ import { PrivateRoute } from "./PrivateRouter";
 import AddType from "../components/AddType";
 import BigCalendar from "../ui/BigCalendar";
 import AddRemarks from "../pages/Counselor/Session/AddRemarks";
+import StudentRegForm from "../components/StudentRegForm";
+import AddMeeting from "../components/BookAppointmentForm";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LoginPage />,
+  },
+  {
+    path: "/form",
+    element: <StudentRegForm />,
+  },
+  {
+    path: "/book",
+    element: <AddMeeting />,
   },
   {
     path: "/raiseissue",

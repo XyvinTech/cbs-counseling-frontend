@@ -1,6 +1,8 @@
 import { toast } from "react-toastify";
 import { handleAsync } from "../../utils/handleAsync";
 import axiosInstance from "../axiosintercepter";
+import axios from "axios";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 export const addTime = async (data) => {
   try {
@@ -16,7 +18,7 @@ export const getTime = handleAsync(async (data) => {
   return response.data;
 });
 export const getSlot = handleAsync(async (id, filter) => {
-  const response = await axiosInstance.get(`/user/counseller/${id}/times`, {
+  const response = await axios.get(`${baseURL}user/counseller/${id}/times`, {
     params: filter,
   });
   return response.data;
@@ -31,7 +33,7 @@ export const counsellorTimeSlot = handleAsync(async (id, filter) => {
   return response.data;
 });
 export const allTimeSlot = handleAsync(async (id) => {
-  const response = await axiosInstance.get(`/user/counseller/full-times/${id}`);
+  const response = await axios.get(`${baseURL}user/counseller/full-times/${id}`);
   return response.data;
 });
 

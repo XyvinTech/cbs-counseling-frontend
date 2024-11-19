@@ -2,8 +2,6 @@ import { Box, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StyledTable from "../../../ui/StyledTable";
 import { useNavigate, useParams } from "react-router-dom";
-import StyledSearchbar from "../../../ui/StyledSearchbar";
-import { ReactComponent as FilterIcon } from "../../../assets/icons/FilterIcon.svg";
 import { useListStore } from "../../../store/listStore";
 import { StyledButton } from "../../../ui/StyledButton";
 import { useCounselorStore } from "../../../store/admin/CounselorStore";
@@ -41,12 +39,16 @@ const CasesSessionPage = () => {
   };
   return (
     <>
-      <Box padding={"30px"} bgcolor={"#FFFFFF"}>
+      <Box
+        padding={"30px"}
+        bgcolor={"#FFFFFF"}
+        borderBottom={"1px solid #E0E0E0"}
+      >
         <Typography variant="h4" color={"#4A4647"}>
           Cases / session
         </Typography>
       </Box>{" "}
-      <Box padding="30px" marginBottom={4}>
+      <Box padding="30px" marginBottom={4} bgcolor={"#FFFFFF"}>
         <>
           <Stack
             direction={"row"}
@@ -73,6 +75,7 @@ const CasesSessionPage = () => {
             marginBottom={4}
             bgcolor={"white"}
             borderRadius={"15px"}
+            boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
           >
             <StyledTable
               columns={userColumns}

@@ -8,11 +8,19 @@ console.log("API Base URL:", baseURL);
 
 // Use baseURL for making API requests
 
-
 // const baseURL = "http://localhost:3300/api/v1/";
 export const getLogin = async (datas) => {
   try {
     const response = await axios.post(`${baseURL}admin/login`, datas);
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
+};
+export const addForm = async (datas) => {
+  try {
+    const response = await axios.post(`${baseURL}user/form`, datas);
     toast.success(response.data.message);
     return response.data;
   } catch (error) {
@@ -30,7 +38,10 @@ export const sendOtp = async (datas) => {
 };
 export const resetPassword = async (datas) => {
   try {
-    const response = await axiosInstance.post(`${baseURL}admin/reset-password`, datas);
+    const response = await axiosInstance.post(
+      `${baseURL}admin/reset-password`,
+      datas
+    );
     toast.success(response.data.message);
     return response.data;
   } catch (error) {
@@ -114,5 +125,13 @@ export const deleteFile = async (filePath) => {
     toast.success(response.data);
   } catch (error) {
     toast.error("Error deleting the file.");
+  }
+};
+export const getGrDetails = async (data) => {
+  try {
+    const response = await axios.get(`${baseURL}user/student/${data}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error caught:", error);
   }
 };

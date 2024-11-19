@@ -59,7 +59,7 @@ const AddStudent = ({ onChange, setSelectedTab }) => {
     { value: "other", label: "Other" },
   ];
   return (
-    <Box bgcolor={"white"} padding={3} width={"804px"}>
+    <Box bgcolor={"white"} padding={3} width={"804px"} borderRadius={"15px"} boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={4}>
           <Grid item md={6}>

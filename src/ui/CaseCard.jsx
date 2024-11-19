@@ -11,7 +11,9 @@ const CaseCard = ({ data }) => {
   const userType = localStorage.getItem("userType");
   const reportUrl = `https://able.iswkoman.com/images/${data?.report}`;
   return (
-    <Stack bgcolor={"white"} borderRadius={"15px"}>
+    <Stack bgcolor={"white"}
+            borderRadius={"15px"}
+            boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}>
       <Stack direction="row" justifyContent="space-between" padding={2}>
         <Stack justifyContent="space-between">
           <Typography variant="h6" color={"#828282"}>
@@ -32,14 +34,14 @@ const CaseCard = ({ data }) => {
         </Stack>
       </Stack>
       <Divider />
-      <Stack direction="row" justifyContent="space-between" padding={2}>
+      {/* <Stack direction="row" justifyContent="space-between" padding={2}>
         <Typography variant="h6" color={"#828282"}>
           Grade
         </Typography>
         <Typography variant="h6" color={"#23262F"}>
           {data.user?.designation} {data.user?.division}
         </Typography>
-      </Stack>
+      </Stack> */}
       <Stack
         direction="row"
         justifyContent="space-between"

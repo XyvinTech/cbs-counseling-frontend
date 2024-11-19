@@ -1,4 +1,13 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StyledSelectField from "../ui/StyledSelectField";
 import { StyledCalender } from "../ui/StyledCalender";
@@ -12,6 +21,8 @@ import { StyledMultilineTextField } from "../ui/StyledMultilineTextField ";
 import { useNavigate } from "react-router-dom";
 import { useListStore } from "../store/listStore";
 import { toast } from "react-toastify";
+import bg from "../assets/images/form.png";
+import logo from "../assets/images/logo.jpg";
 
 export default function AddMeeting() {
   const {
@@ -22,19 +33,20 @@ export default function AddMeeting() {
   } = useForm();
   const navigate = useNavigate();
   const { counselors, fetchCounselors } = useCounselorStore();
-  const { addSessions } = useSessionStore();
+  const { addSessions, sessionId } = useSessionStore();
   const { slots, fetchSlot, days, allSlot } = useTimeStore();
   const [type, setType] = useState();
   const [day, setDay] = useState();
   const [loading, setLoading] = useState(false);
-  const { lists, fetchLists } = useListStore();
+  const { lists, userSession } = useListStore();
   const [date, setDate] = useState();
   const [id, setId] = useState();
+  const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
 
   useEffect(() => {
-    if (type) {
-      fetchCounselors({ counsellorType: type });
-    }
+    // if (type) {
+    fetchCounselors({ counsellorType: type });
+    // }
   }, [fetchCounselors, type]);
 
   useEffect(() => {
@@ -75,17 +87,18 @@ export default function AddMeeting() {
       value: slot,
       label: `${slot.start} - ${slot.end}`,
     })) || [];
-    useEffect(() => {
-      let filter = { type: "counselling-type" };
-  
-      fetchLists(filter);
-    }, [fetchLists]);
-  const CounselorTypes =  lists && Array.isArray(lists)
-  ? lists.map((i) => ({
-      value: i?.name,
-      label: i?.name,
-    }))
-  : [];
+  useEffect(() => {
+    let filter = { type: "counselling-type" };
+
+    userSession(filter);
+  }, []);
+  const CounselorTypes =
+    lists && Array.isArray(lists)
+      ? lists.map((i) => ({
+          value: i?.name,
+          label: i?.name,
+        }))
+      : [];
 
   const onSubmit = async (data) => {
     try {
@@ -96,11 +109,11 @@ export default function AddMeeting() {
         session_date: data?.session_date,
         session_time: data?.session_time.value,
         description: data.description,
+        form_id: sessionId,
       };
 
       await addSessions(formData);
-
-      navigate(`/student/session`);
+      setOpenSuccessDialog(true);
       reset();
     } catch (error) {
       toast.error(error.message);
@@ -112,190 +125,262 @@ export default function AddMeeting() {
     event.preventDefault();
     reset();
   };
+  const handleCloseDialog = () => {
+    setOpenSuccessDialog(false);
+    window.location.href = "https://www.iswkoman.com/";
+  };
   return (
-    <Box sx={{ padding: 3 }} bgcolor={"white"} borderRadius={"15px"}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={4}>
-          <Grid item xs={6}>
-            <Typography
-              sx={{ marginBottom: 1 }}
-              variant="h6"
-              fontWeight={500}
-              color={"#333333"}
-            >
-              Select Counseling Type
-            </Typography>
-            <Controller
-              name="type"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Counseling type is required" }}
-              render={({ field }) => (
-                <>
-                  <StyledSelectField
-                    options={CounselorTypes}
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      handleTypeChange(e);
-                    }}
-                  />
-                  {errors.type && (
-                    <span style={{ color: "red" }}>{errors.type.message}</span>
-                  )}
-                </>
-              )}
+    <Grid
+      container
+      height="100vh"
+      style={{
+        backgroundColor: "#FFE5F2",
+      }}
+    >
+      <Grid
+        item
+        md={6}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Stack paddingLeft={5}>
+          {" "}
+          <img src={logo} width={"300x"} height={"80px"} objectFit="fill" />
+          <Stack justifyContent={"center"}>
+            {" "}
+            <img
+              src={bg}
+              width="100%"
+              height="100%"
+              style={{ objectFit: "contain" }}
             />
-          </Grid>
-          {type && (
-            <Grid item xs={6}>
-              <Typography
-                sx={{ marginBottom: 1 }}
-                variant="h6"
-                fontWeight={500}
-                color={"#333333"}
-              >
-                Choose Counselor
-              </Typography>
-              <Controller
-                name="counsellor"
-                control={control}
-                defaultValue=""
-                rules={{ required: "Counselor is required" }}
-                render={({ field }) => (
-                  <>
-                    <StyledSelectField
-                      options={options}
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        handleCounselorChange(e);
-                      }}
-                    />
-                    {errors.counsellor && (
-                      <span style={{ color: "red" }}>
-                        {errors.counsellor.message}
-                      </span>
-                    )}
-                  </>
-                )}
-              />
-            </Grid>
-          )}
-          {id && (
-            <Grid item xs={6}>
-              <Typography
-                sx={{ marginBottom: 1 }}
-                variant="h6"
-                fontWeight={500}
-                color={"#333333"}
-              >
-                Date
-              </Typography>
-              <Controller
-                name="session_date"
-                control={control}
-                defaultValue=""
-                rules={{ required: "Date is required" }}
-                render={({ field }) => (
-                  <>
-                    <StyledCalender
-                      label="Select Date from Calendar"
-                      {...field}
-                      highlightDays={days}
-                      onChange={(formattedDate, dayOfWeek) => {
-                        field.onChange(formattedDate);
-                        handleDateChange(formattedDate, dayOfWeek);
-                      }}
-                    />
-                    {errors.session_date && (
-                      <span style={{ color: "red" }}>
-                        {errors.session_date.message}
-                      </span>
-                    )}
-                  </>
-                )}
-              />
-            </Grid>
-          )}
-          {date && (
-            <Grid item xs={6}>
-              <Typography
-                sx={{ marginBottom: 1 }}
-                variant="h6"
-                fontWeight={500}
-                color={"#333333"}
-              >
-                Time
-              </Typography>
-              <Controller
-                name="session_time"
-                control={control}
-                defaultValue=""
-                rules={{ required: "Time is required" }}
-                render={({ field }) => (
-                  <>
-                    <StyledSelectField options={timeOptions} {...field} />
-                    {errors.session_time && (
-                      <span style={{ color: "red" }}>
-                        {errors.session_time.message}
-                      </span>
-                    )}
-                  </>
-                )}
-              />
-            </Grid>
-          )}
-          <Grid item xs={12}>
+          </Stack>
+        </Stack>
+      </Grid>
+      <Grid item md={6}>
+        <Card
+          sx={{
+            p: 4,
+            maxWidth: "900px",
+            width: "100%",
+            boxShadow: 3,
+            height: "100vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Box>
             <Typography
-              sx={{ marginBottom: 1 }}
-              variant="h6"
-              fontWeight={500}
-              color={"#333333"}
+              variant="h3"
+              fontWeight={600}
+              textAlign="center"
+              mb={3}
+              color="primary.main"
             >
-              Reason for counseling
+              Book Appoinment
             </Typography>
-            <Controller
-              name="description"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Reason for counseling is required" }}
-              render={({ field }) => (
-                <>
-                  <StyledMultilineTextField
-                    placeholder="Add Reason for counseling"
-                    {...field}
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Grid container spacing={4}>
+                <Grid item xs={6}>
+                  <Typography
+                    sx={{ marginBottom: 1 }}
+                    variant="h6"
+                    fontWeight={500}
+                    color={"#333333"}
+                  >
+                    Select Counseling Type
+                  </Typography>
+                  <Controller
+                    name="type"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Counseling type is required" }}
+                    render={({ field }) => (
+                      <>
+                        <StyledSelectField
+                          options={CounselorTypes}
+                          {...field}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleTypeChange(e);
+                          }}
+                        />
+                        {errors.type && (
+                          <span style={{ color: "red" }}>
+                            {errors.type.message}
+                          </span>
+                        )}
+                      </>
+                    )}
                   />
-                  {errors.description && (
-                    <span style={{ color: "red" }}>
-                      {errors.description.message}
-                    </span>
-                  )}
-                </>
-              )}
-            />
-          </Grid>
-          <Grid item xs={6}></Grid>
-          <Grid item md={6} xs={12}>
-            <Stack direction="row" spacing={2} justifyContent={"flex-end"}>
-              <StyledButton
-                name="Cancel"
-                variant="secondary"
-                disabled={loading}
-                onClick={(event) => handleClear(event)}
-              >
-                Cancel
-              </StyledButton>
-              <StyledButton
-                name={loading ? "Saving..." : "Save"}
-                variant="primary"
-                type="submit"
-                disabled={loading}
-              />
-            </Stack>
-          </Grid>
-        </Grid>
-      </form>
-    </Box>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography
+                    sx={{ marginBottom: 1 }}
+                    variant="h6"
+                    fontWeight={500}
+                    color={"#333333"}
+                  >
+                    Choose Counselor
+                  </Typography>
+                  <Controller
+                    name="counsellor"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Counselor is required" }}
+                    render={({ field }) => (
+                      <>
+                        <StyledSelectField
+                          options={options}
+                          {...field}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleCounselorChange(e);
+                          }}
+                        />
+                        {errors.counsellor && (
+                          <span style={{ color: "red" }}>
+                            {errors.counsellor.message}
+                          </span>
+                        )}
+                      </>
+                    )}
+                  />
+                </Grid>
+
+                {id && (
+                  <Grid item xs={6}>
+                    <Typography
+                      sx={{ marginBottom: 1 }}
+                      variant="h6"
+                      fontWeight={500}
+                      color={"#333333"}
+                    >
+                      Date
+                    </Typography>
+                    <Controller
+                      name="session_date"
+                      control={control}
+                      defaultValue=""
+                      rules={{ required: "Date is required" }}
+                      render={({ field }) => (
+                        <>
+                          <StyledCalender
+                            label="Select Date from Calendar"
+                            {...field}
+                            highlightDays={days}
+                            onChange={(formattedDate, dayOfWeek) => {
+                              field.onChange(formattedDate);
+                              handleDateChange(formattedDate, dayOfWeek);
+                            }}
+                          />
+                          {errors.session_date && (
+                            <span style={{ color: "red" }}>
+                              {errors.session_date.message}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    />
+                  </Grid>
+                )}
+                {date && (
+                  <Grid item xs={6}>
+                    <Typography
+                      sx={{ marginBottom: 1 }}
+                      variant="h6"
+                      fontWeight={500}
+                      color={"#333333"}
+                    >
+                      Time
+                    </Typography>
+                    <Controller
+                      name="session_time"
+                      control={control}
+                      defaultValue=""
+                      rules={{ required: "Time is required" }}
+                      render={({ field }) => (
+                        <>
+                          <StyledSelectField options={timeOptions} {...field} />
+                          {errors.session_time && (
+                            <span style={{ color: "red" }}>
+                              {errors.session_time.message}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    />
+                  </Grid>
+                )}
+                <Grid item xs={12}>
+                  <Typography
+                    sx={{ marginBottom: 1 }}
+                    variant="h6"
+                    fontWeight={500}
+                    color={"#333333"}
+                  >
+                    Reason for counseling
+                  </Typography>
+                  <Controller
+                    name="description"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Reason for counseling is required" }}
+                    render={({ field }) => (
+                      <>
+                        <StyledMultilineTextField
+                          placeholder="Add Reason for counseling"
+                          {...field}
+                        />
+                        {errors.description && (
+                          <span style={{ color: "red" }}>
+                            {errors.description.message}
+                          </span>
+                        )}
+                      </>
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={6}></Grid>
+                <Grid item md={6} xs={12}>
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    justifyContent={"flex-end"}
+                  >
+                    <StyledButton
+                      name="Cancel"
+                      variant="secondary"
+                      disabled={loading}
+                      onClick={(event) => handleClear(event)}
+                    >
+                      Cancel
+                    </StyledButton>
+                    <StyledButton
+                      name={"Book"}
+                      variant="primary"
+                      type="submit"
+                      disabled={loading}
+                    />
+                  </Stack>
+                </Grid>
+              </Grid>
+            </form>
+          </Box>
+        </Card>
+      </Grid>
+      <Dialog open={openSuccessDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Appointment Booked Successfully!</DialogTitle>
+        <DialogActions>
+          <StyledButton
+            variant="primary"
+            onClick={handleCloseDialog}
+            name={"OK"}
+          />
+        </DialogActions>
+      </Dialog>
+    </Grid>
   );
 }

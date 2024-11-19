@@ -46,7 +46,12 @@ const AddRemarks = ({ rowData, onSubmitSuccess }) => {
       {/* User Details Section */}
       <Card sx={{ marginBottom: 4 }}>
         <CardContent>
-          <Typography variant="h5" fontWeight={600} color="primary" gutterBottom>
+          <Typography
+            variant="h5"
+            fontWeight={600}
+            color="primary"
+            gutterBottom
+          >
             User Details
           </Typography>
           <Divider sx={{ marginBottom: 2 }} />
@@ -55,41 +60,31 @@ const AddRemarks = ({ rowData, onSubmitSuccess }) => {
               <Typography variant="h6" fontWeight={500}>
                 Name:
               </Typography>
-              <Typography variant="h6">{rowData?.user?.name}</Typography>
+              <Typography variant="h6">{rowData?.form_id?.name}</Typography>
             </Grid>
             <Grid item md={4}>
               <Typography variant="h6" fontWeight={500}>
                 Email:
               </Typography>
-              <Typography variant="h6">{rowData?.user?.email}</Typography>
+              <Typography variant="h6">{rowData?.form_id?.email}</Typography>
             </Grid>
             <Grid item md={4}>
               <Typography variant="h6" fontWeight={500}>
-                Mobile:
+                Referee
               </Typography>
-              <Typography variant="h6">{rowData?.user?.mobile}</Typography>
+              <Typography variant="h6" textTransform={"capitalize"}>{rowData?.form_id?.referee}</Typography>
             </Grid>
           </Grid>
 
           <Grid container spacing={2} mt={2}>
             <Grid item md={4}>
               <Typography variant="h6" fontWeight={500}>
-                Designation:
+                Class :
               </Typography>
-              <Typography variant="h6">{rowData?.user?.designation}</Typography>
+              <Typography variant="h6">{rowData?.form_id?.class}</Typography>
             </Grid>
-            <Grid item md={4}>
-              <Typography variant="h6" fontWeight={500}>
-                Division:
-              </Typography>
-              <Typography variant="h6">{rowData?.user?.division}</Typography>
-            </Grid>
-            <Grid item md={4}>
-              <Typography variant="h6" fontWeight={500}>
-                Parent Contact:
-              </Typography>
-              <Typography variant="h6">{rowData?.user?.parentContact}</Typography>
-            </Grid>
+
+        
           </Grid>
         </CardContent>
       </Card>
@@ -97,7 +92,12 @@ const AddRemarks = ({ rowData, onSubmitSuccess }) => {
       {/* Counseling Details Section */}
       <Card sx={{ marginBottom: 4 }}>
         <CardContent>
-          <Typography variant="h5" fontWeight={600} color="secondary" gutterBottom>
+          <Typography
+            variant="h5"
+            fontWeight={600}
+            color="secondary"
+            gutterBottom
+          >
             Counseling Details
           </Typography>
           <Divider sx={{ marginBottom: 2 }} />
@@ -123,16 +123,18 @@ const AddRemarks = ({ rowData, onSubmitSuccess }) => {
         <Card key={session._id} sx={{ marginBottom: 2 }}>
           <CardContent>
             <Typography variant="h6" fontWeight={500}>
-              Session ID: {session.session_id}
+              Session ID: {session?.session_id}
             </Typography>
             <Typography variant="h6" mt={1}>
-              <strong>Case Details:</strong> {session.case_details}
+              <strong>Case Details:</strong> {session?.case_details}
             </Typography>
             <Typography variant="h6" mt={1}>
-              <strong>Session Date:</strong> {new Date(session.session_date).toLocaleDateString()}
+              <strong>Session Date:</strong>{" "}
+              {new Date(session.session_date).toLocaleDateString()}
             </Typography>
             <Typography variant="h6" mt={1}>
-              <strong>Session Time:</strong> {session.session_time.start} - {session.session_time.end}
+              <strong>Session Time:</strong> {session.session_time.start} -{" "}
+              {session.session_time.end}
             </Typography>
             <Typography variant="h6" mt={1}>
               <strong>Interaction:</strong> {session.interactions}

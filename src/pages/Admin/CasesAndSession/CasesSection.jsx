@@ -36,7 +36,9 @@ export default function CasesSection() {
   useEffect(() => {
     let filter = { type: "cases" };
     if (search) {
+  
       filter.searchQuery = search;
+      setPageNo(1);
     }
     filter.page = pageNo;
     filter.limit = row;
@@ -45,7 +47,7 @@ export default function CasesSection() {
   return (
     <>
       {" "}
-      <Box padding={"30px"} bgcolor={"#FFFFFF"}>
+      <Box padding={"30px"} bgcolor={"#FFFFFF"} borderBottom={"1px solid #E0E0E0"}>
         <Typography variant="h4" color={"#4A4647"}>
           Cases
         </Typography>
@@ -84,6 +86,7 @@ export default function CasesSection() {
             marginBottom={4}
             bgcolor={"white"}
             borderRadius={"15px"}
+            boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
           >
             <StyledTable
               columns={userColumns}

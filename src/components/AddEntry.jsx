@@ -133,7 +133,7 @@ export default function AddEntry() {
         details: data?.details,
         report: pdfUrl ? pdfUrl : "",
         session_id: rowData?._id,
-        user_id: rowData?.user?._id,
+        form_id: rowData?.form_id?._id,
         interactions: data?.interactions,
       };
       if (!showDatePicker) {
@@ -200,18 +200,29 @@ export default function AddEntry() {
   const reportUrl = `https://able.iswkoman.com/images/${rowData?.report}`;
   return (
     <>
-      <Box padding={"30px"} bgcolor={"#FFFFFF"}>
+      <Box
+        padding={"30px"}
+        bgcolor={"#FFFFFF"}
+        borderBottom={"1px solid #E0E0E0"}
+      >
         <Typography variant="h4" color={"#4A4647"}>
           Session No / Add Entry
         </Typography>
       </Box>
-      <Box padding="30px" marginBottom={4}>
+      <Box padding="30px" marginBottom={4} borderRadius={"15px"}>
         {" "}
         <Box>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
               <Grid item md={6}>
-                <TableContainer component={Paper}>
+                <TableContainer
+                  component={Paper}
+                  sx={{
+                    borderRadius: "15px",
+                    bgcolor: "white",
+                    boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+                  }}
+                >
                   <Table>
                     <TableBody>
                       <TableRow>
@@ -259,7 +270,7 @@ export default function AddEntry() {
                             fontWeight={500}
                             color={"#0072bc"}
                           >
-                            {rowData?.user?.name}
+                            {rowData?.form_id?.name}
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -283,8 +294,7 @@ export default function AddEntry() {
                             fontWeight={500}
                             color={"#0072bc"}
                           >
-                            {rowData?.user?.designation}{" "}
-                            {rowData?.user?.division}
+                            {rowData?.form_id?.class}
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -495,37 +505,45 @@ export default function AddEntry() {
                             </TableCell>
                           </TableRow>
                         )}
-                      <TableRow>
-                        <TableCell colSpan={2}>
-                          <Typography
-                            variant="h6"
-                            fontWeight={500}
-                            color={"#0072bc"}
-                          >
-                            Report
-                          </Typography>
-                          <a
-                            href={reportUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ textDecoration: "none", color: "inherit" }}
-                          >
-                            <PictureAsPdfIcon
-                              style={{ color: "#e57373", fontSize: "20px" }}
-                            />
-                          </a>
-                          <a
-                            href={reportUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ textDecoration: "none", color: "inherit" }}
-                          >
-                            <Typography variant="body1" color="textPrimary">
-                              {rowData?.report}
+                      {rowData?.report && (
+                        <TableRow>
+                          <TableCell colSpan={2}>
+                            <Typography
+                              variant="h6"
+                              fontWeight={500}
+                              color={"#0072bc"}
+                            >
+                              Report
                             </Typography>
-                          </a>
-                        </TableCell>
-                      </TableRow>
+                            <a
+                              href={reportUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                              }}
+                            >
+                              <PictureAsPdfIcon
+                                style={{ color: "#e57373", fontSize: "20px" }}
+                              />
+                            </a>
+                            <a
+                              href={reportUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                              }}
+                            >
+                              <Typography variant="body1" color="textPrimary">
+                                {rowData?.report}
+                              </Typography>
+                            </a>
+                          </TableCell>
+                        </TableRow>
+                      )}
                       <TableRow>
                         <TableCell colSpan={2}>
                           <StyledButton
@@ -542,8 +560,11 @@ export default function AddEntry() {
               <Grid item md={6}>
                 {" "}
                 <Stack
-                  spacing={2}
-                  bgcolor={"white"}
+                  spacing={2}  sx={{
+                    borderRadius: "15px",
+                    bgcolor: "white",
+                    boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+                  }}
                   padding={4}
                   component={Paper}
                 >
