@@ -42,6 +42,7 @@ export default function StudentRegForm() {
         setGrDetails(details.data);
       } catch (error) {
         console.error("Failed to fetch GR details");
+        setGrDetails(null);
       }
     }, 500);
 
@@ -78,7 +79,8 @@ export default function StudentRegForm() {
   const handleBookedBy = (selectedOption) => {
     setType(selectedOption.value);
   };
-
+  console.log("grDetails", grDetails);
+  
   return (
     <Grid
       container
@@ -160,7 +162,7 @@ export default function StudentRegForm() {
                         <StyledInput
                           placeholder="Enter Name" {...field}
                           disabled={grDetails === null}
-                          value={grDetails?.name}
+                          value={grDetails? grDetails.name : ""}
                          
                         />
                       )}
