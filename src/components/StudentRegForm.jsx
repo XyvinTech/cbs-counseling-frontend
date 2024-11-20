@@ -168,6 +168,7 @@ export default function StudentRegForm() {
                       )}
                     />
                   </Grid>
+                  
                   <Grid item xs={12} sm={6}>
                     <Typography variant="h6" fontWeight={500} mb={1}>
                       Class and Section
