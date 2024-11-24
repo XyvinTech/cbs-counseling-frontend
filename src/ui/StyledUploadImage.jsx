@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 const CustomTextField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      borderColor: "rgba(0, 0, 0, 0.2)",
+      borderColor: "transparent",
     },
     "&:hover fieldset": {
       borderColor: "rgba(0, 0, 0, 0.2)",
@@ -29,6 +29,8 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
     color: "rgba(0, 0, 0, 0.2)",
     opacity: 1,
   },
+  backgroundColor: "#efefef",
+  borderRadius: "8px",
 }));
 
 const ImagePreview = styled(Box)({

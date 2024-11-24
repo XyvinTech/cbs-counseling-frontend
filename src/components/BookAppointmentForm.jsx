@@ -21,7 +21,7 @@ import { StyledMultilineTextField } from "../ui/StyledMultilineTextField ";
 import { useNavigate } from "react-router-dom";
 import { useListStore } from "../store/listStore";
 import { toast } from "react-toastify";
-import bg from "../assets/images/form.png";
+import bg from "../assets/images/BG-form.jpg";
 import logo from "../assets/images/logo.jpg";
 
 export default function AddMeeting() {
@@ -134,30 +134,15 @@ export default function AddMeeting() {
       container
       height="100vh"
       style={{
-        backgroundColor: "#FFE5F2",
+        backgroundImage: `url(${bg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
+      display={"flex"}
+      justifyContent={"center"}
+      alignItems={"center"}
     >
-      <Grid
-        item
-        md={6}
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Stack paddingLeft={5}>
-          {" "}
-          <img src={logo} width={"300x"} height={"80px"} objectFit="fill" />
-          <Stack justifyContent={"center"}>
-            {" "}
-            <img
-              src={bg}
-              width="100%"
-              height="100%"
-              style={{ objectFit: "contain" }}
-            />
-          </Stack>
-        </Stack>
-      </Grid>
       <Grid item md={6}>
         <Card
           sx={{
@@ -165,10 +150,10 @@ export default function AddMeeting() {
             maxWidth: "900px",
             width: "100%",
             boxShadow: 3,
-            height: "100vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            borderRadius: "20px",
           }}
         >
           <Box>
@@ -200,7 +185,7 @@ export default function AddMeeting() {
                     render={({ field }) => (
                       <>
                         <StyledSelectField
-                          options={CounselorTypes}
+                          options={CounselorTypes} 
                           {...field}
                           onChange={(e) => {
                             field.onChange(e);
@@ -232,7 +217,8 @@ export default function AddMeeting() {
                     rules={{ required: "Counselor is required" }}
                     render={({ field }) => (
                       <>
-                        <StyledSelectField
+                        <StyledSelectField 
+                        
                           options={options}
                           {...field}
                           onChange={(e) => {
@@ -268,7 +254,7 @@ export default function AddMeeting() {
                       render={({ field }) => (
                         <>
                           <StyledCalender
-                            label="Select Date from Calendar"
+                            
                             {...field}
                             highlightDays={days}
                             onChange={(formattedDate, dayOfWeek) => {
@@ -331,7 +317,7 @@ export default function AddMeeting() {
                     render={({ field }) => (
                       <>
                         <StyledMultilineTextField
-                          placeholder="Add Reason for counseling"
+                        
                           {...field}
                         />
                         {errors.description && (
@@ -350,19 +336,18 @@ export default function AddMeeting() {
                     spacing={2}
                     justifyContent={"flex-end"}
                   >
-                    <StyledButton
-                      name="Cancel"
-                      variant="secondary"
-                      disabled={loading}
-                      onClick={(event) => handleClear(event)}
-                    >
-                      Cancel
-                    </StyledButton>
+                    {" "}
                     <StyledButton
                       name={"Book"}
-                      variant="primary"
+                      variant="form"
                       type="submit"
                       disabled={loading}
+                    />
+                    <StyledButton
+                      name="Cancel"
+                      variant="formClear"
+                      disabled={loading}
+                      onClick={(event) => handleClear(event)}
                     />
                   </Stack>
                 </Grid>
@@ -372,7 +357,10 @@ export default function AddMeeting() {
         </Card>
       </Grid>
       <Dialog open={openSuccessDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Appointment Booked Successfully!</DialogTitle>
+        <DialogTitle>
+          Your Appoinment request has been submitted. You will recieve a
+          confirmation once the appointment request is approved !
+        </DialogTitle>
         <DialogActions>
           <StyledButton
             variant="primary"

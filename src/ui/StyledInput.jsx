@@ -13,6 +13,7 @@ const StyledInput = ({
   onChange,
   value,
   mobile,
+  form,
 }) => {
   return (
     <FormControl sx={{ width: "100%" }} variant="outlined">
@@ -42,10 +43,10 @@ const StyledInput = ({
           sx={{
             width: "100%",
             padding: "3px",
-            backgroundColor: "#ffffff",
+            backgroundColor: "#efefef",
             borderRadius: "5px",
             "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: "rgba(0, 0, 0, 0.2) !important",
+              borderColor: "transparent !important",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: "rgba(0, 0, 0, 0.2) !important",
@@ -71,7 +72,7 @@ const StyledInput = ({
           type={type}
           value={value}
           onChange={onChange}
-          placeholder={placeholder}
+          // placeholder={placeholder}
           disabled={disabled}
           startAdornment={
             startIcon ? (
@@ -94,10 +95,10 @@ const StyledInput = ({
           sx={{
             width: "100%",
             padding: "3px",
-            backgroundColor: "#ffffff",
-            borderRadius: "5px",
+            backgroundColor: "#efefef",
+            borderRadius: "8px",
             "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: "1px solid rgba(0, 0, 0, 0.2)",
+              borderColor: "transparent",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: "rgba(0, 0, 0, 0.2)",

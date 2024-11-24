@@ -10,9 +10,9 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          backgroundColor: "#ffffff",
+          backgroundColor: "#efefef",
           "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "rgba(0, 0, 0, 0.2)",
+            borderColor: "transparent",
           },
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
             borderColor: "rgba(0, 0, 0, 0.2)",

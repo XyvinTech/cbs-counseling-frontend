@@ -12,7 +12,29 @@ const buttonVariants = css`
       line-height: 18px;
       background-color: #0072bc;
     `}
-
+  ${(props) =>
+    props.variant === "form" &&
+    css`
+      border: none;
+      font-size: 16px;
+      font-weight: 400;
+      color: #ffffff;
+      line-height: 18px;
+      background-color: #0072bc;
+      padding: 10px 40px;
+     
+    `}
+ ${(props) =>
+    props.variant === "formClear" &&
+    css`
+    border: none;
+      font-size: 16px;
+      font-weight: 400;
+      color: #000;
+      line-height: 18px;
+      background-color: #ffffff;
+    
+    `}
   ${(props) =>
     props.variant === "secondary" &&
     css`
@@ -70,6 +92,7 @@ const ButtonContainer = styled.button`
   text-align: center;
   font-family: "Inter", "sans-serif";
   display: flex;
+  gap: 5px;
   justify-content: center;
   align-items: center;
   border-radius: 5px;

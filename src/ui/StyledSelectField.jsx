@@ -7,15 +7,15 @@ const SelectContainer = styled.div`
   width: 100%;
 `;
 
-const StyledSelectField = ({ placeholder,isDisabled, options, onChange, value, isMulti }) => {
+const StyledSelectField = ({ placeholder,isDisabled,form, options, onChange, value, isMulti }) => {
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
       width: "100%",
       padding: "8px",
-      border: "1px solid rgba(0, 0, 0, 0.2)",
-      borderRadius: "8px",
-      backgroundColor: "#ffffff",
+      border:  "none" ,
+      borderRadius:  "8px",
+      backgroundColor:   "#efefef" ,
       color: "#000000",
       boxShadow: state.isFocused ? "0 0 0 2px #fff" : "none",
       cursor: "pointer",
@@ -56,7 +56,7 @@ const StyledSelectField = ({ placeholder,isDisabled, options, onChange, value, i
   return (
     <SelectContainer>
       <Select
-        placeholder={placeholder}
+        // placeholder={placeholder}
         options={options}
         onChange={onChange}
         value={value}

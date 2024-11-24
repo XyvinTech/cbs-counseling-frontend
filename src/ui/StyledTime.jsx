@@ -12,12 +12,14 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "rgba(0, 0, 0, 0.2)",
+            borderColor: "transparent",
           },
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
             borderColor: "rgba(0, 0, 0, 0.2)",
             borderWidth: "1px",
           },
+          backgroundColor: "#efefef",
+          borderRadius: "8px",
         },
       },
     },
@@ -49,7 +51,7 @@ const CustomTextField = styled(TextField)({
   width: "100%",
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      borderColor: "rgba(0, 0, 0, 0.2)",
+      borderColor: "transparent",
     },
   },
   "& .MuiInputBase-input::label": {

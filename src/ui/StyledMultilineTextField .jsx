@@ -23,10 +23,10 @@ export const StyledMultilineTextField = ({
       sx={{
         width: "100%",
         padding: "3px",
-        backgroundColor: "#ffffff",
+        backgroundColor: "#efefef" ,
         borderRadius: "8px",
         "& .MuiOutlinedInput-notchedOutline": {
-          borderColor: "1px solid rgba(0, 0, 0, 0.2)",
+          borderColor: "transparent",
         },
         "&:hover .MuiOutlinedInput-notchedOutline": {
           borderColor: "rgba(0, 0, 0, 0.2)",

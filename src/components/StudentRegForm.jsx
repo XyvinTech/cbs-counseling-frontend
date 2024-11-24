@@ -15,8 +15,9 @@ import { useSessionStore } from "../store/counselor/SessionStore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { addForm, getGrDetails } from "../api/admin/adminapi";
-import bg from "../assets/images/form.png";
-import logo from "../assets/images/logo.jpg";
+import bg from "../assets/images/BG-form.jpg";
+import logo from "../assets/images/schoolLogo.png";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 export default function StudentRegForm() {
   const { control, reset, handleSubmit, watch } = useForm();
@@ -80,16 +81,41 @@ export default function StudentRegForm() {
     setType(selectedOption.value);
   };
   console.log("grDetails", grDetails);
-  
+
   return (
     <Grid
       container
       height="100vh"
       style={{
-        backgroundColor: "#FFE5F2",
+        backgroundImage: `url(${bg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
+      display={"flex"}
+      justifyContent={"center"}
+      alignItems={"center"}
     >
+      {" "}
       <Grid
+        item
+        md={12}
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        {" "}
+        <img src={logo} width={"80x"} height={"80px"} objectFit="fill" />
+        <Typography
+          variant="h2"
+          fontWeight={600}
+          color={"#fff"}
+          textAlign={"center"}
+        >
+          Welcome to the ABLE Team's Workspace
+        </Typography>
+      </Grid>
+      {/* <Grid
         item
         md={6}
         display="flex"
@@ -109,7 +135,7 @@ export default function StudentRegForm() {
             />
           </Stack>
         </Stack>
-      </Grid>
+      </Grid> */}
       <Grid item md={6}>
         <Card
           sx={{
@@ -117,21 +143,22 @@ export default function StudentRegForm() {
             maxWidth: "900px",
             width: "100%",
             boxShadow: 3,
-            height: "100vh",
+            // height: "100vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            borderRadius: "20px",
           }}
         >
           <Box>
             <Typography
               variant="h3"
-              fontWeight={600}
-              textAlign="left"
+              fontWeight={800}
+              textAlign="center"
               mb={5}
               color="primary.main"
             >
-              Appoinment Booking Form
+              To talk to the Counselor, book an appointment here
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={3}>
@@ -144,9 +171,7 @@ export default function StudentRegForm() {
                     name="grNumber"
                     control={control}
                     defaultValue=""
-                    render={({ field }) => (
-                      <StyledInput placeholder="Enter GR Number" {...field} />
-                    )}
+                    render={({ field }) => <StyledInput {...field} />}
                   />
                 </Grid>
                 <>
@@ -160,15 +185,13 @@ export default function StudentRegForm() {
                       defaultValue=""
                       render={({ field }) => (
                         <StyledInput
-                          placeholder="Enter Name" {...field}
+                          {...field}
                           disabled={grDetails === null}
-                          value={grDetails? grDetails.name : ""}
-                         
+                          value={grDetails ? grDetails.name : ""}
                         />
                       )}
                     />
                   </Grid>
-                  
                   <Grid item xs={12} sm={6}>
                     <Typography variant="h6" fontWeight={500} mb={1}>
                       Class and Section
@@ -179,7 +202,6 @@ export default function StudentRegForm() {
                       defaultValue=""
                       render={({ field }) => (
                         <StyledInput
-                          placeholder="Enter Class and Section"
                           disabled={grDetails === null}
                           {...field}
                           value={
@@ -199,9 +221,7 @@ export default function StudentRegForm() {
                       name="email"
                       control={control}
                       defaultValue=""
-                      render={({ field }) => (
-                        <StyledInput placeholder="Enter Email" {...field} />
-                      )}
+                      render={({ field }) => <StyledInput {...field} />}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -233,12 +253,7 @@ export default function StudentRegForm() {
                         name="refereeName"
                         control={control}
                         defaultValue=""
-                        render={({ field }) => (
-                          <StyledInput
-                            placeholder="Enter Parent Name"
-                            {...field}
-                          />
-                        )}
+                        render={({ field }) => <StyledInput {...field} />}
                       />
                     </Grid>
                   )}
@@ -251,12 +266,7 @@ export default function StudentRegForm() {
                         name="refereeName"
                         control={control}
                         defaultValue=""
-                        render={({ field }) => (
-                          <StyledInput
-                            placeholder="Enter Teacher Name"
-                            {...field}
-                          />
-                        )}
+                        render={({ field }) => <StyledInput {...field} />}
                       />
                     </Grid>
                   )}
@@ -264,22 +274,28 @@ export default function StudentRegForm() {
               </Grid>
 
               <Stack
-                direction="row"
                 spacing={2}
-                mt={3}
+                mt={8}
+                direction={"row"}
                 justifyContent={"flex-end"}
               >
                 <StyledButton
-                  name="Clear"
-                  variant="secondary"
-                  disabled={loading}
-                  onClick={(event) => handleClear(event)}
-                />
-                <StyledButton
-                  name={"Next"}
-                  variant="primary"
+                  name={
+                    <>
+                      {" "}
+                      Next
+                      <KeyboardDoubleArrowRightIcon />
+                    </>
+                  }
+                  variant="form"
                   type="submit"
                   disabled={loading}
+                />{" "}
+                <StyledButton
+                  name="Clear"
+                  variant="formClear"
+                  disabled={loading}
+                  onClick={(event) => handleClear(event)}
                 />
               </Stack>
             </form>
