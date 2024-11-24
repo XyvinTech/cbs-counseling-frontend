@@ -18,9 +18,9 @@ const PlaceholderContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: none;
   padding: 8px;
-  background-color: #ffffff;
+  background-color:#efefef;
   cursor: pointer;
 `;
 
@@ -49,7 +49,13 @@ const StyledSpan = styled.span`
     selectedDate ? "black" : "rgba(0, 0, 0, 0.2)"};
 `;
 
-export const StyledCalender = ({ onChange, label, highlightDays, rowData }) => {
+export const StyledCalender = ({
+  onChange,
+  label,
+  highlightDays,
+  rowData,
+  form,
+}) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
