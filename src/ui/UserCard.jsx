@@ -25,7 +25,7 @@ const UserCard = ({ user }) => {
             {user?.name}
           </Typography>
           <Typography variant="h6" color={"#4A4647"}>
-            {user?.designation}
+            {user?.designation}{user?.division}
           </Typography>
           <Stack direction="row" alignItems="center" spacing={1}>
             <PhoneIcon />
