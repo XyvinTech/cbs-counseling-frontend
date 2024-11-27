@@ -29,10 +29,10 @@ const Remarks = ({refreshTrigger, setLastSynced}) => {
     counselorSessions(filter);
     const currentTime = new Date();
     setLastSynced(
-      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+      `${currentTime?.getHours()}:${String(currentTime?.getMinutes())?.padStart(
         2,
         "0"
-      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+      )} ${currentTime?.getHours() >= 12 ? "PM" : "AM"}`
     );
   }, [refreshTrigger, setLastSynced, pageNo, isChange, row]);
 

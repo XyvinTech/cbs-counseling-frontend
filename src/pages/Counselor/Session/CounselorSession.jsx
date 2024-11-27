@@ -14,7 +14,7 @@ const CounselorSession = () => {
   };
   const handleRefresh = () => {
     const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleString();
+    const formattedDate = currentDate?.toLocaleString();
     setLastSynced(formattedDate);
     setRefreshTrigger((prev) => !prev);
   };

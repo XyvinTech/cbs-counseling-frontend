@@ -24,10 +24,10 @@ const SessionDetails = () => {
     }
     const currentTime = new Date();
     setLastSynced(
-      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+      `${currentTime?.getHours()}:${String(currentTime?.getMinutes())?.padStart(
         2,
         "0"
-      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+      )} ${currentTime?.getHours() >= 12 ? "PM" : "AM"}`
     );
   };
   useEffect(() => {
