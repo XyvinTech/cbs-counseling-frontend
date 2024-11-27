@@ -1,15 +1,18 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StyledTable from "../../../ui/StyledTable";
 import { useNavigate, useParams } from "react-router-dom";
 import { useListStore } from "../../../store/listStore";
 import { StyledButton } from "../../../ui/StyledButton";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { useCounselorStore } from "../../../store/admin/CounselorStore";
 const CasesSessionPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { counselorSesssionsByCaseId } = useListStore();
   const [selectedRows, setSelectedRows] = useState([]);
+  
+  const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const { showBackButton, setShowBackButton } = useCounselorStore();
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
@@ -28,11 +31,21 @@ const CasesSessionPage = () => {
     { title: "Created on", field: "createdAt" },
     { title: "Status", field: "status" },
   ];
-  useEffect(() => {
+  const handleRefresh = () => {
     if (id) {
       counselorSesssionsByCaseId(id);
     }
-  }, [id, counselorSesssionsByCaseId]);
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  };
+  useEffect(() => {
+    handleRefresh();
+  }, [id]);
   const handleBack = () => {
     setShowBackButton(false);
     navigate(-1);
@@ -42,11 +55,20 @@ const CasesSessionPage = () => {
       <Box
         padding={"30px"}
         bgcolor={"#FFFFFF"}
+        paddingBottom={0}
         borderBottom={"1px solid #E0E0E0"}
       >
         <Typography variant="h4" color={"#4A4647"}>
           Cases / session
         </Typography>
+        <Stack direction="row" alignItems="center">
+          <Typography color="#828282" fontSize={"12px"}>
+            Last synced: {lastSynced}
+          </Typography>
+          <IconButton size="12px" onClick={handleRefresh} color="primary">
+            <RefreshIcon />
+          </IconButton>
+        </Stack>
       </Box>{" "}
       <Box padding="30px" marginBottom={4} bgcolor={"#FFFFFF"}>
         <>

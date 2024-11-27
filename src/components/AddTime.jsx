@@ -16,7 +16,7 @@ import { useTimeStore } from "../store/counselor/TimeStore";
 import { StyledButton } from "../ui/StyledButton";
 import { StyledTime } from "../ui/StyledTime";
 
-const AddTime = () => {
+const AddTime = ({refreshTrigger, setLastSynced}) => {
   const { control, handleSubmit, setValue } = useForm();
   const { times, getTimes, addTimes, deleteTime } = useTimeStore();
   const [day, setDay] = useState("Sunday");
@@ -39,7 +39,14 @@ const AddTime = () => {
 
   useEffect(() => {
     getTimes();
-  }, [getTimes, isChange]);
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  }, [refreshTrigger, setLastSynced,getTimes, isChange]);
 
   useEffect(() => {
     const currentTimes = times.find((time) => time.day === day)?.times || [];

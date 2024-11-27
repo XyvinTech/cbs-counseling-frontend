@@ -4,7 +4,7 @@ import StyledTable from "../../../ui/StyledTable";
 import { useListStore } from "../../../store/listStore";
 import { useNavigate } from "react-router-dom";
 
-const ActiveCases = () => {
+const ActiveCases = ({refreshTrigger, setLastSynced}) => {
   const navigate = useNavigate();
   const { counselorSessions } = useListStore();
   const [pageNo, setPageNo] = useState(1);
@@ -66,7 +66,14 @@ const ActiveCases = () => {
     filter.page = pageNo;
     filter.limit = row;
     counselorSessions(filter);
-  }, [counselorSessions, search, pageNo, status, row]);
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  }, [refreshTrigger, setLastSynced, search, pageNo, status, row]);
   return (
     <>
       <Box

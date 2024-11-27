@@ -1,8 +1,9 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StyledTable from "../../../ui/StyledTable";
 import { useNavigate, useParams } from "react-router-dom";
 import StyledSearchbar from "../../../ui/StyledSearchbar";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { ReactComponent as FilterIcon } from "../../../assets/icons/FilterIcon.svg";
 import { useListStore } from "../../../store/listStore";
 const SessionPage = () => {
@@ -10,6 +11,8 @@ const SessionPage = () => {
   const { adminSesssionsByCaseId } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
+
+  const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const { id } = useParams();
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -34,24 +37,43 @@ const SessionPage = () => {
     { title: "Time", field: "session_time" },
     { title: "Status", field: "status" },
   ];
-  useEffect(() => {
+  const handleRefresh = () => {
     let filter = {};
     filter.page = pageNo;
     filter.limit = row;
     if (id) {
       adminSesssionsByCaseId(id, filter);
     }
-  }, [id, adminSesssionsByCaseId, pageNo, row]);
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  };
+  useEffect(() => {
+    handleRefresh();
+  }, [id, pageNo, row]);
   return (
     <>
       <Box
         padding={"30px"}
         bgcolor={"#FFFFFF"}
         borderBottom={"1px solid #E0E0E0"}
+        paddingBottom={0}
       >
         <Typography variant="h4" color={"#4A4647"}>
           Cases / Session
         </Typography>
+        <Stack direction="row" alignItems="center">
+          <Typography color="#828282" fontSize={"12px"}>
+            Last synced: {lastSynced}
+          </Typography>
+          <IconButton size="12px" onClick={handleRefresh} color="primary">
+            <RefreshIcon />
+          </IconButton>
+        </Stack>
       </Box>{" "}
       <Box padding="30px" marginBottom={4}>
         <>
@@ -63,20 +85,6 @@ const SessionPage = () => {
           >
             <Stack direction={"row"} spacing={2}>
               <StyledSearchbar />
-              {/* <Box
-                bgcolor={"#FFFFFF"}
-                borderRadius={"50%"}
-                width={"48px"}
-                height={"48px"}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                border="1px solid rgba(0, 0, 0, 0.12)"
-                onClick={handleOpenFilter}
-                style={{ cursor: "pointer" }}
-              >
-                <FilterIcon />
-              </Box> */}
             </Stack>
           </Stack>{" "}
           <Box

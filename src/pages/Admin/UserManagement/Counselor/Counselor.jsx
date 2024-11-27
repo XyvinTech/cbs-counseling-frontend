@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Tabs, Tab, Stack, Grid } from "@mui/material";
+import { Box, Typography, Tabs, Tab, Stack, Grid, IconButton } from "@mui/material";
 import StyledTable from "../../../../ui/StyledTable";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AddCounselor from "../../../../components/AddCounselor";
-import { ReactComponent as FilterIcon } from "../../../../assets/icons/FilterIcon.svg";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import StyledSearchbar from "../../../../ui/StyledSearchbar";
 import AddBulk from "../../../../components/AddBulk";
 import { useListStore } from "../../../../store/listStore";
@@ -27,6 +27,8 @@ export const Counselor = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [activateOpen, setActivateOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+
+  const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const [selectedRowId, setSelectedRowId] = useState(null);
   const handleOpenFilter = () => {
     setFilterOpen(true);
@@ -109,7 +111,7 @@ export const Counselor = () => {
     // { title: "Experience Level", field: "location" },
     // { title: "Status", field: "status" },
   ];
-  useEffect(() => {
+  const handleRefresh = () => {
     let filter = { type: "counsellers" };
     if (search) {
       filter.searchQuery = search;
@@ -118,7 +120,17 @@ export const Counselor = () => {
     filter.page = pageNo;
     filter.limit = row;
     fetchLists(filter);
-  }, [isChange, fetchLists, search, pageNo, selectedTab, row]);
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  };
+  useEffect(() => {
+    handleRefresh();
+  }, [isChange, search, pageNo, selectedTab, row]);
   return (
     <>
       <Tabs
@@ -153,6 +165,14 @@ export const Counselor = () => {
         <Tab label="Counselor" />
         <Tab label="Add Counselor" />
         <Tab label="Add Bulk" />
+        <Stack direction="row" alignItems="center">
+          <Typography color="#828282" fontSize={"12px"}>
+            Last synced: {lastSynced}
+          </Typography>
+          <IconButton size="12px" onClick={handleRefresh} color="primary">
+            <RefreshIcon />
+          </IconButton>
+        </Stack>
       </Tabs>
 
       <Box padding="30px" marginBottom={4}>

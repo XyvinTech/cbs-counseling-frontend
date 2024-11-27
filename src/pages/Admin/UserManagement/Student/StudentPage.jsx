@@ -1,8 +1,16 @@
-import { Box, Grid, Stack, Tab, Tabs, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StyledTable from "../../../../ui/StyledTable";
 import { useNavigate, useSearchParams } from "react-router-dom";
-
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { ReactComponent as FilterIcon } from "../../../../assets/icons/FilterIcon.svg";
 import StyledSearchbar from "../../../../ui/StyledSearchbar";
 import { useListStore } from "../../../../store/listStore";
@@ -28,6 +36,7 @@ const StudentPage = () => {
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const [selectedRowId, setSelectedRowId] = useState(null);
+  const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -95,7 +104,8 @@ const StudentPage = () => {
     { title: "GRP Number", field: "StudentReferencesCode" },
     { title: "Parent Contact", field: "parentContact" },
   ];
-  useEffect(() => {
+
+  const handleRefresh = () => {
     let filter = { type: "students" };
     if (search) {
       filter.searchQuery = search;
@@ -104,7 +114,17 @@ const StudentPage = () => {
     filter.page = pageNo;
     filter.limit = row;
     fetchLists(filter);
-  }, [fetchLists, search, isChange, pageNo, selectedTab, row]);
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  };
+  useEffect(() => {
+    handleRefresh();
+  }, [search, isChange, pageNo, selectedTab, row]);
   return (
     <>
       <Tabs
@@ -139,6 +159,14 @@ const StudentPage = () => {
         <Tab label="Student" />
         <Tab label="Add Student" />
         <Tab label="Add Bulk" />
+        <Stack direction="row" alignItems="center" justifyContent={"end"}>
+          <Typography color="#828282" fontSize={"12px"}>
+            Last synced: {lastSynced}
+          </Typography>
+          <IconButton size="12px" onClick={handleRefresh} color="primary">
+            <RefreshIcon />
+          </IconButton>
+        </Stack>
       </Tabs>
       <Box padding="30px" marginBottom={4}>
         {selectedTab === 0 && (

@@ -1,7 +1,9 @@
 import {
   Box,
   Grid,
+  IconButton,
   LinearProgress,
+  Stack,
   Tab,
   Tabs,
   Typography,
@@ -14,7 +16,7 @@ import DescriptionCard from "../../../../ui/DescriptionCard";
 import Review from "../../../../components/Review";
 import { useCounselorStore } from "../../../../store/admin/CounselorStore";
 import { useParams } from "react-router-dom";
-import { useListStore } from "../../../../store/listStore";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import CounsellingSessionTable from "../../../../components/CounsellingSessionTable";
 import CounselorCaseTable from "../../../../components/CounselorCaseTable";
 const CounselorSinglePage = () => {
@@ -22,6 +24,7 @@ const CounselorSinglePage = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const { counselor, fetchUser, loading } = useCounselorStore();
 
+  const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
@@ -31,12 +34,21 @@ const CounselorSinglePage = () => {
     { title: "Recieved on ", field: "Recieved on " },
     { title: "By whom ", field: "By whom" },
   ];
-  useEffect(() => {
+  const handleRefresh = () => {
     if (id) {
       fetchUser(id);
     }
-  }, [id, fetchUser]);
-
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  };
+  useEffect(() => {
+    handleRefresh();
+  }, [id]);
   return (
     <>
       {" "}
@@ -44,10 +56,23 @@ const CounselorSinglePage = () => {
         <LinearProgress />
       ) : (
         <>
-          <Box padding={"30px"} bgcolor={"#FFFFFF"} borderBottom={"1px solid #E0E0E0"}>
+          <Box
+            padding={"30px"}
+            bgcolor={"#FFFFFF"}
+            paddingBottom={0}
+            borderBottom={"1px solid #E0E0E0"}
+          >
             <Typography variant="h4" color={"#4A4647"}>
               Counselor / {counselor?.name}
             </Typography>
+            <Stack direction="row" alignItems="center">
+              <Typography color="#828282" fontSize={"12px"}>
+                Last synced: {lastSynced}
+              </Typography>
+              <IconButton size="12px" onClick={handleRefresh} color="primary">
+                <RefreshIcon />
+              </IconButton>
+            </Stack>
           </Box>{" "}
           <Grid container spacing={4} padding={4}>
             <Grid item md={4} spacing={2} xs={12}>

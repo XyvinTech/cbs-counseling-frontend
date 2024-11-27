@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Stack, Tab, Tabs, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useListStore } from "../store/listStore";
@@ -6,6 +6,7 @@ import StyledTable from "../ui/StyledTable";
 import { StyledButton } from "../ui/StyledButton";
 import CreateType from "./CreateType";
 import EditType from "./EditType";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { useCounsellorTypeStore } from "../store/admin/CounsellorTypeStore";
 export default function AddType() {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ export default function AddType() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
   const [search, setSearch] = useState("");
+  
+  const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const [isChange, setIsChange] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [selectedRowId, setSelectedRowId] = useState(null);
@@ -78,7 +81,7 @@ export default function AddType() {
 
     { title: "Created At", field: "createdAt" },
   ];
-  useEffect(() => {
+ const handleRefresh = () => {
     let filter = { type: "counselling-type" };
     if (search) {
       filter.searchQuery = search;
@@ -87,19 +90,38 @@ export default function AddType() {
     filter.page = pageNo;
     filter.limit = row;
     fetchLists(filter);
-  }, [isChange, search, pageNo, row]);
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
 
+  }
+  useEffect(() => {
+    handleRefresh();
+  }, [isChange, search, pageNo, row]);
   return (
     <>
       {" "}
       <Box
         padding={"30px"}
         bgcolor={"#FFFFFF"}
+        paddingBottom={0}
         borderBottom="1px solid #E0E0E0"
       >
         <Typography variant="h4" color={"#4A4647"}>
           Counseling Type
         </Typography>
+        <Stack direction="row" alignItems="center">
+          <Typography color="#828282" fontSize={"12px"}>
+            Last synced: {lastSynced}
+          </Typography>
+          <IconButton size="12px" onClick={handleRefresh} color="primary">
+            <RefreshIcon />
+          </IconButton>
+        </Stack>
       </Box>
       <Box padding="30px" marginBottom={4}>
         <>

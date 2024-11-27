@@ -1,20 +1,19 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StyledTable from "../../ui/StyledTable";
-import { ReactComponent as FilterIcon } from "../../assets/icons/FilterIcon.svg";
 import StyledFilter from "../../components/StyledFilter";
 import DashboardData from "../../components/DashboardData";
 import StyledSearchbar from "../../ui/StyledSearchbar";
-import { useAdminStore } from "../../store/admin/AdminStore";
 import { useListStore } from "../../store/listStore";
 import { useNavigate } from "react-router-dom";
-import { set } from "date-fns";
+import RefreshIcon from "@mui/icons-material/Refresh";
 const DashboardPage = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const { dashboardLists } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const [search, setSearch] = useState("");
+  const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const navigate = useNavigate();
   const handleOpenFilter = () => {
     setFilterOpen(true);
@@ -38,7 +37,7 @@ const DashboardPage = () => {
     navigate(`/cases/session/${id}`);
   };
 
-  useEffect(() => {
+  const handleRefresh = () => {
     let filter = { status: "pending" };
     if (search) {
       filter.searchQuery = search;
@@ -47,18 +46,39 @@ const DashboardPage = () => {
     filter.page = pageNo;
     filter.limit = row;
     dashboardLists(filter);
-  }, [dashboardLists, pageNo, search, row]);
+
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  };
+
+  useEffect(() => {
+    handleRefresh();
+  }, [pageNo, search, row]);
 
   return (
     <>
       <Box
         padding={"30px"}
         bgcolor={"#FFFFFF"}
+        paddingBottom={0}
         borderBottom={"1px solid #E0E0E0"}
       >
         <Typography variant="h4" color={"#4A4647"}>
           Dashboard
         </Typography>
+        <Stack direction="row" alignItems="center">
+          <Typography color="#828282" fontSize={"12px"}>
+            Last synced: {lastSynced}
+          </Typography>
+          <IconButton size="12px" onClick={handleRefresh} color="primary">
+            <RefreshIcon />
+          </IconButton>
+        </Stack>
       </Box>
       <Box padding="30px" marginBottom={4}>
         <Box marginBottom={4}>
@@ -78,19 +98,6 @@ const DashboardPage = () => {
               placeholder={"Search Student Name"}
               onchange={(e) => setSearch(e.target.value)}
             />
-            {/* <Box
-              bgcolor={"#FFFFFF"}
-              borderRadius={"50%"}
-              width={"48px"}
-              height={"48px"}
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              border="1px solid rgba(0, 0, 0, 0.12)"
-              onClick={handleOpenFilter}style={{ cursor: "pointer" }}
-            >
-              <FilterIcon />
-            </Box> */}
           </Stack>
         </Stack>
         <Box

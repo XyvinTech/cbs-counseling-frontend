@@ -24,7 +24,7 @@ import StyledSelectField from "../../../ui/StyledSelectField";
 import { CSVLink } from "react-csv";
 import { getExcelData } from "../../../api/admin/counselorapi";
 import { Controller, useForm } from "react-hook-form";
-const CounsellorCases = () => {
+const CounsellorCases = ({ refreshTrigger, setLastSynced }) => {
   const navigate = useNavigate();
   const {
     control,
@@ -136,7 +136,14 @@ const CounsellorCases = () => {
     filter.page = pageNo;
     filter.limit = row;
     counselorSessions(filter);
-  }, [isChange, counselorSessions, search, status, pageNo, row]);
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  }, [isChange, refreshTrigger, setLastSynced, search, status, pageNo, row]);
   const handleApplyFilter = () => {
     setSearch(selectFieldValue);
   };

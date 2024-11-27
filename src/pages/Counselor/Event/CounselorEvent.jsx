@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Stack, Tab, Tabs, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StyledTable from "../../../ui/StyledTable";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import { useListStore } from "../../../store/listStore";
 import EditEvent from "../../../components/EditEvent";
 import { useEventStore } from "../../../store/eventStore";
 import ViewEvent from "../../../components/ViewEvent";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 const CounselorEvent = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -23,6 +24,8 @@ const CounselorEvent = () => {
   const [editOpen, setEditOpen] = useState(false);
   const { deleteEvents, updateChange, change } = useEventStore();
   const [selectedRowId, setSelectedRowId] = useState(null);
+  
+  const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const navigate = useNavigate();
   const handleOpenFilter = () => {
     setFilterOpen(true);
@@ -91,7 +94,7 @@ const CounselorEvent = () => {
     // { title: "Experience Level", field: "experience" },
     // { title: "Status", field: "status" },
   ];
-  useEffect(() => {
+ const handleRefresh = () => {
     let filter = { type: "events" };
     if (search) {
       filter.searchQuery = search;
@@ -100,7 +103,17 @@ const CounselorEvent = () => {
     filter.page = pageNo;
     filter.limit = row;
     fetchLists(filter);
-  }, [isChange, fetchLists, search, pageNo, row]);
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  }
+  useEffect(() => {
+    handleRefresh();
+  }, [isChange, search, pageNo, row]);
   return (
     <>
       {" "}
@@ -135,6 +148,14 @@ const CounselorEvent = () => {
       >
         <Tab label="Events" />
         <Tab label="Add Event" />
+        <Stack direction="row" alignItems="center">
+          <Typography color="#828282" fontSize={"12px"}>
+            Last synced: {lastSynced}
+          </Typography>
+          <IconButton size="12px" onClick={handleRefresh} color="primary">
+            <RefreshIcon />
+          </IconButton>
+        </Stack>
       </Tabs>
       <Box padding="30px" marginBottom={4}>
         {selectedTab === 0 && (

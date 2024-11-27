@@ -1,9 +1,17 @@
-import { Box, Grid, Stack, Tab, Tabs, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StyledTable from "../../../ui/StyledTable";
 import { useNavigate } from "react-router-dom";
 import AddEvent from "../../../components/AddEvent";
-import { ReactComponent as FilterIcon } from "../../../assets/icons/FilterIcon.svg";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import StyledSearchbar from "../../../ui/StyledSearchbar";
 import { useListStore } from "../../../store/listStore";
 import EditEvent from "../../../components/EditEvent";
@@ -12,7 +20,7 @@ import ViewEvent from "../../../components/ViewEvent";
 export default function Events() {
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(0);
-  const {  fetchLists } = useListStore();
+  const { fetchLists } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const { deleteEvents, updateChange, change } = useEventStore();
@@ -23,6 +31,8 @@ export default function Events() {
   const [isChange, setIsChange] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [selectedRowId, setSelectedRowId] = useState(null);
+
+  const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -69,7 +79,7 @@ export default function Events() {
       setSelectedRows([]);
     }
   };
-  
+
   const handleRow = async (id) => {
     const deleteData = {
       ids: [id],
@@ -88,7 +98,7 @@ export default function Events() {
     // { title: "Experience Level", field: "experience" },
     // { title: "Status", field: "status" },
   ];
-  useEffect(() => {
+  const handleRefresh = () => {
     let filter = { type: "events" };
     if (search) {
       filter.searchQuery = search;
@@ -97,8 +107,17 @@ export default function Events() {
     filter.page = pageNo;
     filter.limit = row;
     fetchLists(filter);
-  }, [isChange, search, pageNo,row]);
-
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  };
+  useEffect(() => {
+    handleRefresh();
+  }, [isChange, search, pageNo, row]);
   return (
     <>
       <Tabs
@@ -132,6 +151,14 @@ export default function Events() {
       >
         <Tab label="Events" />
         <Tab label="Add Event" />
+        <Stack direction="row" alignItems="center">
+          <Typography color="#828282" fontSize={"12px"}>
+            Last synced: {lastSynced}
+          </Typography>
+          <IconButton size="12px" onClick={handleRefresh} color="primary">
+            <RefreshIcon />
+          </IconButton>
+        </Stack>
       </Tabs>{" "}
       <Box padding="30px" marginBottom={4}>
         {selectedTab === 0 && (
@@ -168,7 +195,8 @@ export default function Events() {
               paddingBottom={0}
               marginBottom={4}
               bgcolor={"white"}
-              borderRadius={"15px"} boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
+              borderRadius={"15px"}
+              boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
             >
               <StyledTable
                 columns={userColumns}

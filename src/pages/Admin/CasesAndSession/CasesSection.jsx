@@ -1,8 +1,8 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StyledTable from "../../../ui/StyledTable";
-
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { ReactComponent as FilterIcon } from "../../../assets/icons/FilterIcon.svg";
 import StyledSearchbar from "../../../ui/StyledSearchbar";
 import { useListStore } from "../../../store/listStore";
@@ -12,6 +12,8 @@ export default function CasesSection() {
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const [search, setSearch] = useState("");
+
+  const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const [filterOpen, setFilterOpen] = useState(false);
 
   const handleOpenFilter = () => {
@@ -33,24 +35,46 @@ export default function CasesSection() {
     { title: "Counselor Name", field: "counsellor_name" },
     { title: "Status", field: "status" },
   ];
-  useEffect(() => {
+  const handleRefresh = () => {
     let filter = { type: "cases" };
     if (search) {
-  
       filter.searchQuery = search;
       setPageNo(1);
     }
     filter.page = pageNo;
     filter.limit = row;
     fetchLists(filter);
-  }, [fetchLists, search, pageNo, row]);
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  };
+  useEffect(() => {
+    handleRefresh();
+  }, [pageNo, search, row]);
   return (
     <>
       {" "}
-      <Box padding={"30px"} bgcolor={"#FFFFFF"} borderBottom={"1px solid #E0E0E0"}>
+      <Box
+        padding={"30px"}
+        paddingBottom={0}
+        bgcolor={"#FFFFFF"}
+        borderBottom={"1px solid #E0E0E0"}
+      >
         <Typography variant="h4" color={"#4A4647"}>
           Cases
         </Typography>
+        <Stack direction="row" alignItems="center">
+          <Typography color="#828282" fontSize={"12px"}>
+            Last synced: {lastSynced}
+          </Typography>
+          <IconButton size="12px" onClick={handleRefresh} color="primary">
+            <RefreshIcon />
+          </IconButton>
+        </Stack>
       </Box>
       <Box padding="30px" marginBottom={4}>
         <>

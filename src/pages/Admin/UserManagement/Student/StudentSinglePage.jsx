@@ -1,6 +1,7 @@
 import {
   Box,
   Grid,
+  IconButton,
   LinearProgress,
   Stack,
   Tab,
@@ -10,7 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import UserCard from "../../../../ui/UserCard";
 import StyledTable from "../../../../ui/StyledTable";
-import imag from "../../../../assets/images/staff.png";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { useParams } from "react-router-dom";
 import { useListStore } from "../../../../store/listStore";
 import { useCounselorStore } from "../../../../store/admin/CounselorStore";
@@ -18,27 +19,29 @@ import { useCounselorStore } from "../../../../store/admin/CounselorStore";
 const StudentSinglePage = () => {
   const { id } = useParams();
   const [selectedTab, setSelectedTab] = useState(0);
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const { fetchSession } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const { counselor, fetchUser, loading } = useCounselorStore();
 
-  const handleSelectionChange = (newSelectedIds) => {
-    setSelectedRows(newSelectedIds);
-    console.log("Selected items:", newSelectedIds);
-  };
-
-  const handleView = (id) => {
-    console.log("View item:", id);
-  };
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
-  useEffect(() => {
+  const handleRefresh = () => {
     if (id) {
       fetchUser(id);
     }
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  };
+  useEffect(() => {
+    handleRefresh();
   }, [id]);
   useEffect(() => {
     let filter = {};
@@ -48,7 +51,6 @@ const StudentSinglePage = () => {
       fetchSession(counselor?.StudentReferencesCode, filter);
     }
   }, [counselor?.StudentReferencesCode, pageNo, row]);
-  console.log("StudentReferencesCode", counselor?.StudentReferencesCode);
 
   const sessions = [
     { title: "Session Date", field: "session_date" },
@@ -67,11 +69,20 @@ const StudentSinglePage = () => {
           <Box
             padding={"30px"}
             bgcolor={"#FFFFFF"}
+            paddingBottom={0}
             borderBottom={"1px solid #E0E0E0"}
           >
             <Typography variant="h4" color={"#4A4647"}>
               Student List / {counselor.name}
             </Typography>
+            <Stack direction="row" alignItems="center">
+              <Typography color="#828282" fontSize={"12px"}>
+                Last synced: {lastSynced}
+              </Typography>
+              <IconButton size="12px" onClick={handleRefresh} color="primary">
+                <RefreshIcon />
+              </IconButton>
+            </Stack>
           </Box>
 
           <Grid container spacing={4} padding={4}>

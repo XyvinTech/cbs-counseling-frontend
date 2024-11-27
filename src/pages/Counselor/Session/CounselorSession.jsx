@@ -1,16 +1,23 @@
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box, IconButton, Stack, Tab, Tabs, Typography } from "@mui/material";
 import React, { useState } from "react";
 import CounsellorCases from "./CounsellorCases";
 import ActiveCases from "./ActiveCases";
 import Remarks from "./Remarks";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 const CounselorSession = () => {
   const [selectedTab, setSelectedTab] = useState(0);
-
+  const [lastSynced, setLastSynced] = useState("Never");
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
-
+  const handleRefresh = () => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleString();
+    setLastSynced(formattedDate);
+    setRefreshTrigger((prev) => !prev);
+  };
   return (
     <>
       {" "}
@@ -46,12 +53,35 @@ const CounselorSession = () => {
         <Tab label="Sessions" />
         <Tab label="Active Cases" />
         <Tab label="Add Remarks" />
+        <Stack direction="row" alignItems="center">
+          <Typography color="#828282" fontSize={"12px"}>
+            Last synced: {lastSynced}
+          </Typography>
+          <IconButton size="12px" onClick={handleRefresh} color="primary">
+            <RefreshIcon />
+          </IconButton>
+        </Stack>
       </Tabs>
       <Box padding="30px" marginBottom={4}>
         {" "}
-        {selectedTab === 0 && <CounsellorCases />}
-        {selectedTab === 1 && <ActiveCases />}{" "}
-        {selectedTab === 2 && <Remarks />}{" "}
+        {selectedTab === 0 && (
+          <CounsellorCases
+            refreshTrigger={refreshTrigger}
+            setLastSynced={setLastSynced}
+          />
+        )}
+        {selectedTab === 1 && (
+          <ActiveCases
+            refreshTrigger={refreshTrigger}
+            setLastSynced={setLastSynced}
+          />
+        )}{" "}
+        {selectedTab === 2 && (
+          <Remarks
+            refreshTrigger={refreshTrigger}
+            setLastSynced={setLastSynced}
+          />
+        )}{" "}
       </Box>
     </>
   );

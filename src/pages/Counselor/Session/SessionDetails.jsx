@@ -1,5 +1,5 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import { Box, Grid, IconButton, Stack, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import UserCard from "../../../ui/UserCard";
 import imag from "../../../assets/images/staff.png";
 import CaseCard from "../../../ui/CaseCard";
@@ -12,15 +12,27 @@ import { StyledButton } from "../../../ui/StyledButton";
 import { getPdfReport } from "../../../api/admin/counselorapi";
 import { saveAs } from "file-saver";
 import * as base64js from "base64-js";
+import RefreshIcon from "@mui/icons-material/Refresh";
 const SessionDetails = () => {
   const { id } = useParams();
   const { sessions, counsellorReport } = useSessionStore();
 
-  useEffect(() => {
+  const [lastSynced, setLastSynced] = useState("0 minutes ago");
+  const handleRefresh = () => {
     if (id) {
       counsellorReport(id);
     }
-  }, [id, counsellorReport]);
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  };
+  useEffect(() => {
+    handleRefresh();
+  }, [id]);
   const handleDownloadReport = async () => {
     try {
       const response = await getPdfReport();
@@ -37,6 +49,7 @@ const SessionDetails = () => {
       <Box
         padding={"30px"}
         bgcolor={"#FFFFFF"}
+        paddingBottom={0}
         borderBottom={"1px solid #E0E0E0"}
         display="flex"
         justifyContent="space-between"
@@ -44,7 +57,16 @@ const SessionDetails = () => {
       >
         <Typography variant="h4" color={"#4A4647"}>
           Cases / Case ID / Session No
+          <Stack direction="row" alignItems="center">
+          <Typography color="#828282" fontSize={"12px"}>
+            Last synced: {lastSynced}
+          </Typography>
+          <IconButton size="12px" onClick={handleRefresh} color="primary">
+            <RefreshIcon />
+          </IconButton>
+        </Stack>
         </Typography>
+      
         <StyledButton
           variant={"filter"}
           name={"Download report"}

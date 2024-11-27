@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useListStore } from "../../../store/listStore";
 import { useEffect, useState } from "react";
 
-const Remarks = () => {
+const Remarks = ({refreshTrigger, setLastSynced}) => {
   const navigate = useNavigate();
   const { counselorSessions } = useListStore();
   const [pageNo, setPageNo] = useState(1);
@@ -27,7 +27,14 @@ const Remarks = () => {
     filter.page = pageNo;
     filter.limit = row;
     counselorSessions(filter);
-  }, [counselorSessions, pageNo, isChange, row]);
+    const currentTime = new Date();
+    setLastSynced(
+      `${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(
+        2,
+        "0"
+      )} ${currentTime.getHours() >= 12 ? "PM" : "AM"}`
+    );
+  }, [refreshTrigger, setLastSynced, pageNo, isChange, row]);
 
   const handleAddEntry = (rowData) => {
     setSelectedRowData(rowData);
