@@ -102,9 +102,9 @@ const StudentPage = () => {
       setPageNo(1);
     }
     filter.page = pageNo;
-    filter.limit=row
+    filter.limit = row;
     fetchLists(filter);
-  }, [fetchLists, search, isChange, pageNo, selectedTab,row]);
+  }, [fetchLists, search, isChange, pageNo, selectedTab, row]);
   return (
     <>
       <Tabs
@@ -180,7 +180,8 @@ const StudentPage = () => {
               padding="2px"
               marginBottom={4}
               bgcolor={"white"}
-              borderRadius={"15px"} boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
+              borderRadius={"15px"}
+              boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
             >
               <StyledTable
                 columns={userColumns}

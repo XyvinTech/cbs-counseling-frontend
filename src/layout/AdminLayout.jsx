@@ -419,7 +419,7 @@ const AdminLayout = (props) => {
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Box display={isMobile && "none"}> </Box>
-            <NotificationIcon />
+            {/* <NotificationIcon /> */}
             <Box
               borderRadius="24px"
               padding={"5px 20px 5px 5px"}

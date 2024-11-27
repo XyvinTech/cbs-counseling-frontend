@@ -97,7 +97,7 @@ export default function Events() {
     filter.page = pageNo;
     filter.limit = row;
     fetchLists(filter);
-  }, [isChange, fetchLists, search, pageNo,row]);
+  }, [isChange, search, pageNo,row]);
 
   return (
     <>
@@ -168,7 +168,7 @@ export default function Events() {
               paddingBottom={0}
               marginBottom={4}
               bgcolor={"white"}
-              borderRadius={"15px"}
+              borderRadius={"15px"} boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
             >
               <StyledTable
                 columns={userColumns}

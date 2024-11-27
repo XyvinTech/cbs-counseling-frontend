@@ -92,7 +92,11 @@ export default function AddType() {
   return (
     <>
       {" "}
-      <Box padding={"30px"} bgcolor={"#FFFFFF"}borderBottom= "1px solid #E0E0E0">
+      <Box
+        padding={"30px"}
+        bgcolor={"#FFFFFF"}
+        borderBottom="1px solid #E0E0E0"
+      >
         <Typography variant="h4" color={"#4A4647"}>
           Counseling Type
         </Typography>
@@ -119,6 +123,7 @@ export default function AddType() {
             marginBottom={4}
             bgcolor={"white"}
             borderRadius={"15px"}
+            boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
           >
             <StyledTable
               columns={userColumns}

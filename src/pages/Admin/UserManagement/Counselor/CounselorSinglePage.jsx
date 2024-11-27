@@ -1,4 +1,11 @@
-import { Box, Grid, LinearProgress, Tab, Tabs, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  LinearProgress,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import UserCard from "../../../../ui/UserCard";
 import StyledTable from "../../../../ui/StyledTable";
@@ -13,7 +20,7 @@ import CounselorCaseTable from "../../../../components/CounselorCaseTable";
 const CounselorSinglePage = () => {
   const { id } = useParams();
   const [selectedTab, setSelectedTab] = useState(0);
-  const { counselor, fetchUser,loading } = useCounselorStore();
+  const { counselor, fetchUser, loading } = useCounselorStore();
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -31,16 +38,17 @@ const CounselorSinglePage = () => {
   }, [id, fetchUser]);
 
   return (
-    <>  {loading ? (
-      <LinearProgress />
-    ) : (
-      <>
-      <Box padding={"30px"} bgcolor={"#FFFFFF"}>
-        <Typography variant="h4" color={"#4A4647"}>
-          Counselor / {counselor?.name}
-        </Typography>
-      </Box>{" "}
-    
+    <>
+      {" "}
+      {loading ? (
+        <LinearProgress />
+      ) : (
+        <>
+          <Box padding={"30px"} bgcolor={"#FFFFFF"} borderBottom={"1px solid #E0E0E0"}>
+            <Typography variant="h4" color={"#4A4647"}>
+              Counselor / {counselor?.name}
+            </Typography>
+          </Box>{" "}
           <Grid container spacing={4} padding={4}>
             <Grid item md={4} spacing={2} xs={12}>
               <UserCard user={counselor} />
@@ -88,12 +96,7 @@ const CounselorSinglePage = () => {
           </Tabs>
           <Box padding="30px" marginBottom={4}>
             {selectedTab === 0 && <CounsellingSessionTable id={id} />}
-            {selectedTab === 1 && (
-              <Typography>
-                {" "}
-                <StyledTable columns={Reports} />
-              </Typography>
-            )}
+            {selectedTab === 1 && <Typography>Not Found</Typography>}
             {selectedTab === 2 && <CounselorCaseTable id={id} />}
             {selectedTab === 3 && (
               <Typography>

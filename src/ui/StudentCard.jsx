@@ -12,6 +12,7 @@ const StudentCard = ({ user }) => {
       borderRadius={"12px"}
       padding={"10px"}
       minHeight={"180px"}
+      boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
     >
       <Grid item md={8} xs={12}>
         <Stack spacing={1}>

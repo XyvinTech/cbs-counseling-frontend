@@ -5,6 +5,7 @@ import { Box } from "@mui/material";
 
 const CounsellingSessionTable = ({ id }) => {
   const { fetchCounselorSession } = useListStore();
+  
   const sessions = [
     { title: "Session No", field: "session_id", padding: "none" },
 
@@ -27,7 +28,7 @@ const CounsellingSessionTable = ({ id }) => {
       paddingBottom={0}
       marginBottom={4}
       bgcolor={"white"}
-      borderRadius={"15px"}
+      borderRadius={"15px"}  boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
     >
       {" "}
       <StyledTable columns={sessions} dashboard />{" "}

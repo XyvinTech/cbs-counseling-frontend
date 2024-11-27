@@ -19,19 +19,11 @@ const StudentSinglePage = () => {
   const { id } = useParams();
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [filterOpen, setFilterOpen] = useState(false);
   const { fetchSession } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const { counselor, fetchUser, loading } = useCounselorStore();
 
-  const handleOpenFilter = () => {
-    setFilterOpen(true);
-  };
-
-  const handleCloseFilter = () => {
-    setFilterOpen(false);
-  };
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
     console.log("Selected items:", newSelectedIds);
@@ -43,33 +35,21 @@ const StudentSinglePage = () => {
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
-  const data = {
-    id: "STD920282",
-    name: "John Doe",
-    title: "XI A",
-    phone: "+1234567890",
-    email: "john.doe@example.com",
-    img: imag,
-  };
-  const user = {
-    name: "John Doe",
-    title: "XI A",
-    phone: "+1234567890",
-    email: "john.doe@example.com",
-  };
-  useEffect(() => {
-    let filter = {};
-    filter.page = pageNo;
-    filter.limit = row;
-    if (id) {
-      fetchSession(id, filter);
-    }
-  }, [id, fetchSession, pageNo, row]);
   useEffect(() => {
     if (id) {
       fetchUser(id);
     }
-  }, [id, fetchUser]);
+  }, [id]);
+  useEffect(() => {
+    let filter = {};
+    filter.page = pageNo;
+    filter.limit = row;
+    if (counselor?.StudentReferencesCode) {
+      fetchSession(counselor?.StudentReferencesCode, filter);
+    }
+  }, [counselor?.StudentReferencesCode, pageNo, row]);
+  console.log("StudentReferencesCode", counselor?.StudentReferencesCode);
+
   const sessions = [
     { title: "Session Date", field: "session_date" },
     { title: "Session Time", field: "session_time" },
@@ -84,7 +64,11 @@ const StudentSinglePage = () => {
         <LinearProgress />
       ) : (
         <>
-          <Box padding={"30px"} bgcolor={"#FFFFFF"}>
+          <Box
+            padding={"30px"}
+            bgcolor={"#FFFFFF"}
+            borderBottom={"1px solid #E0E0E0"}
+          >
             <Typography variant="h4" color={"#4A4647"}>
               Student List / {counselor.name}
             </Typography>
@@ -112,6 +96,7 @@ const StudentSinglePage = () => {
             sx={{
               bgcolor: "white",
               paddingTop: "34px",
+              boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
               "& .MuiTabs-indicator": {
                 backgroundColor: "#0072BC",
               },
@@ -134,25 +119,7 @@ const StudentSinglePage = () => {
                 justifyContent={"end"}
                 paddingBottom={3}
                 alignItems={"center"}
-              >
-                {/* <Stack direction={"row"} spacing={2}>
-              <StyledSearchbar />
-              <Box
-                bgcolor={"#FFFFFF"}
-                borderRadius={"50%"}
-                width={"48px"}
-                height={"48px"}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                border="1px solid rgba(0, 0, 0, 0.12)"
-                onClick={handleOpenFilter}
-                style={{ cursor: "pointer" }}
-              >
-                <FilterIcon />
-              </Box>
-            </Stack> */}
-              </Stack>
+              ></Stack>
 
               {selectedTab === 0 && (
                 <Box
@@ -160,6 +127,7 @@ const StudentSinglePage = () => {
                   marginBottom={4}
                   bgcolor={"white"}
                   borderRadius={"15px"}
+                  boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
                 >
                   {" "}
                   <StyledTable
@@ -168,6 +136,7 @@ const StudentSinglePage = () => {
                     setPageNo={setPageNo}
                     rowPerSize={row}
                     setRowPerSize={setRow}
+                    dashboard
                   />
                 </Box>
               )}

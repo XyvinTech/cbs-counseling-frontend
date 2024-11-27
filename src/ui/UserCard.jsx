@@ -12,8 +12,8 @@ const UserCard = ({ user }) => {
       borderRadius={"15px"}
       padding={"10px"}
       minHeight={"180px"}
+      boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
     >
-    
       <Grid item md={8} xs={6}>
         <Stack spacing={1}>
           {/* {user?.id ? (
@@ -40,16 +40,15 @@ const UserCard = ({ user }) => {
             </Typography>
           </Stack>
           {user?.StudentReferencesCode && (
-             <Stack direction="row" alignItems="center" spacing={1}>
-             <Typography variant="h6" color={"#2C2829"}>
-                 References Code :
-               </Typography>
-               <Typography variant="h6" color={"#2C2829"}>
-                 {user?.StudentReferencesCode}
-               </Typography>
-             </Stack>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="h6" color={"#2C2829"}>
+                References Code :
+              </Typography>
+              <Typography variant="h6" color={"#2C2829"}>
+                {user?.StudentReferencesCode}
+              </Typography>
+            </Stack>
           )}
-         
         </Stack>
       </Grid>
     </Grid>

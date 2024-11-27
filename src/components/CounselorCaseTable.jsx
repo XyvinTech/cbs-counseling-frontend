@@ -18,7 +18,7 @@ const CounselorCaseTable = ({ id }) => {
     }
   }, [id, fetchCounselorCase]);
   return (
-    <Box padding="2px" paddingBottom={0} marginBottom={4} bgcolor={"white"} borderRadius={"15px"}>
+    <Box padding="2px" paddingBottom={0} marginBottom={4}  boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"} bgcolor={"white"} borderRadius={"15px"}>
       <StyledTable columns={Cases} dashboard />
     </Box>
   );
