@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import StyledSelectField from "../../ui/StyledSelectField";
-import { StyledCalender } from "../../ui/StyledCalender";
 import { StyledButton } from "../../ui/StyledButton";
 import { useDropDownStore } from "../../store/dropDownStore";
 import { getExcelReport } from "../../api/admin/adminapi";
+import { StyledDatePicker } from "../../ui/StyledDatePicker";
+import { toast } from "react-toastify";
 
 const AdminReport = () => {
   const {
@@ -61,51 +62,69 @@ const AdminReport = () => {
       const formData = {
         reportType: type,
       };
-      if (type === "case" || type === "session") {
+      if (type === "session") {
         formData.startDate = fdata?.startDate;
         formData.endDate = fdata?.endDate;
         formData.counselor = fdata?.counselor?.value;
         formData.grNumber = fdata?.student?.value;
       }
+      if (type === "case") {
+        formData.grNumber = fdata?.student?.value;
+      }
       const response = await getExcelReport(formData);
       const data = response.data;
+      if (data?.data.length > 0) {
+        const flattenedData = data?.data?.map((item) => {
+          switch (type) {
+            case "student-session-count":
+            case "teacher-session-count":
+            case "parent-session-count":
+              return [item?.counsellor_name, item?.session_count];
+              case "case":
+              return [
+                item?.case_id,
+                item?.session_id,
+                item?.student_name,
+                item?.session_date,
+                item?.session_time,
+                item?.description,
+                item?.status,
+              ];
+            default:
+              return [
+                item?.case_id,
+                item?.session_id,
+                item?.student_name,
+                item?.counsellor_name,
+                item?.counseling_type?.map((type) => type).join(", "),
+                item?.session_date,
+                item?.session_time,
+                item?.description,
+                item?.status,
+              ];
+          }
+        });
 
-      const flattenedData = data?.data?.map((item) => {
-        switch (type) {
-          case "student-session-count":
-          case "teacher-session-count":
-          case "parent-session-count":
-            return [item?.counsellor_name, item?.session_count];
-          default:
-            return [
-              item?.case_id,
-              item?.session_id,
-              item?.student_name,
-              item?.counsellor_name,
-              item?.counseling_type?.map((type) => type).join(", "),
-              item?.session_date,
-              item?.session_time,
-              item?.description,
-              item?.status,
-            ];
-        }
-      });
+        const csvHeaders = data.headers.join(",");
+        const csvRows = [
+          csvHeaders,
+          ...flattenedData.map((row) => row.join(",")),
+        ];
+        const csvContent = csvRows.join("\n");
+        const blob = new Blob([csvContent], {
+          type: "text/csv;charset=utf-8;",
+        });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.setAttribute("download", "report.csv");
+        document.body.appendChild(link);
+        link.click();
 
-      const csvHeaders = data.headers.join(",");
-      const csvRows = [
-        csvHeaders,
-        ...flattenedData.map((row) => row.join(",")),
-      ];
-      const csvContent = csvRows.join("\n");
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.setAttribute("download", "report.csv");
-      document.body.appendChild(link);
-      link.click();
-
-      document.body.removeChild(link);
-      reset();
+        document.body.removeChild(link);
+        reset();
+      } else {
+        toast.error("No data found");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -166,7 +185,7 @@ const AdminReport = () => {
                   render={({ field }) => (
                     <>
                       {" "}
-                      <StyledCalender
+                      <StyledDatePicker
                         label="Select Date from Calendar"
                         {...field}
                       />
@@ -194,7 +213,7 @@ const AdminReport = () => {
                   }}
                   render={({ field }) => (
                     <>
-                      <StyledCalender
+                      <StyledDatePicker
                         label="Select Date from Calendar"
                         {...field}
                       />
@@ -254,28 +273,28 @@ const AdminReport = () => {
             </>
           )}
           {type === "case" && (
-             <Grid item xs={12}>
-             <Typography
-               sx={{ marginBottom: 1 }}
-               variant="h6"
-               fontWeight={500}
-               color={"#333333"}
-             >
-               Student Name
-             </Typography>
-             <Controller
-               name="student"
-               control={control}
-               defaultValue=""
-               render={({ field }) => (
-                 <StyledSelectField
-                   placeholder="Select Student"
-                   options={studentOptions}
-                   {...field}
-                 />
-               )}
-             />
-           </Grid>
+            <Grid item xs={12}>
+              <Typography
+                sx={{ marginBottom: 1 }}
+                variant="h6"
+                fontWeight={500}
+                color={"#333333"}
+              >
+                Student Name
+              </Typography>
+              <Controller
+                name="student"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <StyledSelectField
+                    placeholder="Select Student"
+                    options={studentOptions}
+                    {...field}
+                  />
+                )}
+              />
+            </Grid>
           )}
           <Grid item xs={12} alignItems={"flex-start"}>
             <Stack direction={"row"} spacing={2} justifyContent="flex-end">
