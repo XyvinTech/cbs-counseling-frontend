@@ -149,7 +149,7 @@ const AdminReport = () => {
             />
           </Grid>
           {type === "case" ||
-            (type === "session" && (
+            type === "session" && (
               <>
                 <Grid item xs={12}>
                   <Typography
@@ -253,7 +253,7 @@ const AdminReport = () => {
                   />
                 </Grid>{" "}
               </>
-            ))}
+            )}
           <Grid item xs={12} alignItems={"flex-start"}>
             <Stack direction={"row"} spacing={2} justifyContent="flex-end">
               <StyledButton name="Cancel" variant="secondary" />
