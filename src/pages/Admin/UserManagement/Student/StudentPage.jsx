@@ -179,7 +179,7 @@ const StudentPage = () => {
             >
               <Stack direction={"row"} spacing={2}>
                 <StyledSearchbar
-                  placeholder={"Search Student Name"}
+                  placeholder={"Search by Student Name/ GR Number"}
                   onchange={(e) => setSearch(e.target.value)}
                 />
                 {/* <Box
