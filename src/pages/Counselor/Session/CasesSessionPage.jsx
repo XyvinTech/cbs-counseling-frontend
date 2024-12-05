@@ -6,12 +6,13 @@ import { useListStore } from "../../../store/listStore";
 import { StyledButton } from "../../../ui/StyledButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { useCounselorStore } from "../../../store/admin/CounselorStore";
+import { getExcelData } from "../../../api/admin/counselorapi";
 const CasesSessionPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { counselorSesssionsByCaseId } = useListStore();
   const [selectedRows, setSelectedRows] = useState([]);
-  
+
   const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const { showBackButton, setShowBackButton } = useCounselorStore();
   const handleSelectionChange = (newSelectedIds) => {
@@ -46,30 +47,77 @@ const CasesSessionPage = () => {
   useEffect(() => {
     handleRefresh();
   }, [id]);
+  const fetchAndSetCsvData = async () => {
+    try {
+      const response = await getExcelData({ case_id: id });
+      const data = response.data;
+
+      const flattenedData = data.data.map((item) => [
+        item.case_id,
+        item.session_id,
+        item.student_name,
+        item.counsellor_name,
+        item.counseling_type?.map((type) => type).join(", "),
+        item.session_date,
+        item.session_time,
+        item.description,
+        item.status,
+      ]);
+
+      const csvHeaders = data.headers.join(",");
+      const csvRows = [
+        csvHeaders,
+        ...flattenedData.map((row) => row.join(",")),
+      ];
+      const csvContent = csvRows.join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute("download", "counselor_sessions.csv");
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Failed to fetch CSV data:", error);
+    }
+  };
   const handleBack = () => {
     setShowBackButton(false);
     navigate(-1);
   };
   return (
     <>
-      <Box
+      <Stack
+        direction={"row"}
         padding={"30px"}
         bgcolor={"#FFFFFF"}
         paddingBottom={0}
+        justifyContent={"space-between"}
         borderBottom={"1px solid #E0E0E0"}
       >
-        <Typography variant="h4" color={"#4A4647"}>
-          Cases / session
-        </Typography>
-        <Stack direction="row" alignItems="center">
-          <Typography color="#828282" fontSize={"12px"}>
-            Last synced: {lastSynced}
+        <Stack>
+          <Typography variant="h4" color={"#4A4647"}>
+            Cases / session
           </Typography>
-          <IconButton size="12px" onClick={handleRefresh} color="primary">
-            <RefreshIcon />
-          </IconButton>
+          <Stack direction="row" alignItems="center">
+            <Typography color="#828282" fontSize={"12px"}>
+              Last synced: {lastSynced}
+            </Typography>
+            <IconButton size="12px" onClick={handleRefresh} color="primary">
+              <RefreshIcon />
+            </IconButton>
+          </Stack>
+        </Stack>{" "}
+        <Stack>
+          {" "}
+          <StyledButton
+            variant="filter"
+            name="Download CSV"
+            onClick={fetchAndSetCsvData}
+          />
         </Stack>
-      </Box>{" "}
+      </Stack>{" "}
       <Box padding="30px" marginBottom={4} bgcolor={"#FFFFFF"}>
         <>
           <Stack

@@ -1,11 +1,8 @@
 import { Box, Grid, IconButton, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import UserCard from "../../../ui/UserCard";
-import imag from "../../../assets/images/staff.png";
 import CaseCard from "../../../ui/CaseCard";
 import { useParams } from "react-router-dom";
 import { useSessionStore } from "../../../store/counselor/SessionStore";
-import CounselorCard from "../../../ui/CounselorCard";
 import CaseDetails from "../../../ui/CaseDetails";
 import StudentCard from "../../../ui/StudentCard";
 import { StyledButton } from "../../../ui/StyledButton";
@@ -35,7 +32,7 @@ const SessionDetails = () => {
   }, [id]);
   const handleDownloadReport = async () => {
     try {
-      const response = await getPdfReport();
+      const response = await getPdfReport({session: id});
       const base64Data = response.data;
       const byteArray = base64js.toByteArray(base64Data);
       const pdfBlob = new Blob([byteArray], { type: "application/pdf" });

@@ -76,12 +76,12 @@ const subNavigation = [
     icon: <CalendarMonthIcon />,
   },
   { name: "Counseling Type", to: "/addType", icon: <NewspaperOutlinedIcon /> },
-  // {
-  //   name: "Notification",
-  //   to: "/notification",
-  //   icon: <NotificationsNoneOutlinedIcon />,
-  // },
-  // { name: "Settings", to: "/settings", icon: <SettingsOutlinedIcon /> },
+  {
+    name: "Report",
+    to: "/report",
+    icon: <NotificationsNoneOutlinedIcon />,
+  },
+  { name: "Settings", to: "/settings", icon: <SettingsOutlinedIcon /> },
 ];
 const SimpleDialog = ({ open, onClose }) => {
   const navigate = useNavigate();

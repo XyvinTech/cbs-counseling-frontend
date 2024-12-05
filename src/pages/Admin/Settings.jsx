@@ -1,94 +1,110 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box, Typography, Grid, Stack } from "@mui/material";
-
-import { StyledButton } from "../../ui/StyledButton";
-import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField .jsx";
-import { StyledCalender } from "../../ui/StyledCalender";
 import StyledInput from "../../ui/StyledInput";
 import { Controller, useForm } from "react-hook-form";
-import StyledUploadImage from "../../ui/StyledUploadImage";
-import { StyledTime } from "../../ui/StyledTime.jsx";
-import { useAdminStore } from "../../store/admin/AdminStore.js";
+import { StyledButton } from "../../ui/StyledButton";
+import { resetPassword } from "../../api/admin/adminapi";
 
 export default function Settings() {
-  const { admin, update, updateChange ,isChange} = useAdminStore();
   const {
     control,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm();
-  useEffect(() => {
-    if (admin) {
-      reset({
-        name: admin.name || "",
-        email: admin.email || "",
-      });
-    }
-  }, [admin, reset]);
+
+  const newPassword = watch("newPassword");
+
   const onSubmit = async (data) => {
-    const formData = {
-      name: data?.name,
-      email: data?.email,
-      status: admin?.status,
-    };
-    await update(admin.id, formData);
-    updateChange(isChange);
+    await resetPassword(data);
+    reset();
   };
+
   return (
-    <Box sx={{ padding: 3 }}  borderRadius={"4px"}>
+    <Box
+      sx={{ margin: 3, marginTop: 10 }}
+      padding={3}
+      boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
+      bgcolor={"white"}
+      width={"900px"}
+      borderRadius={"15px"}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={4}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Typography
               sx={{ marginBottom: 1 }}
               variant="h6"
               fontWeight={500}
               color={"#333333"}
             >
-              Name
+              Old Password
             </Typography>
             <Controller
-              name="name"
+              name="oldPassword"
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <>
-                  <StyledInput placeholder="Enter Name" {...field} />
-                </>
+                <StyledInput placeholder="Enter Password" {...field} />
               )}
             />
           </Grid>
-          <Grid item xs={6}></Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Typography
               sx={{ marginBottom: 1 }}
               variant="h6"
               fontWeight={500}
               color={"#333333"}
             >
-              Email
+              New Password
             </Typography>
             <Controller
-              name="email"
+              name="newPassword"
               control={control}
               defaultValue=""
               render={({ field }) => (
+                <StyledInput placeholder="Enter Password" {...field} />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              fontWeight={500}
+              color={"#333333"}
+            >
+              Confirm Password
+            </Typography>
+            <Controller
+              name="confirmPassword"
+              control={control}
+              defaultValue=""
+              rules={{
+                validate: (value) => {
+                  return value === newPassword || "Passwords do not match";
+                },
+              }}
+              render={({ field }) => (
                 <>
-                  <StyledInput placeholder="Enter Email" {...field} />
+                  <StyledInput placeholder="Enter Password" {...field} />
+                  {errors.confirmPassword && (
+                    <Typography color="red" variant="caption">
+                      {errors.confirmPassword.message}
+                    </Typography>
+                  )}
                 </>
               )}
             />
           </Grid>
-          <Grid item xs={6}></Grid>
-          <Grid item xs={6} alignItems={"flex-end"}>
-            <Stack
-              direction={"row"}
-              spacing={2}
-              justifyContent="flex-end"
-              width={"100px"}
-            >
-              <StyledButton name="Edit" variant="primary" type="submit" />
+          <Grid item xs={12} alignItems={"flex-start"}>
+            <Stack direction={"row"} spacing={2} justifyContent="flex-end">
+              <StyledButton
+                name="Confirm Password"
+                variant="primary"
+                type="submit"
+              />
             </Stack>
           </Grid>
         </Grid>

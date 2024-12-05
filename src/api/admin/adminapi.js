@@ -135,3 +135,14 @@ export const getGrDetails = async (data) => {
     console.error("Error caught:", error);
   }
 };
+export const getExcelReport = async (filter) => {
+  try {
+    const response = await axiosInstance.get(`admin/sessions-excel`, {
+      params: filter,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(error.response.data.message);
+  }
+};

@@ -79,13 +79,15 @@ export const getCalendar = handleAsync(async () => {
 
   return response.data;
 });
-export const getPdfReport = handleAsync(async () => {
-  const response = await axiosInstance.post(`counsellor/student-report`);
+export const getPdfReport = handleAsync(async (data) => {
+  const response = await axiosInstance.post(`counsellor/student-report`, data);
 
   return response.data;
 });
-export const getExcelData = handleAsync(async () => {
-  const response = await axiosInstance.get(`counsellor/sessions-excel`);
+export const getExcelData = handleAsync(async (filter) => {
+  const response = await axiosInstance.get(`counsellor/sessions-excel`, {
+    params: filter,
+  });
 
   return response.data;
 });

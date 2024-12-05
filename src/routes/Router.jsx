@@ -10,7 +10,6 @@ import StudentPage from "../pages/Admin/UserManagement/Student/StudentPage";
 import StudentSinglePage from "../pages/Admin/UserManagement/Student/StudentSinglePage";
 import SessionPage from "../pages/Admin/CasesAndSession/SessionPage";
 import Notification from "../pages/Admin/Notification";
-import Report from "../pages/Admin/Report";
 import Settings from "../pages/Admin/Settings";
 import Events from "../pages/Admin/Events/Events";
 import EventsSinglepage from "../pages/Admin/Events/EventsSinglepage";
@@ -43,6 +42,7 @@ import BigCalendar from "../ui/BigCalendar";
 import AddRemarks from "../pages/Counselor/Session/AddRemarks";
 import StudentRegForm from "../components/StudentRegForm";
 import AddMeeting from "../components/BookAppointmentForm";
+import AdminReport from "../pages/Admin/AdminReport";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -189,17 +189,17 @@ const router = createBrowserRouter([
     element: (
       <PrivateRoute allowedRoles={["admin"]}>
         <AdminLayout>
-          <Report />
+          <AdminReport/>
         </AdminLayout>{" "}
       </PrivateRoute>
     ),
   },
   {
-    path: "/notification",
+    path: "/report",
     element: (
       <PrivateRoute allowedRoles={["admin"]}>
         <AdminLayout>
-          <Notification />
+          <AdminReport />
         </AdminLayout>{" "}
       </PrivateRoute>
     ),
