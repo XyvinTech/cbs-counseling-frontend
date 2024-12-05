@@ -45,6 +45,7 @@ import { useNotificationStore } from "../store/notificationStore";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import images from "../assets/images/schoolLogo.png";
 import background from "../assets/images/bgLow.png";
+import AssessmentIcon from '@mui/icons-material/Assessment';
 const drawerWidth = 250;
 const subNavigation = [
   { name: "Dashboard", to: "/dashboard", icon: <GridViewIcon /> },
@@ -79,7 +80,7 @@ const subNavigation = [
   {
     name: "Report",
     to: "/report",
-    icon: <NotificationsNoneOutlinedIcon />,
+    icon: <AssessmentIcon />,
   },
   { name: "Settings", to: "/settings", icon: <SettingsOutlinedIcon /> },
 ];

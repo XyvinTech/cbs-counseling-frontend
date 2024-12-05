@@ -7,6 +7,7 @@ import { StyledButton } from "../../ui/StyledButton";
 import { useDropDownStore } from "../../store/dropDownStore";
 import { getExcelReport } from "../../api/admin/adminapi";
 
+
 const AdminReport = () => {
   const {
     control,
@@ -148,8 +149,7 @@ const AdminReport = () => {
               )}
             />
           </Grid>
-          {type === "case" ||
-            type === "session" && (
+          {(type === "case" || type === "session")&& (
               <>
                 <Grid item xs={12}>
                   <Typography
