@@ -7,7 +7,6 @@ import { StyledButton } from "../../ui/StyledButton";
 import { useDropDownStore } from "../../store/dropDownStore";
 import { getExcelReport } from "../../api/admin/adminapi";
 
-
 const AdminReport = () => {
   const {
     control,
@@ -24,9 +23,9 @@ const AdminReport = () => {
   const Types = [
     { label: "Session", value: "session" },
     { label: "Case", value: "case" },
-    { label: "Student-session-count", value: "student-session-count" },
-    { label: "Teacher-session-count", value: "teacher-session-count" },
-    { label: "Parent-session-count", value: "parent-session-count" },
+    { label: "Student session count", value: "student-session-count" },
+    { label: "Teacher session count", value: "teacher-session-count" },
+    { label: "Parent session count", value: "parent-session-count" },
   ];
   const handleTypeChange = (selectedOption) => {
     setType(selectedOption.value);
@@ -149,111 +148,135 @@ const AdminReport = () => {
               )}
             />
           </Grid>
-          {(type === "case" || type === "session")&& (
-              <>
-                <Grid item xs={12}>
-                  <Typography
-                    sx={{ marginBottom: 1 }}
-                    variant="h6"
-                    fontWeight={500}
-                    color={"#333333"}
-                  >
-                    start Date
-                  </Typography>
-                  <Controller
-                    name="startDate"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <>
-                        {" "}
-                        <StyledCalender
-                          label="Select Date from Calendar"
-                          {...field}
-                        />
-                      </>
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    sx={{ marginBottom: 1 }}
-                    variant="h6"
-                    fontWeight={500}
-                    color={"#333333"}
-                  >
-                    End Date
-                  </Typography>
-                  <Controller
-                    name="endDate"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required: watchStartDate
-                        ? "End Date is required when Start Date is selected."
-                        : false,
-                    }}
-                    render={({ field }) => (
-                      <>
-                        <StyledCalender
-                          label="Select Date from Calendar"
-                          {...field}
-                        />
-                        {errors.endDate && (
-                          <span style={{ color: "red" }}>
-                            {errors.endDate.message}
-                          </span>
-                        )}
-                      </>
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    sx={{ marginBottom: 1 }}
-                    variant="h6"
-                    fontWeight={500}
-                    color={"#333333"}
-                  >
-                    Counselor Name
-                  </Typography>
-                  <Controller
-                    name="counselor"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <StyledSelectField
-                        placeholder="Select Counselor"
-                        options={counselorOptions}
+          {type === "session" && (
+            <>
+              <Grid item xs={12}>
+                <Typography
+                  sx={{ marginBottom: 1 }}
+                  variant="h6"
+                  fontWeight={500}
+                  color={"#333333"}
+                >
+                  Start Date
+                </Typography>
+                <Controller
+                  name="startDate"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <>
+                      {" "}
+                      <StyledCalender
+                        label="Select Date from Calendar"
                         {...field}
                       />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    sx={{ marginBottom: 1 }}
-                    variant="h6"
-                    fontWeight={500}
-                    color={"#333333"}
-                  >
-                    Student Name
-                  </Typography>
-                  <Controller
-                    name="student"
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <StyledSelectField
-                        placeholder="Select Student"
-                        options={studentOptions}
+                    </>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography
+                  sx={{ marginBottom: 1 }}
+                  variant="h6"
+                  fontWeight={500}
+                  color={"#333333"}
+                >
+                  End Date
+                </Typography>
+                <Controller
+                  name="endDate"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    required: watchStartDate
+                      ? "End Date is required when Start Date is selected."
+                      : false,
+                  }}
+                  render={({ field }) => (
+                    <>
+                      <StyledCalender
+                        label="Select Date from Calendar"
                         {...field}
                       />
-                    )}
-                  />
-                </Grid>{" "}
-              </>
-            )}
+                      {errors.endDate && (
+                        <span style={{ color: "red" }}>
+                          {errors.endDate.message}
+                        </span>
+                      )}
+                    </>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography
+                  sx={{ marginBottom: 1 }}
+                  variant="h6"
+                  fontWeight={500}
+                  color={"#333333"}
+                >
+                  Counselor Name
+                </Typography>
+                <Controller
+                  name="counselor"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <StyledSelectField
+                      placeholder="Select Counselor"
+                      options={counselorOptions}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography
+                  sx={{ marginBottom: 1 }}
+                  variant="h6"
+                  fontWeight={500}
+                  color={"#333333"}
+                >
+                  Student Name
+                </Typography>
+                <Controller
+                  name="student"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <StyledSelectField
+                      placeholder="Select Student"
+                      options={studentOptions}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>{" "}
+            </>
+          )}
+          {type === "case" && (
+             <Grid item xs={12}>
+             <Typography
+               sx={{ marginBottom: 1 }}
+               variant="h6"
+               fontWeight={500}
+               color={"#333333"}
+             >
+               Student Name
+             </Typography>
+             <Controller
+               name="student"
+               control={control}
+               defaultValue=""
+               render={({ field }) => (
+                 <StyledSelectField
+                   placeholder="Select Student"
+                   options={studentOptions}
+                   {...field}
+                 />
+               )}
+             />
+           </Grid>
+          )}
           <Grid item xs={12} alignItems={"flex-start"}>
             <Stack direction={"row"} spacing={2} justifyContent="flex-end">
               <StyledButton name="Cancel" variant="secondary" />
