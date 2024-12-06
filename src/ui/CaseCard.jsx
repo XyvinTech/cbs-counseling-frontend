@@ -154,11 +154,11 @@ const CaseCard = ({ data }) => {
           </Stack>
         )}
       {data?.report && data?.report?.length > 0 && (
-        <Stack padding={2}>
+        <Stack padding={2} direction={"row"}justifyContent={"space-between"}>
           <Typography variant="h6" color={"#828282"}>
             Uploaded Documents
           </Typography>
-          <Stack direction="column" spacing={1}>
+          <Stack direction="column" spacing={2}>
             {data?.report?.map((file, index) => {
               const reportUrl = `https://able.iswkoman.com/images/${file}`;
               return (
