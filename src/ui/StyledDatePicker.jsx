@@ -51,22 +51,15 @@ const StyledSpan = styled.span`
 
 export const StyledDatePicker = ({
   onChange,
+  value, // Receive value from parent
   label,
   highlightDays,
   rowData,
   form,
 }) => {
-  const [selectedDate, setSelectedDate] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
-  useEffect(() => {
-    if (rowData?.date) {
-      setSelectedDate(parseISO(rowData.date));
-    }
-  }, [rowData]);
-
   const handleDateChange = (date) => {
-    setSelectedDate(date);
     if (onChange) {
       const formattedDate = format(date, "yyyy-MM-dd");
       const dayOfWeek = format(date, "EEEE");
@@ -79,8 +72,8 @@ export const StyledDatePicker = ({
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <CalendarContainer>
         <PlaceholderContainer onClick={() => setOpenModal(true)}>
-          <StyledSpan selectedDate={selectedDate}>
-            {selectedDate ? format(selectedDate, "yyyy-MM-dd") : label}
+          <StyledSpan selectedDate={value}>
+            {value ? format(parseISO(value), "yyyy-MM-dd") : label}
           </StyledSpan>
           <IconButton>
             <CalendarTodayIcon />
@@ -95,8 +88,7 @@ export const StyledDatePicker = ({
           <DialogContent>
             <Calendar
               onChange={handleDateChange}
-              value={selectedDate}
-              //   tileClassName={tileClassName}
+              value={value ? parseISO(value) : null}
             />
           </DialogContent>
         </Dialog>
@@ -104,3 +96,4 @@ export const StyledDatePicker = ({
     </LocalizationProvider>
   );
 };
+

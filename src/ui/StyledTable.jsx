@@ -48,7 +48,7 @@ const StyledTableRow = styled(TableRow)`
     background-color: #ffffff; /* White for odd rows */
   }
   &:nth-of-type(even) {
-    background-color: #FFE5F2; /* Gray for even rows */
+    background-color: #ffe5f2; /* Gray for even rows */
   }
   &:last-child td,
   &:last-child th {
@@ -56,7 +56,7 @@ const StyledTableRow = styled(TableRow)`
   }
   cursor: ${({ showEdit }) => (showEdit ? "pointer" : "default")};
   &:hover {
-    background-color:#FBBFDE;
+    background-color: #fbbfde;
   }
 `;
 
@@ -374,6 +374,9 @@ const StyledTable = ({
                           "case_date",
                         ].includes(column.field) ? (
                         formatDate(row[column.field])
+                      ) : typeof row[column.field] === "string" &&
+                        row[column.field].length > 30 ? (
+                        `${row[column.field].slice(0, 30)}...`
                       ) : (
                         row[column.field]
                       )}

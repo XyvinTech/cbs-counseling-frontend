@@ -146,3 +146,12 @@ export const getExcelReport = async (filter) => {
     console.error(error.response.data.message);
   }
 };
+export const getReport = async (data) => {
+  try {
+    const response = await axiosInstance.post(`admin/student-report`, data);
+
+    return response.data;
+  } catch (error) {
+    console.error(error.response.data.message);
+  }
+};

@@ -115,19 +115,14 @@ const CounselorSinglePage = () => {
             }}
           >
             <Tab label="Counseling Sessions" />
-            <Tab label="Reports" />
+          
             <Tab label="Cases" />
-            <Tab label="Reviews" />
           </Tabs>
           <Box padding="30px" marginBottom={4}>
             {selectedTab === 0 && <CounsellingSessionTable id={id} />}
-            {selectedTab === 1 && <Typography>Not Found</Typography>}
-            {selectedTab === 2 && <CounselorCaseTable id={id} />}
-            {selectedTab === 3 && (
-              <Typography>
-                <Review />
-              </Typography>
-            )}
+            {/* {selectedTab === 1 && <Typography>Not Found</Typography>} */}
+            {selectedTab === 1 && <CounselorCaseTable id={id} />}
+            
           </Box>{" "}
         </>
       )}

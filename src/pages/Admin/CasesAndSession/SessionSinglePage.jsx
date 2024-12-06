@@ -7,6 +7,10 @@ import CaseCard from "../../../ui/CaseCard";
 import { useSessionStore } from "../../../store/counselor/SessionStore";
 import CounselorCard from "../../../ui/CounselorCard";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import { getReport } from "../../../api/admin/adminapi";
+import { StyledButton } from "../../../ui/StyledButton";
+import { saveAs } from "file-saver";
+import * as base64js from "base64-js";
 const SessionSinglePage = () => {
   const { id } = useParams();
   const { sessions, adminSessionReport } = useSessionStore();
@@ -28,18 +32,30 @@ const SessionSinglePage = () => {
   useEffect(() => {
     handleRefresh();
   }, [id]);
+  const handleDownloadReport = async () => {
+    try {
+      const response = await getReport({session: id});
+      const base64Data = response.data;
+      const byteArray = base64js.toByteArray(base64Data);
+      const pdfBlob = new Blob([byteArray], { type: "application/pdf" });
+      saveAs(pdfBlob, "report.pdf");
+    } catch (error) {
+      console.error("Failed to download report:", error);
+    }
+  };
   return (
     <>
       <Box
         padding={"30px"}
         bgcolor={"#FFFFFF"}
         paddingBottom={0}
-        borderBottom={"1px solid #E0E0E0"}
+        borderBottom={"1px solid #E0E0E0"}display="flex"
+        justifyContent="space-between"
+        alignItems="center"
       >
-        <Typography variant="h4" color={"#4A4647"}>
+       <Typography variant="h4" color={"#4A4647"}>
           Cases / Case ID / Session No
-        </Typography>
-        <Stack direction="row" alignItems="center">
+          <Stack direction="row" alignItems="center">
           <Typography color="#828282" fontSize={"12px"}>
             Last synced: {lastSynced}
           </Typography>
@@ -47,6 +63,13 @@ const SessionSinglePage = () => {
             <RefreshIcon />
           </IconButton>
         </Stack>
+        </Typography>
+      
+        <StyledButton
+          variant={"filter"}
+          name={"Download report"}
+          onClick={handleDownloadReport}
+        />
       </Box>
       <Grid container spacing={6} padding={4}>
         <Grid item md={5}>

@@ -35,6 +35,7 @@ const SessionPage = () => {
     { title: "Type", field: "type" },
     { title: "Date", field: "session_date" },
     { title: "Time", field: "session_time" },
+    { title: "Cancel Reason", field: "c_cancel_remark" },
     { title: "Status", field: "status" },
   ];
   const handleRefresh = () => {

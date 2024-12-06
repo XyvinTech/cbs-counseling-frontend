@@ -24,9 +24,7 @@ const AdminReport = () => {
   const Types = [
     { label: "Session", value: "session" },
     { label: "Case", value: "case" },
-    { label: "Student session count", value: "student-session-count" },
-    { label: "Teacher session count", value: "teacher-session-count" },
-    { label: "Parent session count", value: "parent-session-count" },
+    { label: "Session count", value: "session-count" },
   ];
   const handleTypeChange = (selectedOption) => {
     setType(selectedOption.value);
@@ -61,10 +59,10 @@ const AdminReport = () => {
     try {
       const formData = {
         reportType: type,
+        startDate: fdata?.startDate,
+        endDate: fdata?.endDate,
       };
       if (type === "session") {
-        formData.startDate = fdata?.startDate;
-        formData.endDate = fdata?.endDate;
         formData.counselor = fdata?.counselor?.value;
         formData.grNumber = fdata?.student?.value;
       }
@@ -76,19 +74,21 @@ const AdminReport = () => {
       if (data?.data.length > 0) {
         const flattenedData = data?.data?.map((item) => {
           switch (type) {
-            case "student-session-count":
-            case "teacher-session-count":
-            case "parent-session-count":
-              return [item?.counsellor_name, item?.session_count];
-              case "case":
+            case "session-count":
+              return [item?.counsellor_name,item?.referee, item?.session_count];
+            case "case":
               return [
                 item?.case_id,
-                item?.session_id,
                 item?.student_name,
+                item?.counsellor_name,
+                item?.counseling_type,
+                item?.status,
+                item?.session_id,
                 item?.session_date,
                 item?.session_time,
                 item?.description,
-                item?.status,
+                item?.case_details,
+               
               ];
             default:
               return [
@@ -167,65 +167,67 @@ const AdminReport = () => {
               )}
             />
           </Grid>
+          <Grid item xs={12}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              fontWeight={500}
+              color={"#333333"}
+            >
+              Start Date
+            </Typography>
+            <Controller
+              name="startDate"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <>
+                  {" "}
+                  <StyledDatePicker
+                    label="Select Date from Calendar"
+                    value={field.value}
+                    {...field}
+                    
+                  />
+                </>
+              )}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              fontWeight={500}
+              color={"#333333"}
+            >
+              End Date
+            </Typography>
+            <Controller
+              name="endDate"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: watchStartDate
+                  ? "End Date is required when Start Date is selected."
+                  : false,
+              }}
+              render={({ field }) => (
+                <>
+                  <StyledDatePicker
+                    label="Select Date from Calendar"
+                    {...field}
+                  />
+                  {errors.endDate && (
+                    <span style={{ color: "red" }}>
+                      {errors.endDate.message}
+                    </span>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
           {type === "session" && (
             <>
-              <Grid item xs={12}>
-                <Typography
-                  sx={{ marginBottom: 1 }}
-                  variant="h6"
-                  fontWeight={500}
-                  color={"#333333"}
-                >
-                  Start Date
-                </Typography>
-                <Controller
-                  name="startDate"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <>
-                      {" "}
-                      <StyledDatePicker
-                        label="Select Date from Calendar"
-                        {...field}
-                      />
-                    </>
-                  )}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography
-                  sx={{ marginBottom: 1 }}
-                  variant="h6"
-                  fontWeight={500}
-                  color={"#333333"}
-                >
-                  End Date
-                </Typography>
-                <Controller
-                  name="endDate"
-                  control={control}
-                  defaultValue=""
-                  rules={{
-                    required: watchStartDate
-                      ? "End Date is required when Start Date is selected."
-                      : false,
-                  }}
-                  render={({ field }) => (
-                    <>
-                      <StyledDatePicker
-                        label="Select Date from Calendar"
-                        {...field}
-                      />
-                      {errors.endDate && (
-                        <span style={{ color: "red" }}>
-                          {errors.endDate.message}
-                        </span>
-                      )}
-                    </>
-                  )}
-                />
-              </Grid>
               <Grid item xs={12}>
                 <Typography
                   sx={{ marginBottom: 1 }}
@@ -273,28 +275,30 @@ const AdminReport = () => {
             </>
           )}
           {type === "case" && (
-            <Grid item xs={12}>
-              <Typography
-                sx={{ marginBottom: 1 }}
-                variant="h6"
-                fontWeight={500}
-                color={"#333333"}
-              >
-                Student Name
-              </Typography>
-              <Controller
-                name="student"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <StyledSelectField
-                    placeholder="Select Student"
-                    options={studentOptions}
-                    {...field}
-                  />
-                )}
-              />
-            </Grid>
+            <>
+              <Grid item xs={12}>
+                <Typography
+                  sx={{ marginBottom: 1 }}
+                  variant="h6"
+                  fontWeight={500}
+                  color={"#333333"}
+                >
+                  Student Name
+                </Typography>
+                <Controller
+                  name="student"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <StyledSelectField
+                      placeholder="Select Student"
+                      options={studentOptions}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>{" "}
+            </>
           )}
           <Grid item xs={12} alignItems={"flex-start"}>
             <Stack direction={"row"} spacing={2} justifyContent="flex-end">

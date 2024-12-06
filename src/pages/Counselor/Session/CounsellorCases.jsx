@@ -121,6 +121,7 @@ const CounsellorCases = ({ refreshTrigger, setLastSynced }) => {
     { title: "Session Date", field: "session_date" },
     { title: "Session Time", field: "session_time" },
     { title: "Booked By", field: "referee" },
+    { title: "Cancel Reason", field: "c_cancel_remark" },
     { title: "Status", field: "status" },
   ];
 

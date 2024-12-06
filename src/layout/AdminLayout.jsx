@@ -394,7 +394,7 @@ const AdminLayout = (props) => {
       >
         <Toolbar
           sx={{
-            height: "98px",
+            height: "90px",
             justifyContent: "space-between",
             paddingRight: "20px",
           }}
@@ -496,13 +496,29 @@ const AdminLayout = (props) => {
       </Box>
       <Box
         component="main"
-        sx={{
-          flexGrow: 1,
-          minHeight: "100vh",
-          backgroundImage: `url(${background}) `,
-          paddingTop: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
+       sx={{
+    flexGrow: 1,
+    minHeight: "100vh",
+    backgroundImage: `url(${background})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    paddingTop: 3,
+    width: { sm: `calc(100% - ${drawerWidth}px)` },
+    position: "relative", // Ensure it's properly placed
+    zIndex: 1, // Avoid overlay issues
+    "&::before": {
+      content: '""',
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: "rgba(255, 255, 255, 0.3)", // Translucent layer
+      backdropFilter: "blur(2px)", // Apply the blur
+      zIndex: -1, // Place it behind the content
+   
+    },
+  }}
       >
         <Toolbar />
         {children}
