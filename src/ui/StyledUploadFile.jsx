@@ -52,7 +52,7 @@ const ImagePreview = styled(Box)({
 
 const StyledUploadFile = ({ label, onChange }) => {
   const fileInputRef = useRef(null);
-  const [files, setFiles] = useState([]); 
+  const [files, setFiles] = useState([]);
 
   const handleIconClick = () => {
     fileInputRef.current.click();
@@ -61,9 +61,9 @@ const StyledUploadFile = ({ label, onChange }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const updatedFiles = [...files, file]; 
+      const updatedFiles = [...files, file];
       setFiles(updatedFiles);
-      onChange(updatedFiles); 
+      onChange(updatedFiles);
     }
   };
 
@@ -88,7 +88,7 @@ const StyledUploadFile = ({ label, onChange }) => {
         ref={fileInputRef}
         onChange={handleFileChange}
         style={{ display: "none" }}
-        accept="image/*,application/pdf"
+        accept="image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       />
       <Box display="flex" flexWrap="wrap" mt={2}>
         {files?.map((file, index) => (
@@ -107,6 +107,15 @@ const StyledUploadFile = ({ label, onChange }) => {
                 />
                 <Box>{file?.name}</Box>
               </>
+            ) : null}
+            {file?.type ===
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+            file?.type === "application/msword" ? (
+              <Box>{file?.name}</Box>
+            ) : null}
+            {file?.type ===
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ? (
+              <Box>{file?.name}</Box>
             ) : null}
           </ImagePreview>
         ))}

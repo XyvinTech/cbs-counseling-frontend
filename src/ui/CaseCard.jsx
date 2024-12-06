@@ -2,7 +2,7 @@ import React from "react";
 import { Stack, Typography, Grid, Divider, Box } from "@mui/material";
 import moment from "moment-timezone";
 import { useAuthStore } from "../store/counselor/AuthStore";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import SummarizeIcon from '@mui/icons-material/Summarize';
 const CaseCard = ({ data }) => {
   const formatDate = (dateString, format = "MMM DD, YYYY ") => {
     return moment.tz(dateString, "Asia/Muscat").format(format);
@@ -174,8 +174,8 @@ const CaseCard = ({ data }) => {
                     rel="noopener noreferrer"
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
-                    <PictureAsPdfIcon
-                      style={{ color: "#e57373", fontSize: "20px" }}
+                    <SummarizeIcon
+                      style={{ color: "#0072bc", fontSize: "20px" }}
                     />
                   </a>
                   <a

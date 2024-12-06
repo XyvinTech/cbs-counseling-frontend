@@ -16,7 +16,7 @@ import {
 import StyledSelectField from "../ui/StyledSelectField";
 import { StyledButton } from "../ui/StyledButton";
 import { StyledCalender } from "../ui/StyledCalender";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import SummarizeIcon from '@mui/icons-material/Summarize';
 import DropZone from "../ui/DropZone";
 import { Controller, useForm } from "react-hook-form";
 import { StyledMultilineTextField } from "../ui/StyledMultilineTextField ";
@@ -559,9 +559,9 @@ export default function AddEntry() {
                                     color: "inherit",
                                   }}
                                 >
-                                  <PictureAsPdfIcon
+                                  <SummarizeIcon
                                     style={{
-                                      color: "#e57373",
+                                      color: "#0072bc",
                                       fontSize: "20px",
                                       marginRight: "8px",
                                     }}
