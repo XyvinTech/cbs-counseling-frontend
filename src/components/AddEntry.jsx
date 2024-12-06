@@ -29,6 +29,7 @@ import StyledInput from "../ui/StyledInput";
 import { toast } from "react-toastify";
 import { upload } from "../api/admin/adminapi";
 import StyledUploadImage from "../ui/StyledUploadImage";
+import StyledUploadFile from "../ui/StyledUploadFile";
 export default function AddEntry() {
   const {
     control,
@@ -111,57 +112,78 @@ export default function AddEntry() {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      let pdfUrl = data?.report || "";
-      if (pdfFile) {
+      let uploadedFiles = [];
+  
+      if (pdfFile?.length > 0) {
         try {
-          // Use the `upload` function instead of the S3 upload
-          pdfUrl = await new Promise(async (resolve, reject) => {
-            try {
-              // Call the `upload` function and pass the image file
-              const response = await upload(pdfFile);
-              resolve(response.data); // Assuming `fileUrl` is the key returned in the API response
-            } catch (error) {
-              reject(error);
-            }
-          });
+          const uploadResults = await Promise.allSettled(
+            pdfFile?.map(async (file) => {
+              const response = await upload(file);
+              return response.data;
+            })
+          );
+  
+          uploadedFiles = uploadResults?.filter((result) => result.status === "fulfilled")?.map((result) => result.value);
+  
+          const failedUploads = uploadResults.filter(
+            (result) => result?.status === "rejected"
+          );
+          if (failedUploads?.length > 0) {
+            console.warn(
+              `Failed to upload ${failedUploads?.length} file(s):`,
+              failedUploads
+            );
+          }
         } catch (error) {
-          console.error("Failed to upload image:", error);
-          return; // Exit if image upload fails
+          console.error("Unexpected error during file upload:", error);
+          return;
         }
       }
+  
+      const existingReports = rowData?.report || [];
+      const updatedReports = [...existingReports, ...uploadedFiles]; 
+  
       const formData = {
         details: data?.details,
-        report: pdfUrl ? pdfUrl : "",
+        report: updatedReports?.length > 0 ? updatedReports : "", 
         session_id: rowData?._id,
         form_id: rowData?.form_id?._id,
         interactions: data?.interactions,
       };
+  
       if (!showDatePicker) {
         formData.concern_raised = data?.concern_raised;
       } else {
         formData.concern_raised = rowData?.session_date;
       }
+  
       if (type === "") {
         formData.isEditable = true;
       }
+  
       if (type === "Refer With Session") {
         formData.refer = counselor;
         formData.with_session = true;
       }
+  
       if (type === "Close Case") {
         formData.reason_for_closing = data?.reason_for_closing;
         formData.close = true;
       }
+  
       if (type === "Refer") {
         formData.refer = counselor;
       }
-      if (type !== "Refer" && (type !== "Close Case") & (type !== "")) {
+  
+      if (type !== "Refer" && type !== "Close Case" && type !== "") {
         formData.date = data?.date;
         formData.time = data?.time?.value;
       }
-      // console.log( formData)
+  
+      // Call the API to add the counselor entry
       await counsellorAddEntry(rowData.case_id._id, formData);
-
+  
+      // Reset form and navigate
       reset();
       navigate(`/counselor/session`);
     } catch (error) {
@@ -170,6 +192,7 @@ export default function AddEntry() {
       setLoading(false);
     }
   };
+  
   console.log(counselor);
   const handleViewHistory = (event) => {
     event.preventDefault();
@@ -195,9 +218,11 @@ export default function AddEntry() {
     }
     if (rowData?.interactions) {
       setValue("interactions", rowData?.interactions);
-    }
+    } 
+    
   }, [rowData, setValue]);
-  const reportUrl = `https://able.iswkoman.com/images/${rowData?.report}`;
+  const reportUrl = (fileName) =>
+    `https://able.iswkoman.com/images/${fileName}`;
   return (
     <>
       <Box
@@ -505,44 +530,53 @@ export default function AddEntry() {
                             </TableCell>
                           </TableRow>
                         )}
-                      {rowData?.report && (
-                        <TableRow>
-                          <TableCell colSpan={2}>
-                            <Typography
-                              variant="h6"
-                              fontWeight={500}
-                              color={"#0072bc"}
-                            >
-                              Report
-                            </Typography>
-                            <a
-                              href={reportUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{
-                                textDecoration: "none",
-                                color: "inherit",
-                              }}
-                            >
-                              <PictureAsPdfIcon
-                                style={{ color: "#e57373", fontSize: "20px" }}
-                              />
-                            </a>
-                            <a
-                              href={reportUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{
-                                textDecoration: "none",
-                                color: "inherit",
-                              }}
-                            >
-                              <Typography variant="body1" color="textPrimary">
-                                {rowData?.report}
+                      {rowData?.report && rowData.report.length > 0 && (
+                        <>
+                          <TableRow>
+                            <TableCell colSpan={2}>
+                              <Typography
+                                variant="h6"
+                                fontWeight={500}
+                                color={"#0072bc"}
+                                gutterBottom
+                              >
+                                Reports
                               </Typography>
-                            </a>
-                          </TableCell>
-                        </TableRow>
+                            </TableCell>
+                          </TableRow>
+
+                          {rowData.report.map((file, index) => (
+                            <TableRow key={index}>
+                              <TableCell colSpan={2}>
+                                <a
+                                  href={reportUrl(file)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  style={{
+                                    textDecoration: "none",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    color: "inherit",
+                                  }}
+                                >
+                                  <PictureAsPdfIcon
+                                    style={{
+                                      color: "#e57373",
+                                      fontSize: "20px",
+                                      marginRight: "8px",
+                                    }}
+                                  />
+                                  <Typography
+                                    variant="body1"
+                                    color="textPrimary"
+                                  >
+                                    {file}
+                                  </Typography>
+                                </a>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </>
                       )}
                       <TableRow>
                         <TableCell colSpan={2}>
@@ -560,7 +594,8 @@ export default function AddEntry() {
               <Grid item md={6}>
                 {" "}
                 <Stack
-                  spacing={2}  sx={{
+                  spacing={2}
+                  sx={{
                     borderRadius: "15px",
                     bgcolor: "white",
                     boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
@@ -646,34 +681,33 @@ export default function AddEntry() {
                       )}
                     />
                   </>
-                  {!rowData?.report && (
-                    <>
-                      <Typography
-                        sx={{ marginBottom: 1 }}
-                        variant="h6"
-                        fontWeight={500}
-                        color={"#333333"}
-                      >
-                        Add Document
-                      </Typography>
-                      <Controller
-                        name="report"
-                        control={control}
-                        defaultValue=""
-                        render={({ field: { onChange } }) => (
-                          <>
-                            <StyledUploadImage
-                              label="Upload  Document"
-                              onChange={(file) => {
-                                setPdfFile(file);
-                                onChange(file); // Pass the file to the form
-                              }}
-                            />
-                          </>
-                        )}
-                      />
-                    </>
-                  )}
+                  <>
+                    <Typography
+                      sx={{ marginBottom: 1 }}
+                      variant="h6"
+                      fontWeight={500}
+                      color={"#333333"}
+                    >
+                      Add Document
+                    </Typography>
+                    <Controller
+                      name="report"
+                      control={control}
+                      defaultValue={[]}
+                      render={({ field: { onChange, value = [] } }) => (
+                        <>
+                          <StyledUploadFile
+                            label="Upload Document"
+                            onChange={(newFiles) => {
+                              const updatedFiles = [...value, ...newFiles];
+                              setPdfFile(updatedFiles);
+                              onChange(updatedFiles);
+                            }}
+                          />
+                        </>
+                      )}
+                    />
+                  </>
                   <>
                     <Typography
                       sx={{ marginBottom: 1 }}
@@ -694,9 +728,9 @@ export default function AddEntry() {
                             rows={4}
                             {...field}
                           />
-                          {errors.caseDetails && (
+                          {errors.details && (
                             <span style={{ color: "red" }}>
-                              {errors.caseDetails.message}
+                              {errors.details.message}
                             </span>
                           )}
                         </>

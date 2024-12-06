@@ -9,11 +9,12 @@ const CaseCard = ({ data }) => {
   };
   const { counselor } = useAuthStore();
   const userType = localStorage.getItem("userType");
-  const reportUrl = `https://able.iswkoman.com/images/${data?.report}`;
   return (
-    <Stack bgcolor={"white"}
-            borderRadius={"15px"}
-            boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}>
+    <Stack
+      bgcolor={"white"}
+      borderRadius={"15px"}
+      boxShadow={"0px 4px 20px rgba(0, 0, 0, 0.1)"}
+    >
       <Stack direction="row" justifyContent="space-between" padding={2}>
         <Stack justifyContent="space-between">
           <Typography variant="h6" color={"#828282"}>
@@ -152,32 +153,44 @@ const CaseCard = ({ data }) => {
             </Stack>
           </Stack>
         )}
-      {data?.report && (
+      {data?.report && data?.report?.length > 0 && (
         <Stack padding={2}>
           <Typography variant="h6" color={"#828282"}>
-            Uploaded doc
+            Uploaded Documents
           </Typography>
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <a
-              href={reportUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <PictureAsPdfIcon
-                style={{ color: "#e57373", fontSize: "20px" }}
-              />
-            </a>
-            <a
-              href={reportUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <Typography variant="body1" color="textPrimary">
-                {data?.report}
-              </Typography>
-            </a>
+          <Stack direction="column" spacing={1}>
+            {data?.report?.map((file, index) => {
+              const reportUrl = `https://able.iswkoman.com/images/${file}`;
+              return (
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={1}
+                  key={index}
+                >
+                  <a
+                    href={reportUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <PictureAsPdfIcon
+                      style={{ color: "#e57373", fontSize: "20px" }}
+                    />
+                  </a>
+                  <a
+                    href={reportUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <Typography variant="body1" color="textPrimary">
+                      {file}
+                    </Typography>
+                  </a>
+                </Stack>
+              );
+            })}
           </Stack>
         </Stack>
       )}

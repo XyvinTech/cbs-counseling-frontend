@@ -504,8 +504,8 @@ const AdminLayout = (props) => {
     backgroundPosition: "center",
     paddingTop: 3,
     width: { sm: `calc(100% - ${drawerWidth}px)` },
-    position: "relative", // Ensure it's properly placed
-    zIndex: 1, // Avoid overlay issues
+    position: "relative", 
+    zIndex: 1, 
     "&::before": {
       content: '""',
       position: "absolute",
@@ -513,9 +513,9 @@ const AdminLayout = (props) => {
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: "rgba(255, 255, 255, 0.3)", // Translucent layer
-      backdropFilter: "blur(2px)", // Apply the blur
-      zIndex: -1, // Place it behind the content
+      backgroundColor: "rgba(255, 255, 255, 0.3)", 
+      backdropFilter: "blur(2px)", 
+      zIndex: -1, 
    
     },
   }}

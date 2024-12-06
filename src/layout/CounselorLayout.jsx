@@ -35,7 +35,7 @@ import images from "../assets/images/schoolLogo.png";
 import Notification from "../components/Notification";
 import background from "../assets/images/bgLow.png";
 import { useNotificationStore } from "../store/notificationStore";
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 const drawerWidth = 250;
 const subNavigation = [
   {
@@ -46,7 +46,11 @@ const subNavigation = [
 
   // { name: "Reports", to: "/counselor/report", icon: <NewspaperOutlinedIcon /> },
   { name: "Events", to: "/counselor/event", icon: <SchoolOutlinedIcon /> },
-  { name: "Upcoming Events", to: "/counselor/upcommingSession", icon: <CalendarMonthIcon /> },
+  {
+    name: "Upcoming Events",
+    to: "/counselor/upcommingSession",
+    icon: <CalendarMonthIcon />,
+  },
   {
     name: "Add Availability",
     to: "/counselor/addavailability",
@@ -91,7 +95,7 @@ const SimpleDialog = ({ open, onClose }) => {
             {counselor?.name}
           </Typography>
           <Typography variant="h7" color="rgba(41, 45, 50, 0.44)">
-          Counselor
+            Counselor
           </Typography>
         </Stack>
         <Divider />
@@ -161,196 +165,202 @@ const CounselorLayout = (props) => {
     setDialogOpen(false);
   };
   const drawer = (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%", backgroundColor: "#EDE3FF", }}>
-    <Toolbar
-      sx={{
-        height: "98px",
+    <div
+      style={{
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        flexDirection: "column",
+        height: "100%",
+        backgroundColor: "#EDE3FF",
       }}
     >
-      <Box
+      <Toolbar
         sx={{
+          height: "98px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <img src={images} alt="Vite Logo" width={"80px"} height="80px" />
-      </Box>
-    </Toolbar>
-    <Divider />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img src={images} alt="Vite Logo" width={"80px"} height="80px" />
+        </Box>
+      </Toolbar>
+      <Divider />
 
-    <List
-      sx={{
-        flexGrow: 1,
-        overflowY: "auto",
-        "&::-webkit-scrollbar": {
-          width: "0px",
-        },
-        "&::-webkit-scrollbar-track": {
-          backgroundColor: "#f1f1f1",
-          borderRadius: "10px",
-        },
-        "&::-webkit-scrollbar-thumb": {
-          backgroundColor: "#c1c1c1",
-          borderRadius: "10px",
-          "&:hover": {
-            backgroundColor: "#a1a1a1",
+      <List
+        sx={{
+          flexGrow: 1,
+          overflowY: "auto",
+          "&::-webkit-scrollbar": {
+            width: "0px",
           },
-        },
-      }}
-    >
-      {subNavigation.map((item) =>
-        item.name === "User Management" ? (
-          <div key={item.name}>
-            <ListItem sx={{ paddingBottom: "8px" }} disablePadding>
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "#f1f1f1",
+            borderRadius: "10px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#c1c1c1",
+            borderRadius: "10px",
+            "&:hover": {
+              backgroundColor: "#a1a1a1",
+            },
+          },
+        }}
+      >
+        {subNavigation.map((item) =>
+          item.name === "User Management" ? (
+            <div key={item.name}>
+              <ListItem sx={{ paddingBottom: "8px" }} disablePadding>
+                <ListItemButton
+                  onClick={handleClick}
+                  sx={{
+                    marginLeft: "20px",
+                    marginRight: "10px",
+                    color: "#5F6368",
+                    borderRadius: "8px",
+                    backgroundColor:
+                      open && location.pathname.startsWith("/user")
+                        ? "#fff"
+                        : "transparent",
+                    "&:hover": {
+                      color: "#864DF4",
+                      backgroundColor: "#fff",
+                    },
+                    "&:hover .MuiListItemIcon-root": { color: "#864DF4" },
+                  }}
+                >
+                  <ListItemIcon sx={{ minWidth: 24, marginRight: 1 }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.name}
+                    primaryTypographyProps={{
+                      variant: "h6",
+                    }}
+                  />
+                  {open ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+              </ListItem>
+              <Collapse
+                in={open}
+                timeout="auto"
+                unmountOnExit
+                sx={{ overflow: "hidden" }} // Prevents the shift on expand
+              >
+                <List component="div">
+                  {item.subItems.map((subItem) => (
+                    <ListItem
+                      key={subItem.name}
+                      sx={{ paddingBottom: "8px" }}
+                      disablePadding
+                    >
+                      <ListItemButton
+                        component={Link}
+                        to={subItem.to}
+                        sx={{
+                          marginLeft: "40px",
+                          marginRight: "40px",
+                          borderRadius: "8px",
+                          color:
+                            location.pathname === subItem.to
+                              ? "#864DF4"
+                              : "#5F6368",
+                          backgroundColor:
+                            location.pathname === subItem.to
+                              ? "#FFF"
+                              : "transparent",
+                          "&:hover": {
+                            color: "#864DF4",
+                            backgroundColor: "#FFF",
+                          },
+                        }}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 24,
+                            marginRight: 1,
+                            color:
+                              location.pathname === subItem.to
+                                ? "#864DF4"
+                                : "#686465",
+                          }}
+                        >
+                          {subItem.icon}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={subItem.name}
+                          primaryTypographyProps={{
+                            variant: "h6",
+                          }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  ))}
+                </List>
+              </Collapse>
+            </div>
+          ) : (
+            <ListItem
+              sx={{ paddingBottom: "20px" }}
+              key={item.name}
+              disablePadding
+            >
               <ListItemButton
-                onClick={handleClick}
+                component={Link}
+                to={item.to}
                 sx={{
                   marginLeft: "20px",
                   marginRight: "10px",
-                  color: "#5F6368",
                   borderRadius: "8px",
+                  color: location.pathname === item.to ? "#864DF4" : "#5F6368",
                   backgroundColor:
-                    open && location.pathname.startsWith("/user")
-                      ? "#fff"
-                      : "transparent",
-                  "&:hover": {
-                    color: "#864DF4",
-                      backgroundColor: "#fff",
-                  },
+                    location.pathname === item.to ? "#FFF" : "transparent",
+                  "&:hover": { color: "#864DF4", backgroundColor: "#FFF" },
                   "&:hover .MuiListItemIcon-root": { color: "#864DF4" },
                 }}
               >
-                <ListItemIcon sx={{ minWidth: 24, marginRight: 1 }}>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 24,
+                    marginRight: 1,
+                    color:
+                      location.pathname === item.to ? "#864DF4" : "#686465",
+                  }}
+                >
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText
                   primary={item.name}
-                  primaryTypographyProps={{
-                    variant: "h6",
-                  }}
+                  primaryTypographyProps={{ variant: "h6" }}
                 />
-                {open ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
             </ListItem>
-            <Collapse
-              in={open}
-              timeout="auto"
-              unmountOnExit
-              sx={{ overflow: "hidden" }} // Prevents the shift on expand
-            >
-              <List component="div">
-                {item.subItems.map((subItem) => (
-                  <ListItem
-                    key={subItem.name}
-                    sx={{ paddingBottom: "8px" }}
-                    disablePadding
-                  >
-                    <ListItemButton
-                      component={Link}
-                      to={subItem.to}
-                      sx={{
-                        marginLeft: "40px",
-                        marginRight: "40px",
-                        borderRadius: "8px",
-                        color:
-                          location.pathname === subItem.to
-                            ? "#864DF4"
-                            : "#5F6368",
-                        backgroundColor:
-                          location.pathname === subItem.to
-                            ? "#FFF"
-                            : "transparent",
-                        "&:hover": {
-                          color: "#864DF4",
-                          backgroundColor: "#FFF",
-                        },
-                      }}
-                    >
-                      <ListItemIcon
-                        sx={{
-                          minWidth: 24,
-                          marginRight: 1,
-                          color:
-                            location.pathname === subItem.to
-                              ? "#864DF4"
-                              : "#686465",
-                        }}
-                      >
-                        {subItem.icon}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={subItem.name}
-                        primaryTypographyProps={{
-                          variant: "h6",
-                        }}
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-              </List>
-            </Collapse>
-          </div>
-        ) : (
-          <ListItem
-            sx={{ paddingBottom: "20px" }}
-            key={item.name}
-            disablePadding
-          >
-            <ListItemButton
-              component={Link}
-              to={item.to}
-              sx={{
-                marginLeft: "20px",
-                marginRight: "10px",
-                borderRadius: "8px",
-                color: location.pathname === item.to ? "#864DF4" : "#5F6368",
-                backgroundColor:
-                  location.pathname === item.to ? "#FFF" : "transparent",
-                "&:hover": { color: "#864DF4", backgroundColor: "#FFF" },
-                "&:hover .MuiListItemIcon-root": { color: "#864DF4" },
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 24,
-                  marginRight: 1,
-                  color:
-                    location.pathname === item.to ? "#864DF4" : "#686465",
-                }}
-              >
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={item.name}
-                primaryTypographyProps={{ variant: "h6" }}
-              />
-            </ListItemButton>
-          </ListItem>
-        )
-      )}
-    </List>
+          )
+        )}
+      </List>
 
-    <Box
-      sx={{
-        margin: 4,
-        mt: "auto", // Ensures the footer stays at the bottom
-      }}
-    >
-      <div style={{ marginBottom: "8px" }}>
-        <Typography variant="h7" color={"#B4B5B6"} sx={{ ml: 1 }}>
-          Powered by
-        </Typography>
-      </div>
-      <div>
-        <img src={image} alt="Powered by" style={{ maxWidth: "100%" }} />
-      </div>
-    </Box>
-  </div>
-  
+      <Box
+        sx={{
+          margin: 4,
+          mt: "auto", // Ensures the footer stays at the bottom
+        }}
+      >
+        <div style={{ marginBottom: "8px" }}>
+          <Typography variant="h7" color={"#B4B5B6"} sx={{ ml: 1 }}>
+            Powered by
+          </Typography>
+        </div>
+        <div>
+          <img src={image} alt="Powered by" style={{ maxWidth: "100%" }} />
+        </div>
+      </Box>
+    </div>
   );
 
   const container =
@@ -419,8 +429,7 @@ const CounselorLayout = (props) => {
               sx={{ cursor: "pointer", flexShrink: 0, marginLeft: "10px" }}
             >
               <Box sx={{ display: "flex", alignItems: "center" }}>
-               
-                <Box sx={{ marginLeft: "10px",paddingLeft:"10px" }}>
+                <Box sx={{ marginLeft: "10px", paddingLeft: "10px" }}>
                   <Typography variant="h6" color={"#292D32"} display="block">
                     {counselor?.name}
                   </Typography>
@@ -429,7 +438,7 @@ const CounselorLayout = (props) => {
                     color={"rgba(41, 45, 50, 0.44)"}
                     display="block"
                   >
-                   Counselor
+                    Counselor
                   </Typography>
                 </Box>
               </Box>
@@ -484,9 +493,24 @@ const CounselorLayout = (props) => {
         sx={{
           flexGrow: 1,
           minHeight: "100vh",
-          backgroundImage: `url(${background}) `,
+          backgroundImage: `url(${background})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           paddingTop: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          position: "relative",
+          zIndex: 1,
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(255, 255, 255, 0.3)",
+            backdropFilter: "blur(2px)",
+            zIndex: -1,
+          },
         }}
       >
         <Toolbar />
