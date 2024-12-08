@@ -26,7 +26,7 @@ const AddCounselor = ({ onChange, setSelectedTab }) => {
   };
   const option =
     counType && Array.isArray(counType)
-      ? counType.map((i) => ({
+      ? counType?.map((i) => ({
           value: i?.name,
           label: i?.name,
         }))
@@ -50,7 +50,7 @@ const AddCounselor = ({ onChange, setSelectedTab }) => {
         mobile: data?.mobile.replace(/\s+/g, ""),
         gender: data?.gender.value,
         userType: "counsellor",
-        counsellorType: data.counsellorType.map((option) => option.value),
+        counsellorType: data.counsellorType?.map((option) => option.value),
       };
       await addCounselors(formData);
       onChange();

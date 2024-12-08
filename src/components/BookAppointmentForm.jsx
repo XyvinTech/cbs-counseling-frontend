@@ -76,7 +76,7 @@ export default function AddMeeting() {
 
   const options =
     counselors && Array.isArray(counselors)
-      ? counselors.map((list) => ({
+      ? counselors?.map((list) => ({
           value: list?.id,
           label: list?.name,
         }))
@@ -94,7 +94,7 @@ export default function AddMeeting() {
   }, []);
   const CounselorTypes =
     lists && Array.isArray(lists)
-      ? lists.map((i) => ({
+      ? lists?.map((i) => ({
           value: i?.name,
           label: i?.name,
         }))

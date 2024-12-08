@@ -38,8 +38,8 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
         description: rowData.details || "",
         requisition_description: rowData.requisition_description || "",
         remainder:
-          rowData.remainder.map((value) =>
-            Types.find((type) => type.value === value)
+          rowData?.remainder?.map((value) =>
+            Types?.find((type) => type?.value === value)
           ) || [],
       });
     }
@@ -75,7 +75,7 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
         details: data?.description,
         requisition_description: data?.requisition_description,
         title: data?.title,
-        remainder: data.remainder.map((option) => option.value),
+        remainder: data.remainder?.map((option) => option.value),
       };
 
       await editEvents(rowData?._id, formData);

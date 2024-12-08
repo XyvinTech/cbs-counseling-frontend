@@ -21,7 +21,7 @@ const DashboardData = () => {
   return (
     <>
       <Grid container spacing={2} marginBottom={2}>
-        {dashboardMetrics.map((data, index) => (
+        {dashboardMetrics?.map((data, index) => (
           <Grid item md={2} key={index}>
             <DashboardCard data={data} />
           </Grid>

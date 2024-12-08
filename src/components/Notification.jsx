@@ -36,7 +36,7 @@ const Notification = ({ open, onClose }) => {
     >
       <Grid container spacing={2} padding={3}>
         {noti && noti.length > 0 ? (
-          noti.map((notification) => (
+          noti?.map((notification) => (
             <Grid item xs={12} key={notification?.id}>
               <Box
                 component={Link}

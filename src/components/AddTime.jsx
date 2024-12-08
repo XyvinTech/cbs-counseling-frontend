@@ -112,8 +112,7 @@ const AddTime = ({refreshTrigger, setLastSynced}) => {
     if (dayObject && dayObject.times) {
       const checkedIndexes = Object.keys(data).filter((index) => data[index]);
 
-      const timesToDelete = checkedIndexes
-        .map((index) => {
+      const timesToDelete = checkedIndexes?.map((index) => {
           const timeSlot = dayObject.times[index];
           if (timeSlot) {
             return {
@@ -178,12 +177,12 @@ const AddTime = ({refreshTrigger, setLastSynced}) => {
             },
           }}
         >
-          {daysOfWeek.map((day) => (
+          {daysOfWeek?.map((day) => (
             <Tab label={day} key={day} />
           ))}
         </Tabs>
         <Grid container spacing={2} padding={2} minHeight={"60vh"}>
-          {selectedDayTimes.map((timeSlot, index) => (
+          {selectedDayTimes?.map((timeSlot, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
               <Controller
                 name={index.toString()}

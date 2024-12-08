@@ -57,7 +57,7 @@ export default function AddEvent({ onChange, setSelectedTab }) {
         details: data?.description,
         requisition_description: data?.requisition_description,
         title: data?.title,
-        remainder: data.remainder.map((option) => option.value),
+        remainder: data.remainder?.map((option) => option.value),
       };
 
       await addEvents(formData);

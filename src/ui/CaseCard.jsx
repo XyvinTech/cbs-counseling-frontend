@@ -128,15 +128,15 @@ const CaseCard = ({ data }) => {
           </Typography>
           <Typography variant="h6" color={"#23262F"}>
             {" "}
-            {data?.case_id?.referer.some((ref) => ref.name === counselor?.name)
+            {data?.case_id?.referer?.some((ref) => ref?.name === counselor?.name)
               ? "-"
-              : data?.case_id?.referer.map((ref) => ref.name).join(", ")}
+              : data?.case_id?.referer?.map((ref) => ref?.name).join(", ")}
           </Typography>
         </Stack>
       )}
       {userType !== "student" &&
         data?.case_id?.referer_remark?.some(
-          (ref) => ref.name !== counselor?.name
+          (ref) => ref?.name !== counselor?.name
         ) && (
           <Stack padding={2}>
             <Typography variant="h6" color={"#828282"}>
@@ -144,10 +144,9 @@ const CaseCard = ({ data }) => {
             </Typography>
             <Stack spacing={1}>
               {data?.case_id?.referer_remark
-                ?.filter((ref) => ref.name !== counselor?.name)
-                .map((ref, index) => (
+                ?.filter((ref) => ref.name !== counselor?.name)?.map((ref, index) => (
                   <Typography key={index} variant="body1" color={"#23262F"}>
-                    <strong>{ref.name}:</strong> {ref.remark}
+                    <strong>{ref?.name}:</strong> {ref?.remark}
                   </Typography>
                 ))}
             </Stack>

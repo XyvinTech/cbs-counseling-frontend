@@ -150,12 +150,12 @@ const AddRemarks = ({ rowData, onSubmitSuccess }) => {
             <Typography variant="h6" fontWeight={500} mb={2}>
               Referer Remarks
             </Typography>
-            {rowData.referer_remark.map((remark, index) => (
+            {rowData?.referer_remark?.map((remark, index) => (
               <Box key={index} mb={2}>
                 <Typography variant="h6" fontWeight={500}>
-                  Name: {remark.name}
+                  Name: {remark?.name}
                 </Typography>
-                <Typography variant="h6">{remark.remark}</Typography>
+                <Typography variant="h6">{remark?.remark}</Typography>
               </Box>
             ))}
           </CardContent>

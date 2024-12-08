@@ -213,7 +213,7 @@ const CounselorLayout = (props) => {
           },
         }}
       >
-        {subNavigation.map((item) =>
+        {subNavigation?.map((item) =>
           item.name === "User Management" ? (
             <div key={item.name}>
               <ListItem sx={{ paddingBottom: "8px" }} disablePadding>
@@ -254,7 +254,7 @@ const CounselorLayout = (props) => {
                 sx={{ overflow: "hidden" }} // Prevents the shift on expand
               >
                 <List component="div">
-                  {item.subItems.map((subItem) => (
+                  {item?.subItems?.map((subItem) => (
                     <ListItem
                       key={subItem.name}
                       sx={{ paddingBottom: "8px" }}

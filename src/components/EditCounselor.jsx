@@ -20,7 +20,7 @@ const EditCounselor = ({ open, onClose, onChange, rowData }) => {
   const [counType, setCounType] = useState([]);
   const option =
     counType && Array.isArray(counType)
-      ? counType.map((i) => ({
+      ? counType?.map((i) => ({
           value: i?.name,
           label: i?.name,
         }))
@@ -67,7 +67,7 @@ const EditCounselor = ({ open, onClose, onChange, rowData }) => {
         mobile: data?.mobile,
         mobile: data?.mobile.replace(/\s+/g, ""),
         gender: data?.gender.value,
-        counsellorType: data.counsellorType.map((option) => option.value),
+        counsellorType: data.counsellorType?.map((option) => option.value),
       };
 
       await editCounsellor(rowData?._id, formData);
