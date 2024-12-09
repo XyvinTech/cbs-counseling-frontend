@@ -35,13 +35,18 @@ const AdminReport = () => {
     fetchLists({ type: "students", limit: "all" });
   }, []);
 
-  const counselorOptions =
-    users?.map((user) => ({ value: user?._id, label: user?.name })) || [];
-  const studentOptions =
-    students?.map((student) => ({
+  const counselorOptions = [
+    { value: "*", label: "All" },
+    ...(users?.map((user) => ({ value: user?._id, label: user?.name })) || []),
+  ];
+  const studentOptions = [
+    { value: "*", label: "All" },
+    ...(students?.map((student) => ({
       value: student?.StudentReferencesCode,
       label: student?.name,
-    })) || [];
+    })) || []),
+  ];
+
   const watchStartDate = watch("startDate");
   const watchEndDate = watch("endDate");
 
@@ -75,7 +80,11 @@ const AdminReport = () => {
         const flattenedData = data?.data?.map((item) => {
           switch (type) {
             case "session-count":
-              return [item?.counsellor_name,item?.referee, item?.session_count];
+              return [
+                item?.counsellor_name,
+                item?.referee,
+                item?.session_count,
+              ];
             case "case":
               return [
                 item?.case_id,
@@ -88,7 +97,6 @@ const AdminReport = () => {
                 item?.session_time,
                 item?.description,
                 item?.case_details,
-               
               ];
             default:
               return [
@@ -187,7 +195,6 @@ const AdminReport = () => {
                     label="Select Date from Calendar"
                     value={field.value}
                     {...field}
-                    
                   />
                 </>
               )}
