@@ -277,7 +277,7 @@ const AddTime = ({ refreshTrigger, setLastSynced }) => {
         <DialogContent>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography variant="h6">Enter Reason</Typography>
+              <Typography variant="h6">Add reason for removal</Typography>
             </Grid>
             <Grid item xs={12}>
               <StyledInput

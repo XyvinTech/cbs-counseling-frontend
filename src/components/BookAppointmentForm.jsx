@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { useListStore } from "../store/listStore";
 import { toast } from "react-toastify";
 import bg from "../assets/images/BG-form.jpg";
-import logo from "../assets/images/logo.jpg";
+import image from "../assets/images/TCILOGO.jpg";
 
 export default function AddMeeting() {
   const {
@@ -143,7 +143,8 @@ export default function AddMeeting() {
       justifyContent={"center"}
       alignItems={"center"}
     >
-      <Grid item md={6}>
+      <Grid item md={12}
+        style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         <Card
           sx={{
             p: 4,
@@ -356,6 +357,16 @@ export default function AddMeeting() {
           </Box>
         </Card>
       </Grid>
+      <Grid item md={12}>
+      <Stack
+          display={"flex"}
+          alignItems={"center"}
+          mt={2}
+          justifyContent={"center"}
+        >
+          <img src={image} style={{ maxWidth: "200px" }} />
+        </Stack>
+      </Grid>
       <Dialog open={openSuccessDialog} onClose={handleCloseDialog}>
         <DialogTitle>
           Your Appointment request has been submitted. You will receive a
@@ -369,6 +380,7 @@ export default function AddMeeting() {
           />
         </DialogActions>
       </Dialog>
+     
     </Grid>
   );
 }

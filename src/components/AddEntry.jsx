@@ -145,11 +145,13 @@ export default function AddEntry() {
   
       const formData = {
         details: data?.details,
-        report: updatedReports?.length > 0 ? updatedReports : "", 
         session_id: rowData?._id,
         form_id: rowData?.form_id?._id,
         interactions: data?.interactions,
       };
+      if(updatedReports?.length > 0){
+        formData.report = updatedReports || [];
+      }
   
       if (!showDatePicker) {
         formData.concern_raised = data?.concern_raised;

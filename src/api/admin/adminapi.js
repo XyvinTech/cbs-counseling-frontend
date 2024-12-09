@@ -21,10 +21,10 @@ export const getLogin = async (datas) => {
 export const addForm = async (datas) => {
   try {
     const response = await axios.post(`${baseURL}user/form`, datas);
-    toast.success(response.data.message);
+    // toast.success(response.data.message);
     return response.data;
   } catch (error) {
-    toast.error(error.response.data.message);
+    throw error.response.data;
   }
 };
 export const sendOtp = async (datas) => {
