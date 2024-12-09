@@ -148,6 +148,7 @@ const CaseCard = ({ data }) => {
                   <Typography key={index} variant="body1" color={"#23262F"}>
                     <strong>{ref?.name}:</strong> {ref?.remark}
                   </Typography>
+                  
                 ))}
             </Stack>
           </Stack>
