@@ -120,37 +120,46 @@ export default function Events() {
   }, [isChange, search, pageNo, row]);
   return (
     <>
-      <Tabs
-        value={selectedTab}
-        onChange={handleChange}
-        aria-label="tabs"
-        TabIndicatorProps={{
-          style: {
-            backgroundColor: "#864DF4",
-            height: 4,
-            borderRadius: "4px",
-          },
-        }}
+      <Box
         sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderBottom: "1px solid #E0E0E0",
           bgcolor: "white",
           paddingTop: "34px",
-          borderBottom: "1px solid #E0E0E0",
-          "& .MuiTabs-indicator": {
-            backgroundColor: "#864DF4",
-          },
-          "& .MuiTab-root": {
-            textTransform: "none",
-            fontWeight: 600,
-            fontSize: "16px",
-            color: "#828282",
-          },
-          "& .Mui-selected": {
-            color: "#864DF4",
-          },
         }}
       >
-        <Tab label="Events" />
-        <Tab label="Add Event" />
+        <Tabs
+          value={selectedTab}
+          onChange={handleChange}
+          aria-label="tabs"
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: "#864DF4",
+              height: 4,
+              borderRadius: "4px",
+            },
+          }}
+          sx={{
+           
+            "& .MuiTabs-indicator": {
+              backgroundColor: "#864DF4",
+            },
+            "& .MuiTab-root": {
+              textTransform: "none",
+              fontWeight: 600,
+              fontSize: "16px",
+              color: "#828282",
+            },
+            "& .Mui-selected": {
+              color: "#864DF4",
+            },
+          }}
+        >
+          <Tab label="Events" />
+          <Tab label="Add Event" />
+        </Tabs>{" "}
         <Stack direction="row" alignItems="center">
           <Typography color="#828282" fontSize={"12px"}>
             Last synced: {lastSynced}
@@ -159,7 +168,7 @@ export default function Events() {
             <RefreshIcon />
           </IconButton>
         </Stack>
-      </Tabs>{" "}
+      </Box>
       <Box padding="30px" marginBottom={4}>
         {selectedTab === 0 && (
           <>

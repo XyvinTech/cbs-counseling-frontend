@@ -309,7 +309,15 @@ const AdminReport = () => {
           )}
           <Grid item xs={12} alignItems={"flex-start"}>
             <Stack direction={"row"} spacing={2} justifyContent="flex-end">
-              <StyledButton name="Cancel" variant="secondary" />
+              <StyledButton
+                name="Cancel"
+                variant="secondary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  reset();
+                  setType("");
+                }}
+              />
               <StyledButton name="Report" variant="primary" type="submit" />
             </Stack>
           </Grid>

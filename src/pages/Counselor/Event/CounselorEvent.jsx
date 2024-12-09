@@ -1,4 +1,12 @@
-import { Box, Grid, IconButton, Stack, Tab, Tabs, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StyledTable from "../../../ui/StyledTable";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +32,7 @@ const CounselorEvent = () => {
   const [editOpen, setEditOpen] = useState(false);
   const { deleteEvents, updateChange, change } = useEventStore();
   const [selectedRowId, setSelectedRowId] = useState(null);
-  
+
   const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const navigate = useNavigate();
   const handleOpenFilter = () => {
@@ -94,7 +102,7 @@ const CounselorEvent = () => {
     // { title: "Experience Level", field: "experience" },
     // { title: "Status", field: "status" },
   ];
- const handleRefresh = () => {
+  const handleRefresh = () => {
     let filter = { type: "events" };
     if (search) {
       filter.searchQuery = search;
@@ -110,44 +118,52 @@ const CounselorEvent = () => {
         "0"
       )} ${currentTime?.getHours() >= 12 ? "PM" : "AM"}`
     );
-  }
+  };
   useEffect(() => {
     handleRefresh();
   }, [isChange, search, pageNo, row]);
   return (
     <>
       {" "}
-      <Tabs
-        value={selectedTab}
-        onChange={handleChange}
-        aria-label="tabs"
-        TabIndicatorProps={{
-          style: {
-            backgroundColor: "#864DF4",
-            height: 4,
-            borderRadius: "4px",
-          },
-        }}
+      <Box
         sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderBottom: "1px solid #E0E0E0",
           bgcolor: "white",
           paddingTop: "34px",
-          borderBottom: "1px solid #E0E0E0",
-          "& .MuiTabs-indicator": {
-            backgroundColor: "#864DF4",
-          },
-          "& .MuiTab-root": {
-            textTransform: "none",
-            fontWeight: 600,
-            fontSize: "16px",
-            color: "#828282",
-          },
-          "& .Mui-selected": {
-            color: "#864DF4",
-          },
         }}
       >
-        <Tab label="Events" />
-        <Tab label="Add Event" />
+        <Tabs
+          value={selectedTab}
+          onChange={handleChange}
+          aria-label="tabs"
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: "#864DF4",
+              height: 4,
+              borderRadius: "4px",
+            },
+          }}
+          sx={{
+            "& .MuiTabs-indicator": {
+              backgroundColor: "#864DF4",
+            },
+            "& .MuiTab-root": {
+              textTransform: "none",
+              fontWeight: 600,
+              fontSize: "16px",
+              color: "#828282",
+            },
+            "& .Mui-selected": {
+              color: "#864DF4",
+            },
+          }}
+        >
+          <Tab label="Events" />
+          <Tab label="Add Event" />
+        </Tabs>
         <Stack direction="row" alignItems="center">
           <Typography color="#828282" fontSize={"12px"}>
             Last synced: {lastSynced}
@@ -156,7 +172,7 @@ const CounselorEvent = () => {
             <RefreshIcon />
           </IconButton>
         </Stack>
-      </Tabs>
+      </Box>
       <Box padding="30px" marginBottom={4}>
         {selectedTab === 0 && (
           <>

@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Tabs, Tab, Stack, Grid, IconButton } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Tabs,
+  Tab,
+  Stack,
+  Grid,
+  IconButton,
+} from "@mui/material";
 import StyledTable from "../../../../ui/StyledTable";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AddCounselor from "../../../../components/AddCounselor";
@@ -133,39 +141,48 @@ export const Counselor = () => {
   }, [isChange, search, pageNo, selectedTab, row]);
   return (
     <>
-      <Tabs
-        value={selectedTab}
-        onChange={handleChange}
-        aria-label="tabs"
-        TabIndicatorProps={{
-          style: {
-            backgroundColor: "#864DF4",
-            height: 4,
-            borderRadius: "4px",
-          },
-        }}
+      {" "}
+      <Box
         sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderBottom: "1px solid #E0E0E0",
           bgcolor: "white",
           paddingTop: "34px",
-          borderBottom: "1px solid #E0E0E0",
-          "& .MuiTabs-indicator": {
-            backgroundColor: "#864DF4",
-          },
-          "& .MuiTab-root": {
-            textTransform: "none",
-            fontWeight: 600,
-            fontSize: "16px",
-            color: "#828282",
-          },
-          "& .Mui-selected": {
-            color: "#864DF4",
-          },
         }}
       >
-        <Tab label="Counselor" />
-        <Tab label="Add Counselor" />
-        <Tab label="Add Bulk" />
-        <Stack direction="row" alignItems="center">
+        <Tabs
+          value={selectedTab}
+          onChange={handleChange}
+          aria-label="tabs"
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: "#864DF4",
+              height: 4,
+              borderRadius: "4px",
+            },
+          }}
+          sx={{
+            "& .MuiTabs-indicator": {
+              backgroundColor: "#864DF4",
+            },
+            "& .MuiTab-root": {
+              textTransform: "none",
+              fontWeight: 600,
+              fontSize: "16px",
+              color: "#828282",
+            },
+            "& .Mui-selected": {
+              color: "#864DF4",
+            },
+          }}
+        >
+          <Tab label="Counselor" />
+          <Tab label="Add Counselor" />
+          <Tab label="Add Bulk" />
+        </Tabs>
+        <Stack direction="row" alignItems="center" spacing={1}>
           <Typography color="#828282" fontSize={"12px"}>
             Last synced: {lastSynced}
           </Typography>
@@ -173,8 +190,7 @@ export const Counselor = () => {
             <RefreshIcon />
           </IconButton>
         </Stack>
-      </Tabs>
-
+      </Box>
       <Box padding="30px" marginBottom={4}>
         {selectedTab === 0 && (
           <>
