@@ -88,33 +88,35 @@ const StyledUploadFile = ({ label, onChange }) => {
         ref={fileInputRef}
         onChange={handleFileChange}
         style={{ display: "none" }}
-        accept="image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        accept="image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
       />
       <Box display="flex" flexWrap="wrap" mt={2}>
         {files?.map((file, index) => (
           <ImagePreview
             key={index}
             style={
-              file?.type === "application/pdf"
-                ? { backgroundImage: "none" }
-                : { backgroundImage: `url(${URL.createObjectURL(file)})` }
+              file?.type.startsWith("image/")
+                ? { backgroundImage: `url(${URL.createObjectURL(file)})` }
+                : { backgroundImage: "none" }
             }
           >
             {file?.type === "application/pdf" ? (
               <>
-                <PictureAsPdfIcon
-                  style={{ fontSize: "40px", color: "#e57373" }}
-                />
+                <PictureAsPdfIcon style={{ fontSize: "40px", color: "#e57373" }} />
                 <Box>{file?.name}</Box>
               </>
             ) : null}
-            {file?.type ===
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-            file?.type === "application/msword" ? (
+            {["application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword"].includes(
+              file?.type
+            ) ? (
               <Box>{file?.name}</Box>
             ) : null}
-            {file?.type ===
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ? (
+            {file?.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ? (
+              <Box>{file?.name}</Box>
+            ) : null}
+            {["application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation"].includes(
+              file?.type
+            ) ? (
               <Box>{file?.name}</Box>
             ) : null}
           </ImagePreview>

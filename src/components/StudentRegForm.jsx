@@ -18,7 +18,7 @@ import { addForm, getGrDetails } from "../api/admin/adminapi";
 import bg from "../assets/images/BG-form.jpg";
 import logo from "../assets/images/schoolLogo.png";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-
+import image from "../assets/images/TCILOGO.jpg";
 export default function StudentRegForm() {
   const { control, reset, handleSubmit, watch } = useForm();
   const navigate = useNavigate();
@@ -301,6 +301,14 @@ export default function StudentRegForm() {
             </form>
           </Box>
         </Card>
+        <Stack
+          display={"flex"}
+          alignItems={"center"}
+          mt={2}
+          justifyContent={"center"}
+        >
+          <img src={image} style={{ maxWidth: "200px" }} />
+        </Stack>
       </Grid>
     </Grid>
   );

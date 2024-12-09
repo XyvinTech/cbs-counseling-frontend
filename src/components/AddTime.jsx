@@ -9,14 +9,16 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useForm, Controller } from "react-hook-form";
 import { useTimeStore } from "../store/counselor/TimeStore";
 import { StyledButton } from "../ui/StyledButton";
 import { StyledTime } from "../ui/StyledTime";
+import StyledInput from "../ui/StyledInput";
 
-const AddTime = ({refreshTrigger, setLastSynced}) => {
+const AddTime = ({ refreshTrigger, setLastSynced }) => {
   const { control, handleSubmit, setValue } = useForm();
   const { times, getTimes, addTimes, deleteTime } = useTimeStore();
   const [day, setDay] = useState("Sunday");
@@ -27,6 +29,9 @@ const AddTime = ({refreshTrigger, setLastSynced}) => {
   const [isChange, setIsChange] = useState(false);
   const [isAnySelected, setIsAnySelected] = useState(false);
   const [showCheckboxes, setShowCheckboxes] = useState(false);
+  const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
+    useState(false);
+  const [confirmationInput, setConfirmationInput] = useState("");
   const daysOfWeek = [
     "Sunday",
     "Monday",
@@ -46,7 +51,7 @@ const AddTime = ({refreshTrigger, setLastSynced}) => {
         "0"
       )} ${currentTime?.getHours() >= 12 ? "PM" : "AM"}`
     );
-  }, [refreshTrigger, setLastSynced,getTimes, isChange]);
+  }, [refreshTrigger, setLastSynced, getTimes, isChange]);
 
   useEffect(() => {
     const currentTimes = times.find((time) => time.day === day)?.times || [];
@@ -105,36 +110,45 @@ const AddTime = ({refreshTrigger, setLastSynced}) => {
       setIsDialogOpen(false);
     }
   };
-
-  const onSubmit = async (data) => {
-    const dayObject = times.find((time) => time.day === day);
+  const handleConfirmSubmit = async (e) => {
+    e.preventDefault();
+    const dayObject = times?.find((time) => time?.day === day);
 
     if (dayObject && dayObject.times) {
-      const checkedIndexes = Object.keys(data).filter((index) => data[index]);
+      const checkedIndexes = Object.keys(dayTimes)?.filter(
+        (index) => dayTimes[index]
+      );
 
-      const timesToDelete = checkedIndexes?.map((index) => {
-          const timeSlot = dayObject.times[index];
+      const timesToDelete = checkedIndexes
+        ?.map((index) => {
+          const timeSlot = dayObject?.times[index];
           if (timeSlot) {
             return {
-              start: timeSlot.start,
-              end: timeSlot.end,
+              start: timeSlot?.start,
+              end: timeSlot?.end,
             };
           }
           return null;
         })
-        .filter((timeSlot) => timeSlot !== null);
+        ?.filter((timeSlot) => timeSlot !== null);
 
       const requestBody = {
         times: timesToDelete,
+        reason: confirmationInput,
       };
 
       if (timesToDelete.length > 0) {
-        await deleteTime(dayObject._id, requestBody);
+        await deleteTime(dayObject?._id, requestBody);
         setIsChange(!isChange);
         setIsAnySelected(false);
         setShowCheckboxes(false);
       }
     }
+    setIsConfirmationDialogOpen(false);
+    setConfirmationInput("");
+  };
+  const onSubmit = async () => {
+    setIsConfirmationDialogOpen(true);
   };
 
   const selectedDayTimes = times.find((time) => time.day === day)?.times || [];
@@ -253,6 +267,45 @@ const AddTime = ({refreshTrigger, setLastSynced}) => {
           )}
         </Grid>
       </Grid>
+      <Dialog
+        open={isConfirmationDialogOpen}
+        onClose={() => setIsConfirmationDialogOpen(false)}
+        PaperProps={{
+          sx: { borderRadius: "21px", padding: 3 },
+        }}
+      >
+        <DialogContent>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant="h6">Enter Reason</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <StyledInput
+                value={confirmationInput}
+                onChange={(e) => setConfirmationInput(e.target.value)}
+                placeholder="Enter reason for change"
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <StyledButton
+            variant="secondary"
+            onClick={(e) => {
+              e.preventDefault();
+              setIsConfirmationDialogOpen(false);
+            }}
+            name="Cancel"
+          />
+          <StyledButton
+            variant="primary"
+            onClick={(e) => {
+              handleConfirmSubmit(e);
+            }}
+            name="Confirm"
+          />
+        </DialogActions>
+      </Dialog>
       <Dialog
         open={isDialogOpen}
         PaperProps={{
