@@ -64,8 +64,7 @@ const EditCounselor = ({ open, onClose, onChange, rowData }) => {
         designation: data?.designation,
         email: data?.email,
         experience: data?.experience,
-        mobile: data?.mobile,
-        mobile: data?.mobile.replace(/\s+/g, ""),
+        mobile: data?.mobile?.replace(/\s+/g, ""),
         gender: data?.gender.value,
         counsellorType: data.counsellorType?.map((option) => option.value),
       };
