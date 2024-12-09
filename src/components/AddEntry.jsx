@@ -104,7 +104,7 @@ export default function AddEntry() {
       label: `${slot.start} - ${slot.end}`,
     })) || [];
   const option = [
-    { value: "Next Appoinment", label: "Next Appoinment" },
+    { value: "Next Appoinment", label: "Next Appointment" },
     { value: "Close Case", label: "Close Case" },
     { value: "Refer With Session", label: "Refer With Session" },
     { value: "Refer", label: "Refer" },
@@ -619,7 +619,7 @@ export default function AddEntry() {
                           onChange={(e) => setShowDatePicker(e.target.checked)}
                         />
                       }
-                      label="Same as Date of Appoinment"
+                      label="Same as Date of Appointment"
                     />{" "}
                   </Stack>
                   {!showDatePicker && (

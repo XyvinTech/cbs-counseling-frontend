@@ -15,7 +15,7 @@ const SessionPage = () => {
   const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const { id } = useParams();
   const [filterOpen, setFilterOpen] = useState(false);
-
+  const [search, setSearch] = useState("");
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -42,6 +42,9 @@ const SessionPage = () => {
     let filter = {};
     filter.page = pageNo;
     filter.limit = row;
+    if (search) {
+      filter.searchQuery = search;
+    }
     if (id) {
       adminSesssionsByCaseId(id, filter);
     }
@@ -55,7 +58,7 @@ const SessionPage = () => {
   };
   useEffect(() => {
     handleRefresh();
-  }, [id, pageNo, row]);
+  }, [id, pageNo, row, search]);
   return (
     <>
       <Box
@@ -85,7 +88,10 @@ const SessionPage = () => {
             alignItems={"center"}
           >
             <Stack direction={"row"} spacing={2}>
-              <StyledSearchbar />
+            <StyledSearchbar
+                placeholder={"Search here"}
+                onchange={(e) => setSearch(e.target.value)}
+              />
             </Stack>
           </Stack>{" "}
           <Box

@@ -164,7 +164,7 @@ export default function AddMeeting() {
               mb={3}
               color="primary.main"
             >
-              Book Appoinment
+              Book Appointment
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={4}>
@@ -358,7 +358,7 @@ export default function AddMeeting() {
       </Grid>
       <Dialog open={openSuccessDialog} onClose={handleCloseDialog}>
         <DialogTitle>
-          Your Appoinment request has been submitted. You will recieve a
+          Your Appointment request has been submitted. You will receive a
           confirmation once the appointment request is approved !
         </DialogTitle>
         <DialogActions>

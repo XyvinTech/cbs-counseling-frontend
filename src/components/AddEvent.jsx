@@ -219,18 +219,18 @@ export default function AddEvent({ onChange, setSelectedTab }) {
               fontWeight={500}
               color={"#333333"}
             >
-              Select Remainder
+              Select Reminder
             </Typography>
             <Controller
               name="remainder"
               control={control}
               defaultValue=""
-              rules={{ required: "Remainder is required" }}
+              rules={{ required: "Reminder is required" }}
               render={({ field }) => (
                 <>
                   <StyledSelectField
                     isMulti
-                    placeholder="Select Remainder"
+                    placeholder="Select Reminder"
                     options={Types}
                     {...field}
                   />

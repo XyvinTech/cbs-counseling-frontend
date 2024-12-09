@@ -44,7 +44,7 @@ import UserNotification from "../components/UserNotification";
 const drawerWidth = 250;
 const subNavigation = [
   {
-    name: "Book Appoinment",
+    name: "Book Appointment",
     to: "/student/bookappoinment",
     icon: <EventAvailableOutlinedIcon />,
   },

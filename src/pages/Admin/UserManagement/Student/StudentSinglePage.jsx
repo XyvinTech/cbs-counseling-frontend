@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import UserCard from "../../../../ui/UserCard";
 import StyledTable from "../../../../ui/StyledTable";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useListStore } from "../../../../store/listStore";
 import { useCounselorStore } from "../../../../store/admin/CounselorStore";
 
@@ -21,6 +21,7 @@ const StudentSinglePage = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [lastSynced, setLastSynced] = useState("0 minutes ago");
   const { fetchSession } = useListStore();
+  const navigate=useNavigate();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const { counselor, fetchUser, loading } = useCounselorStore();
@@ -59,6 +60,9 @@ const StudentSinglePage = () => {
     { title: "Counselor Name", field: "counsellor_name" },
     { title: "Counseling Type", field: "counsellor_type" },
   ];
+  const handleView = (id) => {
+    navigate(`/cases/session/${id}`);
+  };
   return (
     <>
       {" "}
@@ -147,6 +151,7 @@ const StudentSinglePage = () => {
                     setPageNo={setPageNo}
                     rowPerSize={row}
                     setRowPerSize={setRow}
+                    onView={handleView}
                     dashboard
                   />
                 </Box>
