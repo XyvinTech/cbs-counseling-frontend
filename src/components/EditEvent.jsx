@@ -71,12 +71,15 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
         date: data?.date,
         venue: data?.venue,
         guest: data?.guest,
-        requisition_image: imageUrl ? imageUrl : "",
         details: data?.description,
         requisition_description: data?.requisition_description,
         title: data?.title,
         remainder: data.remainder?.map((option) => option.value),
       };
+      if(imageUrl)
+      {
+        formData.requisition_image = imageUrl;
+      }
 
       await editEvents(rowData?._id, formData);
       updateChange(change);
@@ -171,13 +174,9 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
               name="venue"
               control={control}
               defaultValue=""
-              rules={{ required: "Venue is required" }}
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Enter Venue" {...field} />
-                  {errors.venue && (
-                    <span style={{ color: "red" }}>{errors.venue.message}</span>
-                  )}
                 </>
               )}
             />
@@ -195,16 +194,12 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
               name="guest"
               control={control}
               defaultValue=""
-              rules={{ required: "Chief Guest is required" }}
               render={({ field }) => (
                 <>
                   <StyledInput
                     placeholder="Enter Chief Guest Name"
                     {...field}
                   />
-                  {errors.guest && (
-                    <span style={{ color: "red" }}>{errors.guest.message}</span>
-                  )}
                 </>
               )}
             />
@@ -310,7 +305,6 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
               name="requisition_description"
               control={control}
               defaultValue=""
-              rules={{ required: "Requisition Description is required" }}
               render={({ field }) => (
                 <>
                   <StyledMultilineTextField
@@ -318,11 +312,6 @@ const EditEvent = ({ open, onClose, onChange, rowData }) => {
                     rows={5}
                     {...field}
                   />
-                  {errors.requisition_description && (
-                    <span style={{ color: "red" }}>
-                      {errors.requisition_description.message}
-                    </span>
-                  )}
                 </>
               )}
             />

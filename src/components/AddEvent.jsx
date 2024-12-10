@@ -53,13 +53,14 @@ export default function AddEvent({ onChange, setSelectedTab }) {
         date: data?.date,
         venue: data?.venue,
         guest: data?.guest,
-        requisition_image: imageUrl ? imageUrl : "",
         details: data?.description,
         requisition_description: data?.requisition_description,
         title: data?.title,
-        remainder: data.remainder?.map((option) => option.value),
+        remainder: data?.remainder?.map((option) => option.value),
       };
-
+      if (imageUrl) {
+        formData.requisition_image = imageUrl;
+      }
       await addEvents(formData);
       updateChange(change);
       onChange();
@@ -148,13 +149,9 @@ export default function AddEvent({ onChange, setSelectedTab }) {
               name="venue"
               control={control}
               defaultValue=""
-              rules={{ required: "Venue is required" }}
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Enter Venue" {...field} />
-                  {errors.venue && (
-                    <span style={{ color: "red" }}>{errors.venue.message}</span>
-                  )}
                 </>
               )}
             />
@@ -172,16 +169,12 @@ export default function AddEvent({ onChange, setSelectedTab }) {
               name="guest"
               control={control}
               defaultValue=""
-              rules={{ required: "Chief Guest is required" }}
               render={({ field }) => (
                 <>
                   <StyledInput
                     placeholder="Enter Chief Guest Name"
                     {...field}
                   />
-                  {errors.guest && (
-                    <span style={{ color: "red" }}>{errors.guest.message}</span>
-                  )}
                 </>
               )}
             />
@@ -205,7 +198,7 @@ export default function AddEvent({ onChange, setSelectedTab }) {
                     label="Upload  Requisition Image here"
                     onChange={(file) => {
                       setImageFile(file);
-                      onChange(file); // Pass the file to the form
+                      onChange(file);
                     }}
                   />
                 </>
@@ -286,7 +279,6 @@ export default function AddEvent({ onChange, setSelectedTab }) {
               name="requisition_description"
               control={control}
               defaultValue=""
-              rules={{ required: "Requisition Description is required" }}
               render={({ field }) => (
                 <>
                   <StyledMultilineTextField
@@ -294,11 +286,6 @@ export default function AddEvent({ onChange, setSelectedTab }) {
                     rows={5}
                     {...field}
                   />
-                  {errors.requisition_description && (
-                    <span style={{ color: "red" }}>
-                      {errors.requisition_description.message}
-                    </span>
-                  )}
                 </>
               )}
             />
