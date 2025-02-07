@@ -76,13 +76,13 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
                   >
                     {" "}
                     <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300">
-                      {packageItem.case_id}
+                      {packageItem.session_id}
                     </h5>
                   </div>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {packageItem.createdAt}
+                    {packageItem.form_id}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
