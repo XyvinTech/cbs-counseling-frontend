@@ -58,7 +58,7 @@ const UserList = () => {
 
         <Link
           to="/add-user"
-          className="inline-flex items-center justify-center gap-2.5 bg-[#f09443] py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+          className="inline-flex items-center justify-center gap-2.5 bg-[#a266f0] py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
         >
           <span>
             <svg

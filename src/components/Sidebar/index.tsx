@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import image from "../../images/bethel.png";
+import image from "../../images/schoolLogo.png";
+import logo from "../../images/logo.jpg";
+import { BsChevronDown, BsChevronUp } from "react-icons/bs";
+
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
@@ -52,7 +55,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       document.querySelector("body")?.classList.remove("sidebar-expanded");
     }
   }, [sidebarExpanded]);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
+  const toggleUserDropdown = () => {
+    setIsUserDropdownOpen(!isUserDropdownOpen);
+  };
   return (
     <aside
       ref={sidebar}
@@ -63,9 +70,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       <div className="flex items-center justify-center gap-2 px-6 py-5.5 lg:py-0 ">
         <NavLink
           to="/"
-          className="flex items-center  gap-2 pt-8 font-semibold text-xl text-[#333] hover:text-[#f09443] transition-colors duration-300 ease-in-out dark:text-white"
+          className="flex items-center  gap-2 pt-8 font-semibold text-xl text-[#333] hover:text-[#a266f0] transition-colors duration-300 ease-in-out dark:text-white"
         >
-          <img src={image} alt="Logo" className="w-26 h-28" />
+          <img src={image} alt="Logo" className="w-26 h-24" />
         </NavLink>
 
         <button
@@ -94,13 +101,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         <nav className="mt-5 py-4 px-4 lg:mt-0 lg:px-6">
           <div>
-            <ul className="mb-6 flex flex-col gap-9.5">
+            <ul className="mb-6 flex flex-col gap-4.5">
               <li>
                 <NavLink
                   to="/"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#f09443]  hover:text-white dark:hover:bg-meta-4 ${
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0]  hover:text-white dark:hover:bg-meta-4 dark:text-violet-200 ${
                     (pathname === "/" || pathname.includes("dashboard")) &&
-                    "bg-[#f09443] text-white"
+                    "bg-[#a266f0] text-white"
                   }`}
                 >
                   <svg
@@ -131,141 +138,227 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   Dashboard
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="/user"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#f09443] hover:text-white dark:hover:bg-meta-4 ${
-                    pathname.includes("user") && "bg-[#f09443] text-white"
+              <li className="relative">
+                <div
+                  onClick={toggleUserDropdown}
+                  className={`group relative flex items-center justify-between dark:text-violet-200 gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 cursor-pointer ${
+                    pathname.includes("user") && "bg-[#a266f0] text-white"
                   }`}
                 >
-                  <svg
-                    className="fill-current"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12 2C9.243 2 7 4.243 7 7C7 9.757 9.243 12 12 12C14.757 12 17 9.757 17 7C17 4.243 14.757 2 12 2ZM12 10C10.346 10 9 8.654 9 7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7C15 8.654 13.654 10 12 10Z"
-                      fill=""
-                    />
-                    <path
-                      d="M12 14C9.347 14 4 15.347 4 18V20C4 20.553 4.447 21 5 21H19C19.553 21 20 20.553 20 20V18C20 15.347 14.653 14 12 14ZM6 18C6.217 17.147 9.417 16 12 16C14.583 16 17.783 17.147 18 18H6Z"
-                      fill=""
-                    />
-                  </svg>
-                  User
-                </NavLink>
+                  <div className="flex items-center gap-2.5">
+                    <svg
+                      className="fill-current"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 2C9.243 2 7 4.243 7 7C7 9.757 9.243 12 12 12C14.757 12 17 9.757 17 7C17 4.243 14.757 2 12 2ZM12 10C10.346 10 9 8.654 9 7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7C15 8.654 13.654 10 12 10Z"
+                        fill=""
+                      />
+                      <path
+                        d="M12 14C9.347 14 4 15.347 4 18V20C4 20.553 4.447 21 5 21H19C19.553 21 20 20.553 20 20V18C20 15.347 14.653 14 12 14ZM6 18C6.217 17.147 9.417 16 12 16C14.583 16 17.783 17.147 18 18H6Z"
+                        fill=""
+                      />
+                    </svg>
+                    User
+                  </div>
+                  {isUserDropdownOpen ? (
+                    <BsChevronUp size={18} />
+                  ) : (
+                    <BsChevronDown size={18} />
+                  )}
+                </div>
+
+                {isUserDropdownOpen && (
+                  <ul className="pl-8 mt-2 space-y-2">
+                    <li>
+                      <NavLink
+                        to="/admin-counselor"
+                        className={`group relative flex items-center gap-2.5 py-2 px-4 rounded-sm duration-300 ease-in-out dark:text-violet-200 hover:bg-[#a266f0] hover:text-white ${
+                          pathname.includes("user/admin-counselor") &&
+                          "bg-[#a266f0] text-white"
+                        }`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-5 h-5 mr-2"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                          />
+                        </svg>
+                        Counselor
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/admin-student"
+                        className={`group relative flex items-center gap-2.5 py-2 dark:text-violet-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white ${
+                          pathname.includes("admin-student") &&
+                          "bg-[#a266f0] text-white"
+                        }`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-5 h-5 mr-2"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.893 1.254 50.595 50.595 0 0 0-2.658.813m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675a3 3 0 0 1 3-3h1.5m-.75 3a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75Zm3 3h1.5a3 3 0 0 0 3-3v-3.375c0-.621-.504-1.125-1.125-1.125H9.375c-.621 0-1.125.504-1.125 1.125v3.375Z"
+                          />
+                        </svg>
+                        Student
+                      </NavLink>
+                    </li>
+                  </ul>
+                )}
               </li>
               <li>
                 <NavLink
-                  to="/church"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#f09443] hover:text-white dark:hover:bg-meta-4 ${
-                    pathname.includes("church") && "bg-[#f09443] text-white"
+                  to="/admin-case"
+                  className={`group relative flex dark:text-violet-200  items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
+                    pathname.includes("admin-case") && "bg-[#a266f0] text-white"
                   }`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     className="size-6"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3 6.75V18c0 1.242 1.008 2.25 2.25 2.25h13.5c1.242 0 2.25-1.008 2.25-2.25V6.75M3 6.75L6.75 3h10.5L21 6.75M3 6.75h18"
                     />
                   </svg>
-                  Church
+                  Cases and Sessions
                 </NavLink>
               </li>
               <li>
                 <NavLink
-                  to="/subscription"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#f09443] hover:text-white dark:hover:bg-meta-4 ${
-                    pathname.includes("subscription") &&
-                    "bg-[#f09443] text-white"
+                  to="/admin-event"
+                  className={`group relative flex items-center dark:text-violet-200  gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
+                    pathname.includes("admin-event") &&
+                    "bg-[#a266f0] text-white"
                   }`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     className="size-6"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M8 2v4M16 2v4M4 8h16M4 6a2 2 0 012-2h12a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM12 11l1.5 3 3.5.5-2.5 2.5.5 3.5-3-1.5-3 1.5.5-3.5-2.5-2.5 3.5-.5L12 11z"
                     />
                   </svg>
-                  Subscription
+                  Events
                 </NavLink>
               </li>
               <li>
                 <NavLink
-                  to="/plan"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#f09443] hover:text-white dark:hover:bg-meta-4 ${
-                    pathname.includes("plan") && "bg-[#f09443] text-white"
+                  to="/admin-type"
+                  className={`group relative flex items-center gap-2.5 dark:text-violet-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
+                    pathname.includes("admin-type") && "bg-[#a266f0] text-white"
                   }`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     className="size-6"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 3c4.418 0 8 3.134 8 7 0 2.136-.932 4.05-2.45 5.45L20 21l-4.55-2.45A9.824 9.824 0 0112 18c-4.418 0-8-3.134-8-7s3.582-7 8-7zm0 4a2 2 0 11.001 3.999A2 2 0 0112 7zm-4 6c0-1.5 2-2.5 4-2.5s4 1 4 2.5"
                     />
                   </svg>
-                  Plan
+                  Counseling Type
                 </NavLink>
               </li>
               <li>
-                <button
-                  className={`group relative w-full flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#f09443] hover:text-white dark:hover:bg-meta-4`}
+                <NavLink
+                  to="/admin-report"
+                  className={`group relative flex items-center gap-2.5 dark:text-violet-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
+                    pathname.includes("admin-report") &&
+                    "bg-[#a266f0] text-white"
+                  }`}
                 >
                   <svg
-                    className="fill-current"
-                    width="22"
-                    height="22"
-                    viewBox="0 0 22 22"
-                    fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="size-6"
                   >
                     <path
-                      d="M15.5375 0.618744H11.6531C10.7594 0.618744 10.0031 1.37499 10.0031 2.26874V4.64062C10.0031 5.05312 10.3469 5.39687 10.7594 5.39687C11.1719 5.39687 11.55 5.05312 11.55 4.64062V2.23437C11.55 2.16562 11.5844 2.13124 11.6531 2.13124H15.5375C16.3625 2.13124 17.0156 2.78437 17.0156 3.60937V18.3562C17.0156 19.1812 16.3625 19.8344 15.5375 19.8344H11.6531C11.5844 19.8344 11.55 19.8 11.55 19.7312V17.3594C11.55 16.9469 11.2062 16.6031 10.7594 16.6031C10.3125 16.6031 10.0031 16.9469 10.0031 17.3594V19.7312C10.0031 20.625 10.7594 21.3812 11.6531 21.3812H15.5375C17.2219 21.3812 18.5625 20.0062 18.5625 18.3562V3.64374C18.5625 1.95937 17.1875 0.618744 15.5375 0.618744Z"
-                      fill=""
-                    />
-                    <path
-                      d="M6.05001 11.7563H12.2031C12.6156 11.7563 12.9594 11.4125 12.9594 11C12.9594 10.5875 12.6156 10.2438 12.2031 10.2438H6.08439L8.21564 8.07813C8.52501 7.76875 8.52501 7.2875 8.21564 6.97812C7.90626 6.66875 7.42501 6.66875 7.11564 6.97812L3.67814 10.4844C3.36876 10.7938 3.36876 11.275 3.67814 11.5844L7.11564 15.0906C7.25314 15.2281 7.45939 15.3312 7.66564 15.3312C7.87189 15.3312 8.04376 15.2625 8.21564 15.125C8.52501 14.8156 8.52501 14.3344 8.21564 14.025L6.05001 11.7563Z"
-                      fill=""
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm3 6h6m-6 4h3m-3 4h4"
                     />
                   </svg>
-                  Logout
-                </button>
+                  Report
+                </NavLink>
+              </li>{" "}
+              <li>
+                <NavLink
+                  to="/admin-settings"
+                  className={`group relative flex items-center gap-2.5 dark:text-violet-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
+                    pathname.includes("admin-settings") &&
+                    "bg-[#a266f0] text-white"
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 3c.69 0 1.25.56 1.25 1.25V5.3c.45.1.88.26 1.28.47l.87-.87c.49-.49 1.28-.49 1.77 0l1.77 1.77c.49.49.49 1.28 0 1.77l-.87.87c.21.4.37.83.47 1.28h1.05c.69 0 1.25.56 1.25 1.25v2.5c0 .69-.56 1.25-1.25 1.25h-1.05c-.1.45-.26.88-.47 1.28l.87.87c.49.49.49 1.28 0 1.77l-1.77 1.77c-.49.49-1.28.49-1.77 0l-.87-.87c-.4.21-.83.37-1.28.47v1.05c0 .69-.56 1.25-1.25 1.25h-2.5c-.69 0-1.25-.56-1.25-1.25v-1.05c-.45-.1-.88-.26-1.28-.47l-.87.87c-.49.49-1.28.49-1.77 0l-1.77-1.77c-.49-.49-.49-1.28 0-1.77l.87-.87c-.21-.4-.37-.83-.47-1.28H3.25c-.69 0-1.25-.56-1.25-1.25v-2.5c0-.69.56-1.25 1.25-1.25h1.05c.1-.45.26-.88.47-1.28l-.87-.87c-.49-.49-.49-1.28 0-1.77l1.77-1.77c.49-.49 1.28-.49 1.77 0l.87.87c.4-.21.83-.37 1.28-.47V4.25C10.75 3.56 11.31 3 12 3zm0 6.5c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z"
+                    />
+                  </svg>
+                  Settings
+                </NavLink>
               </li>
             </ul>
           </div>
         </nav>
       </div>
-      <div className="mt-auto flex items-center justify-center py-4 px-6">
-        <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-          Crafted by{" "}
-          <a href="http://tijotjoseph.in/" target="_blank" className="text-[#f09443] hover:underline">
-          hello_world.ttj
-          </a>
+      <div className="mt-auto flex flex-col items-center justify-center py-4 px-6">
+        <span className="text-sm font-medium text-gray-500 dark:text-violet-200">
+          Powered By
         </span>
+        <img src={logo} alt="Logo" className="w-56 h-14 mt-2" />
       </div>
     </aside>
   );

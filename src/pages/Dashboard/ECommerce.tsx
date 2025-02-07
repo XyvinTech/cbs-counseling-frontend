@@ -3,6 +3,7 @@ import CardDataStats from "../../components/CardDataStats";
 import TableOne from "../../components/Tables/TableOne";
 import { getDashboard } from "../../api/dashboardApi";
 import { subscription } from "../../types/subscription";
+import Calendar from "../Calendar";
 
 const ECommerce: React.FC = () => {
   const [dashboard, setDashboard] = useState<{
@@ -138,7 +139,11 @@ const ECommerce: React.FC = () => {
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
         <div className="col-span-12 xl:col-span-12">
-          <TableOne brandData={dashboard?.subsList} />
+        <h2 className="text-title-md2 font-semibold text-black dark:text-white mb-4">
+       Upcomming Events
+        </h2>
+          {/* <TableOne brandData={dashboard?.subsList} /> */}
+          <Calendar/>
         </div>
       </div>
     </>

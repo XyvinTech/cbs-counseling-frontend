@@ -16,6 +16,17 @@ import SubscriptionList from "./pages/subscription/SubscriptionList";
 import ChurchUserList from "./pages/Church/ChurchUserList";
 import SignIn from "./pages/authentication/SignIn";
 import SignUp from "./pages/authentication/SignUp";
+import AdminCaseList from "./pages/Admin/Cases/AdminCaseList";
+import AdminEventList from "./pages/Admin/Event/AdminEventList";
+import AddEvent from "./pages/Admin/Event/AddEvent";
+import AdminTypeList from "./pages/Admin/CounselingType/AdminTypeList";
+import AddType from "./pages/Admin/CounselingType/AddType";
+import AddReport from "./pages/Admin/Report/AddReport";
+import AdminPassword from "./pages/Admin/Settings/AdminPassword";
+import AdminCounselorList from "./pages/Admin/Counselor/AdminCounselorList";
+import AddCounselor from "./pages/Admin/Counselor/AddCounselor";
+import AdminStudentList from "./pages/Admin/Student/AdminStudentList";
+import AddStudent from "./pages/Admin/Student/AddStudent";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -38,31 +49,96 @@ function App() {
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="Bethal Patrika" />
+              <PageTitle title="ABLE" />
               <ECommerce />
             </DefaultLayout>
           </>
         }
       />
-
       <Route
         path="/user"
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="Bethal Patrika || User" />
+              <PageTitle title="ABLE || User" />
               <UserList />
             </DefaultLayout>
           </>
         }
       />
       <Route
-        path="/church"
+        path="/admin-counselor"
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="Bethal Patrika || Church" />
-              <ChurchList />
+              <PageTitle title="ABLE || Counselor" />
+              <AdminCounselorList />
+            </DefaultLayout>
+          </>
+        }
+      />
+       <Route
+        path="/admin-student"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Student" />
+              <AdminStudentList />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/admin-case"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Case" />
+              <AdminCaseList />
+            </DefaultLayout>
+          </>
+        }
+      />{" "}
+      <Route
+        path="/admin-event"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Event" />
+              <AdminEventList />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/admin-type"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Counseling Type" />
+              <AdminTypeList />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/admin-report"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Report" />
+              <AddReport />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/admin-settings"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Settings" />
+              <AdminPassword />
             </DefaultLayout>
           </>
         }
@@ -72,7 +148,7 @@ function App() {
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="Bethal Patrika || Plan" />
+              <PageTitle title="ABLE || Plan" />
               <PlanList />
             </DefaultLayout>
           </>
@@ -83,7 +159,7 @@ function App() {
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="Bethal Patrika || Subscription" />
+              <PageTitle title="ABLE || Subscription" />
               <SubscriptionList />
             </DefaultLayout>
           </>
@@ -94,19 +170,52 @@ function App() {
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="Bethal Patrika || User" />
+              <PageTitle title="ABLE || User" />
               <AddUser />
             </DefaultLayout>
           </>
         }
       />
       <Route
-        path="/add-church"
+        path="/add-counselor"
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="Bethal Patrika || Church" />
-              <AddChurch />
+              <PageTitle title="ABLE || Counselor" />
+              <AddCounselor />
+            </DefaultLayout>
+          </>
+        }
+      />
+       <Route
+        path="/add-student"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Student" />
+              <AddStudent />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/add-event"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Event" />
+              <AddEvent />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/add-type"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Counseling Type" />
+              <AddType />
             </DefaultLayout>
           </>
         }
@@ -116,7 +225,7 @@ function App() {
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="Bethal Patrika || Church" />
+              <PageTitle title="ABLE || Church" />
               <ChurchUserList />
             </DefaultLayout>
           </>
@@ -127,19 +236,18 @@ function App() {
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="Bethal Patrika || Plan" />
+              <PageTitle title="ABLE || Plan" />
               <AddPlan />
             </DefaultLayout>
           </>
         }
       />
-
       <Route
         path="/add-subscription"
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="Bethal Patrika || Subscription" />
+              <PageTitle title="ABLE || Subscription" />
               <AddSubscription />
             </DefaultLayout>
           </>

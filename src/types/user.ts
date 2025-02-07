@@ -1,12 +1,17 @@
-import { Church } from "./church";
+
 
 export type User = {
   _id: string;
   name: string;
-  church: Church;
   email: string;
-  phone: string;
+  mobile: string;
   status: string;
-  address: string;
-  role: string;
+  userType: string;
+  designation: string;
+  gender: string;
+  StudentReferencesCode: string;
+  parentContact: string;
+  division: string;
+  counsellorType: string[];
 };
+   

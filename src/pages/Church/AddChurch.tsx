@@ -90,7 +90,7 @@ const AddChurch = () => {
                   value={churchData.name}
                   onChange={handleChange}
                   placeholder="Enter your name"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#f09443] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
                 />
               </div>
             </div>
@@ -105,13 +105,13 @@ const AddChurch = () => {
                 value={churchData.address}
                 onChange={handleChange}
                 placeholder="Enter your address"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#f09443] dark:text-white"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
               ></textarea>
             </div>
 
             <button
               type="submit"
-              className="flex w-full justify-center rounded bg-[#f09443] p-3 font-medium text-gray hover:bg-opacity-90"
+              className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
             >
               {churchId ? "Update" : "Submit"}
             </button>

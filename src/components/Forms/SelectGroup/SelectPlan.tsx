@@ -26,7 +26,7 @@ const SelectPlan: React.FC<{ onPlanChange: (value: string) => void; selectedPlan
         <select
           value={selectedPlan}
           onChange={handleChange}
-          className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-[#f09443] active:border-[#f09443] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#f09443] ${
+          className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-[#a266f0] active:border-[#a266f0] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#a266f0] ${
             isOptionSelected ? "text-black dark:text-white" : ""
           }`}
         >

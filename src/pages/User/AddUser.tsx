@@ -102,7 +102,7 @@ const AddUser = () => {
                   value={userData.name}
                   onChange={handleChange}
                   placeholder="Enter your name"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#f09443] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
                 />
               </div>
             </div>
@@ -116,7 +116,7 @@ const AddUser = () => {
                 value={userData.email}
                 onChange={handleChange}
                 placeholder="Enter your email address"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#f09443] dark:text-white"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
               />
             </div>
             <div className="mb-4.5">
@@ -129,7 +129,7 @@ const AddUser = () => {
                 value={userData.phone}
                 onChange={handleChange}
                 placeholder="Enter your phone number"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#f09443] dark:text-white"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
               />
             </div>
 
@@ -148,13 +148,13 @@ const AddUser = () => {
                 value={userData.address}
                 onChange={handleChange}
                 placeholder="Enter your address"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#f09443] dark:text-white"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
               ></textarea>
             </div>
 
             <button
               type="submit"
-              className="flex w-full justify-center rounded bg-[#f09443] p-3 font-medium text-gray hover:bg-opacity-90"
+              className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
             >
               {userId ? "Update" : "Submit"}
             </button>

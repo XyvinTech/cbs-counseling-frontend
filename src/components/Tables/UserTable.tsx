@@ -159,7 +159,7 @@ const UserTable: React.FC<UserTableProps> = ({ searchValue, tab }) => {
                         : packageItem.status === "expiring"
                         ? "bg-yellow-500 text-yellow-600"
                         : packageItem.status === "expired"
-                        ? "bg-blue-500 text-gray-600"
+                        ? "bg-violet-500 text-gray-600"
                         : "bg-gray-500 text-gray-700"
                     }`}
                   >
@@ -357,7 +357,7 @@ const UserTable: React.FC<UserTableProps> = ({ searchValue, tab }) => {
             className={`px-4 py-2 rounded ${
               currentPage === 1
                 ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : "bg-blue-500 text-white"
+                : "bg-violet-500 text-white"
             }`}
           >
             Previous
@@ -370,7 +370,7 @@ const UserTable: React.FC<UserTableProps> = ({ searchValue, tab }) => {
                   onClick={() => handlePageChange(page)}
                   className={`px-3 py-1 rounded ${
                     page === currentPage
-                      ? "bg-blue-500 text-white"
+                      ? "bg-violet-500 text-white"
                       : "bg-gray-200 text-gray-700"
                   }`}
                 >
@@ -385,7 +385,7 @@ const UserTable: React.FC<UserTableProps> = ({ searchValue, tab }) => {
             className={`px-4 py-2 rounded ${
               currentPage === totalPages
                 ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : "bg-blue-500 text-white"
+                : "bg-violet-500 text-white"
             }`}
           >
             Next

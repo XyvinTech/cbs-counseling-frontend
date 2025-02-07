@@ -1,6 +1,6 @@
 import React from "react";
-import LogoDark from "../../images/bethel.png";
-import Logo from "../../images/bethel.png";
+import LogoDark from "../../images/schoolLogo.png";
+import Logo from "../../images/schoolLogo.png";
 
 const SignIn: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ const SignIn: React.FC = () => {
               />
             </div>
             <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2 flex justify-center ">
-              Login to Bethal Patrika
+              Login to ABLE
             </h2>
 
             <form>

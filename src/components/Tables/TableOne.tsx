@@ -29,7 +29,7 @@ const TableOne: React.FC<TableOneProps> = ({ brandData }) => {
           Subscriptions
         </h4>
         <button
-          className="flex items-center rounded bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none"
+          className="flex items-center rounded bg-violet-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none"
           onClick={handlePdf}
         >
           <svg

@@ -140,7 +140,7 @@ const AddSubscription = () => {
                   onChange={handleChange}
                   disabled
                   placeholder="Enter expiry date"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#f09443] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
                 />
               </div>
             )}
@@ -154,7 +154,7 @@ const AddSubscription = () => {
                 value={subData.receipt}
                 onChange={handleChange}
                 placeholder="Enter receipt number"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#f09443] dark:text-white"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
               />
             </div>
             <SelectPlan
@@ -163,7 +163,7 @@ const AddSubscription = () => {
             />
             <button
               type="submit"
-              className="flex w-full justify-center rounded bg-[#f09443] p-3 font-medium text-gray hover:bg-opacity-90"
+              className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
             >
               {subId ? "Update" : "Submit"}
             </button>
