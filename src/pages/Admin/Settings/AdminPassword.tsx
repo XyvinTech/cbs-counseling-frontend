@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../../../api/authApi";
 import { toast } from "react-toastify";
 
@@ -12,7 +11,7 @@ const AdminPassword = () => {
 
   const [error, setError] = useState("");
 
-  const navigate = useNavigate();
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

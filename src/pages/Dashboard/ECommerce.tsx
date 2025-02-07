@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import CardDataStats from "../../components/CardDataStats";
-import TableOne from "../../components/Tables/TableOne";
 import { getDashboard } from "../../api/dashboardApi";
 import { subscription } from "../../types/subscription";
 import Calendar from "../Calendar";
@@ -142,7 +141,6 @@ const ECommerce: React.FC = () => {
         <h2 className="text-title-md2 font-semibold text-black dark:text-white mb-4">
        Upcomming Events
         </h2>
-          {/* <TableOne brandData={dashboard?.subsList} /> */}
           <Calendar/>
         </div>
       </div>

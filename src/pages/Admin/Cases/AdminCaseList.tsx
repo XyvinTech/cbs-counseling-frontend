@@ -1,7 +1,5 @@
 import { useState } from "react";
-import ChurchTable from "../../../components/Tables/ChurchTable";
 import AdminCaseTable from "./AdminCaseTable";
-import Calendar from "../../Calendar";
 
 const AdminCaseList = () => {
   const [searchValue, setSearchValue] = useState<string>("");
