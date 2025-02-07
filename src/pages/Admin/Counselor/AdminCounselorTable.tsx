@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { User } from "../../../types/user";
 import { deleteUser, getUserById, getUsers } from "../../../api/userApi";
-interface EventTableProps {
+interface CounselorTableProps {
   searchValue: string;
 }
 
-const AdminCounselorTable: React.FC<EventTableProps> = ({ searchValue }) => {
+const AdminCounselorTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
   const [packageData, setPackageData] = useState<User[]>([]);
   const [isChange, setIsChange] = useState<boolean>(false);
   const [open, setOpen] = useState(false);

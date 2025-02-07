@@ -91,12 +91,12 @@ const AddCounselor = () => {
     }));
   };
   const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+    let value = e.target.value.replace(/\D/g, ""); 
 
     if (value.startsWith("968")) {
-      value = "+968 " + value.slice(3); // Ensure "+968 " prefix
+      value = "+968 " + value.slice(3);
     } else {
-      value = "+968 " + value; // Add "+968 " if missing
+      value = "+968 " + value; 
     }
 
     setCounselorData((prev) => ({

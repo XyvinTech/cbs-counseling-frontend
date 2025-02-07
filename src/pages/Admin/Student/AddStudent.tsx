@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  createChurch,
-  getChurchById,
-  updateChurch,
-} from "../../../api/churchApi";
+
 import SelectGender from "../../../components/Admin/SelectGender";
+import { createUser, getUserById, updateUser } from "../../../api/userApi";
+import { toast } from "react-toastify";
 
 const AddStudent = () => {
   const [studentData, setStudentData] = useState({
@@ -17,6 +15,7 @@ const AddStudent = () => {
     division: "",
     mobile: "",
     parentContact: "",
+    userType: "student",
   });
 
   const location = useLocation();
@@ -28,7 +27,7 @@ const AddStudent = () => {
   useEffect(() => {
     if (isEditMode && studentId) {
       const fetchStudent = async () => {
-        const response = await getChurchById(studentId);
+        const response = await getUserById(studentId);
         const student = response.data;
 
         if (student) {
@@ -41,6 +40,7 @@ const AddStudent = () => {
             division: student.division || "",
             mobile: student.mobile || "",
             parentContact: student.parentContact || "",
+            userType: "student",
           });
         }
       };
@@ -52,9 +52,22 @@ const AddStudent = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+
+    let formattedValue = value.replace(/\D/g, "");
+
+    if (name === "mobile" || name === "parentContact") {
+      if (!formattedValue.startsWith("968")) {
+        formattedValue = "968" + formattedValue;
+      }
+
+      if (formattedValue.length > 3) {
+        formattedValue = "+968 " + formattedValue.slice(3, 11);
+      }
+    }
+
     setStudentData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: formattedValue,
     }));
   };
 
@@ -62,13 +75,13 @@ const AddStudent = () => {
     e.preventDefault();
     try {
       if (isEditMode && studentId) {
-        await updateChurch(studentId, studentData);
+        await updateUser(studentId, studentData);
       } else {
-        await createChurch(studentData);
+        await createUser(studentData);
       }
       navigate("/admin-student");
-    } catch (error) {
-      console.error("Failed to save student", error);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
   const handleGenderChange = (value: string) => {
@@ -189,10 +202,11 @@ const AddStudent = () => {
                   name="mobile"
                   value={studentData.mobile}
                   onChange={handleChange}
-                  placeholder="Enter Mobile Number"
+                  placeholder="+968 9898 9898"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
                 />
               </div>
+
               <div className="w-full">
                 <label className="mb-2.5 block text-black dark:text-white">
                   Alternative Contact Number
@@ -202,7 +216,7 @@ const AddStudent = () => {
                   name="parentContact"
                   value={studentData.parentContact}
                   onChange={handleChange}
-                  placeholder="Enter Parent Contact"
+                  placeholder="+968 9898 9898"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
                 />
               </div>
