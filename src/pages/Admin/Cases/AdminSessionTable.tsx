@@ -1,14 +1,14 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Case } from "../../../types/case";
-import { getCase } from "../../../api/sessionApi";
-interface CaseTableProps {
+import { getCase, getSessionByCase } from "../../../api/sessionApi";
+import { Session } from "../../../types/session";
+interface SessionTableProps {
   searchValue: string;
 }
 
-const AdminCaseTable: React.FC<CaseTableProps> = ({ searchValue }) => {
-  const [packageData, setPackageData] = useState<Case[]>([]);
-
+const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
+  const [packageData, setPackageData] = useState<Session[]>([]);
+  const { id } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
@@ -16,7 +16,7 @@ const AdminCaseTable: React.FC<CaseTableProps> = ({ searchValue }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getCase({
+        const response = await getSessionByCase(id || "", {
           searchQuery: searchValue,
           page: currentPage,
           limit: itemsPerPage,
@@ -176,4 +176,4 @@ const AdminCaseTable: React.FC<CaseTableProps> = ({ searchValue }) => {
   );
 };
 
-export default AdminCaseTable;
+export default AdminSessionTable;

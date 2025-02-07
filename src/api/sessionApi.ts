@@ -32,3 +32,31 @@ export const getSessionByUser = async (
     return null;
   }
 };
+
+export const getCase = async (params: {
+  searchQuery?: string;
+  limit?: number;
+  page?: number;
+}): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.get(`/sessions/case`, {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};
+export const getSessionByCase = async (
+  id: string,
+  params: { searchQuery?: string; limit?: number; page?: number }
+): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.get(`/sessions/case/${id}`, {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};
