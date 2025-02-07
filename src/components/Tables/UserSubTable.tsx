@@ -1,10 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
-  getMember,
   deleteUser,
   getUserById,
-  getMemberChurch,
 } from "../../api/userApi";
 import { User } from "../../types/user";
 interface UserTableProps {
@@ -64,16 +62,16 @@ const UserSubTable: React.FC<UserTableProps> = ({ searchValue }) => {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await getMemberChurch(id || "", {
-          search: searchValue,
-          page: currentPage,
-          limit: itemsPerPage,
-          church: "all",
-        });
-        setTotalCount(response.totalCount);
-        if (response?.data) {
-          setPackageData(response.data);
-        }
+        // const response = await getMemberChurch(id || "", {
+        //   search: searchValue,
+        //   page: currentPage,
+        //   limit: itemsPerPage,
+        //   church: "all",
+        // });
+        // setTotalCount(response.totalCount);
+        // if (response?.data) {
+        //   setPackageData(response.data);
+        // }
       } catch (error) {
         console.error("Failed to fetch members:", error);
       }

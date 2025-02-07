@@ -1,22 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { deleteChurch, getChurch, getChurchById } from "../../../api/churchApi";
 import { toast } from "react-toastify";
-import { Church } from "../../../types/church";
-interface ChurchTableProps {
+import { User } from "../../../types/user";
+import { deleteUser, getUserById, getUsers } from "../../../api/userApi";
+interface EventTableProps {
   searchValue: string;
 }
 
-const AdminCounselorTable: React.FC<ChurchTableProps> = ({ searchValue }) => {
-  const [packageData, setPackageData] = useState<Church[]>([]);
+const AdminCounselorTable: React.FC<EventTableProps> = ({ searchValue }) => {
+  const [packageData, setPackageData] = useState<User[]>([]);
   const [isChange, setIsChange] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
   const [view, setView] = useState(false);
-  const [churchData, setChurchData] = useState<{
-    name: string;
-    image: string;
-    address: string;
-  }>({ name: "", image: "", address: "" });
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    designation: "",
+    gender: "",
+    counsellorType: [],
+  });
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -32,52 +35,54 @@ const AdminCounselorTable: React.FC<ChurchTableProps> = ({ searchValue }) => {
   };
   const handleView = async (id: string) => {
     try {
-      const response = await getChurchById(id);
-      const church = response.data;
+      const response = await getUserById(id);
+      const value = response.data;
 
-      if (church) {
-        setChurchData({
-          name: church.name || "",
-          image: church.image || "",
-          address: church.address || "",
+      if (value) {
+        setData({
+          name: value.name || "",
+          email: value.email || "",
+          mobile: value.mobile || "",
+          designation: value.designation || "",
+          gender: value.gender || "",
+          counsellorType: value.counsellorType || [],
         });
       }
       setView(true);
     } catch (error) {
-      console.error("Failed to fetch church:", error);
+      console.error("Failed to fetch value:", error);
     }
   };
   const handleCloseView = () => {
     setView(false);
   };
   useEffect(() => {
-    const fetchChurches = async () => {
+    const fetchData = async () => {
       try {
-        const response = await getChurch({
-          search: searchValue,
+        const response = await getUsers({
+          searchQuery: searchValue,
           page: currentPage,
           limit: itemsPerPage,
+          type: "counsellor",
         });
         setTotalCount(response.totalCount);
         if (response?.data) {
           setPackageData(response.data);
         }
       } catch (error) {
-        console.error("Failed to fetch members:", error);
+        console.error("Failed to fetch data:", error);
       }
     };
 
-    fetchChurches();
+    fetchData();
   }, [isChange, searchValue, currentPage, itemsPerPage]);
   const handleDelete = async () => {
     try {
-      await deleteChurch(selectedId!);
+      await deleteUser(selectedId!);
       setIsChange((prevState) => !prevState);
-
       handleClose();
-      toast.success("Church deleted successfully.");
-    } catch (error) {
-      console.error(`Error deleting Church with ID ${selectedId}:`, error);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
@@ -99,18 +104,22 @@ const AdminCounselorTable: React.FC<ChurchTableProps> = ({ searchValue }) => {
                 Name
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Address
+                Email
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Image
+                Contact
               </th>
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                Designation
+              </th>
+
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
-            {packageData.map((packageItem, key) => (
+            {packageData?.map((packageItem, key) => (
               <tr key={key}>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
@@ -119,16 +128,18 @@ const AdminCounselorTable: React.FC<ChurchTableProps> = ({ searchValue }) => {
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {packageItem.address}
+                    {packageItem.email}
                   </p>
                 </td>
-
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <img
-                    src={packageItem.image}
-                    alt="Package"
-                    className="w-16 h-16 object-cover rounded"
-                  />
+                  <p className="text-black dark:text-white">
+                    {packageItem.mobile}
+                  </p>
+                </td>
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black dark:text-white">
+                    {packageItem.designation}
+                  </p>
                 </td>
 
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -188,7 +199,7 @@ const AdminCounselorTable: React.FC<ChurchTableProps> = ({ searchValue }) => {
                     <button
                       className="hover:text-primary"
                       onClick={() =>
-                        navigate("/add-event", {
+                        navigate("/add-counselor", {
                           state: {
                             id: packageItem._id,
                             editMode: true,
@@ -220,8 +231,8 @@ const AdminCounselorTable: React.FC<ChurchTableProps> = ({ searchValue }) => {
                 Confirm Deletion
               </h2>
               <p className="mt-4 text-gray-600">
-                Are you sure you want to delete this church? This action cannot
-                be undone.
+                Are you sure you want to delete this Counselor Type? This action
+                cannot be undone.
               </p>
               <div className="mt-6 flex justify-end space-x-4">
                 <button
@@ -242,22 +253,57 @@ const AdminCounselorTable: React.FC<ChurchTableProps> = ({ searchValue }) => {
         )}
         {view && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-lg p-6 relative">
               <button
                 onClick={handleCloseView}
-                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
               >
                 ✖
               </button>
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                {churchData.name}
+
+              <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+                {data?.name}
               </h2>
-              <img
-                src={churchData.image}
-                alt={churchData.name}
-                className="w-full h-48 object-cover rounded-md mb-4"
-              />
-              <p className="text-gray-600">{churchData.address}</p>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Email
+                  </p>
+                  <p className="text-gray-700 dark:text-gray-200 font-medium">
+                    {data?.email}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Phone
+                  </p>
+                  <p className="text-gray-700 dark:text-gray-200 font-medium">
+                    {data?.mobile}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Designation
+                  </p>
+                  <p className="text-gray-700 dark:text-gray-200 font-medium">
+                    {data?.designation}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Counselor Type
+                  </p>
+                  <p className="text-gray-700 dark:text-gray-200 font-medium">
+                    {data?.counsellorType
+                      ?.map((item: any) => item.name)
+                      .join(", ")}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         )}

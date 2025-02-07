@@ -26,13 +26,13 @@ const SelectGender: React.FC<{
           <option value="" disabled className="text-body dark:text-bodydark">
             Select Gender
           </option>
-          <option value="Male" className="text-body dark:text-bodydark">
+          <option value="male" className="text-body dark:text-bodydark">
             Male
           </option>
-          <option value="Female" className="text-body dark:text-bodydark">
+          <option value="female" className="text-body dark:text-bodydark">
             Female
           </option>
-          <option value="Other" className="text-body dark:text-bodydark">
+          <option value="other" className="text-body dark:text-bodydark">
             Other
           </option>
         </select>

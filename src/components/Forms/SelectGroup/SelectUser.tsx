@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { User } from "../../../types/user";
-import { getMemberChurch } from "../../../api/userApi";
+// import { getMemberChurch } from "../../../api/userApi";
 
 interface SelectUserProps {
   onUserChange: (value: string) => void;
@@ -16,8 +16,8 @@ const SelectUser: React.FC<SelectUserProps> = ({ onUserChange, selectedUser, sel
     if (selectedChurch) {
       const fetchUsers = async () => {
         try {
-          const response = await getMemberChurch(selectedChurch, { search: "" ,church:"all"});
-          setUsers(response.data || []);
+          // const response = await getMemberChurch(selectedChurch, { search: "" ,church:"all"});
+          // setUsers(response.data || []);
         } catch (error) {
           console.error("Error fetching users:", error);
         }

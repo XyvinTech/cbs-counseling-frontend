@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getMember, deleteUser, getUserById } from "../../api/userApi";
+import {  deleteUser, getUserById, getUsers } from "../../api/userApi";
 import { User } from "../../types/user";
 interface UserTableProps {
   searchValue: string;
@@ -61,16 +61,16 @@ const UserTable: React.FC<UserTableProps> = ({ searchValue, tab }) => {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await getMember({
-          search: searchValue,
-          page: currentPage,
-          limit: itemsPerPage,
-          ...(tab !== "all" && { status: tab }),
-        });
-        setTotalCount(response.totalCount);
-        if (response?.data) {
-          setPackageData(response.data);
-        }
+        // const response = await getUsers({
+        //   search: searchValue,
+        //   page: currentPage,
+        //   limit: itemsPerPage,
+        //   ...(tab !== "all" && { status: tab }),
+        // });
+        // setTotalCount(response.totalCount);
+        // if (response?.data) {
+        //   setPackageData(response.data);
+        // }
       } catch (error) {
         console.error("Failed to fetch members:", error);
       }

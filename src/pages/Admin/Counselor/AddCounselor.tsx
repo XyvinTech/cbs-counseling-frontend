@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  createChurch,
-  getChurchById,
-  updateChurch,
-} from "../../../api/churchApi";
+
 import SelectType from "../../../components/Admin/SelectType";
 import SelectGender from "../../../components/Admin/SelectGender";
+import { createUser, getUserById, updateUser } from "../../../api/userApi";
+import { toast } from "react-toastify";
 
 const AddCounselor = () => {
-  const [counselorData, setCounselorData] = useState({
+  const [counselorData, setCounselorData] = useState<{
+    name: string;
+    userType: string;
+    designation: string;
+    email: string;
+    mobile: string;
+    counsellorType: string[];
+    gender: string;
+  }>({
     name: "",
-    image:
-      "https://img.lovepik.com/png/20231114/church-mission-vector-cartoon-churches-sticker_585191_wh1200.png",
-    address: "",
+    userType: "counsellor",
     designation: "",
     email: "",
-    phone: "",
-    type: "",
+    mobile: "",
+    counsellorType: [],
     gender: "",
   });
 
@@ -30,19 +34,18 @@ const AddCounselor = () => {
   useEffect(() => {
     if (isEditMode && counselorId) {
       const fetchCounselor = async () => {
-        const response = await getChurchById(counselorId);
+        const response = await getUserById(counselorId);
         const counselor = response.data;
 
         if (counselor) {
           setCounselorData({
             name: counselor.name || "",
-            image: counselor.image || "",
-            address: counselor.address || "",
             designation: counselor.designation || "",
             email: counselor.email || "",
-            phone: counselor.phone || "",
-            type: counselor.type || "",
+            mobile: counselor.mobile || "",
+            counsellorType: counselor.counsellorType || [],
             gender: counselor.gender || "",
+            userType: "counsellor",
           });
         }
       };
@@ -64,13 +67,13 @@ const AddCounselor = () => {
     e.preventDefault();
     try {
       if (isEditMode && counselorId) {
-        await updateChurch(counselorId, counselorData);
+        await updateUser(counselorId, counselorData);
       } else {
-        await createChurch(counselorData);
+        await createUser(counselorData);
       }
       navigate("/admin-counselor");
-    } catch (error) {
-      console.error("Failed to save counselor", error);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
@@ -81,10 +84,24 @@ const AddCounselor = () => {
     }));
   };
 
-  const handleTypeChange = (value: string) => {
+  const handleTypeChange = (values: string[]) => {
     setCounselorData((prev) => ({
       ...prev,
-      type: value,
+      counsellorType: values,
+    }));
+  };
+  const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+
+    if (value.startsWith("968")) {
+      value = "+968 " + value.slice(3); // Ensure "+968 " prefix
+    } else {
+      value = "+968 " + value; // Add "+968 " if missing
+    }
+
+    setCounselorData((prev) => ({
+      ...prev,
+      mobile: value,
     }));
   };
 
@@ -164,27 +181,14 @@ const AddCounselor = () => {
             <div className="mb-4.5 grid grid-cols-1 gap-6 xl:grid-cols-2">
               <div className="w-full">
                 <label className="mb-2.5 block text-black dark:text-white">
-                  Phone
-                </label>
-                <input
-                  type="number"
-                  name="phone"
-                  value={counselorData.phone}
-                  onChange={handleChange}
-                  placeholder="Enter Phone Number"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
-                />
-              </div>
-              <div className="w-full">
-                <label className="mb-2.5 block text-black dark:text-white">
-                  Address
+                  Contact Number
                 </label>
                 <input
                   type="text"
-                  name="address"
-                  value={counselorData.address}
-                  onChange={handleChange}
-                  placeholder="Enter Address"
+                  name="mobile"
+                  value={counselorData.mobile}
+                  onChange={handleMobileChange}
+                  placeholder="+968 9898 9898"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
                 />
               </div>
@@ -192,8 +196,8 @@ const AddCounselor = () => {
 
             <div className="mb-4.5">
               <SelectType
-                onChurchChange={handleTypeChange}
-                selectedChurch={counselorData.type}
+                onTypeChange={handleTypeChange}
+                selectedType={counselorData.counsellorType}
               />
             </div>
 

@@ -1,70 +1,46 @@
 import React, { useEffect, useState } from "react";
-import { getChurch } from "../../api/churchApi";
-import {Church} from '../../types/church';
-const SelectType: React.FC<{ onChurchChange: (value: string) => void; selectedChurch: string }> = ({ onChurchChange, selectedChurch }) => {
-  const [selectedOption, setSelectedOption] = useState<Church[]>([]);
-  const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
+import Select from "react-select";
+import { Type } from "../../types/type";
+import { getType } from "../../api/typeApi";
 
- 
+const SelectType: React.FC<{
+  onTypeChange: (value: string[]) => void;
+  selectedType: string[];
+}> = ({ onTypeChange, selectedType }) => {
+  const [options, setOptions] = useState<{ value: string; label: string }[]>([]);
+console.log("selectedType",selectedType);
+
   useEffect(() => {
-    const fetchChurches = async () => {
-      const response = await getChurch({
-        church:"all"
-      });
-      setSelectedOption(response.data);
+    const fetchType = async () => {
+      const response = await getType({});
+      const formattedOptions = response.data.map((type: Type) => ({
+        value: type._id,
+        label: type.name,
+      }));
+      setOptions(formattedOptions);
     };
-    fetchChurches();
+    fetchType();
   }, []);
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    onChurchChange(value);
-    setIsOptionSelected(true);
+
+  const handleChange = (selectedOptions: any) => {
+    const selectedValues = selectedOptions ? selectedOptions.map((opt: any) => opt.value) : [];
+    onTypeChange(selectedValues);
   };
 
   return (
     <div className="mb-4.5">
-      <label className="mb-2.5 block text-black dark:text-white">Counselor Type</label>
-      <div className="relative z-20 bg-transparent dark:bg-form-input">
-        <select
-          value={selectedChurch}
-          onChange={handleChange}
-          className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-[#a266f0] active:border-[#a266f0] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#a266f0] ${
-            isOptionSelected ? "text-black dark:text-white" : ""
-          }`}
-        >
-          <option value="" disabled className="text-body dark:text-bodydark">
-            Select Counselor Type
-          </option>
-          {selectedOption.map((church) => (
-            <option
-              key={church._id}
-              value={church._id}
-              className="text-body dark:text-bodydark"
-            >
-              {church.name}
-            </option>
-          ))}
-        </select>
-        <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
-          <svg
-            className="fill-current"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g opacity="0.8">
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                fill=""
-              ></path>
-            </g>
-          </svg>
-        </span>
-      </div>
+      <label className="mb-2.5 block text-black dark:text-white">
+        Counselor Type
+      </label>
+      <Select
+        isMulti
+        options={options}
+        value={options.filter((option) => selectedType.includes(option.value))}
+        onChange={handleChange}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        placeholder="Select Counselor Type"
+      />
     </div>
   );
 };

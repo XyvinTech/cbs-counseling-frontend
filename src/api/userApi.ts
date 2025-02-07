@@ -1,56 +1,35 @@
+import { toast } from "react-toastify";
 import axiosInstance from "./axiosintercepter";
 
 export const createUser = async (data: any): Promise<any | null> => {
   try {
     const response = await axiosInstance.post(`/users`, data);
+    toast.success(response.data.message);
     return response.data;
-  } catch (error) {
-    console.error("Failed to create user:", error);
-    return null;
+  } catch (error: any) {
+    throw error.response.data;
   }
 };
-export const getMember = async (params: {
-  search?: string;
-  status?: string;
+export const getUsers = async (params: {
+  searchQuery?: string;
   limit?: number;
   page?: number;
+  type?: string;
 }): Promise<any | null> => {
   try {
-    const response = await axiosInstance.get(`/users`, {
+    const response = await axiosInstance.get(`/users/list`, {
       params,
     });
     return response.data;
   } catch (error) {
-    console.error("Failed to fetch members:", error);
     return null;
   }
 };
-export const getMemberChurch = async (
-  id: string,
-  params: {
-    search?: string;
-    limit?: number;
-    page?: number;
-    church?: string;  
-  }
-): Promise<any | null> => {
-  try {
-    const response = await axiosInstance.get(`/users/church/${id}`, {
-      params,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch members:", error);
-    return null;
-  }
-};
-
 export const getUserById = async (id: string): Promise<any | null> => {
   try {
     const response = await axiosInstance.get(`/users/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Failed to fetch user:", error);
     return null;
   }
 };
@@ -60,18 +39,18 @@ export const updateUser = async (
 ): Promise<any | null> => {
   try {
     const response = await axiosInstance.put(`/users/${id}`, data);
+    toast.success(response.data.message);
     return response.data;
-  } catch (error) {
-    console.error("Failed to update user:", error);
-    return null;
+  } catch (error: any) {
+    throw error.response.data;
   }
 };
 export const deleteUser = async (id: string): Promise<any | null> => {
   try {
     const response = await axiosInstance.delete(`/users/${id}`);
+    toast.success(response.data.message);
     return response.data;
-  } catch (error) {
-    console.error("Failed to delete user:", error);
-    return null;
+  } catch (error: any) {
+    throw error.response.data;
   }
 };
