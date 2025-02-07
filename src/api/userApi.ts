@@ -54,3 +54,11 @@ export const deleteUser = async (id: string): Promise<any | null> => {
     throw error.response.data;
   }
 };
+export const getUserByStudent = async (id: string): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.get(`/users/student/${id}`);
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};

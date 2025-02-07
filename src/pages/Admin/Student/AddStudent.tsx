@@ -52,24 +52,28 @@ const AddStudent = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-
-    let formattedValue = value.replace(/\D/g, "");
-
+    let formattedValue = value;
+  
+    // Handle Oman mobile number formatting
     if (name === "mobile" || name === "parentContact") {
+      formattedValue = value.replace(/\D/g, ""); // Remove non-numeric characters
+  
       if (!formattedValue.startsWith("968")) {
         formattedValue = "968" + formattedValue;
       }
-
+  
       if (formattedValue.length > 3) {
         formattedValue = "+968 " + formattedValue.slice(3, 11);
       }
     }
-
+  
+    // Update state for all fields
     setStudentData((prev) => ({
       ...prev,
-      [name]: formattedValue,
+      [name]: formattedValue, 
     }));
   };
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -21,7 +21,6 @@ export const getEvent = async (params: {
     });
     return response.data;
   } catch (error) {
-    
     return null;
   }
 };
@@ -52,5 +51,13 @@ export const deleteEvent = async (id: string): Promise<any | null> => {
     return response.data;
   } catch (error: any) {
     throw error.response.data;
+  }
+};
+export const getCalendar = async (): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.get(`/events/calender`);
+    return response.data;
+  } catch (error) {
+    return null;
   }
 };

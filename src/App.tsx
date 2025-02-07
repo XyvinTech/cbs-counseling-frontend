@@ -27,6 +27,10 @@ import AdminCounselorList from "./pages/Admin/Counselor/AdminCounselorList";
 import AddCounselor from "./pages/Admin/Counselor/AddCounselor";
 import AdminStudentList from "./pages/Admin/Student/AdminStudentList";
 import AddStudent from "./pages/Admin/Student/AddStudent";
+import Form from "./pages/Student/Form";
+import BookAppoinment from "./pages/Student/BookAppoinment";
+import Profile from "./pages/Profile";
+import CounselorProfile from "./pages/Admin/Counselor/CounselorProfile";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -56,6 +60,24 @@ function App() {
         }
       />
       <Route
+        path="/form"
+        element={
+          <>
+            <PageTitle title="ABLE || Form" />
+            <Form />
+          </>
+        }
+      />
+      <Route
+        path="/book-appoinment"
+        element={
+          <>
+            <PageTitle title="ABLE || Form" />
+            <BookAppoinment />
+          </>
+        }
+      />
+      <Route
         path="/user"
         element={
           <>
@@ -77,7 +99,7 @@ function App() {
           </>
         }
       />
-       <Route
+      <Route
         path="/admin-student"
         element={
           <>
@@ -187,13 +209,35 @@ function App() {
           </>
         }
       />
-       <Route
+      <Route
         path="/add-student"
         element={
           <>
             <DefaultLayout>
               <PageTitle title="ABLE || Student" />
               <AddStudent />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/admin-student/:id"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Student" />
+              <Profile />
+            </DefaultLayout>
+          </>
+        }
+      />
+       <Route
+        path="/admin-counselor/:id"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Student" />
+              <CounselorProfile/>
             </DefaultLayout>
           </>
         }

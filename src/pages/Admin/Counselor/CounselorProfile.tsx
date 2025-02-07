@@ -1,14 +1,13 @@
 import { BsFillEnvelopeFill, BsFillTelephoneFill } from "react-icons/bs";
-import Breadcrumb from "../components/Breadcrumbs/Breadcrumb";
-import userGirl from "../images/user/user-girl.png";
-import userBoy from "../images/user/user-boy.png";
-
+import userGirl from "../../../images/user/user-girl.png";
+import userBoy from "../../../images/user/user-boy.png";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getUserById } from "../api/userApi";
-import StudentSessionTable from "./Admin/Student/StudentSessionTable";
+import { getUserById } from "../../../api/userApi";
+import Breadcrumb from "../../../components/Breadcrumbs/Breadcrumb";
+import CounselingSessionTable from "./CounselingSessionTable";
 
-const Profile = () => {
+const CounselorProfile = () => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("Counseling Sessions");
   const handleTabChange = (a: string) => {
@@ -19,18 +18,17 @@ const Profile = () => {
     email: "",
     mobile: "",
     designation: "",
-    division: "",
-    StudentReferencesCode: "",
+    counsellorType: [],
     gender: "",
   });
   const location = useLocation();
   const { state } = location;
   const name = state?.name;
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await getUserById(id || "");
-
         if (response?.data) {
           setData(response.data);
         }
@@ -41,9 +39,10 @@ const Profile = () => {
 
     if (id) fetchUser();
   }, [id]);
+
   return (
     <>
-      <Breadcrumb pageName={name} titleName="Student" />
+      <Breadcrumb pageName={name} titleName="Counselor" />
       <div className="flex justify-center items-center ">
         <div className="w-full  mx-4 bg-white rounded-lg shadow-xl overflow-hidden dark:bg-gray-700">
           <div className="relative h-48 bg-gradient-to-r from-blue-500 to-purple-600">
@@ -66,13 +65,13 @@ const Profile = () => {
               {data?.name}
             </h3>
             <p className="text-lg text-gray-600 dark:text-gray-300">
-            {data?.designation} {data?.division}
+              {data?.designation}
             </p>
             <div className="mt-4 mb-6">
               <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium dark:bg-blue-200 dark:text-blue-900">
-              <span className="text-sm text-center">
-                {data?.StudentReferencesCode}
-              </span>
+                {data?.counsellorType?.length > 0
+                  ? data.counsellorType.join(", ")
+                  : "No Counselor Type"}
               </div>
             </div>
             <div className="mt-6">
@@ -95,7 +94,7 @@ const Profile = () => {
         </div>
       </div>
       <div className="flex gap-4 mb-6 mt-6 bg-white p-3 mx-4  rounded-lg shadow-xl">
-        {["Counseling Sessions", "Reports"].map((tabs) => (
+        {["Counseling Sessions", "Cases"].map((tabs) => (
           <button
             key={tabs}
             className={`py-2 px-4 rounded ${
@@ -110,9 +109,9 @@ const Profile = () => {
         ))}
       </div>
 
-      {activeTab === "Counseling Sessions" ? <StudentSessionTable searchValue={""} /> : null}
+      {activeTab === "Counseling Sessions" ? <CounselingSessionTable searchValue={""} /> : null}
     </>
   );
 };
 
-export default Profile;
+export default CounselorProfile;

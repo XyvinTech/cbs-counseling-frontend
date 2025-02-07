@@ -7,14 +7,15 @@ const SelectType: React.FC<{
   onTypeChange: (value: string[]) => void;
   selectedType: string[];
 }> = ({ onTypeChange, selectedType }) => {
-  const [options, setOptions] = useState<{ value: string; label: string }[]>([]);
-console.log("selectedType",selectedType);
+  const [options, setOptions] = useState<{ value: string; label: string }[]>(
+    []
+  );
 
   useEffect(() => {
     const fetchType = async () => {
       const response = await getType({});
       const formattedOptions = response.data.map((type: Type) => ({
-        value: type._id,
+        value: type.name,
         label: type.name,
       }));
       setOptions(formattedOptions);
@@ -23,7 +24,9 @@ console.log("selectedType",selectedType);
   }, []);
 
   const handleChange = (selectedOptions: any) => {
-    const selectedValues = selectedOptions ? selectedOptions.map((opt: any) => opt.value) : [];
+    const selectedValues = selectedOptions
+      ? selectedOptions.map((opt: any) => opt.value)
+      : [];
     onTypeChange(selectedValues);
   };
 

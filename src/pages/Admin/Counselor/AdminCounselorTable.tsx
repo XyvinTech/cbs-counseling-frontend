@@ -7,7 +7,9 @@ interface CounselorTableProps {
   searchValue: string;
 }
 
-const AdminCounselorTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
+const AdminCounselorTable: React.FC<CounselorTableProps> = ({
+  searchValue,
+}) => {
   const [packageData, setPackageData] = useState<User[]>([]);
   const [isChange, setIsChange] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
@@ -122,9 +124,21 @@ const AdminCounselorTable: React.FC<CounselorTableProps> = ({ searchValue }) => 
             {packageData?.map((packageItem, key) => (
               <tr key={key}>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {packageItem.name}
-                  </p>
+                  <div
+                    className="font-medium text-blue-600  cursor-pointer"
+                    onClick={() => {
+                      navigate(`/admin-counselor/${packageItem._id}`, {
+                        state: {
+                          name: packageItem.name,
+                        },
+                      });
+                    }}
+                  >
+                    {" "}
+                    <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300">
+                      {packageItem.name}
+                    </h5>
+                  </div>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
