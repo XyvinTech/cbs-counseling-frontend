@@ -1,10 +1,12 @@
+import { Case } from "./case";
+import { Form } from "./form";
 import { User } from "./user";
 
 export type Session = {
   _id: string;
   session_id: string;
-  case_id: string;
-  form_id: string;
+  case_id: Case;
+  form_id: Form;
   session_date: string;
   session_time: {
     start: string;

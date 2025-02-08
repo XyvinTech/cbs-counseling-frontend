@@ -21,12 +21,9 @@ export const createSession = async (data: any): Promise<any | null> => {
 };
 export const getSessionById = async (
   id: string,
-  params: { searchQuery?: string; limit?: number; page?: number }
 ): Promise<any | null> => {
   try {
-    const response = await axiosInstance.get(`/sessions/${id}`, {
-      params,
-    });
+    const response = await axiosInstance.get(`/sessions/${id}`);
     return response.data;
   } catch (error) {
     return null;
