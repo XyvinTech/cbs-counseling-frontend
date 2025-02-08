@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getCase, getSessionByCase } from "../../../api/sessionApi";
+import {  getSessionByCase } from "../../../api/sessionApi";
 import { Session } from "../../../types/session";
 import moment from "moment";
 interface SessionTableProps {

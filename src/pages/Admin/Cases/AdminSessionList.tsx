@@ -1,5 +1,4 @@
 import { useState } from "react";
-import AdminCaseTable from "./AdminCaseTable";
 import AdminSessionTable from "./AdminSessionTable";
 
 const AdminSessionList = () => {
