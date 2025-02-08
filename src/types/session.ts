@@ -26,4 +26,6 @@ export type Session = {
   counsellor_type: string[];
   counsellor_name: string;
   user_name: string;
+  caseid: string;
+  referee: string
 };

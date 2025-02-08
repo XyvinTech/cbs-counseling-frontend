@@ -33,6 +33,7 @@ import Profile from "./pages/Profile";
 import CounselorProfile from "./pages/Admin/Counselor/CounselorProfile";
 import AdminSessionList from "./pages/Admin/Cases/AdminSessionList";
 import SessionDetails from "./pages/Admin/Cases/SessionDetails";
+import CounselorSession from "./pages/Counselor/CounselorSession";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -179,7 +180,7 @@ function App() {
         }
       />
       <Route
-        path="/admin-settings"
+        path="/settings"
         element={
           <>
             <DefaultLayout>
@@ -189,6 +190,18 @@ function App() {
           </>
         }
       />
+       <Route
+        path="/counselor-session"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Settings" />
+              <CounselorSession/>
+            </DefaultLayout>
+          </>
+        }
+      />
+     
       <Route
         path="/plan"
         element={

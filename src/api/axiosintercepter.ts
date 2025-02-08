@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// Declare the environment variables for TypeScript
 declare global {
   interface ImportMetaEnv {
     readonly VITE_APP_API_URL: string;
@@ -22,8 +21,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token =
-      import.meta.env.VITE_AUTH_TOKEN 
+    const token =localStorage.getItem("token");
     const apiKey = import.meta.env.VITE_API_KEY 
 
     if (token) {
