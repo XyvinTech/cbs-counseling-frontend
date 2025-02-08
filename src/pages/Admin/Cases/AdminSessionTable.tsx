@@ -78,7 +78,7 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
                   <div
                     className="font-medium text-blue-600  cursor-pointer"
                     onClick={() => {
-                      navigate(`/admin-cases/${packageItem._id}`);
+                      navigate(`/admin-session/${packageItem._id}`);
                     }}
                   >
                     {" "}
