@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getUserById } from "../../../api/userApi";
 import Breadcrumb from "../../../components/Breadcrumbs/Breadcrumb";
 import CounselingSessionTable from "./CounselingSessionTable";
+import CounselorCaseTable from "./CounselorCaseTable";
 
 const CounselorProfile = () => {
   const { id } = useParams();
@@ -109,7 +110,7 @@ const CounselorProfile = () => {
         ))}
       </div>
 
-      {activeTab === "Counseling Sessions" ? <CounselingSessionTable searchValue={""} /> : null}
+      {activeTab === "Counseling Sessions" ? <CounselingSessionTable searchValue={""} /> : <CounselorCaseTable searchValue={""} />}
     </>
   );
 };

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { User } from "../../../types/user";
-import { deleteUser, getUserById, getUsers } from "../../../api/userApi";
+import { deleteUser, getUsers } from "../../../api/userApi";
 interface StudentTableProps {
   searchValue: string;
 }
@@ -11,16 +11,7 @@ const AdminStudentTable: React.FC<StudentTableProps> = ({ searchValue }) => {
   const [packageData, setPackageData] = useState<User[]>([]);
   const [isChange, setIsChange] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
-  const [view, setView] = useState(false);
-  const [data, setData] = useState({
-    name: "",
-    email: "",
-    mobile: "",
-    designation: "",
-    gender: "",
-    division: "",
-    parentContact: "",
-  });
+
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -34,30 +25,7 @@ const AdminStudentTable: React.FC<StudentTableProps> = ({ searchValue }) => {
     setOpen(false);
     setSelectedId(null);
   };
-  const handleView = async (id: string) => {
-    try {
-      const response = await getUserById(id);
-      const value = response.data;
 
-      if (value) {
-        setData({
-          name: value.name || "",
-          email: value.email || "",
-          mobile: value.mobile || "",
-          designation: value.designation || "",
-          gender: value.gender || "",
-          division: value.division || "",
-          parentContact: value.parentContact || "",
-        });
-      }
-      setView(true);
-    } catch (error) {
-      console.error("Failed to fetch value:", error);
-    }
-  };
-  const handleCloseView = () => {
-    setView(false);
-  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -123,7 +91,7 @@ const AdminStudentTable: React.FC<StudentTableProps> = ({ searchValue }) => {
           <tbody>
             {packageData?.map((packageItem, key) => (
               <tr key={key}>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
                   <div
                     className="font-medium text-blue-600  cursor-pointer  "
                     onClick={() => {
@@ -159,30 +127,8 @@ const AdminStudentTable: React.FC<StudentTableProps> = ({ searchValue }) => {
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
                     <button
-                      className="hover:text-primary"
-                      onClick={() => handleView(packageItem._id)}
-                    >
-                      <svg
-                        className="fill-current"
-                        width="18"
-                        height="18"
-                        viewBox="0 0 18 18"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M8.99981 14.8219C3.43106 14.8219 0.674805 9.50624 0.562305 9.28124C0.47793 9.11249 0.47793 8.88749 0.562305 8.71874C0.674805 8.49374 3.43106 3.20624 8.99981 3.20624C14.5686 3.20624 17.3248 8.49374 17.4373 8.71874C17.5217 8.88749 17.5217 9.11249 17.4373 9.28124C17.3248 9.50624 14.5686 14.8219 8.99981 14.8219ZM1.85605 8.99999C2.4748 10.0406 4.89356 13.5562 8.99981 13.5562C13.1061 13.5562 15.5248 10.0406 16.1436 8.99999C15.5248 7.95936 13.1061 4.44374 8.99981 4.44374C4.89356 4.44374 2.4748 7.95936 1.85605 8.99999Z"
-                          fill=""
-                        />
-                        <path
-                          d="M9 11.3906C7.67812 11.3906 6.60938 10.3219 6.60938 9C6.60938 7.67813 7.67812 6.60938 9 6.60938C10.3219 6.60938 11.3906 7.67813 11.3906 9C11.3906 10.3219 10.3219 11.3906 9 11.3906ZM9 7.875C8.38125 7.875 7.875 8.38125 7.875 9C7.875 9.61875 8.38125 10.125 9 10.125C9.61875 10.125 10.125 9.61875 10.125 9C10.125 8.38125 9.61875 7.875 9 7.875Z"
-                          fill=""
-                        />
-                      </svg>
-                    </button>
-                    <button
                       onClick={() => handleOpen(packageItem._id)}
-                      className="hover:text-danger"
+                      className="hover:text-danger dark:text-danger"
                     >
                       <svg
                         className="fill-current"
@@ -211,7 +157,7 @@ const AdminStudentTable: React.FC<StudentTableProps> = ({ searchValue }) => {
                       </svg>
                     </button>
                     <button
-                      className="hover:text-primary"
+                      className="hover:text-primary dark:text-green-700"
                       onClick={() =>
                         navigate("/add-student", {
                           state: {
@@ -265,60 +211,6 @@ const AdminStudentTable: React.FC<StudentTableProps> = ({ searchValue }) => {
             </div>
           </div>
         )}
-        {view && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-lg p-6 relative">
-              <button
-                onClick={handleCloseView}
-                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
-              >
-                ✖
-              </button>
-
-              <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
-                {data?.name}
-              </h2>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Email
-                  </p>
-                  <p className="text-gray-700 dark:text-gray-200 font-medium">
-                    {data?.email}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Phone
-                  </p>
-                  <p className="text-gray-700 dark:text-gray-200 font-medium">
-                    {data?.mobile}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Designation
-                  </p>
-                  <p className="text-gray-700 dark:text-gray-200 font-medium">
-                    {data?.designation}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Parent Contact
-                  </p>
-                  <p className="text-gray-700 dark:text-gray-200 font-medium">
-                    {data?.parentContact}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
       <div
         className={`mt-4 flex justify-between items-center ${
@@ -326,11 +218,13 @@ const AdminStudentTable: React.FC<StudentTableProps> = ({ searchValue }) => {
         }`}
       >
         <div className="flex items-center space-x-2">
-          <span className="text-gray-700">Items per page:</span>
+          <span className="text-gray-700 dark:text-violet-100">
+            Items per page:
+          </span>
           <select
             value={itemsPerPage}
             onChange={(e) => setItemsPerPage(Number(e.target.value))}
-            className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent"
+            className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent dark:text-violet-100"
           >
             <option value={10}>10</option>
             <option value={20}>20</option>
@@ -343,8 +237,8 @@ const AdminStudentTable: React.FC<StudentTableProps> = ({ searchValue }) => {
             disabled={currentPage === 1}
             className={`px-4 py-2 rounded ${
               currentPage === 1
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : "bg-violet-500 text-white"
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
+                : "bg-violet-500 text-white dark:via-violet-100"
             }`}
           >
             Previous
@@ -371,8 +265,8 @@ const AdminStudentTable: React.FC<StudentTableProps> = ({ searchValue }) => {
             disabled={currentPage === totalPages}
             className={`px-4 py-2 rounded ${
               currentPage === totalPages
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : "bg-violet-500 text-white"
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
+                : "bg-violet-500 text-white dark:text-violet-100"
             }`}
           >
             Next

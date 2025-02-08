@@ -62,3 +62,15 @@ export const getUserByStudent = async (id: string): Promise<any | null> => {
     return null;
   }
 };
+export const getCounsellors = async (params: {
+  counsellorType?: string;
+}): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.get(`/users/counsellors`, {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};

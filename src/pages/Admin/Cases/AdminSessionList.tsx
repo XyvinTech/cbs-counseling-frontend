@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AdminCaseTable from "./AdminCaseTable";
+import AdminSessionTable from "./AdminSessionTable";
 
 const AdminSessionList = () => {
   const [searchValue, setSearchValue] = useState<string>("");
@@ -47,7 +48,7 @@ const AdminSessionList = () => {
           </div>
         </div>
       </div>
-      <AdminCaseTable searchValue={searchValue} />
+      <AdminSessionTable searchValue={searchValue} />
     </>
   );
 };

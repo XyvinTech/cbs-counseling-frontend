@@ -110,7 +110,7 @@ const Profile = () => {
         ))}
       </div>
 
-      {activeTab === "Counseling Sessions" ? <StudentSessionTable searchValue={""} /> : null}
+      {activeTab === "Counseling Sessions" ? <StudentSessionTable id={data?.StudentReferencesCode} searchValue={""} /> : null}
     </>
   );
 };

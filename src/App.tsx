@@ -31,6 +31,7 @@ import Form from "./pages/Student/Form";
 import BookAppoinment from "./pages/Student/BookAppoinment";
 import Profile from "./pages/Profile";
 import CounselorProfile from "./pages/Admin/Counselor/CounselorProfile";
+import AdminSessionList from "./pages/Admin/Cases/AdminSessionList";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -120,7 +121,18 @@ function App() {
             </DefaultLayout>
           </>
         }
-      />{" "}
+      />
+       <Route
+        path="/admin-cases/session/:id"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Case" />
+              <AdminSessionList />
+            </DefaultLayout>
+          </>
+        }
+      />
       <Route
         path="/admin-event"
         element={

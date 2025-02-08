@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCase, getSessionByCase } from "../../../api/sessionApi";
 import { Session } from "../../../types/session";
+import moment from "moment";
 interface SessionTableProps {
   searchValue: string;
 }
@@ -48,16 +49,22 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
               <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
-                Case ID
-              </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Created On
+                Session ID
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Student Name
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Counselor Name
+              </th>
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                Type
+              </th>
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                Session Date
+              </th>
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                Session Time
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Status
@@ -67,7 +74,7 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
           <tbody>
             {packageData?.map((packageItem, key) => (
               <tr key={key}>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
                   <div
                     className="font-medium text-blue-600  cursor-pointer"
                     onClick={() => {
@@ -82,17 +89,28 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {packageItem.form_id}
+                    {packageItem.user_name}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {packageItem.form_id}
+                    {packageItem.counsellor_name}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {packageItem.form_id}
+                    {packageItem.type}
+                  </p>
+                </td>
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black dark:text-white">
+                    {moment(packageItem.session_date).format("DD-MM-YYYY")}
+                  </p>
+                </td>{" "}
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black dark:text-white">
+                    {packageItem.session_time?.start}-
+                    {packageItem.session_time?.end}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -102,7 +120,7 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
                         ? "bg-green-500 text-green-600"
                         : packageItem.status === "inactive"
                         ? "bg-red-500 text-red-600"
-                        : packageItem.status === "expiring"
+                        : packageItem.status === "pending"
                         ? "bg-yellow-500 text-yellow-600"
                         : packageItem.status === "expired"
                         ? "bg-violet-500 text-gray-600"
@@ -117,13 +135,15 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
           </tbody>
         </table>
       </div>
-      <div className={`mt-4 flex justify-between items-center `}>
+      <div className={`mt-4 flex justify-between items-center`}>
         <div className="flex items-center space-x-2">
-          <span className="text-gray-700">Items per page:</span>
+          <span className="text-gray-700 dark:text-violet-100">
+            Items per page:
+          </span>
           <select
             value={itemsPerPage}
             onChange={(e) => setItemsPerPage(Number(e.target.value))}
-            className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent"
+            className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent dark:text-violet-100"
           >
             <option value={10}>10</option>
             <option value={20}>20</option>
@@ -136,8 +156,8 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
             disabled={currentPage === 1}
             className={`px-4 py-2 rounded ${
               currentPage === 1
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : "bg-violet-500 text-white"
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
+                : "bg-violet-500 text-white dark:via-violet-100"
             }`}
           >
             Previous
@@ -164,8 +184,8 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
             disabled={currentPage === totalPages}
             className={`px-4 py-2 rounded ${
               currentPage === totalPages
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : "bg-violet-500 text-white"
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
+                : "bg-violet-500 text-white dark:text-violet-100"
             }`}
           >
             Next

@@ -37,7 +37,7 @@ const SelectType: React.FC<{ onPlanChange: (value: string) => void; selectedPlan
           {selectedOption.map((plan) => (
             <option
               key={plan._id}
-              value={plan._id}
+              value={plan.name}
               className="text-body dark:text-bodydark"
             >
               {plan.name}

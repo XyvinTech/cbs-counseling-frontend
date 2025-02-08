@@ -125,7 +125,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
           <tbody>
             {packageData.map((packageItem, key) => (
               <tr key={key}>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
                   <p className="text-black dark:text-white">
                     {packageItem.title}
                   </p>
@@ -172,7 +172,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                     </button>
                     <button
                       onClick={() => handleOpen(packageItem._id)}
-                      className="hover:text-danger"
+                      className="hover:text-danger dark:text-danger"
                     >
                       <svg
                         className="fill-current"
@@ -201,7 +201,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                       </svg>
                     </button>
                     <button
-                      className="hover:text-primary"
+                      className="hover:text-primary dark:text-green-700"
                       onClick={() =>
                         navigate("/add-event", {
                           state: {
@@ -347,11 +347,13 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
         }`}
       >
         <div className="flex items-center space-x-2">
-          <span className="text-gray-700">Items per page:</span>
+          <span className="text-gray-700 dark:text-violet-100">
+            Items per page:
+          </span>
           <select
             value={itemsPerPage}
             onChange={(e) => setItemsPerPage(Number(e.target.value))}
-            className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent"
+            className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent dark:text-violet-100"
           >
             <option value={10}>10</option>
             <option value={20}>20</option>
@@ -364,8 +366,8 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
             disabled={currentPage === 1}
             className={`px-4 py-2 rounded ${
               currentPage === 1
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : "bg-violet-500 text-white"
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
+                : "bg-violet-500 text-white dark:via-violet-100"
             }`}
           >
             Previous
@@ -392,8 +394,8 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
             disabled={currentPage === totalPages}
             className={`px-4 py-2 rounded ${
               currentPage === totalPages
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : "bg-violet-500 text-white"
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
+                : "bg-violet-500 text-white dark:text-violet-100"
             }`}
           >
             Next

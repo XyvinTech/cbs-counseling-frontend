@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { Session } from "../../../types/session";
-import { getSessionByCounselor } from "../../../api/sessionApi";
+import { getCaseByCounselor } from "../../../api/sessionApi";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 interface CounselorTableProps {
   searchValue: string;
 }
 
-const CounselingSessionTable: React.FC<CounselorTableProps> = ({
-  searchValue,
-}) => {
+const CounselorCaseTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
   const [packageData, setPackageData] = useState<Session[]>([]);
   const { id } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,7 +17,7 @@ const CounselingSessionTable: React.FC<CounselorTableProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getSessionByCounselor(id || "", {
+        const response = await getCaseByCounselor(id || "", {
           searchQuery: searchValue,
           page: currentPage,
           limit: itemsPerPage,
@@ -50,19 +48,13 @@ const CounselingSessionTable: React.FC<CounselorTableProps> = ({
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
               <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
-                Session No
+                Case ID{" "}
+              </th>
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                Created On
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Student Name
-              </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Type
-              </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Session Date
-              </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Session Time
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Status
@@ -74,28 +66,17 @@ const CounselingSessionTable: React.FC<CounselorTableProps> = ({
               <tr key={key}>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
                   <p className="text-black dark:text-white">
-                    {packageItem.session_id}
+                    {packageItem.case_id}
+                  </p>
+                </td>
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black dark:text-white">
+                    {moment(packageItem.case_date).format("DD-MM-YYYY")}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
                     {packageItem.student_name}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {packageItem.counsellor_type}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {moment(packageItem.session_date).format("DD-MM-YYYY")}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {packageItem.session_time?.start} -{" "}
-                    {packageItem.session_time?.end}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -120,15 +101,13 @@ const CounselingSessionTable: React.FC<CounselorTableProps> = ({
           </tbody>
         </table>
       </div>
-      <div className={`mt-4 flex justify-between items-center `}>
+      <div className={`mt-4 flex justify-between items-center`}>
         <div className="flex items-center space-x-2">
-          <span className="text-gray-700 dark:text-violet-100">
-            Items per page:
-          </span>
+          <span className="text-gray-700">Items per page:</span>
           <select
             value={itemsPerPage}
             onChange={(e) => setItemsPerPage(Number(e.target.value))}
-            className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent dark:text-violet-100"
+            className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent"
           >
             <option value={10}>10</option>
             <option value={20}>20</option>
@@ -141,8 +120,8 @@ const CounselingSessionTable: React.FC<CounselorTableProps> = ({
             disabled={currentPage === 1}
             className={`px-4 py-2 rounded ${
               currentPage === 1
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
-                : "bg-violet-500 text-white dark:via-violet-100"
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                : "bg-violet-500 text-white"
             }`}
           >
             Previous
@@ -169,8 +148,8 @@ const CounselingSessionTable: React.FC<CounselorTableProps> = ({
             disabled={currentPage === totalPages}
             className={`px-4 py-2 rounded ${
               currentPage === totalPages
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
-                : "bg-violet-500 text-white dark:text-violet-100"
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                : "bg-violet-500 text-white"
             }`}
           >
             Next
@@ -181,4 +160,4 @@ const CounselingSessionTable: React.FC<CounselorTableProps> = ({
   );
 };
 
-export default CounselingSessionTable;
+export default CounselorCaseTable;

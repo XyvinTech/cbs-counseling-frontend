@@ -57,7 +57,7 @@ const Form: React.FC = () => {
     try {
       const response = await createForm(form);
       const formId = response.data?._id;
-      navigate("/book", { state: { formId } });
+      navigate("/book-appoinment", { state: { formId } });
     } catch (error: any) {
       toast.error(error.message);
     }

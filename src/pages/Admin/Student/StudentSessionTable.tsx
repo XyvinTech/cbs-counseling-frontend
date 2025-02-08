@@ -1,24 +1,29 @@
 import { useEffect, useState } from "react";
 import { Session } from "../../../types/session";
-import { getSessionByUser } from "../../../api/sessionApi";
-import { useParams } from "react-router-dom";
+import { getSessionByStudent } from "../../../api/sessionApi";
+import moment from "moment";
+
 interface CounselorTableProps {
   searchValue: string;
+  id: string;
 }
 
 const StudentSessionTable: React.FC<CounselorTableProps> = ({
   searchValue,
+  id,
 }) => {
   const [packageData, setPackageData] = useState<Session[]>([]);
-  const { id } = useParams();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
+    if (!id) return; // Prevent fetching if id is not available
+
     const fetchData = async () => {
       try {
-        const response = await getSessionByUser(id || "", {
+        const response = await getSessionByStudent(id, {
           searchQuery: searchValue,
           page: currentPage,
           limit: itemsPerPage,
@@ -33,7 +38,7 @@ const StudentSessionTable: React.FC<CounselorTableProps> = ({
     };
 
     fetchData();
-  }, [searchValue, currentPage, itemsPerPage]);
+  }, [id, searchValue, currentPage, itemsPerPage]); // Depend on id
 
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
@@ -49,30 +54,34 @@ const StudentSessionTable: React.FC<CounselorTableProps> = ({
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
               <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
-                Name
+                Session Date
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Email
+                Session Time
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Contact
+                Session Name
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Designation
+                Counselor Name
+              </th>
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                Counselor Type
               </th>
             </tr>
           </thead>
           <tbody>
             {packageData?.map((packageItem, key) => (
               <tr key={key}>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
                   <p className="text-black dark:text-white">
-                    {packageItem.session_id}
+                    {moment(packageItem.session_date).format("DD-MM-YYYY")}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {packageItem.form_id}
+                    {packageItem.session_time?.start} -{" "}
+                    {packageItem.session_time?.end}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -82,7 +91,13 @@ const StudentSessionTable: React.FC<CounselorTableProps> = ({
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {packageItem.session_date}
+                    {packageItem.counsellor_name}
+                  </p>
+                </td>
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black dark:text-white">
+                    {packageItem.counsellor_type[0]},{" "}
+                    {packageItem.counsellor_type[1]}
                   </p>
                 </td>
               </tr>

@@ -1,41 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { User } from "../../types/user";
-import { getUsers } from "../../api/userApi";
+import { getCounsellors } from "../../api/userApi";
 
-const SelectCounselor: React.FC<{ onPlanChange: (value: string) => void; selectedPlan: string }> = ({ onPlanChange, selectedPlan}) => {
+const SelectCounselor: React.FC<{
+  onCounsellorChange: (value: string) => void;
+  selectedCounsellor: string;
+  type: string;
+}> = ({ onCounsellorChange, selectedCounsellor, type }) => {
   const [selectedOption, setSelectedOption] = useState<User[]>([]);
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
 
- 
   useEffect(() => {
-    const fetchPlans = async () => {
-      const response = await getUsers(
-        {
-            type: "counselor",
-        });
-      setSelectedOption(response.data);
+    const fetchData = async () => {
+      if (!type) return;
+
+      try {
+        const response = await getCounsellors({ counsellorType: type });
+        setSelectedOption(response.data);
+      } catch (error) {
+        console.error("Error fetching counselors:", error);
+      }
     };
-    fetchPlans();
-  }, []);
+
+    fetchData();
+  }, [type]);
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    onPlanChange(value);
+    onCounsellorChange(value);
     setIsOptionSelected(true);
   };
 
   return (
     <div className="mb-4.5">
-      <label className="mb-2.5 block text-black dark:text-white">Counseling Type</label>
+      <label className="mb-2.5 block text-black dark:text-white">
+        Counselor
+      </label>
       <div className="relative z-20 bg-transparent dark:bg-form-input">
         <select
-          value={selectedPlan}
+          value={selectedCounsellor}
           onChange={handleChange}
           className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-[#a266f0] active:border-[#a266f0] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#a266f0] ${
             isOptionSelected ? "text-black dark:text-white" : ""
           }`}
         >
           <option value="" disabled className="text-body dark:text-bodydark">
-            Select Counseling Type
+            Select Counselor
           </option>
           {selectedOption.map((plan) => (
             <option
