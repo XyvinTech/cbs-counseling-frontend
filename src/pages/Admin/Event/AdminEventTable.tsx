@@ -132,7 +132,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {packageItem.date}
+                    {(moment(packageItem.date).format("DD-MM-YYYY")) }
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">

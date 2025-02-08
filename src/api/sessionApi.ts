@@ -99,3 +99,17 @@ export const getSessionByStudent = async (
     return null;
   }
 };
+export const getSessions = async (params: {
+  searchQuery?: string;
+  limit?: number;
+  page?: number;
+}): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.get(`/sessions`, {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};
