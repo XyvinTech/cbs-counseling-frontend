@@ -1,13 +1,11 @@
+import { Form } from "./form";
 import { Session } from "./session";
 import { User } from "./user";
 
 export type Case = {
   _id: string;
   case_id: string;
-  form_id: {
-    name: string;
-    grNumber: string;
-};
+  form_id: Form;
   concern_raised: string;
   referer: User[];
   referer_remark: string[];
@@ -16,4 +14,5 @@ export type Case = {
   session_ids: Session[];
   createdAt: string;
   counsellor_name: string;
+  session_count: number;
 };

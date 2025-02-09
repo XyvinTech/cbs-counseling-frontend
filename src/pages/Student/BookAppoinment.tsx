@@ -175,26 +175,24 @@ const BookAppoinment: React.FC = () => {
                 </div>
               )}
 
-              {form.session_time && (
-                <div className="w-full">
-                  <label className="mb-2.5 block text-black dark:text-white">
-                    Details
-                  </label>
-                  <textarea
-                    rows={6}
-                    name="details"
-                    value={form.description}
-                    onChange={(e) =>
-                      setForm((prev) => ({
-                        ...prev,
-                        description: e.target.value,
-                      }))
-                    }
-                    placeholder="Enter Details"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
-                  />
-                </div>
-              )}
+              <div className="w-full">
+                <label className="mb-2.5 block text-black dark:text-white">
+                  Details
+                </label>
+                <textarea
+                  rows={6}
+                  name="details"
+                  value={form.description}
+                  onChange={(e) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      description: e.target.value,
+                    }))
+                  }
+                  placeholder="Enter Details"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                />
+              </div>
             </div>
 
             {form.description && (
@@ -214,7 +212,8 @@ const BookAppoinment: React.FC = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg text-center shadow-lg">
             <h2 className="text-xl font-semibold mb-4">
-              Appointment Confirmed!
+              Your Appointment request has been submitted. You will receive a
+              confirmation once the appointment request is approved !
             </h2>
             <button
               onClick={closeModalAndRedirect}

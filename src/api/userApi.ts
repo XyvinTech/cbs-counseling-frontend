@@ -64,13 +64,34 @@ export const getUserByStudent = async (id: string): Promise<any | null> => {
 };
 export const getCounsellors = async (params: {
   counsellorType?: string;
+  counsellor?: string;// Added new parameter for filtering by status
 }): Promise<any | null> => {
   try {
     const response = await axiosInstance.get(`/users/counsellors`, {
-      params,
+      params, // Axios will automatically serialize the `params` object
     });
     return response.data;
   } catch (error) {
+    return null;
+  }
+};
+
+export const upload = async (file: File): Promise<any | null> => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file); // Ensure field name matches backend
+
+    const response = await axiosInstance.post(`/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error: any) {
+    const errorMsg =
+      error.response?.data?.message || "An error occurred during file upload";
+    toast.error(errorMsg);
     return null;
   }
 };

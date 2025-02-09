@@ -54,9 +54,8 @@ const AddStudent = () => {
     const { name, value } = e.target;
     let formattedValue = value;
   
-    // Handle Oman mobile number formatting
     if (name === "mobile" || name === "parentContact") {
-      formattedValue = value.replace(/\D/g, ""); // Remove non-numeric characters
+      formattedValue = value.replace(/\D/g, ""); 
   
       if (!formattedValue.startsWith("968")) {
         formattedValue = "968" + formattedValue;
@@ -67,7 +66,6 @@ const AddStudent = () => {
       }
     }
   
-    // Update state for all fields
     setStudentData((prev) => ({
       ...prev,
       [name]: formattedValue, 

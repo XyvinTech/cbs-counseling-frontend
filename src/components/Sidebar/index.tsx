@@ -165,6 +165,33 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </NavLink>
                 </li>
               )}
+                  {userType === "counsellor" && (
+                <li>
+                  <NavLink
+                    to="/availability"
+                    className={`group relative flex items-center gap-2.5 dark:text-violet-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
+                      pathname.includes("availability") &&
+                      "bg-[#a266f0] text-white"
+                    }`}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 3c4.418 0 8 3.134 8 7 0 2.136-.932 4.05-2.45 5.45L20 21l-4.55-2.45A9.824 9.824 0 0112 18c-4.418 0-8-3.134-8-7s3.582-7 8-7zm0 4a2 2 0 11.001 3.999A2 2 0 0112 7zm-4 6c0-1.5 2-2.5 4-2.5s4 1 4 2.5"
+                      />
+                    </svg>
+                    Add Availability
+                  </NavLink>
+                </li>
+              )}
               {userType === "admin" && (
                 <li className="relative">
                   <div

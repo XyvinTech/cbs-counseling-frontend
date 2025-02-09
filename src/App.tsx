@@ -34,6 +34,8 @@ import CounselorProfile from "./pages/Admin/Counselor/CounselorProfile";
 import AdminSessionList from "./pages/Admin/Cases/AdminSessionList";
 import SessionDetails from "./pages/Admin/Cases/SessionDetails";
 import CounselorSession from "./pages/Counselor/CounselorSession";
+import AddAvailability from "./pages/Counselor/AddAvailability";
+import AddEntry from "./pages/Counselor/AddEntry";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -201,7 +203,28 @@ function App() {
           </>
         }
       />
-     
+       <Route
+        path="/availability"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Settings" />
+              <AddAvailability/>
+            </DefaultLayout>
+          </>
+        }
+      />
+        <Route
+        path="/entry/:id"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Settings" />
+              <AddEntry/>
+            </DefaultLayout>
+          </>
+        }
+      />
       <Route
         path="/plan"
         element={

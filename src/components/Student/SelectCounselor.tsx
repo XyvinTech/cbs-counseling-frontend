@@ -15,7 +15,7 @@ const SelectCounselor: React.FC<{
       if (!type) return;
 
       try {
-        const response = await getCounsellors({ counsellorType: type });
+        const response = await getCounsellors({ counsellorType: type , counsellor: "" });
         setSelectedOption(response.data);
       } catch (error) {
         console.error("Error fetching counselors:", error);

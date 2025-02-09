@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SessionTable from "./SessionTable";
+import CaseTable from "./CaseTable";
 
 const CounselorSession = () => {
   const [activeTab, setActiveTab] = useState("Sessions");
@@ -23,8 +24,12 @@ const CounselorSession = () => {
           </button>
         ))}
       </div>
-      
-      {activeTab === "Sessions" ? <SessionTable/> : null}
+
+      {activeTab === "Sessions" ? (
+        <SessionTable />
+      ) : activeTab === "Active Cases" ? (
+        <CaseTable />
+      ) : activeTab === "Add Remarks" ? null : null}
     </>
   );
 };

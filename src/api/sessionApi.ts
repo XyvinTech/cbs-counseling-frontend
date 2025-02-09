@@ -19,9 +19,7 @@ export const createSession = async (data: any): Promise<any | null> => {
     throw error.response.data;
   }
 };
-export const getSessionById = async (
-  id: string,
-): Promise<any | null> => {
+export const getSessionById = async (id: string): Promise<any | null> => {
   try {
     const response = await axiosInstance.get(`/sessions/${id}`);
     return response.data;
@@ -111,5 +109,53 @@ export const getSessions = async (params: {
     return response.data;
   } catch (error) {
     return null;
+  }
+};
+export const acceptSession = async (id: string): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.put(`/sessions/accept/${id}`);
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+export const cancelSession = async (
+  id: string,
+  data: any
+): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.put(`/sessions/cancel/${id}`, data);
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+export const rescheduleSession = async (
+  id: string,
+  data: any
+): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.put(
+      `/sessions/reschedule/${id}`,
+      data
+    );
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
+export const addEntry = async (id: string, data: any): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.post(
+      `/sessions/add-entry/${id}`,
+      data
+    );
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
   }
 };
