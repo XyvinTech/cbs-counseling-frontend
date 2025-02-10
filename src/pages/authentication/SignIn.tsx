@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; 
 import LogoDark from "../../images/schoolLogo.png";
 import Logo from "../../images/schoolLogo.png";
 import { login } from "../../api/authApi";
@@ -8,28 +9,29 @@ import { login } from "../../api/authApi";
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await login({ email, password });
 
       if (response?.data?.token) {
-        localStorage.setItem("token", response?.data?.token);
-        localStorage.setItem("userType", response?.data?.userType);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userType", response.data.userType);
 
-        if (response?.data?.userType === "admin") {
-          navigate("/dashboard");
-        } else {
-          navigate("/dashboard");
-        }
+        navigate("/dashboard");
       } else {
         toast.error("Invalid login credentials");
       }
     } catch (err: any) {
       toast.error(err.message || "Something went wrong!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,7 +59,7 @@ const SignIn: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                 />
               </div>
             </div>
@@ -68,22 +70,33 @@ const SignIn: React.FC = () => {
               </label>
               <div className="relative">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-12 text-black outline-none focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-primary"
+                >
+                  {showPassword ? <AiOutlineEyeInvisible size={22} /> : <AiOutlineEye size={22} />}
+                </button>
               </div>
             </div>
 
             <div className="mb-5">
-              <input
+              <button
                 type="submit"
-                value="Sign In"
-                className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-              />
+                disabled={loading}
+                className={`w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition ${
+                  loading ? "opacity-50 cursor-not-allowed" : "hover:bg-opacity-90"
+                }`}
+              >
+                {loading ? "Logging in..." : "Login"}
+              </button>
             </div>
           </form>
         </div>

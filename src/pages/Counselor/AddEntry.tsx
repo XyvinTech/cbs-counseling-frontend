@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { addEntry, getSessionById } from "../../api/sessionApi";
 import { BsFillEnvelopeFill, BsFillTelephoneFill } from "react-icons/bs";
 import moment from "moment-timezone";
@@ -31,6 +31,8 @@ const numberToDay: Record<number, string> = {
   6: "Saturday",
 };
 const AddEntry: React.FC = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const [data, setData] = useState<any>(null);
   const [days, setDays] = useState<number[]>([]);
@@ -96,14 +98,14 @@ const AddEntry: React.FC = () => {
         let fetchId = null;
 
         if (formState.type === "Next Appointment") {
-          fetchId = data?.counsellor?._id; // ✅ Fetch days using `case_id` when "Next Appointment"
+          fetchId = data?.counsellor?._id;
         } else if (formState.type === "Refer With Session") {
-          fetchId = formState.refer; // ✅ Fetch days using `refer` when "Refer" is selected
+          fetchId = formState.refer;
         }
 
-        if (!fetchId) return; // ✅ Prevent API call if ID is missing
+        if (!fetchId) return;
 
-        console.log("Fetching available days for ID:", fetchId); // ✅ Debugging log
+        console.log("Fetching available days for ID:", fetchId);
         const response = await getDays(fetchId);
         const availableDays = response.data.map(
           (day: string) => dayNameToNumber[day]
@@ -115,7 +117,7 @@ const AddEntry: React.FC = () => {
     };
 
     fetchDay();
-  }, [formState.type, formState.refer, data?.case_id?._id]); // ✅ Re-fetch when type, refer, or case_id changes
+  }, [formState.type, formState.refer, data?.case_id?._id]);
 
   const filterDate = (date: Date) => {
     return days.includes(date.getDay());
@@ -134,14 +136,14 @@ const AddEntry: React.FC = () => {
       let fetchId = null;
 
       if (formState.type === "Next Appointment") {
-        fetchId = data?.counsellor?._id; // ✅ Fetch days using `case_id` when "Next Appointment"
+        fetchId = data?.counsellor?._id;
       } else if (formState.type === "Refer With Session") {
-        fetchId = formState.refer; // ✅ Fetch days using `refer` when "Refer" is selected
+        fetchId = formState.refer;
       }
 
       if (!fetchId) return;
       const response = await getTimes(fetchId, {
-        date: date.toISOString().split("T")[0],
+        date: date.toLocaleDateString("en-CA"),
         day: selectedDay,
       });
 
@@ -168,13 +170,13 @@ const AddEntry: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setLoading(true);
     const formData: any = {
       details: formState.details,
       session_id: id,
       form_id: data?.form_id?._id,
       interactions: formState.interactions,
-      report: [...(data?.report || [])], // ✅ Include existing reports
+      report: [...(data?.report || [])],
     };
 
     try {
@@ -189,27 +191,28 @@ const AddEntry: React.FC = () => {
           (result) => result !== null
         );
 
-        // ✅ Merge existing reports with new uploads
         formData.report = [...formData.report, ...successfulUploads];
       }
 
-      // ✅ Handle Concern Raised Date
       formData.concern_raised = showDatePicker
         ? data?.session_date
         : formState.concern_raised;
 
-      // ✅ Handle Case Status
       if (!formState.type) {
         formData.isEditable = true;
-      } else if (formState.type === "Refer With Session") {
+      }
+      if (formState.type === "Refer With Session") {
         formData.refer = formState.refer;
         formData.with_session = true;
-      } else if (formState.type === "Close Case") {
+      }
+      if (formState.type === "Close Case") {
         formData.reason_for_closing = formState.reason_for_closing;
         formData.close = true;
-      } else if (formState.type === "Refer") {
+      }
+      if (formState.type === "Refer") {
         formData.refer = formState.refer;
-      } else if (
+      }
+      if (
         formState.type === "Refer With Session" ||
         formState.type === "Next Appointment"
       ) {
@@ -217,11 +220,14 @@ const AddEntry: React.FC = () => {
         formData.time = formState.time;
       }
 
-      console.log("Final Form Data:", formData); // ✅ Debugging log
+      console.log("Final Form Data:", formData);
 
       await addEntry(data?.case_id?._id, formData);
+      navigate("/counselor-session");
     } catch (error: any) {
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -274,9 +280,9 @@ const AddEntry: React.FC = () => {
                 value: moment(data?.case_id?.createdAt).format("MMMM DD, YYYY"),
               },
               {
-                label:"Concern Raised Date",
-                value:moment(data?.concern_raised).format("MMMM DD, YYYY"),
-              }
+                label: "Concern Raised Date",
+                value: moment(data?.concern_raised).format("MMMM DD, YYYY"),
+              },
             ].map(({ label, value }, index) => (
               <div key={index} className="flex justify-between text-sm">
                 <p>{label}:</p>
@@ -291,7 +297,7 @@ const AddEntry: React.FC = () => {
                   {data.report.map((fileName: string, index: number) => (
                     <li key={index}>
                       <a
-                        href={`/uploads/${fileName}`}
+                        href={`http://localhost:3000/images/${fileName}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover:underline"
@@ -309,6 +315,34 @@ const AddEntry: React.FC = () => {
         </div>
 
         <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200 col-span-2 mt-8 dark:bg-form-input dark:text-white text-black">
+          <h3 className="text-xl font-semibold mb-4">Reason for Counseling</h3>
+          <p className="font-medium">{data?.description || "N/A"}</p>
+
+          {data?.case_id?.referer_remark?.length > 0 && (
+            <div className="mt-6">
+              <h3 className="text-xl font-semibold mb-4">Referrer Remarks</h3>
+              <div className="space-y-4">
+                {data.case_id.referer_remark.map(
+                  (remark: any, index: number) => (
+                    <div
+                      key={index}
+                      className="p-4 bg-gray-100 rounded-lg dark:bg-gray-800"
+                    >
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                        {remark.name}:
+                      </p>
+                      <p className="text-gray-700 dark:text-gray-300">
+                        {remark.remark}
+                      </p>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200 col-span-2 mt-8 dark:bg-form-input dark:text-white text-black">
           <h3 className="text-xl font-semibold mb-4">Session Details</h3>
 
           <div className="mb-6 p-4 border-b border-gray-300">
@@ -317,7 +351,6 @@ const AddEntry: React.FC = () => {
               {[
                 { label: "Session ID", value: data?.session_id },
                 { label: "Type of Counseling", value: data?.type },
-                { label: "Reason for Counseling", value: data?.description },
                 {
                   label: "Appointment Date",
                   value: data?.session_date
@@ -333,7 +366,6 @@ const AddEntry: React.FC = () => {
                 { label: "Status", value: data?.status },
                 { label: "Interactions", value: data?.interactions || "N/A" },
                 { label: "Counsellor", value: data?.counsellor?.name || "N/A" },
-             
               ].map(({ label, value }, idx) => (
                 <div key={idx} className="flex justify-between text-sm">
                   <p>{label}:</p>
@@ -344,53 +376,55 @@ const AddEntry: React.FC = () => {
           </div>
 
           <h4 className="text-lg font-semibold mb-4">Past Sessions</h4>
-          {data?.case_id?.session_ids?.length > 0 ? (
-            data.case_id.session_ids.map((session: any, index: number) => (
-              <div
-                key={session._id}
-                className="mb-6 p-4 border-b border-gray-300"
-              >
-                <h4 className="text-md font-semibold mb-2">
-                  Session {index + 1} - {session.session_id}
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {[
-                    { label: "Type of Counseling", value: session.type },
-                    {
-                      label: "Reason for Counseling",
-                      value: session.description,
-                    },
-                    {
-                      label: "Appointment Date",
-                      value: session.session_date
-                        ? moment(session.session_date).format("MMMM DD, YYYY")
-                        : "N/A",
-                    },
-                    {
-                      label: "Appointment Time",
-                      value: session.session_time
-                        ? `${session.session_time.start} - ${session.session_time.end}`
-                        : "N/A",
-                    },
-                    { label: "Status", value: session.status },
-                    {
-                      label: "Case Details",
-                      value: session.case_details || "N/A",
-                    },
-                    {
-                      label: "Interactions",
-                      value: session.interactions || "N/A",
-                    },
-                 
-                  ].map(({ label, value }, idx) => (
-                    <div key={idx} className="flex justify-between text-sm">
-                      <p>{label}:</p>
-                      <p className="font-medium">{value || "N/A"}</p>
-                    </div>
-                  ))}
+          {data?.case_id?.session_ids?.filter(
+            (session: any) => session.session_id !== data?.session_id
+          ).length > 0 ? (
+            data.case_id.session_ids
+              .filter((session: any) => session.session_id !== data?.session_id)
+              .map((session: any, index: number) => (
+                <div
+                  key={session._id}
+                  className="mb-6 p-4 border-b border-gray-300"
+                >
+                  <h4 className="text-md font-semibold mb-2">
+                    Session {index + 1} - {session.session_id}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {[
+                      { label: "Type of Counseling", value: session.type },
+                      {
+                        label: "Appointment Date",
+                        value: session.session_date
+                          ? moment(session.session_date).format("MMMM DD, YYYY")
+                          : "N/A",
+                      },
+                      {
+                        label: "Appointment Time",
+                        value: session.session_time
+                          ? `${session.session_time.start} - ${session.session_time.end}`
+                          : "N/A",
+                      },
+                      { label: "Status", value: session.status },
+                      {
+                        label: "Interactions",
+                        value: session.interactions || "N/A",
+                      },
+                    ].map(({ label, value }, idx) => (
+                      <div key={idx} className="flex justify-between text-sm">
+                        <p>{label}:</p>
+                        <p className="font-medium">{value || "N/A"}</p>
+                      </div>
+                    ))}
+
+                    {session.case_details && (
+                      <div className="col-span-1 md:col-span-2 mt-2">
+                        <p className="text-sm font-semibold">Case Details:</p>
+                        <p className="text-gray-700">{session.case_details}</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))
+              ))
           ) : (
             <p>No past session details available.</p>
           )}

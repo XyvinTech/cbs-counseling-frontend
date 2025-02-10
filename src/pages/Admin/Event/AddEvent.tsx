@@ -4,9 +4,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SelectTimer from "../../../components/Admin/SelectTimer";
 import { createEvent, getEventById, updateEvent } from "../../../api/eventApi";
 import { toast } from "react-toastify";
+import { upload } from "../../../api/userApi";
 
 const AddEvent = () => {
   const [preview, setPreview] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
   const [eventData, setEventData] = useState<{
     title: string;
     date: string;
@@ -21,8 +24,7 @@ const AddEvent = () => {
     date: "",
     venue: "",
     guest: "",
-    requisition_image:
-      "https://img.lovepik.com/png/20210817/lovepik-posada-festival-event-cartoon-pinata-png-image_8720429.jpg_wh1200.png",
+    requisition_image: "",
     remainder: [],
     details: "",
     requisition_description: "",
@@ -42,7 +44,7 @@ const AddEvent = () => {
 
         if (event) {
           const formattedDate = event.date
-            ? new Date(event.date).toISOString().split("T")[0]
+            ? new Date(event.date).toLocaleDateString("en-CA")
             : "";
           setEventData({
             title: event.title || "",
@@ -50,30 +52,37 @@ const AddEvent = () => {
             venue: event.venue || "",
             guest: event.guest || "",
             requisition_image: event.requisition_image || "",
+
             remainder: event.remainder || [],
             details: event.details || "",
             requisition_description: event.requisition_description || "",
           });
+
+          setPreview(
+            event.requisition_image
+              ? `http://localhost:3000/images/${event.requisition_image}`
+              : ""
+          );
         }
       };
       fetchEvent();
     }
   }, [isEditMode, eventId]);
+console.log("prev",preview);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value, files } = e.target as HTMLInputElement;
 
     if (files && files.length > 0) {
-      const file = files[0];
-      const imageUrl = URL.createObjectURL(file); // Temporary preview
+      const selectedFile = files[0];
 
+      // Generate a temporary preview URL for UI
+      const imageUrl = URL.createObjectURL(selectedFile);
       setPreview(imageUrl);
 
-      setEventData((prev) => ({
-        ...prev,
-        // requisition_image: imageUrl, // This stores a URL, update later with actual upload URL if needed
-      }));
+      setFile(selectedFile); // Store the file for actual upload later
     } else {
       setEventData((prev) => ({
         ...prev,
@@ -84,17 +93,36 @@ const AddEvent = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
-      if (isEditMode && eventId) {
-        await updateEvent(eventId, eventData);
-      } else {
-        await createEvent(eventData);
+      let imageUrl = eventData.requisition_image;
+      if (preview && file) {
+        const response = await upload(file);
+        if (response?.data) {
+          imageUrl = response.data;
+        }
       }
+
+      const updatedEventData = {
+        ...eventData,
+        requisition_image: imageUrl,
+      };
+
+      if (isEditMode && eventId) {
+        await updateEvent(eventId, updatedEventData);
+      } else {
+        await createEvent(updatedEventData);
+      }
+
       navigate("/admin-event");
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.message || "Failed to upload image!");
+    } finally {
+      setLoading(false);
     }
   };
+
   const handleTimerChange = (values: string[]) => {
     setEventData((prev) => ({
       ...prev,
@@ -243,7 +271,7 @@ const AddEvent = () => {
               type="submit"
               className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
             >
-              {eventId ? "Update" : "Submit"}
+              {loading ? "Submitting" : eventId ? "Update" : "Submit"}
             </button>
           </div>
         </form>

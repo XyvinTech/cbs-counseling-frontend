@@ -43,7 +43,7 @@ const Profile = () => {
   }, [id]);
   return (
     <>
-      <Breadcrumb pageName={name} titleName="Student" />
+      <Breadcrumb pageName={name} titleName="Student" nav={false} />
       <div className="flex justify-center items-center ">
         <div className="w-full  mx-4 bg-white rounded-lg shadow-xl overflow-hidden dark:bg-gray-700">
           <div className="relative h-48 bg-gradient-to-r from-blue-500 to-purple-600">
@@ -66,13 +66,13 @@ const Profile = () => {
               {data?.name}
             </h3>
             <p className="text-lg text-gray-600 dark:text-gray-300">
-            {data?.designation} {data?.division}
+              {data?.designation} {data?.division}
             </p>
             <div className="mt-4 mb-6">
               <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium dark:bg-blue-200 dark:text-blue-900">
-              <span className="text-sm text-center">
-                {data?.StudentReferencesCode}
-              </span>
+                <span className="text-sm text-center">
+                  {data?.StudentReferencesCode}
+                </span>
               </div>
             </div>
             <div className="mt-6">
@@ -110,7 +110,12 @@ const Profile = () => {
         ))}
       </div>
 
-      {activeTab === "Counseling Sessions" ? <StudentSessionTable id={data?.StudentReferencesCode} searchValue={""} /> : null}
+      {activeTab === "Counseling Sessions" ? (
+        <StudentSessionTable
+          id={data?.StudentReferencesCode}
+          searchValue={""}
+        />
+      ) : null}
     </>
   );
 };

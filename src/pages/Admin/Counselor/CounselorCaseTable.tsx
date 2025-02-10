@@ -82,14 +82,16 @@ const CounselorCaseTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p
                     className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
-                      packageItem.status === "active"
+                      packageItem.status === "progress"
                         ? "bg-green-500 text-green-600"
-                        : packageItem.status === "inactive"
+                        : packageItem.status === "cancelled"
                         ? "bg-red-500 text-red-600"
                         : packageItem.status === "pending"
                         ? "bg-yellow-500 text-yellow-600"
-                        : packageItem.status === "expired"
+                        : packageItem.status === "reschedule"
                         ? "bg-violet-500 text-gray-600"
+                        : packageItem.status === "completed"
+                        ? "bg-blue-500 text-blue-600"
                         : "bg-gray-500 text-gray-700"
                     }`}
                   >
@@ -103,7 +105,9 @@ const CounselorCaseTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
       </div>
       <div className={`mt-4 flex justify-between items-center`}>
         <div className="flex items-center space-x-2">
-          <span className="text-gray-700 dark:text-violet-100">Items per page:</span>
+          <span className="text-gray-700 dark:text-violet-100">
+            Items per page:
+          </span>
           <select
             value={itemsPerPage}
             onChange={(e) => setItemsPerPage(Number(e.target.value))}

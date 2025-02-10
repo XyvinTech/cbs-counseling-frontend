@@ -6,6 +6,7 @@ import { createUser, getUserById, updateUser } from "../../../api/userApi";
 import { toast } from "react-toastify";
 
 const AddStudent = () => {
+  const [loading, setLoading] = useState(false);
   const [studentData, setStudentData] = useState({
     name: "",
     email: "",
@@ -52,38 +53,44 @@ const AddStudent = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    let formattedValue = value;
-  
+    let formattedValue = value.replace(/\D/g, "");
+
     if (name === "mobile" || name === "parentContact") {
-      formattedValue = value.replace(/\D/g, ""); 
-  
-      if (!formattedValue.startsWith("968")) {
-        formattedValue = "968" + formattedValue;
+      if (formattedValue.startsWith("968")) {
+        formattedValue = "+968" + formattedValue.slice(3);
+      } else if (!formattedValue.startsWith("+968")) {
+        formattedValue = "+968" + formattedValue;
       }
-  
-      if (formattedValue.length > 3) {
-        formattedValue = "+968 " + formattedValue.slice(3, 11);
+
+      if (formattedValue.length > 12) {
+        formattedValue = formattedValue.slice(0, 12);
+      }
+
+      if (formattedValue === "+968") {
+        formattedValue = "";
       }
     }
-  
+
     setStudentData((prev) => ({
       ...prev,
-      [name]: formattedValue, 
+      [name]: formattedValue,
     }));
   };
-  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       if (isEditMode && studentId) {
         await updateUser(studentId, studentData);
       } else {
         await createUser(studentData);
       }
-      navigate("/admin-student");
+      navigate("/student");
     } catch (error: any) {
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
   const handleGenderChange = (value: string) => {
@@ -228,7 +235,7 @@ const AddStudent = () => {
               type="submit"
               className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
             >
-              {studentId ? "Update" : "Submit"}
+              {loading ? "Submitting..." : studentId ? "Update" : "Submit"}
             </button>
           </div>
         </form>

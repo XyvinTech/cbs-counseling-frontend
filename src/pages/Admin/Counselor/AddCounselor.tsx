@@ -7,6 +7,7 @@ import { createUser, getUserById, updateUser } from "../../../api/userApi";
 import { toast } from "react-toastify";
 
 const AddCounselor = () => {
+  const [loading, setLoading] = useState(false);
   const [counselorData, setCounselorData] = useState<{
     name: string;
     userType: string;
@@ -65,15 +66,19 @@ const AddCounselor = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       if (isEditMode && counselorId) {
         await updateUser(counselorId, counselorData);
       } else {
         await createUser(counselorData);
       }
-      navigate("/admin-counselor");
+      navigate("/counselor");
     } catch (error: any) {
       toast.error(error.message);
+    }
+    {
+      setLoading(false);
     }
   };
 
@@ -91,12 +96,15 @@ const AddCounselor = () => {
     }));
   };
   const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/\D/g, ""); 
-
+    let value = e.target.value.replace(/\D/g, "");
     if (value.startsWith("968")) {
-      value = "+968 " + value.slice(3);
-    } else {
-      value = "+968 " + value; 
+      value = "+968" + value.slice(3);
+    } else if (!value.startsWith("+968")) {
+      value = "+968" + value;
+    }
+
+    if (value === "+968") {
+      value = "";
     }
 
     setCounselorData((prev) => ({
@@ -205,7 +213,7 @@ const AddCounselor = () => {
               type="submit"
               className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
             >
-              {counselorId ? "Update" : "Submit"}
+              {loading ? "Submitting..." : counselorId ? "Update" : "Submit"}
             </button>
           </div>
         </form>

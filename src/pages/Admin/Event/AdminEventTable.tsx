@@ -256,8 +256,8 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
           </div>
         )}
         {view && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 mt-16">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-2xl p-6 relative">
               <button
                 onClick={handleCloseView}
                 className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"

@@ -5,6 +5,7 @@ import { createType, getTypeById, updateType } from "../../../api/typeApi";
 import { toast } from "react-toastify";
 
 const AddType = () => {
+  const [loading, setLoading] = useState(false);
   const [typeData, setTypeData] = useState({
     name: "",
   });
@@ -41,6 +42,7 @@ const AddType = () => {
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       if (isEditMode && typeId) {
         await updateType(typeId, typeData);
@@ -50,6 +52,8 @@ const AddType = () => {
       navigate("/admin-type");
     } catch (error: any) {
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -98,7 +102,7 @@ const AddType = () => {
               type="submit"
               className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
             >
-              {typeId ? "Update" : "Add"}
+              {loading ? "Saving..." : typeId ? "Update" : "Add"}
             </button>
           </div>
         </form>

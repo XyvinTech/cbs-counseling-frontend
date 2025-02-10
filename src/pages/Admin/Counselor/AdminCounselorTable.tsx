@@ -97,7 +97,7 @@ const AdminCounselorTable: React.FC<CounselorTableProps> = ({
                   <div
                     className="font-medium text-blue-600  cursor-pointer"
                     onClick={() => {
-                      navigate(`/admin-counselor/${packageItem._id}`, {
+                      navigate(`/counselor/${packageItem._id}`, {
                         state: {
                           name: packageItem.name,
                         },

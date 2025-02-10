@@ -142,121 +142,122 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   Dashboard
                 </NavLink>
               </li>
-             {userType === "counsellor" && (
-              <li className="relative">
-                <div
-                  onClick={toggleDropdown}
-                  className={`group relative flex items-center justify-between dark:text-violet-200 gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 cursor-pointer ${
-                    pathname.includes("counselor") && "bg-[#a266f0] text-white"
-                  }`}
-                >
-                  <div className="flex items-center gap-2.5">
-                    <svg
-                      className="fill-current"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M12 2C9.243 2 7 4.243 7 7C7 9.757 9.243 12 12 12C14.757 12 17 9.757 17 7C17 4.243 14.757 2 12 2ZM12 10C10.346 10 9 8.654 9 7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7C15 8.654 13.654 10 12 10Z"
-                        fill=""
-                      />
-                      <path
-                        d="M12 14C9.347 14 4 15.347 4 18V20C4 20.553 4.447 21 5 21H19C19.553 21 20 20.553 20 20V18C20 15.347 14.653 14 12 14ZM6 18C6.217 17.147 9.417 16 12 16C14.583 16 17.783 17.147 18 18H6Z"
-                        fill=""
-                      />
-                    </svg>
-                    Case Management
+              {userType === "counsellor" && (
+                <li className="relative">
+                  <div
+                    onClick={toggleDropdown}
+                    className={`group relative flex items-center justify-between dark:text-violet-200 gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 cursor-pointer ${
+                      pathname.includes("counselor") &&
+                      "bg-[#a266f0] text-white"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <svg
+                        className="fill-current"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 2C9.243 2 7 4.243 7 7C7 9.757 9.243 12 12 12C14.757 12 17 9.757 17 7C17 4.243 14.757 2 12 2ZM12 10C10.346 10 9 8.654 9 7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7C15 8.654 13.654 10 12 10Z"
+                          fill=""
+                        />
+                        <path
+                          d="M12 14C9.347 14 4 15.347 4 18V20C4 20.553 4.447 21 5 21H19C19.553 21 20 20.553 20 20V18C20 15.347 14.653 14 12 14ZM6 18C6.217 17.147 9.417 16 12 16C14.583 16 17.783 17.147 18 18H6Z"
+                          fill=""
+                        />
+                      </svg>
+                      Case Management
+                    </div>
+                    {isDropdownOpen ? (
+                      <BsChevronUp size={18} />
+                    ) : (
+                      <BsChevronDown size={18} />
+                    )}
                   </div>
-                  {isDropdownOpen ? (
-                    <BsChevronUp size={18} />
-                  ) : (
-                    <BsChevronDown size={18} />
-                  )}
-                </div>
 
-                {isDropdownOpen && (
-                  <ul className="pl-8 mt-2 space-y-2">
-                    <li>
-                      <NavLink
-                        to="/counselor-session"
-                        className={`group relative flex items-center gap-2.5 py-2 px-4 rounded-sm duration-300 ease-in-out dark:text-violet-200 hover:bg-[#a266f0] hover:text-white ${
-                          pathname.includes("session") &&
-                          "bg-[#a266f0] text-white"
-                        }`}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          className="size-6"
+                  {isDropdownOpen && (
+                    <ul className="pl-8 mt-2 space-y-2">
+                      <li>
+                        <NavLink
+                          to="/counselor-session"
+                          className={`group relative flex items-center gap-2.5 py-2 px-4 rounded-sm duration-300 ease-in-out dark:text-violet-200 hover:bg-[#a266f0] hover:text-white ${
+                            pathname.includes("session") &&
+                            "bg-[#a266f0] text-white"
+                          }`}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M12 3c4.418 0 8 3.134 8 7 0 2.136-.932 4.05-2.45 5.45L20 21l-4.55-2.45A9.824 9.824 0 0112 18c-4.418 0-8-3.134-8-7s3.582-7 8-7zm0 4a2 2 0 11.001 3.999A2 2 0 0112 7zm-4 6c0-1.5 2-2.5 4-2.5s4 1 4 2.5"
-                          />
-                        </svg>
-                        Sessions
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="/counselor-case"
-                        className={`group relative flex items-center gap-2.5 py-2 dark:text-violet-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white ${
-                          pathname.includes("counselor-case") &&
-                          "bg-[#a266f0] text-white"
-                        }`}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-5 h-5 mr-2"
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="size-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 3c4.418 0 8 3.134 8 7 0 2.136-.932 4.05-2.45 5.45L20 21l-4.55-2.45A9.824 9.824 0 0112 18c-4.418 0-8-3.134-8-7s3.582-7 8-7zm0 4a2 2 0 11.001 3.999A2 2 0 0112 7zm-4 6c0-1.5 2-2.5 4-2.5s4 1 4 2.5"
+                            />
+                          </svg>
+                          Sessions
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/counselor-case"
+                          className={`group relative flex items-center gap-2.5 py-2 dark:text-violet-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white ${
+                            pathname.includes("counselor-case") &&
+                            "bg-[#a266f0] text-white"
+                          }`}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.893 1.254 50.595 50.595 0 0 0-2.658.813m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675a3 3 0 0 1 3-3h1.5m-.75 3a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75Zm3 3h1.5a3 3 0 0 0 3-3v-3.375c0-.621-.504-1.125-1.125-1.125H9.375c-.621 0-1.125.504-1.125 1.125v3.375Z"
-                          />
-                        </svg>
-                        Cases
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="/counselor-remark"
-                        className={`group relative flex items-center gap-2.5 py-2 dark:text-violet-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white ${
-                          pathname.includes("counselor-remark") &&
-                          "bg-[#a266f0] text-white"
-                        }`}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-5 h-5 mr-2"
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-5 h-5 mr-2"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.893 1.254 50.595 50.595 0 0 0-2.658.813m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675a3 3 0 0 1 3-3h1.5m-.75 3a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75Zm3 3h1.5a3 3 0 0 0 3-3v-3.375c0-.621-.504-1.125-1.125-1.125H9.375c-.621 0-1.125.504-1.125 1.125v3.375Z"
+                            />
+                          </svg>
+                          Cases
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/counselor-remark"
+                          className={`group relative flex items-center gap-2.5 py-2 dark:text-violet-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white ${
+                            pathname.includes("counselor-remark") &&
+                            "bg-[#a266f0] text-white"
+                          }`}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.893 1.254 50.595 50.595 0 0 0-2.658.813m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675a3 3 0 0 1 3-3h1.5m-.75 3a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75Zm3 3h1.5a3 3 0 0 0 3-3v-3.375c0-.621-.504-1.125-1.125-1.125H9.375c-.621 0-1.125.504-1.125 1.125v3.375Z"
-                          />
-                        </svg>
-                        Remarks
-                      </NavLink>
-                    </li>
-                  </ul>
-                )}
-              </li>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-5 h-5 mr-2"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.893 1.254 50.595 50.595 0 0 0-2.658.813m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675a3 3 0 0 1 3-3h1.5m-.75 3a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75Zm3 3h1.5a3 3 0 0 0 3-3v-3.375c0-.621-.504-1.125-1.125-1.125H9.375c-.621 0-1.125.504-1.125 1.125v3.375Z"
+                            />
+                          </svg>
+                          Remarks
+                        </NavLink>
+                      </li>
+                    </ul>
+                  )}
+                </li>
               )}
               {userType === "counsellor" && (
                 <li>
@@ -290,7 +291,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   <div
                     onClick={toggleUserDropdown}
                     className={`group relative flex items-center justify-between dark:text-violet-200 gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 cursor-pointer ${
-                      pathname.includes("user") && "bg-[#a266f0] text-white"
+                      (pathname.includes("counselor") ||
+                        pathname.includes("student")) &&
+                      "bg-[#a266f0] text-white"
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
@@ -324,9 +327,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     <ul className="pl-8 mt-2 space-y-2">
                       <li>
                         <NavLink
-                          to="/admin-counselor"
+                          to="/counselor"
                           className={`group relative flex items-center gap-2.5 py-2 px-4 rounded-sm duration-300 ease-in-out dark:text-violet-200 hover:bg-[#a266f0] hover:text-white ${
-                            pathname.includes("user/admin-counselor") &&
+                            pathname.includes("counselor") &&
                             "bg-[#a266f0] text-white"
                           }`}
                         >
@@ -349,9 +352,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       </li>
                       <li>
                         <NavLink
-                          to="/admin-student"
+                          to="/student"
                           className={`group relative flex items-center gap-2.5 py-2 dark:text-violet-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white ${
-                            pathname.includes("admin-student") &&
+                            pathname.includes("student") &&
                             "bg-[#a266f0] text-white"
                           }`}
                         >
@@ -379,9 +382,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {userType === "admin" && (
                 <li>
                   <NavLink
-                    to="/admin-case"
-                    className={`group relative flex dark:text-violet-200  items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
-                      pathname.includes("admin-case") &&
+                    to="/case-session"
+                    className={`group relative flex dark:text-violet-200 items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
+                      (pathname.includes("case") ||
+                        pathname.includes("session")) &&
                       "bg-[#a266f0] text-white"
                     }`}
                   >
@@ -407,7 +411,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <NavLink
                   to="/admin-event"
                   className={`group relative flex items-center dark:text-violet-200  gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
-                    pathname.includes("admin-event") &&
+                    pathname.includes("event") &&
                     "bg-[#a266f0] text-white"
                   }`}
                 >
@@ -433,7 +437,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   <NavLink
                     to="/admin-type"
                     className={`group relative flex items-center gap-2.5 dark:text-violet-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
-                      pathname.includes("admin-type") &&
+                      pathname.includes("type") &&
                       "bg-[#a266f0] text-white"
                     }`}
                   >

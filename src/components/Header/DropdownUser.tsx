@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ClickOutside from "../ClickOutside";
-import UserOne from "../../images/user/user-01.png";
+import UserOne from "../../images/user/user-pro.jpg";
 import { toast } from "react-toastify";
 import { getUser } from "../../api/userApi";
 
@@ -29,7 +29,7 @@ const DropdownUser = () => {
           <span className="block text-sm font-medium text-black dark:text-white">
             {user?.name}
           </span>
-          <span className="block text-xs text-gray-500 dark:text-gray-400">
+          <span className="block text-xs text-gray-500 dark:text-gray-400 capitalize" >
             {user?.userType}
           </span>
         </span>

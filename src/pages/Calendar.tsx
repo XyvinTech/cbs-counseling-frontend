@@ -16,8 +16,9 @@ const Calendar = () => {
         if (response?.data && Array.isArray(response.data)) {
           const formattedEvents = response.data.map((event: any) => ({
             title: event.title,
-            start: moment.utc(event.start).toISOString(),
-            end: moment.utc(event.end).toISOString(),
+            start: moment(event.start).format("YYYY-MM-DD"),
+            end: moment(event.end).format("YYYY-MM-DD"),
+            allDay: true, 
           }));
           setEvents(formattedEvents);
         } else {
@@ -40,7 +41,8 @@ const Calendar = () => {
         height="auto"
         titleFormat={{ year: "numeric", month: "long" }}
         themeSystem="bootstrap"
-        dayHeaderClassNames="bg-[#8B5CF6] text-white py-2 text-sm "
+        dayHeaderClassNames="bg-[#8B5CF6] text-white py-2 text-sm"
+        displayEventTime={false} 
       />
     </div>
   );

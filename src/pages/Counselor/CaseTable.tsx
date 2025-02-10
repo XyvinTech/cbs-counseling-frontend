@@ -4,7 +4,7 @@ import { getCase } from "../../api/sessionApi";
 import { useNavigate } from "react-router-dom";
 
 const CaseTable: React.FC = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("Upcomming Cases");
   const handleTabChange = (a: string) => {
     setActiveTab(a as any);
@@ -93,17 +93,17 @@ const CaseTable: React.FC = () => {
               {packageData?.map((packageItem, key) => (
                 <tr key={key}>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <div
-                    className="font-medium text-blue-600  cursor-pointer"
-                    onClick={() => {
-                      navigate(`/cases/session/${packageItem._id}`);
-                    }}
-                  >
-                    {" "}
-                    <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300 xl:pl-6">
-                      {packageItem.case_id}
-                    </h5>
-                  </div>
+                    <div
+                      className="font-medium text-blue-600  cursor-pointer"
+                      onClick={() => {
+                        navigate(`/cases/session/${packageItem._id}`);
+                      }}
+                    >
+                      {" "}
+                      <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300 xl:pl-6">
+                        {packageItem.case_id}
+                      </h5>
+                    </div>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
                     <p className="text-black dark:text-white">
@@ -111,7 +111,7 @@ const CaseTable: React.FC = () => {
                     </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
-                  <p className="text-black dark:text-white">
+                    <p className="text-black dark:text-white">
                       {packageItem.form_id?.name}
                     </p>
                   </td>
@@ -124,14 +124,16 @@ const CaseTable: React.FC = () => {
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p
                       className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
-                        packageItem.status === "active"
+                        packageItem.status === "progress"
                           ? "bg-green-500 text-green-600"
-                          : packageItem.status === "inactive"
+                          : packageItem.status === "cancelled"
                           ? "bg-red-500 text-red-600"
                           : packageItem.status === "pending"
                           ? "bg-yellow-500 text-yellow-600"
-                          : packageItem.status === "expired"
+                          : packageItem.status === "reschedule"
                           ? "bg-violet-500 text-gray-600"
+                          : packageItem.status === "completed"
+                          ? "bg-blue-500 text-blue-600"
                           : "bg-gray-500 text-gray-700"
                       }`}
                     >

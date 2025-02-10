@@ -30,6 +30,7 @@ const numberToDay: Record<number, string> = {
 
 const BookAppoinment: React.FC = () => {
   const location = useLocation();
+  const [loading, setLoading] = useState(false);
   const [days, setDays] = useState<number[]>([]);
   const [times, setTimes] = useState<{ start: string; end: string }[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,7 +76,8 @@ const BookAppoinment: React.FC = () => {
 
     try {
       const response = await getTimes(form.counsellor, {
-        date: date.toISOString().split("T")[0],
+        date: date.toLocaleDateString("en-CA"),
+
         day: selectedDay,
       });
 
@@ -89,11 +91,14 @@ const BookAppoinment: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await createSession(form);
       setIsModalOpen(true);
     } catch (error: any) {
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -196,28 +201,27 @@ const BookAppoinment: React.FC = () => {
             </div>
 
             <button className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90">
-              Book
+       {loading ? "Booking..." : "Book"}
             </button>
           </form>
         </div>
       </div>
 
       {isModalOpen && (
-       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-screen h-screen">
-       <div className="bg-white p-6 rounded-lg text-center shadow-lg w-[500px] max-w-full">
-         <h2 className="text-xl font-semibold mb-4">
-           Your appointment request has been submitted. You will receive a
-           confirmation once the appointment request is approved!
-         </h2>
-         <button
-           onClick={closeModalAndRedirect}
-           className="w-full py-2 bg-primary text-white rounded-md transition hover:bg-opacity-80"
-         >
-           OK
-         </button>
-       </div>
-     </div>
-     
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-screen h-screen">
+          <div className="bg-white p-6 rounded-lg text-center shadow-lg w-[500px] max-w-full">
+            <h2 className="text-xl font-semibold mb-4">
+              Your appointment request has been submitted. You will receive a
+              confirmation once the appointment request is approved!
+            </h2>
+            <button
+              onClick={closeModalAndRedirect}
+              className="w-full py-2 bg-primary text-white rounded-md transition hover:bg-opacity-80"
+            >
+              OK
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

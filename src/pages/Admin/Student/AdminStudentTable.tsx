@@ -95,7 +95,7 @@ const AdminStudentTable: React.FC<StudentTableProps> = ({ searchValue }) => {
                   <div
                     className="font-medium text-blue-600  cursor-pointer  "
                     onClick={() => {
-                      navigate(`/admin-student/${packageItem._id}`, {
+                      navigate(`/student/${packageItem._id}`, {
                         state: {
                           name: packageItem.name,
                         },

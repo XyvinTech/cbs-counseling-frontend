@@ -54,7 +54,7 @@ const SessionTable: React.FC = () => {
   const [formState, setFormState] = useState({
     session_date: null as Date | null,
     session_time: "",
-    c_reschedule_reason: "",
+    c_reschedule_remark: "",
   });
   const handleTabChange = (a: string) => {
     setActiveTab(a as any);
@@ -153,7 +153,7 @@ const SessionTable: React.FC = () => {
     setFormState({
       session_date: null,
       session_time: "",
-      c_reschedule_reason: "",
+      c_reschedule_remark: "",
     });
     setReschedule(false);
   };
@@ -188,7 +188,7 @@ const SessionTable: React.FC = () => {
 
     try {
       const response = await getTimes(counselorId, {
-        date: date.toISOString().split("T")[0],
+        date: date.toLocaleDateString("en-CA"),
         day: selectedDay,
       });
 
@@ -208,7 +208,7 @@ const SessionTable: React.FC = () => {
       setFormState({
         session_date: null,
         session_time: "",
-        c_reschedule_reason: "",
+        c_reschedule_remark: "",
       });
       setIsChange((prevState) => !prevState);
     } catch (error: any) {
@@ -294,7 +294,6 @@ const SessionTable: React.FC = () => {
           >
             <thead>
               <tr className="bg-gray-2 text-left dark:bg-meta-4">
-               
                 <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
                   Session ID
                 </th>
@@ -343,7 +342,7 @@ const SessionTable: React.FC = () => {
                       </h5>
                     </div>
                   </td>
-                 
+
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
                     <p className="text-black dark:text-white">
                       {packageItem.user_name}
@@ -401,14 +400,17 @@ const SessionTable: React.FC = () => {
                   </td>
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    {packageItem.status !== "completed" && (
-                      <button
-                        onClick={(e) => handleActionsClick(e, packageItem._id)}
-                        className="px-4 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md text-gray-700 focus:outline-none flex items-center"
-                      >
-                        <FaEllipsisV className="text-sm" />
-                      </button>
-                    )}
+                    {packageItem.status !== "completed" &&
+                      packageItem.status !== "cancelled" && (
+                        <button
+                          onClick={(e) =>
+                            handleActionsClick(e, packageItem._id)
+                          }
+                          className="px-4 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md text-gray-700 focus:outline-none flex items-center"
+                        >
+                          <FaEllipsisV className="text-sm" />
+                        </button>
+                      )}
                   </td>
                 </tr>
               ))}
@@ -539,11 +541,11 @@ const SessionTable: React.FC = () => {
                   <textarea
                     className="w-full p-2 border rounded text-gray-700 dark:bg-gray-800 dark:text-white"
                     placeholder="Enter reschedule reason..."
-                    value={formState.c_reschedule_reason}
+                    value={formState.c_reschedule_remark}
                     onChange={(e) =>
                       setFormState((prev) => ({
                         ...prev,
-                        c_reschedule_reason: e.target.value,
+                        c_reschedule_remark: e.target.value,
                       }))
                     }
                   />

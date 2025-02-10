@@ -43,7 +43,7 @@ const CounselorProfile = () => {
 
   return (
     <>
-      <Breadcrumb pageName={name} titleName="Counselor" />
+      <Breadcrumb pageName={name} titleName="Counselor" nav={false}/>
       <div className="flex justify-center items-center ">
         <div className="w-full  mx-4 bg-white rounded-lg shadow-xl overflow-hidden dark:bg-gray-700">
           <div className="relative h-48 bg-gradient-to-r from-blue-500 to-purple-600">

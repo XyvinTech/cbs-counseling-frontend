@@ -19,7 +19,7 @@ const StudentSessionTable: React.FC<CounselorTableProps> = ({
   const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
-    if (!id) return; // Prevent fetching if id is not available
+    if (!id) return;
 
     const fetchData = async () => {
       try {
@@ -59,9 +59,7 @@ const StudentSessionTable: React.FC<CounselorTableProps> = ({
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Session Time
               </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Session Name
-              </th>
+             
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Counselor Name
               </th>
@@ -84,11 +82,7 @@ const StudentSessionTable: React.FC<CounselorTableProps> = ({
                     {packageItem.session_time?.end}
                   </p>
                 </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {packageItem.type}
-                  </p>
-                </td>
+               
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
                     {packageItem.counsellor_name}
@@ -107,7 +101,9 @@ const StudentSessionTable: React.FC<CounselorTableProps> = ({
       </div>
       <div className={`mt-4 flex justify-between items-center`}>
         <div className="flex items-center space-x-2">
-          <span className="text-gray-700 dark:text-violet-100">Items per page:</span>
+          <span className="text-gray-700 dark:text-violet-100">
+            Items per page:
+          </span>
           <select
             value={itemsPerPage}
             onChange={(e) => setItemsPerPage(Number(e.target.value))}

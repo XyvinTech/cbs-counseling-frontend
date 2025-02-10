@@ -117,7 +117,7 @@ const AddRemark: React.FC = () => {
                   {data.report.map((fileName: string, index: number) => (
                     <li key={index}>
                       <a
-                        href={`/uploads/${fileName}`}
+                        href={`http://localhost:3000/images/${fileName}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover:underline"

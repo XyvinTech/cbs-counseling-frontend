@@ -1,16 +1,13 @@
 import { useState } from "react";
 import AdminSessionTable from "./AdminSessionTable";
+import Breadcrumb from "../../../components/Breadcrumbs/Breadcrumb";
 
 const AdminSessionList = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   return (
     <>
       <div className="mb-7.5 flex flex-wrap gap-5 xl:gap-7.5 justify-between">
-        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-start">
-          <h2 className="text-title-md2 font-semibold text-black dark:text-white ">
-            Sessions
-          </h2>
-        </div>
+      <Breadcrumb pageName={"Sessions"} titleName="Student"  nav={true}/>
         <div className="relative w-full max-w-xs">
           <div className="relative flex items-center bg-white dark:bg-graydark  rounded-lg shadow-md">
             <button className="absolute left-3 top-1/2 -translate-y-1/2">

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { resetPassword } from "../../../api/authApi";
 import { toast } from "react-toastify";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const AdminPassword = () => {
+  const [loading, setLoading] = useState(false);
   const [passwordData, setPasswordData] = useState({
     oldPassword: "",
     newPassword: "",
@@ -10,8 +12,18 @@ const AdminPassword = () => {
   });
 
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState({
+    oldPassword: false,
+    newPassword: false,
+    confirmPassword: false,
+  });
 
-  
+  const togglePasswordVisibility = (field: keyof typeof showPassword) => {
+    setShowPassword((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -23,7 +35,7 @@ const AdminPassword = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setLoading(true);
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       setError("New Password and Confirm Password do not match!");
       return;
@@ -34,16 +46,19 @@ const AdminPassword = () => {
         oldPassword: passwordData.oldPassword,
         newPassword: passwordData.newPassword,
       });
+
       setPasswordData({
         oldPassword: "",
         newPassword: "",
         confirmPassword: "",
       });
+
       setError("");
-     
-    } catch (error :any) {
-      toast.error(error.message)
+    } catch (error: any) {
+      toast.error(error.message);
       setError("Failed to update password. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -62,29 +77,56 @@ const AdminPassword = () => {
                 <label className="mb-2.5 block text-black dark:text-white">
                   Old Password
                 </label>
-                <input
-                  type="password"
-                  name="oldPassword"
-                  value={passwordData.oldPassword}
-                  onChange={handleChange}
-                  placeholder="Enter your old password"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword.oldPassword ? "text" : "password"}
+                    name="oldPassword"
+                    value={passwordData.oldPassword}
+                    onChange={handleChange}
+                    placeholder="Enter your old password"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 pr-12 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => togglePasswordVisibility("oldPassword")}
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-primary"
+                  >
+                    {showPassword.oldPassword ? (
+                      <AiOutlineEye size={22} />
+                    ) : (
+                      <AiOutlineEyeInvisible size={22} />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
+
             <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
               <div className="w-full">
                 <label className="mb-2.5 block text-black dark:text-white">
                   New Password
                 </label>
-                <input
-                  type="password"
-                  name="newPassword"
-                  value={passwordData.newPassword}
-                  onChange={handleChange}
-                  placeholder="Enter your new password"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword.newPassword ? "text" : "password"}
+                    name="newPassword"
+                    value={passwordData.newPassword}
+                    onChange={handleChange}
+                    placeholder="Enter your new password"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 pr-12 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => togglePasswordVisibility("newPassword")}
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-primary"
+                  >
+                    {showPassword.newPassword ? (
+                      <AiOutlineEye size={22} />
+                    ) : (
+                      <AiOutlineEyeInvisible size={22} />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
             <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
@@ -92,14 +134,27 @@ const AdminPassword = () => {
                 <label className="mb-2.5 block text-black dark:text-white">
                   Confirm Password
                 </label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  value={passwordData.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Enter Confirm password"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword.confirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    value={passwordData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Enter confirm password"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 pr-12 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => togglePasswordVisibility("confirmPassword")}
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-primary"
+                  >
+                    {showPassword.confirmPassword ? (
+                      <AiOutlineEye size={22} />
+                    ) : (
+                      <AiOutlineEyeInvisible size={22} />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -109,7 +164,7 @@ const AdminPassword = () => {
               type="submit"
               className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
             >
-              Submit
+              {loading ? "Updating..." : "Update Password"}
             </button>
           </div>
         </form>

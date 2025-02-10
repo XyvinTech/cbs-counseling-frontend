@@ -4,7 +4,6 @@ import axiosInstance from "./axiosintercepter";
 export const createForm = async (data: any): Promise<any | null> => {
   try {
     const response = await axiosInstance.post(`/sessions/form`, data);
-    toast.success(response.data.message);
     return response.data;
   } catch (error: any) {
     throw error.response.data;

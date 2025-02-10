@@ -121,8 +121,6 @@ const RemarkTable: React.FC = () => {
                       className="font-medium text-blue-600  cursor-pointer"
                       onClick={() => {
                         navigate(`/session/${packageItem.session_ids[0]?._id}`);
-                     
-                        
                       }}
                     >
                       {" "}
@@ -164,12 +162,16 @@ const RemarkTable: React.FC = () => {
                   </td>
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <button
-                      onClick={(e) => handleActionsClick(e, packageItem.session_ids[0]?._id)}
-                      className="px-4 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md text-gray-700 focus:outline-none flex items-center"
-                    >
-                      <FaEllipsisV className="text-sm" />
-                    </button>
+                    {packageItem.status !== "completed" && (
+                      <button
+                        onClick={(e) =>
+                          handleActionsClick(e, packageItem.session_ids[0]?._id)
+                        }
+                        className="px-4 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md text-gray-700 focus:outline-none flex items-center"
+                      >
+                        <FaEllipsisV className="text-sm" />
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}

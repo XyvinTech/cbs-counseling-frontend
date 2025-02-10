@@ -5,7 +5,14 @@ import { getUserByStudent } from "../../api/userApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { createForm } from "../../api/sessionApi";
-import { FaUser, FaEnvelope, FaSchool, FaIdCard, FaUserTie, FaChalkboardTeacher } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaSchool,
+  FaIdCard,
+  FaUserTie,
+  FaChalkboardTeacher,
+} from "react-icons/fa";
 
 const Form: React.FC = () => {
   const navigate = useNavigate();
@@ -15,7 +22,7 @@ const Form: React.FC = () => {
     class: "",
     email: "",
     referee: "",
-    refereeName: "", // New field for Parent/Teacher name
+    refereeName: "",
   });
 
   useEffect(() => {
@@ -54,8 +61,18 @@ const Form: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const formData: any = {
+      grNumber: form.grNumber,
+      name: form.name,
+      class: form.class,
+      email: form.email,
+      referee: form.referee,
+      ...(form.refereeName.trim() !== "" && { refereeName: form.refereeName }), // ✅ Only include if not empty
+    };
+
     try {
-      const response = await createForm(form);
+      const response = await createForm(formData);
       const formId = response.data?._id;
       navigate("/book-appoinment", { state: { formId } });
     } catch (error: any) {
@@ -165,7 +182,6 @@ const Form: React.FC = () => {
                   selectedBook={form.referee}
                 />
 
-               
                 {["parent", "teacher"].includes(form.referee) && (
                   <div>
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
@@ -197,7 +213,6 @@ const Form: React.FC = () => {
                   type="submit"
                   value="Next"
                   className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
-
                 />
               </div>
             </form>
