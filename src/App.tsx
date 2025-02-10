@@ -36,6 +36,9 @@ import SessionDetails from "./pages/Admin/Cases/SessionDetails";
 import CounselorSession from "./pages/Counselor/CounselorSession";
 import AddAvailability from "./pages/Counselor/AddAvailability";
 import AddEntry from "./pages/Counselor/AddEntry";
+import CounselorCase from "./pages/Counselor/CounselorCase";
+import CounselorRemark from "./pages/Counselor/CounselorRemark";
+import AddRemark from "./pages/Counselor/AddRemark";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -57,10 +60,8 @@ function App() {
         index
         element={
           <>
-            <DefaultLayout>
-              <PageTitle title="ABLE" />
-              <ECommerce />
-            </DefaultLayout>
+            <PageTitle title="ABLE" />
+            <SignIn />
           </>
         }
       />
@@ -126,8 +127,8 @@ function App() {
           </>
         }
       />
-       <Route
-        path="/admin-cases/session/:id"
+      <Route
+        path="/cases/session/:id"
         element={
           <>
             <DefaultLayout>
@@ -137,12 +138,12 @@ function App() {
           </>
         }
       />
-       <Route
-        path="/admin-session/:id"
+      <Route
+        path="/session/:id"
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="ABLE || Case" />
+              <PageTitle title="ABLE || Session" />
               <SessionDetails />
             </DefaultLayout>
           </>
@@ -192,35 +193,68 @@ function App() {
           </>
         }
       />
-       <Route
+      <Route
         path="/counselor-session"
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="ABLE || Settings" />
-              <CounselorSession/>
+              <PageTitle title="ABLE || Session" />
+              <CounselorSession />
             </DefaultLayout>
           </>
         }
       />
-       <Route
+      <Route
+        path="/counselor-case"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Settings" />
+              <CounselorCase />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/counselor-remark"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Remarks" />
+              <CounselorRemark />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
         path="/availability"
         element={
           <>
             <DefaultLayout>
               <PageTitle title="ABLE || Settings" />
-              <AddAvailability/>
+              <AddAvailability />
             </DefaultLayout>
           </>
         }
       />
-        <Route
-        path="/entry/:id"
+      <Route
+        path="/session/entry/:id"
         element={
           <>
             <DefaultLayout>
               <PageTitle title="ABLE || Settings" />
-              <AddEntry/>
+              <AddEntry />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/session/remark/:id"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Settings" />
+              <AddRemark />
             </DefaultLayout>
           </>
         }
@@ -291,13 +325,13 @@ function App() {
           </>
         }
       />
-       <Route
+      <Route
         path="/admin-counselor/:id"
         element={
           <>
             <DefaultLayout>
               <PageTitle title="ABLE || Student" />
-              <CounselorProfile/>
+              <CounselorProfile />
             </DefaultLayout>
           </>
         }
@@ -358,12 +392,12 @@ function App() {
         }
       />
       <Route
-        path="/signin"
+        path="/dashboard"
         element={
-          <>
-            <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-            <SignIn />
-          </>
+          <DefaultLayout>
+            <PageTitle title="ABLE || Dashboard" />
+            <ECommerce />
+          </DefaultLayout>
         }
       />
     </Routes>

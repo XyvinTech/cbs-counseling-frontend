@@ -21,9 +21,9 @@ const SignIn: React.FC = () => {
         localStorage.setItem("userType", response?.data?.userType);
 
         if (response?.data?.userType === "admin") {
-          navigate("/");
+          navigate("/dashboard");
         } else {
-          navigate("/settings");
+          navigate("/dashboard");
         }
       } else {
         toast.error("Invalid login credentials");

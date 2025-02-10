@@ -29,7 +29,7 @@ const SelectBooking: React.FC<{
           <option value="parent" className="text-body dark:text-bodydark">
             Parent
           </option>
-          <option value="teacher" className="text-body dark:text-bodydark">
+          <option value="student" className="text-body dark:text-bodydark">
             Student
           </option>
           <option value="teacher" className="text-body dark:text-bodydark">

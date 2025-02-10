@@ -72,7 +72,7 @@ const AdminCaseTable: React.FC<CaseTableProps> = ({ searchValue }) => {
                   <div
                     className="font-medium text-blue-600  cursor-pointer"
                     onClick={() => {
-                      navigate(`/admin-cases/session/${packageItem._id}`);
+                      navigate(`/cases/session/${packageItem._id}`);
                     }}
                   >
                     {" "}

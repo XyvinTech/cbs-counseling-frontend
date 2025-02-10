@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getDays, getTimes } from "../../api/timeApi";
 import { useNavigate } from "react-router-dom";
+import { FaEllipsisV } from "react-icons/fa";
 const dayNameToNumber: Record<string, number> = {
   Sunday: 0,
   Monday: 1,
@@ -232,7 +233,7 @@ const SessionTable: React.FC = () => {
               .find((item) => item._id === openMenuId)
               ?.status.includes("progress") ? (
               <button
-                onClick={() => navigate(`/entry/${openMenuId}`)}
+                onClick={() => navigate(`/session/entry/${openMenuId}`)}
                 className="w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-gray-50"
               >
                 Add Entry
@@ -293,9 +294,7 @@ const SessionTable: React.FC = () => {
           >
             <thead>
               <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
-                  Case ID
-                </th>
+               
                 <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
                   Session ID
                 </th>
@@ -332,24 +331,20 @@ const SessionTable: React.FC = () => {
               {packageData?.map((packageItem, key) => (
                 <tr key={key}>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <div
-                    className="font-medium text-blue-600  cursor-pointer"
-                    onClick={() => {
-                      navigate(`/admin-session/${packageItem._id}`);
-                    }}
-                  >
-                    {" "}
-                    <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300">
-                      {packageItem.caseid}
-                    </h5>
-                  </div>
+                    <div
+                      className="font-medium text-blue-600  cursor-pointer"
+                      onClick={() => {
+                        navigate(`/session/${packageItem._id}`);
+                      }}
+                    >
+                      {" "}
+                      <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300 xl:pl-6">
+                        {packageItem.session_id}
+                      </h5>
+                    </div>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
-                      {packageItem.session_id}
-                    </p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                 
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
                     <p className="text-black dark:text-white">
                       {packageItem.user_name}
                     </p>
@@ -396,20 +391,24 @@ const SessionTable: React.FC = () => {
                           ? "bg-yellow-500 text-yellow-600"
                           : packageItem.status === "reschedule"
                           ? "bg-violet-500 text-gray-600"
+                          : packageItem.status === "completed"
+                          ? "bg-blue-500 text-blue-600"
                           : "bg-gray-500 text-gray-700"
                       }`}
                     >
                       {packageItem.status}
                     </p>
                   </td>
+
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <button
-                      onClick={(e) => handleActionsClick(e, packageItem._id)}
-                      className="px-4 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md text-gray-700 focus:outline-none flex items-center"
-                    >
-                      Actions
-                      <span className="ml-2">▼</span>
-                    </button>
+                    {packageItem.status !== "completed" && (
+                      <button
+                        onClick={(e) => handleActionsClick(e, packageItem._id)}
+                        className="px-4 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md text-gray-700 focus:outline-none flex items-center"
+                      >
+                        <FaEllipsisV className="text-sm" />
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}

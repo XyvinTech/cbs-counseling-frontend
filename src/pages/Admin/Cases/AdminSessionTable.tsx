@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {  getSessionByCase } from "../../../api/sessionApi";
+import { getSessionByCase } from "../../../api/sessionApi";
 import { Session } from "../../../types/session";
 import moment from "moment";
 interface SessionTableProps {
@@ -78,7 +78,7 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
                   <div
                     className="font-medium text-blue-600  cursor-pointer"
                     onClick={() => {
-                      navigate(`/admin-session/${packageItem._id}`);
+                      navigate(`/session/${packageItem._id}`);
                     }}
                   >
                     {" "}

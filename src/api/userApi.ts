@@ -64,11 +64,11 @@ export const getUserByStudent = async (id: string): Promise<any | null> => {
 };
 export const getCounsellors = async (params: {
   counsellorType?: string;
-  counsellor?: string;// Added new parameter for filtering by status
+  counsellor?: string;
 }): Promise<any | null> => {
   try {
     const response = await axiosInstance.get(`/users/counsellors`, {
-      params, // Axios will automatically serialize the `params` object
+      params,
     });
     return response.data;
   } catch (error) {
@@ -79,8 +79,7 @@ export const getCounsellors = async (params: {
 export const upload = async (file: File): Promise<any | null> => {
   try {
     const formData = new FormData();
-    formData.append("file", file); // Ensure field name matches backend
-
+    formData.append("file", file);
     const response = await axiosInstance.post(`/upload`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -92,6 +91,14 @@ export const upload = async (file: File): Promise<any | null> => {
     const errorMsg =
       error.response?.data?.message || "An error occurred during file upload";
     toast.error(errorMsg);
+    return null;
+  }
+};
+export const getUser = async (): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.get(`/users`);
+    return response.data;
+  } catch (error) {
     return null;
   }
 };

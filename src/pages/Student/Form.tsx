@@ -160,13 +160,12 @@ const Form: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Select Booking Field */}
                 <SelectBooking
                   onBookChange={handleBookChange}
                   selectedBook={form.referee}
                 />
 
-                {/* Conditionally Render Input Field if referee is 'parent' or 'teacher' */}
+               
                 {["parent", "teacher"].includes(form.referee) && (
                   <div>
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
@@ -197,7 +196,8 @@ const Form: React.FC = () => {
                 <input
                   type="submit"
                   value="Next"
-                  className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90 hover:shadow-lg"
+                  className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
+
                 />
               </div>
             </form>

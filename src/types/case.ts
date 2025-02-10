@@ -15,4 +15,7 @@ export type Case = {
   createdAt: string;
   counsellor_name: string;
   session_count: number;
+  user_name:string;
+  couselling_type:string
+
 };

@@ -36,7 +36,7 @@ const SessionDetails = () => {
 
   return (
     <>
-      <Breadcrumb pageName={name} titleName="Student" />
+      <Breadcrumb pageName={name} titleName="Session" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
         <div className="col-span-2 flex flex-col gap-6">
           {[data?.form_id, data?.counsellor].map((person: any, index) => (
@@ -119,13 +119,23 @@ const SessionDetails = () => {
                 <p className="text-gray-900 font-medium">{value}</p>
               </div>
             ))}
-            <div>
-              <p className="text-gray-600">Uploaded Documents:</p>
-              <p className="text-blue-500 font-medium cursor-pointer flex items-center gap-2">
-                <BsFillFileEarmarkTextFill className="text-xl" />
-                RIASEC_Career-theory-model-holland.pdf
-              </p>
-            </div>
+
+            {data?.report && data.report.length > 0 && (
+              <div>
+                <p className="text-gray-600">Reports:</p>
+                <ul className="space-y-2">
+                  {data.report.map((report, index) => (
+                    <li
+                      key={index}
+                      className="text-blue-500 font-medium cursor-pointer flex items-center gap-2"
+                    >
+                      <BsFillFileEarmarkTextFill className="text-xl" />
+                      {report}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>

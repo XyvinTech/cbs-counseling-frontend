@@ -168,7 +168,7 @@ const AddEntry: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     const formData: any = {
       details: formState.details,
       session_id: id,
@@ -176,26 +176,28 @@ const AddEntry: React.FC = () => {
       interactions: formState.interactions,
       report: [...(data?.report || [])], // ✅ Include existing reports
     };
-  
+
     try {
       if (formState.report.length > 0) {
         const uploadPromises = formState.report.map(async (file) => {
           const response = await upload(file);
           return response?.data;
         });
-  
+
         const uploadResults = await Promise.all(uploadPromises);
-        const successfulUploads = uploadResults.filter((result) => result !== null);
-  
+        const successfulUploads = uploadResults.filter(
+          (result) => result !== null
+        );
+
         // ✅ Merge existing reports with new uploads
         formData.report = [...formData.report, ...successfulUploads];
       }
-  
+
       // ✅ Handle Concern Raised Date
       formData.concern_raised = showDatePicker
         ? data?.session_date
         : formState.concern_raised;
-  
+
       // ✅ Handle Case Status
       if (!formState.type) {
         formData.isEditable = true;
@@ -214,15 +216,15 @@ const AddEntry: React.FC = () => {
         formData.date = formState.session_date;
         formData.time = formState.time;
       }
-  
+
       console.log("Final Form Data:", formData); // ✅ Debugging log
-  
+
       await addEntry(data?.case_id?._id, formData);
     } catch (error: any) {
       toast.error(error.message);
     }
   };
-  
+
   return (
     <>
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 shadow-lg">
@@ -264,7 +266,6 @@ const AddEntry: React.FC = () => {
           <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200 dark:bg-form-input dark:text-white text-black">
             <h3 className="text-xl font-semibold mb-4">Case Details</h3>
 
-            {/* Case Details */}
             {[
               { label: "Case ID", value: data?.case_id?.case_id },
               { label: "Status", value: data?.case_id?.status },
@@ -272,6 +273,10 @@ const AddEntry: React.FC = () => {
                 label: "Created At",
                 value: moment(data?.case_id?.createdAt).format("MMMM DD, YYYY"),
               },
+              {
+                label:"Concern Raised Date",
+                value:moment(data?.concern_raised).format("MMMM DD, YYYY"),
+              }
             ].map(({ label, value }, index) => (
               <div key={index} className="flex justify-between text-sm">
                 <p>{label}:</p>
@@ -279,7 +284,6 @@ const AddEntry: React.FC = () => {
               </div>
             ))}
 
-            {/* Uploaded Reports */}
             <div className="mt-4">
               <h4 className="text-lg font-semibold mb-2">Uploaded Reports:</h4>
               {data?.report && data.report.length > 0 ? (
@@ -287,7 +291,7 @@ const AddEntry: React.FC = () => {
                   {data.report.map((fileName: string, index: number) => (
                     <li key={index}>
                       <a
-                        href={`/uploads/${fileName}`} // Change the URL based on your backend storage
+                        href={`/uploads/${fileName}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover:underline"
@@ -303,33 +307,95 @@ const AddEntry: React.FC = () => {
             </div>
           </div>
         </div>
+
         <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200 col-span-2 mt-8 dark:bg-form-input dark:text-white text-black">
-          <h3 className="text-xl font-semibold  mb-4">Session Details</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-            {[
-              { label: "Session ID", value: data?.session_id },
-              { label: "Type of Counseling", value: data?.type },
-              { label: "Reason for Counseling", value: data?.description },
-              {
-                label: "Appointment Date",
-                value: data?.session_date
-                  ? moment(data.session_date).format("MMMM DD, YYYY")
-                  : "N/A",
-              },
-              {
-                label: "Appointment Time",
-                value: data?.session_time
-                  ? `${data.session_time.start} - ${data.session_time.end}`
-                  : "N/A",
-              },
-            ].map(({ label, value }, index) => (
-              <div key={index} className="flex justify-between text-sm">
-                <p>{label}:</p>
-                <p className="font-medium">{value || "N/A"}</p>
-              </div>
-            ))}
+          <h3 className="text-xl font-semibold mb-4">Session Details</h3>
+
+          <div className="mb-6 p-4 border-b border-gray-300">
+            <h4 className="text-lg font-semibold mb-2">Current Session</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { label: "Session ID", value: data?.session_id },
+                { label: "Type of Counseling", value: data?.type },
+                { label: "Reason for Counseling", value: data?.description },
+                {
+                  label: "Appointment Date",
+                  value: data?.session_date
+                    ? moment(data.session_date).format("MMMM DD, YYYY")
+                    : "N/A",
+                },
+                {
+                  label: "Appointment Time",
+                  value: data?.session_time
+                    ? `${data.session_time.start} - ${data.session_time.end}`
+                    : "N/A",
+                },
+                { label: "Status", value: data?.status },
+                { label: "Interactions", value: data?.interactions || "N/A" },
+                { label: "Counsellor", value: data?.counsellor?.name || "N/A" },
+             
+              ].map(({ label, value }, idx) => (
+                <div key={idx} className="flex justify-between text-sm">
+                  <p>{label}:</p>
+                  <p className="font-medium">{value || "N/A"}</p>
+                </div>
+              ))}
+            </div>
           </div>
+
+          <h4 className="text-lg font-semibold mb-4">Past Sessions</h4>
+          {data?.case_id?.session_ids?.length > 0 ? (
+            data.case_id.session_ids.map((session: any, index: number) => (
+              <div
+                key={session._id}
+                className="mb-6 p-4 border-b border-gray-300"
+              >
+                <h4 className="text-md font-semibold mb-2">
+                  Session {index + 1} - {session.session_id}
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {[
+                    { label: "Type of Counseling", value: session.type },
+                    {
+                      label: "Reason for Counseling",
+                      value: session.description,
+                    },
+                    {
+                      label: "Appointment Date",
+                      value: session.session_date
+                        ? moment(session.session_date).format("MMMM DD, YYYY")
+                        : "N/A",
+                    },
+                    {
+                      label: "Appointment Time",
+                      value: session.session_time
+                        ? `${session.session_time.start} - ${session.session_time.end}`
+                        : "N/A",
+                    },
+                    { label: "Status", value: session.status },
+                    {
+                      label: "Case Details",
+                      value: session.case_details || "N/A",
+                    },
+                    {
+                      label: "Interactions",
+                      value: session.interactions || "N/A",
+                    },
+                 
+                  ].map(({ label, value }, idx) => (
+                    <div key={idx} className="flex justify-between text-sm">
+                      <p>{label}:</p>
+                      <p className="font-medium">{value || "N/A"}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No past session details available.</p>
+          )}
         </div>
+
         <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200 mt-8 max-w-6xl mx-auto dark:bg-form-input dark:text-white text-black">
           <h3 className="text-xl font-semibold  mb-4">Add Entry</h3>
           <form onSubmit={handleSubmit}>

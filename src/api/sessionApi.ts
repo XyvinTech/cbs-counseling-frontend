@@ -159,3 +159,28 @@ export const addEntry = async (id: string, data: any): Promise<any | null> => {
     throw error.response.data;
   }
 };
+export const getRemarks = async (params: {
+  limit?: number;
+  page?: number;
+}): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.get(`/sessions/remark`, {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};
+export const addRemark = async (id: string, data: any): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.put(
+      `/sessions/case/remark/${id}`,
+      data
+    );
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};

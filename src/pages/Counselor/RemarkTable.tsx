@@ -1,25 +1,51 @@
 import { useEffect, useState } from "react";
-import { Case } from "../../types/case";
-import { getCase } from "../../api/sessionApi";
+import moment from "moment";
+import { Session } from "../../types/session";
+import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
+import { FaEllipsisV } from "react-icons/fa";
+import { getRemarks } from "../../api/sessionApi";
+import { Case } from "../../types/case";
 
-const CaseTable: React.FC = () => {
-  const navigate=useNavigate();
-  const [activeTab, setActiveTab] = useState("Upcomming Cases");
-  const handleTabChange = (a: string) => {
-    setActiveTab(a as any);
-  };
+const RemarkTable: React.FC = () => {
+  const navigate = useNavigate();
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [packageData, setPackageData] = useState<Case[]>([]);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
 
+  const handleActionsClick = (e: React.MouseEvent, sessionId: string) => {
+    const button = e.currentTarget as HTMLElement;
+    const rect = button.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    setModalPosition({
+      top: rect.bottom + scrollTop,
+      left: rect.left,
+    });
+    setOpenMenuId(openMenuId === sessionId ? null : sessionId);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        openMenuId &&
+        !(event.target as HTMLElement).closest(".actions-menu")
+      ) {
+        setOpenMenuId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [openMenuId]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getCase({
-          searchQuery: "",
+        const response = await getRemarks({
           page: currentPage,
           limit: itemsPerPage,
         });
@@ -42,50 +68,48 @@ const CaseTable: React.FC = () => {
       setCurrentPage(page);
     }
   };
+
   return (
-    <>
-      {" "}
-      <div className="flex gap-4 mb-6 mt-6 bg-white p-3   rounded-lg shadow-xl">
-        {[
-          "Upcomming Cases",
-          "Closed",
-          "Cancelled",
-          "Referred",
-          "All Cases",
-        ].map((tabs) => (
-          <button
-            key={tabs}
-            className={`py-2 px-4 rounded ${
-              activeTab === tabs
-                ? "bg-primary text-white dark:bg-primary dark:text-white"
-                : "bg-gray-200 text-black dark:bg-graydark dark:text-white"
-            }`}
-            onClick={() => handleTabChange(tabs)}
-          >
-            {tabs.charAt(0).toUpperCase() + tabs.slice(1)}
-          </button>
-        ))}
-      </div>
-      <div className="rounded-sm border border-stroke bg-white  px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 mx-4">
+    <div className={`relative`}>
+      {openMenuId && (
+        <div
+          className={`actions-menu fixed z-50 w-40 bg-white shadow-lg rounded-md border border-gray-200`}
+          style={{
+            top: `${modalPosition.top}px`,
+            left: `${modalPosition.left}px`,
+          }}
+        >
+          <div className="py-1">
+            <button
+              onClick={() => navigate(`/session/remark/${openMenuId}`)}
+              className="w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-gray-50"
+            >
+              Add Remark
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 mx-4">
         <div className="max-w-full overflow-x-auto">
-          <table className={`w-full table-auto  `}>
+          <table className={`w-full table-auto `}>
             <thead>
               <tr className="bg-gray-2 text-left dark:bg-meta-4">
                 <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
                   Case ID
                 </th>
                 <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
-                  Session Count
+                  Student Name
                 </th>
                 <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
-                  Student Name
+                  Type
                 </th>
 
                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                  Counselor Type
-                </th>
-                <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                   Status
+                </th>
+                <th className="min-w-[100px] py-4 px-4 font-medium text-black dark:text-white">
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -93,57 +117,66 @@ const CaseTable: React.FC = () => {
               {packageData?.map((packageItem, key) => (
                 <tr key={key}>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <div
-                    className="font-medium text-blue-600  cursor-pointer"
-                    onClick={() => {
-                      navigate(`/cases/session/${packageItem._id}`);
-                    }}
-                  >
-                    {" "}
-                    <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300 xl:pl-6">
-                      {packageItem.case_id}
-                    </h5>
-                  </div>
+                    <div
+                      className="font-medium text-blue-600  cursor-pointer"
+                      onClick={() => {
+                        navigate(`/session/${packageItem.session_ids[0]?._id}`);
+                     
+                        
+                      }}
+                    >
+                      {" "}
+                      <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300 xl:pl-6">
+                        {packageItem.case_id}
+                      </h5>
+                    </div>
                   </td>
+
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
                     <p className="text-black dark:text-white">
-                      {packageItem.session_count}
+                      {packageItem.user_name}
                     </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
-                  <p className="text-black dark:text-white">
-                      {packageItem.form_id?.name}
+                    <p className="text-black dark:text-white">
+                      {packageItem.couselling_type}
                     </p>
                   </td>
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
-                      {packageItem.type}
-                    </p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p
                       className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
-                        packageItem.status === "active"
+                        packageItem.status === "progress"
                           ? "bg-green-500 text-green-600"
-                          : packageItem.status === "inactive"
+                          : packageItem.status === "cancelled"
                           ? "bg-red-500 text-red-600"
                           : packageItem.status === "pending"
                           ? "bg-yellow-500 text-yellow-600"
-                          : packageItem.status === "expired"
+                          : packageItem.status === "reschedule"
                           ? "bg-violet-500 text-gray-600"
+                          : packageItem.status === "completed"
+                          ? "bg-blue-500 text-blue-600"
                           : "bg-gray-500 text-gray-700"
                       }`}
                     >
                       {packageItem.status}
                     </p>
                   </td>
+
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <button
+                      onClick={(e) => handleActionsClick(e, packageItem.session_ids[0]?._id)}
+                      className="px-4 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md text-gray-700 focus:outline-none flex items-center"
+                    >
+                      <FaEllipsisV className="text-sm" />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <div className={`mt-4 flex justify-between items-center`}>
+        <div className="mt-4 flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <span className="text-gray-700 dark:text-violet-100">
               Items per page:
@@ -201,8 +234,8 @@ const CaseTable: React.FC = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
-export default CaseTable;
+export default RemarkTable;

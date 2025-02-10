@@ -195,34 +195,29 @@ const BookAppoinment: React.FC = () => {
               </div>
             </div>
 
-            {form.description && (
-              <div className="mb-5">
-                <input
-                  type="submit"
-                  value="Book"
-                  className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                />
-              </div>
-            )}
+            <button className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90">
+              Book
+            </button>
           </form>
         </div>
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg text-center shadow-lg">
-            <h2 className="text-xl font-semibold mb-4">
-              Your Appointment request has been submitted. You will receive a
-              confirmation once the appointment request is approved !
-            </h2>
-            <button
-              onClick={closeModalAndRedirect}
-              className="w-full py-2 bg-primary text-white rounded-md transition hover:bg-opacity-80"
-            >
-              OK
-            </button>
-          </div>
-        </div>
+       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-screen h-screen">
+       <div className="bg-white p-6 rounded-lg text-center shadow-lg w-[500px] max-w-full">
+         <h2 className="text-xl font-semibold mb-4">
+           Your appointment request has been submitted. You will receive a
+           confirmation once the appointment request is approved!
+         </h2>
+         <button
+           onClick={closeModalAndRedirect}
+           className="w-full py-2 bg-primary text-white rounded-md transition hover:bg-opacity-80"
+         >
+           OK
+         </button>
+       </div>
+     </div>
+     
       )}
     </div>
   );
