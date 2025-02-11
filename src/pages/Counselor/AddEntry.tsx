@@ -32,7 +32,7 @@ const numberToDay: Record<number, string> = {
 };
 
 const AddEntry: React.FC = () => {
-  const VITE_APP_FILE_URL=import.meta.env.VITE_APP_FILE_URL;
+  const VITE_APP_FILE_URL = import.meta.env.VITE_APP_FILE_URL;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
@@ -391,7 +391,18 @@ const AddEntry: React.FC = () => {
                 },
                 { label: "Status", value: data?.status },
                 { label: "Interactions", value: data?.interactions || "N/A" },
+
                 { label: "Counsellor", value: data?.counsellor?.name || "N/A" },
+                {
+                  label: "Booked By",
+                  value: data?.form_id?.referee
+                    ? `${data.form_id.referee}${
+                        data?.form_id?.refereeName
+                          ? ` (${data.form_id.refereeName})`
+                          : ""
+                      }`
+                    : "N/A",
+                },
               ].map(({ label, value }, idx) => (
                 <div key={idx} className="flex justify-between text-sm">
                   <p>{label}:</p>
@@ -438,7 +449,9 @@ const AddEntry: React.FC = () => {
                     ].map(({ label, value }, idx) => (
                       <div key={idx} className="flex justify-between text-sm">
                         <p>{label}:</p>
-                        <p className="font-medium capitalize">{value || "N/A"}</p>
+                        <p className="font-medium capitalize">
+                          {value || "N/A"}
+                        </p>
                       </div>
                     ))}
 
