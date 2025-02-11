@@ -297,7 +297,7 @@ const AddEntry: React.FC = () => {
             ].map(({ label, value }, index) => (
               <div key={index} className="flex justify-between text-sm">
                 <p>{label}:</p>
-                <p className="font-medium">{value || "N/A"}</p>
+                <p className="font-medium capitalize">{value || "N/A"}</p>
               </div>
             ))}
 
@@ -395,7 +395,7 @@ const AddEntry: React.FC = () => {
               ].map(({ label, value }, idx) => (
                 <div key={idx} className="flex justify-between text-sm">
                   <p>{label}:</p>
-                  <p className="font-medium">{value || "N/A"}</p>
+                  <p className="font-medium capitalize">{value || "N/A"}</p>
                 </div>
               ))}
             </div>
@@ -438,7 +438,7 @@ const AddEntry: React.FC = () => {
                     ].map(({ label, value }, idx) => (
                       <div key={idx} className="flex justify-between text-sm">
                         <p>{label}:</p>
-                        <p className="font-medium">{value || "N/A"}</p>
+                        <p className="font-medium capitalize">{value || "N/A"}</p>
                       </div>
                     ))}
 
