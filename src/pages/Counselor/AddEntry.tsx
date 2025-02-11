@@ -58,6 +58,8 @@ const AddEntry: React.FC = () => {
       try {
         const response = await getUser();
         setUser(response.data);
+        
+       
       } catch (error) {}
     };
     fetchData();
@@ -69,6 +71,11 @@ const AddEntry: React.FC = () => {
         if (response?.data) {
           setData(response.data);
         }
+        setFormState((prev) => ({
+          ...prev,
+          interactions:response?.data.interactions,
+          details:response?.data?.case_details,
+        })); 
       } catch (error) {
         console.error("Failed to fetch session:", error);
       }
@@ -76,6 +83,8 @@ const AddEntry: React.FC = () => {
 
     if (id) fetchSession();
   }, [id]);
+  console.log("formstae",formState);
+  
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -292,7 +301,7 @@ const AddEntry: React.FC = () => {
               },
               {
                 label: "Concern Raised Date",
-                value: moment(data?.concern_raised).format("MMMM DD, YYYY"),
+                value: data?.concern_raised ? moment(data?.concern_raised).format("MMMM DD, YYYY"): "",
               },
             ].map(({ label, value }, index) => (
               <div key={index} className="flex justify-between text-sm">
