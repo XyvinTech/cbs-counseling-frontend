@@ -53,29 +53,32 @@ const AddStudent = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    let formattedValue = value.replace(/\D/g, "");
-
+    let formattedValue = value;
+  
     if (name === "mobile" || name === "parentContact") {
+      formattedValue = value.replace(/\D/g, ""); // Remove non-numeric characters
+  
       if (formattedValue.startsWith("968")) {
         formattedValue = "+968" + formattedValue.slice(3);
       } else if (!formattedValue.startsWith("+968")) {
         formattedValue = "+968" + formattedValue;
       }
-
+  
       if (formattedValue.length > 12) {
         formattedValue = formattedValue.slice(0, 12);
       }
-
+  
       if (formattedValue === "+968") {
         formattedValue = "";
       }
     }
-
+  
     setStudentData((prev) => ({
       ...prev,
       [name]: formattedValue,
     }));
   };
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
