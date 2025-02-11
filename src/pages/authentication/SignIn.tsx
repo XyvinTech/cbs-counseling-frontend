@@ -39,7 +39,7 @@ const SignIn: React.FC = () => {
       <div className="w-full xl:w-1/2 border border-stroke bg-white dark:border-strokedark dark:bg-boxdark shadow-lg">
         <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
           <div className="mb-3.5 flex justify-center">
-            <img className="hidden dark:block" src={Logo} alt="Logo" />
+            <img className=" dark:block" src={Logo} alt="Logo" width={80}height={80} />
           </div>
           <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2 flex justify-center">
             Login to ABLE

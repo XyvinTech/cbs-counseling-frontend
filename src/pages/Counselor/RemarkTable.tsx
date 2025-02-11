@@ -114,61 +114,75 @@ const RemarkTable: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {packageData?.map((packageItem, key) => (
-                <tr key={key}>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white xl:pl-6">
-                      {packageItem.case_id}
-                    </p>
-                  </td>
+              {packageData.length > 0 ? (
+                packageData?.map((packageItem, key) => (
+                  <tr key={key}>
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      <p className="text-black dark:text-white xl:pl-6">
+                        {packageItem.case_id}
+                      </p>
+                    </td>
 
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
-                    <p className="text-black dark:text-white">
-                      {packageItem.user_name}
-                    </p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
-                    <p className="text-black dark:text-white">
-                      {packageItem.couselling_type}
-                    </p>
-                  </td>
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
+                      <p className="text-black dark:text-white">
+                        {packageItem.user_name}
+                      </p>
+                    </td>
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
+                      <p className="text-black dark:text-white">
+                        {packageItem.couselling_type}
+                      </p>
+                    </td>
 
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark capitalize">
-                    <p
-                      className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
-                        packageItem.status === "progress"
-                          ? "bg-green-500 text-green-600"
-                          : packageItem.status === "cancelled"
-                          ? "bg-red-500 text-red-600"
-                          : packageItem.status === "pending"
-                          ? "bg-yellow-500 text-yellow-600"
-                          : packageItem.status === "reschedule"
-                          ? "bg-violet-500 text-gray-600"
-                          : packageItem.status === "completed"
-                          ? "bg-blue-500 text-blue-600"
-                          : "bg-gray-500 text-gray-700"
-                      }`}
-                    >
-                      {packageItem.status === "progress"
-                        ? "Ongoing"
-                        : packageItem.status}
-                    </p>
-                  </td>
-
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    {packageItem.status !== "completed" && (
-                      <button
-                        onClick={(e) =>
-                          handleActionsClick(e, packageItem.session_ids[0]?._id)
-                        }
-                        className="px-4 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md text-gray-700 focus:outline-none flex items-center"
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark capitalize">
+                      <p
+                        className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
+                          packageItem.status === "progress"
+                            ? "bg-green-500 text-green-600"
+                            : packageItem.status === "cancelled"
+                            ? "bg-red-500 text-red-600"
+                            : packageItem.status === "pending"
+                            ? "bg-yellow-500 text-yellow-600"
+                            : packageItem.status === "reschedule"
+                            ? "bg-violet-500 text-gray-600"
+                            : packageItem.status === "completed"
+                            ? "bg-blue-500 text-blue-600"
+                            : "bg-gray-500 text-gray-700"
+                        }`}
                       >
-                        <FaEllipsisV className="text-sm" />
-                      </button>
-                    )}
+                        {packageItem.status === "progress"
+                          ? "Ongoing"
+                          : packageItem.status}
+                      </p>
+                    </td>
+
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      {packageItem.status !== "completed" && (
+                        <button
+                          onClick={(e) =>
+                            handleActionsClick(
+                              e,
+                              packageItem.session_ids[0]?._id
+                            )
+                          }
+                          className="px-4 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md text-gray-700 focus:outline-none flex items-center"
+                        >
+                          <FaEllipsisV className="text-sm" />
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="text-center py-5 text-gray-500 dark:text-gray-300"
+                  >
+                    No data available
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

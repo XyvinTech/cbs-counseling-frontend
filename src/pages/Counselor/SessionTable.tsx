@@ -351,95 +351,106 @@ const SessionTable: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {packageData?.map((packageItem, key) => (
-                <tr key={key}>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <div
-                      className="font-medium text-blue-600  cursor-pointer"
-                      onClick={() => {
-                        navigate(`/session/${packageItem._id}`);
-                      }}
-                    >
-                      {" "}
-                      <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300 xl:pl-6">
-                        {packageItem.session_id}
-                      </h5>
-                    </div>
-                  </td>
+              {packageData.length > 0 ? (
+                packageData?.map((packageItem, key) => (
+                  <tr key={key}>
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      <div
+                        className="font-medium text-blue-600  cursor-pointer"
+                        onClick={() => {
+                          navigate(`/session/${packageItem._id}`);
+                        }}
+                      >
+                        {" "}
+                        <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300 xl:pl-6">
+                          {packageItem.session_id}
+                        </h5>
+                      </div>
+                    </td>
 
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
-                    <p className="text-black dark:text-white">
-                      {packageItem.user_name}
-                    </p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
-                    <p className="text-black dark:text-white">
-                      {moment(packageItem.session_date).format("DD-MM-YYYY")}
-                    </p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
-                      {packageItem.session_time?.start} -{" "}
-                      {packageItem.session_time?.end}
-                    </p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
-                      {packageItem.type}
-                    </p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
-                      {packageItem.counsellor_name}
-                    </p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
-                      {packageItem.referee}
-                    </p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
-                      {packageItem.type}
-                    </p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark capitalize">
-                    <p
-                      className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
-                        packageItem.status === "progress"
-                          ? "bg-green-500 text-green-600"
-                          : packageItem.status === "cancelled"
-                          ? "bg-red-500 text-red-600"
-                          : packageItem.status === "pending"
-                          ? "bg-yellow-500 text-yellow-600"
-                          : packageItem.status === "reschedule"
-                          ? "bg-violet-500 text-gray-600"
-                          : packageItem.status === "completed"
-                          ? "bg-blue-500 text-blue-600"
-                          : "bg-gray-500 text-gray-700"
-                      }`}
-                    >
-                      {packageItem.status === "progress"
-                        ? "Ongoing"
-                        : packageItem.status}
-                    </p>
-                  </td>
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
+                      <p className="text-black dark:text-white">
+                        {packageItem.user_name}
+                      </p>
+                    </td>
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
+                      <p className="text-black dark:text-white">
+                        {moment(packageItem.session_date).format("DD-MM-YYYY")}
+                      </p>
+                    </td>
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      <p className="text-black dark:text-white">
+                        {packageItem.session_time?.start} -{" "}
+                        {packageItem.session_time?.end}
+                      </p>
+                    </td>
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      <p className="text-black dark:text-white">
+                        {packageItem.type}
+                      </p>
+                    </td>
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      <p className="text-black dark:text-white">
+                        {packageItem.counsellor_name}
+                      </p>
+                    </td>
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      <p className="text-black dark:text-white">
+                        {packageItem.referee}
+                      </p>
+                    </td>
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      <p className="text-black dark:text-white">
+                        {packageItem.type}
+                      </p>
+                    </td>
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark capitalize">
+                      <p
+                        className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
+                          packageItem.status === "progress"
+                            ? "bg-green-500 text-green-600"
+                            : packageItem.status === "cancelled"
+                            ? "bg-red-500 text-red-600"
+                            : packageItem.status === "pending"
+                            ? "bg-yellow-500 text-yellow-600"
+                            : packageItem.status === "reschedule"
+                            ? "bg-violet-500 text-gray-600"
+                            : packageItem.status === "completed"
+                            ? "bg-blue-500 text-blue-600"
+                            : "bg-gray-500 text-gray-700"
+                        }`}
+                      >
+                        {packageItem.status === "progress"
+                          ? "Ongoing"
+                          : packageItem.status}
+                      </p>
+                    </td>
 
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    {packageItem.status !== "completed" &&
-                      packageItem.status !== "cancelled" && (
-                        <button
-                          onClick={(e) =>
-                            handleActionsClick(e, packageItem._id)
-                          }
-                          className="px-4 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md text-gray-700 focus:outline-none flex items-center"
-                        >
-                          <FaEllipsisV className="text-sm" />
-                        </button>
-                      )}
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      {packageItem.status !== "completed" &&
+                        packageItem.status !== "cancelled" && (
+                          <button
+                            onClick={(e) =>
+                              handleActionsClick(e, packageItem._id)
+                            }
+                            className="px-4 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md text-gray-700 focus:outline-none flex items-center"
+                          >
+                            <FaEllipsisV className="text-sm" />
+                          </button>
+                        )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="text-center py-5 text-gray-500 dark:text-gray-300"
+                  >
+                    No data available
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
           {accept && (

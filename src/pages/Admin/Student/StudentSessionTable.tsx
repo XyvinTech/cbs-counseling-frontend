@@ -59,7 +59,7 @@ const StudentSessionTable: React.FC<CounselorTableProps> = ({
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Session Time
               </th>
-             
+
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Counselor Name
               </th>
@@ -69,33 +69,44 @@ const StudentSessionTable: React.FC<CounselorTableProps> = ({
             </tr>
           </thead>
           <tbody>
-            {packageData?.map((packageItem, key) => (
-              <tr key={key}>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
-                  <p className="text-black dark:text-white">
-                    {moment(packageItem.session_date).format("DD-MM-YYYY")}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {packageItem.session_time?.start} -{" "}
-                    {packageItem.session_time?.end}
-                  </p>
-                </td>
-               
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {packageItem.counsellor_name}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {packageItem.counsellor_type[0]},{" "}
-                    {packageItem.counsellor_type[1]}
-                  </p>
+            {packageData.length > 0 ? (
+              packageData?.map((packageItem, key) => (
+                <tr key={key}>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
+                    <p className="text-black dark:text-white">
+                      {moment(packageItem.session_date).format("DD-MM-YYYY")}
+                    </p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem.session_time?.start} -{" "}
+                      {packageItem.session_time?.end}
+                    </p>
+                  </td>
+
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem.counsellor_name}
+                    </p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem.counsellor_type[0]},{" "}
+                      {packageItem.counsellor_type[1]}
+                    </p>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={5}
+                  className="text-center py-5 text-gray-500 dark:text-gray-300"
+                >
+                  No data available
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

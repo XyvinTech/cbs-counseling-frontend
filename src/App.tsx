@@ -212,7 +212,7 @@ function App() {
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="ABLE || Settings" />
+              <PageTitle title="ABLE || Case" />
               <CounselorCase />
             </DefaultLayout>
           </>
@@ -234,7 +234,7 @@ function App() {
         element={
           <>
             <DefaultLayout>
-              <PageTitle title="ABLE || Settings" />
+              <PageTitle title="ABLE || Availability" />
               <AddAvailability />
             </DefaultLayout>
           </>
