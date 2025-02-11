@@ -1,13 +1,13 @@
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Session } from "../../../types/session";
-import { getCaseByCounselor } from "../../../api/sessionApi";
-import { useParams } from "react-router-dom";
 import moment from "moment";
-interface CounselorTableProps {
+import { Session } from "../../types/session";
+import { getSessionByCase } from "../../api/sessionApi";
+interface SessionTableProps {
   searchValue: string;
 }
 
-const CounselorCaseTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
+const CaseSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
   const [packageData, setPackageData] = useState<Session[]>([]);
   const { id } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,7 +17,7 @@ const CounselorCaseTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getCaseByCounselor(id || "", {
+        const response = await getSessionByCase(id || "", {
           searchQuery: searchValue,
           page: currentPage,
           limit: itemsPerPage,
@@ -32,8 +32,9 @@ const CounselorCaseTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
     };
 
     fetchData();
-  }, [searchValue, currentPage, itemsPerPage]);
+  }, [, searchValue, currentPage, itemsPerPage]);
 
+  const navigate = useNavigate();
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
   const handlePageChange = (page: number) => {
@@ -42,19 +43,28 @@ const CounselorCaseTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
     }
   };
   return (
-    <div className="rounded-sm border border-stroke bg-white  px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 mx-4">
+    <div className="rounded-sm border border-stroke bg-white  px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
-        <table className={`w-full table-auto  `}>
+        <table className={`w-full table-auto `}>
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
               <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
-                Case ID{" "}
-              </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Created On
+                Session ID
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Student Name
+              </th>
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                Counselor Name
+              </th>
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                Type
+              </th>
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                Session Date
+              </th>
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                Session Time
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Status
@@ -65,18 +75,42 @@ const CounselorCaseTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
             {packageData?.map((packageItem, key) => (
               <tr key={key}>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
+                  <div
+                    className="font-medium text-blue-600  cursor-pointer"
+                    onClick={() => {
+                      navigate(`/counselor/case/${packageItem._id}`);
+                    }}
+                  >
+                    {" "}
+                    <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300">
+                      {packageItem.session_id}
+                    </h5>
+                  </div>
+                </td>
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {packageItem.case_id}
+                    {packageItem.user_name}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {moment(packageItem.case_date).format("DD-MM-YYYY")}
+                    {packageItem.counsellor_name}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {packageItem.student_name}
+                    {packageItem.type}
+                  </p>
+                </td>
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black dark:text-white">
+                    {moment(packageItem.session_date).format("DD-MM-YYYY")}
+                  </p>
+                </td>{" "}
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black dark:text-white">
+                    {packageItem.session_time?.start}-
+                    {packageItem.session_time?.end}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark capitalize">
@@ -127,7 +161,7 @@ const CounselorCaseTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
             className={`px-4 py-2 rounded ${
               currentPage === 1
                 ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
-                : "bg-violet-500 text-white dark:text-violet-100"
+                : "bg-violet-500 text-white dark:via-violet-100"
             }`}
           >
             Previous
@@ -166,4 +200,4 @@ const CounselorCaseTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
   );
 };
 
-export default CounselorCaseTable;
+export default CaseSessionTable;

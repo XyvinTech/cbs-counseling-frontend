@@ -159,7 +159,7 @@ const BookAppoinment: React.FC = () => {
                     Available Time Slots
                   </label>
                   <select
-                    value={JSON.stringify(form.session_time)}
+                     value={form.session_time ? JSON.stringify(form.session_time) : ""}
                     onChange={(e) =>
                       setForm((prev) => ({
                         ...prev,

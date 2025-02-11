@@ -38,6 +38,7 @@ const SelectGender: React.FC<{
         </select>
         <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
           <svg
+          
             className="fill-current"
             width="24"
             height="24"

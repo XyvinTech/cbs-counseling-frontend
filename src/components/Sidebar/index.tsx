@@ -209,8 +209,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         <NavLink
                           to="/counselor-case"
                           className={`group relative flex items-center gap-2.5 py-2 dark:text-violet-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white ${
-                            pathname.includes("counselor-case") &&
-                            "bg-[#a266f0] text-white"
+                            pathname.includes("counselor") &&
+                            pathname.includes("case")
+                              ? "bg-[#a266f0] text-white"
+                              : ""
                           }`}
                         >
                           <svg
@@ -232,9 +234,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       </li>
                       <li>
                         <NavLink
-                          to="/counselor-remark"
+                          to="/counselors-remark"
                           className={`group relative flex items-center gap-2.5 py-2 dark:text-violet-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white ${
-                            pathname.includes("counselor-remark") &&
+                            pathname.includes("remark") &&
                             "bg-[#a266f0] text-white"
                           }`}
                         >
@@ -411,8 +413,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <NavLink
                   to="/admin-event"
                   className={`group relative flex items-center dark:text-violet-200  gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
-                    pathname.includes("event") &&
-                    "bg-[#a266f0] text-white"
+                    pathname.includes("event") && "bg-[#a266f0] text-white"
                   }`}
                 >
                   <svg
@@ -437,8 +438,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   <NavLink
                     to="/admin-type"
                     className={`group relative flex items-center gap-2.5 dark:text-violet-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
-                      pathname.includes("type") &&
-                      "bg-[#a266f0] text-white"
+                      pathname.includes("type") && "bg-[#a266f0] text-white"
                     }`}
                   >
                     <svg

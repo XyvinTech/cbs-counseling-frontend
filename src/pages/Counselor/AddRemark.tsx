@@ -12,18 +12,18 @@ import { getUser } from "../../api/userApi";
 const AddRemark: React.FC = () => {
   const { id } = useParams();
   const [data, setData] = useState<any>(null);
-  const[user,setUser] = useState<any>(null);
+  const [user, setUser] = useState<any>(null);
   const [remark, setRemark] = useState("");
   const [isChange, setIsChange] = useState(false);
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await getUser();
-          setUser(response.data);
-        } catch (error) {}
-      };
-      fetchData();
-    }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getUser();
+        setUser(response.data);
+      } catch (error) {}
+    };
+    fetchData();
+  }, []);
   useEffect(() => {
     const fetchSession = async () => {
       try {
@@ -133,7 +133,10 @@ const AddRemark: React.FC = () => {
             </div>
           </div>
         </div>
-
+        <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200 col-span-2 mt-8 dark:bg-form-input dark:text-white text-black">
+          <h3 className="text-xl font-semibold mb-4">Reason for Counseling</h3>
+          <p className="font-medium">{data?.description || "N/A"}</p>
+        </div>
         <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200 col-span-2 mt-8 dark:bg-form-input dark:text-white text-black">
           <h3 className="text-xl font-semibold mb-4">Session Details</h3>
 
@@ -150,10 +153,7 @@ const AddRemark: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
                     { label: "Type of Counseling", value: session.type },
-                    {
-                      label: "Reason for Counseling",
-                      value: session.description,
-                    },
+
                     {
                       label: "Appointment Date",
                       value: session.session_date
@@ -167,10 +167,7 @@ const AddRemark: React.FC = () => {
                         : "N/A",
                     },
                     { label: "Status", value: session.status },
-                    {
-                      label: "Case Details",
-                      value: session.case_details || "N/A",
-                    },
+
                     {
                       label: "Interactions",
                       value: session.interactions || "N/A",
@@ -181,6 +178,12 @@ const AddRemark: React.FC = () => {
                       <p className="font-medium">{value || "N/A"}</p>
                     </div>
                   ))}
+                  {session.case_details && (
+                    <div className="col-span-1 md:col-span-2 mt-2">
+                      <p className="text-sm font-semibold">Case Details:</p>
+                      <p className="text-gray-700">{session.case_details}</p>
+                    </div>
+                  )}
                 </div>
               </div>
             ))

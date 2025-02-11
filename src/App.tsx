@@ -29,6 +29,7 @@ import AddEntry from "./pages/Counselor/AddEntry";
 import CounselorCase from "./pages/Counselor/CounselorCase";
 import CounselorRemark from "./pages/Counselor/CounselorRemark";
 import AddRemark from "./pages/Counselor/AddRemark";
+import CaseSessionList from "./pages/Counselor/CaseSessionList";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -118,8 +119,30 @@ function App() {
           </>
         }
       />
+       <Route
+        path="/counselor-case/:id"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Case" />
+              <CaseSessionList />
+            </DefaultLayout>
+          </>
+        }
+      />
       <Route
         path="/session/:id"
+        element={
+          <>
+            <DefaultLayout>
+              <PageTitle title="ABLE || Session" />
+              <SessionDetails />
+            </DefaultLayout>
+          </>
+        }
+      />
+        <Route
+        path="/counselor/case/:id"
         element={
           <>
             <DefaultLayout>
@@ -196,7 +219,7 @@ function App() {
         }
       />
       <Route
-        path="/counselor-remark"
+        path="/counselors-remark"
         element={
           <>
             <DefaultLayout>

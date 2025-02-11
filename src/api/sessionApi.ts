@@ -31,6 +31,7 @@ export const getCase = async (params: {
   searchQuery?: string;
   limit?: number;
   page?: number;
+  status?: string;
 }): Promise<any | null> => {
   try {
     const response = await axiosInstance.get(`/sessions/case`, {
@@ -100,6 +101,7 @@ export const getSessions = async (params: {
   searchQuery?: string;
   limit?: number;
   page?: number;
+  status?: string;
 }): Promise<any | null> => {
   try {
     const response = await axiosInstance.get(`/sessions`, {

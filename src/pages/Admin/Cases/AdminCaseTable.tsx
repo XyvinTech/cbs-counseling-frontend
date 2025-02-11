@@ -96,7 +96,7 @@ const AdminCaseTable: React.FC<CaseTableProps> = ({ searchValue }) => {
                     {packageItem.counsellor_name}
                   </p>
                 </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark capitalize">
                   <p
                     className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
                       packageItem.status === "progress"
@@ -112,7 +112,9 @@ const AdminCaseTable: React.FC<CaseTableProps> = ({ searchValue }) => {
                         : "bg-gray-500 text-gray-700"
                     }`}
                   >
-                    {packageItem.status}
+                    {packageItem.status === "progress"
+                      ? "Ongoing"
+                      : packageItem.status}
                   </p>
                 </td>
               </tr>

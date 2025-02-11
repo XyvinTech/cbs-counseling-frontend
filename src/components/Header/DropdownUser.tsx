@@ -29,12 +29,12 @@ const DropdownUser = () => {
           <span className="block text-sm font-medium text-black dark:text-white">
             {user?.name}
           </span>
-          <span className="block text-xs text-gray-500 dark:text-gray-400 capitalize" >
+          <span className="block text-xs text-gray-500 dark:text-white capitalize" >
             {user?.userType}
           </span>
         </span>
 
-        <span className="h-12 w-12 rounded-full overflow-hidden border border-gray-300">
+        <span className="h-12 w-12 rounded-full overflow-hidden border border-gray-300 dark:border-strokedark">
           <img
             src={UserOne}
             alt="User"

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const CaseTable: React.FC = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("Upcomming Cases");
+  const [activeTab, setActiveTab] = useState("Active Cases");
   const handleTabChange = (a: string) => {
     setActiveTab(a as any);
   };
@@ -18,10 +18,32 @@ const CaseTable: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        let statusToSend = "";
+
+        switch (activeTab) {
+          case "Active Cases":
+            statusToSend = "progress";
+            break;
+          case "Referred":
+            statusToSend = "referred";
+            break;
+          case "Closed":
+            statusToSend = "completed";
+            break;
+          case "Cancelled":
+            statusToSend = "cancelled";
+            break;
+          case "All Cases":
+            statusToSend = "";
+            break;
+          default:
+            statusToSend = activeTab;
+        }
         const response = await getCase({
           searchQuery: "",
           page: currentPage,
           limit: itemsPerPage,
+          ...(statusToSend ? { status: statusToSend } : {}),
         });
         setTotalCount(response.totalCount);
         if (response?.data) {
@@ -33,7 +55,7 @@ const CaseTable: React.FC = () => {
     };
 
     fetchData();
-  }, [currentPage, itemsPerPage]);
+  }, [currentPage, itemsPerPage, activeTab]);
 
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
@@ -46,25 +68,21 @@ const CaseTable: React.FC = () => {
     <>
       {" "}
       <div className="flex gap-4 mb-6 mt-6 bg-white p-3   rounded-lg shadow-xl">
-        {[
-          "Upcomming Cases",
-          "Closed",
-          "Cancelled",
-          "Referred",
-          "All Cases",
-        ].map((tabs) => (
-          <button
-            key={tabs}
-            className={`py-2 px-4 rounded ${
-              activeTab === tabs
-                ? "bg-primary text-white dark:bg-primary dark:text-white"
-                : "bg-gray-200 text-black dark:bg-graydark dark:text-white"
-            }`}
-            onClick={() => handleTabChange(tabs)}
-          >
-            {tabs.charAt(0).toUpperCase() + tabs.slice(1)}
-          </button>
-        ))}
+        {["Active Cases", "Closed", "Cancelled", "Referred", "All Cases"].map(
+          (tabs) => (
+            <button
+              key={tabs}
+              className={`py-2 px-4 rounded ${
+                activeTab === tabs
+                  ? "bg-primary text-white dark:bg-primary dark:text-white"
+                  : "bg-gray-200 text-black dark:bg-graydark dark:text-white"
+              }`}
+              onClick={() => handleTabChange(tabs)}
+            >
+              {tabs.charAt(0).toUpperCase() + tabs.slice(1)}
+            </button>
+          )
+        )}
       </div>
       <div className="rounded-sm border border-stroke bg-white  px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 mx-4">
         <div className="max-w-full overflow-x-auto">
@@ -96,7 +114,7 @@ const CaseTable: React.FC = () => {
                     <div
                       className="font-medium text-blue-600  cursor-pointer"
                       onClick={() => {
-                        navigate(`/cases/session/${packageItem._id}`);
+                        navigate(`/counselor-case/${packageItem._id}`);
                       }}
                     >
                       {" "}
@@ -121,7 +139,7 @@ const CaseTable: React.FC = () => {
                       {packageItem.type}
                     </p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark capitalize">
                     <p
                       className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
                         packageItem.status === "progress"
@@ -137,7 +155,9 @@ const CaseTable: React.FC = () => {
                           : "bg-gray-500 text-gray-700"
                       }`}
                     >
-                      {packageItem.status}
+                      {packageItem.status === "progress"
+                        ? "Ongoing"
+                        : packageItem.status}
                     </p>
                   </td>
                 </tr>

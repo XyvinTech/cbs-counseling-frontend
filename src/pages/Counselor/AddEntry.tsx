@@ -8,7 +8,7 @@ import userBoy from "../../images/user/user-boy.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getDays, getTimes } from "../../api/timeApi";
-import { getCounsellors, upload } from "../../api/userApi";
+import { getCounsellors, getUser, upload } from "../../api/userApi";
 import { toast } from "react-toastify";
 
 const dayNameToNumber: Record<string, number> = {
@@ -34,6 +34,7 @@ const AddEntry: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
+  const [user, setUser] = useState<any>(null);
   const [data, setData] = useState<any>(null);
   const [days, setDays] = useState<number[]>([]);
   const [counselorData, setCounselorData] = useState<any>(null);
@@ -50,7 +51,15 @@ const AddEntry: React.FC = () => {
     time: "",
     report: [] as File[],
   });
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getUser();
+        setUser(response.data);
+      } catch (error) {}
+    };
+    fetchData();
+  }, []);
   useEffect(() => {
     const fetchSession = async () => {
       try {
@@ -322,21 +331,36 @@ const AddEntry: React.FC = () => {
             <div className="mt-6">
               <h3 className="text-xl font-semibold mb-4">Referrer Remarks</h3>
               <div className="space-y-4">
-                {data.case_id.referer_remark.map(
-                  (remark: any, index: number) => (
+                {data.case_id.referer_remark.map((item: any, index: number) => {
+                  const isMyRemark = item.name === user?.name;
+
+                  return (
                     <div
                       key={index}
-                      className="p-4 bg-gray-100 rounded-lg dark:bg-gray-800"
+                      className={`flex flex-col ${
+                        isMyRemark ? "items-end" : "items-start"
+                      }`}
                     >
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                        {remark.name}:
-                      </p>
-                      <p className="text-gray-700 dark:text-gray-300">
-                        {remark.remark}
-                      </p>
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm">
+                          {item.name.charAt(0)}
+                        </div>
+                        <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+                          {item.name}
+                        </span>
+                      </div>
+                      <div
+                        className={`mt-1 p-3 rounded-lg max-w-lg ${
+                          isMyRemark
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-300 dark:bg-gray-700 text-black dark:text-white"
+                        }`}
+                      >
+                        <p className="text-sm">{item.remark}</p>
+                      </div>
                     </div>
-                  )
-                )}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -630,7 +654,7 @@ const AddEntry: React.FC = () => {
                 Cancel
               </button>
               <button className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
-                Save
+                {loading ? "Saving..." : "Save"}
               </button>
             </div>
           </form>

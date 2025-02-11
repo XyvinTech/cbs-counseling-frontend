@@ -117,17 +117,9 @@ const RemarkTable: React.FC = () => {
               {packageData?.map((packageItem, key) => (
                 <tr key={key}>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <div
-                      className="font-medium text-blue-600  cursor-pointer"
-                      onClick={() => {
-                        navigate(`/session/${packageItem.session_ids[0]?._id}`);
-                      }}
-                    >
-                      {" "}
-                      <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300 xl:pl-6">
-                        {packageItem.case_id}
-                      </h5>
-                    </div>
+                    <p className="text-black dark:text-white xl:pl-6">
+                      {packageItem.case_id}
+                    </p>
                   </td>
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
@@ -141,7 +133,7 @@ const RemarkTable: React.FC = () => {
                     </p>
                   </td>
 
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark capitalize">
                     <p
                       className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
                         packageItem.status === "progress"
@@ -157,7 +149,9 @@ const RemarkTable: React.FC = () => {
                           : "bg-gray-500 text-gray-700"
                       }`}
                     >
-                      {packageItem.status}
+                      {packageItem.status === "progress"
+                        ? "Ongoing"
+                        : packageItem.status}
                     </p>
                   </td>
 

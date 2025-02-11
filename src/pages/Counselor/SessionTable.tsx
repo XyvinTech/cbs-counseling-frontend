@@ -89,11 +89,35 @@ const SessionTable: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        let statusToSend = "";
+
+        switch (activeTab) {
+          case "Pending for Approval":
+            statusToSend = "pending";
+            break;
+          case "Upcomming Sessions":
+            statusToSend = "progress";
+            break;
+          case "Closed":
+            statusToSend = "completed";
+            break;
+          case "Cancelled":
+            statusToSend = "cancelled";
+            break;
+          case "All Sessions":
+            statusToSend = "";
+            break;
+          default:
+            statusToSend = activeTab;
+        }
+
         const response = await getSessions({
           searchQuery: "",
           page: currentPage,
           limit: itemsPerPage,
+          ...(statusToSend ? { status: statusToSend } : {}),
         });
+
         setTotalCount(response.totalCount);
         if (response?.data) {
           setPackageData(response.data);
@@ -104,7 +128,7 @@ const SessionTable: React.FC = () => {
     };
 
     fetchData();
-  }, [currentPage, itemsPerPage, isChange]);
+  }, [currentPage, itemsPerPage, isChange, activeTab]);
 
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
@@ -379,7 +403,7 @@ const SessionTable: React.FC = () => {
                       {packageItem.type}
                     </p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark capitalize">
                     <p
                       className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
                         packageItem.status === "progress"
@@ -395,7 +419,9 @@ const SessionTable: React.FC = () => {
                           : "bg-gray-500 text-gray-700"
                       }`}
                     >
-                      {packageItem.status}
+                      {packageItem.status === "progress"
+                        ? "Ongoing"
+                        : packageItem.status}
                     </p>
                   </td>
 

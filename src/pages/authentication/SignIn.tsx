@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; 
-import LogoDark from "../../images/schoolLogo.png";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import Logo from "../../images/schoolLogo.png";
 import { login } from "../../api/authApi";
 
@@ -41,12 +40,10 @@ const SignIn: React.FC = () => {
         <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
           <div className="mb-3.5 flex justify-center">
             <img className="hidden dark:block" src={Logo} alt="Logo" />
-            <img className="dark:hidden w-26 h-28" src={LogoDark} alt="Logo" />
           </div>
           <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2 flex justify-center">
             Login to ABLE
           </h2>
-
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="mb-2.5 block font-medium text-black dark:text-white">
@@ -82,7 +79,11 @@ const SignIn: React.FC = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-primary"
                 >
-                  {showPassword ? <AiOutlineEyeInvisible size={22} /> : <AiOutlineEye size={22} />}
+                  {showPassword ? (
+                    <AiOutlineEyeInvisible size={22} />
+                  ) : (
+                    <AiOutlineEye size={22} />
+                  )}
                 </button>
               </div>
             </div>
@@ -92,7 +93,9 @@ const SignIn: React.FC = () => {
                 type="submit"
                 disabled={loading}
                 className={`w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition ${
-                  loading ? "opacity-50 cursor-not-allowed" : "hover:bg-opacity-90"
+                  loading
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-opacity-90"
                 }`}
               >
                 {loading ? "Logging in..." : "Login"}

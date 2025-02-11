@@ -38,11 +38,11 @@ const SessionDetails = () => {
     <>
       <Breadcrumb pageName={name} titleName="Session" nav={false} />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
-        <div className="col-span-2 flex flex-col gap-6">
+        <div className="col-span-2 flex flex-col gap-6 ">
           {[data?.form_id, data?.counsellor].map((person: any, index) => (
             <div
               key={index}
-              className="flex flex-col bg-white rounded-lg shadow-md p-6 border border-gray-300"
+              className="flex flex-col bg-white rounded-lg shadow-md p-6 border border-gray-300 dark:bg-form-input dark:text-white"
             >
               <div className="flex items-center gap-6">
                 <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-300">
@@ -82,7 +82,7 @@ const SessionDetails = () => {
             </div>
           ))}
 
-          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-300">
+          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-300 dark:bg-form-input dark:text-white">
             <h3 className="text-2xl font-semibold text-gray-900">
               Additional Details
             </h3>
@@ -104,10 +104,10 @@ const SessionDetails = () => {
                   </p>
                 </div>
               )}
-               {data?.c_reschedule_remark && (
+              {data?.c_reschedule_remark && (
                 <div>
                   <h4 className="text-lg font-semibold text-gray-900">
-                   Reschedule Reason:
+                    Reschedule Reason:
                   </h4>
                   <p className="text-gray-700">
                     {data?.c_reschedule_remark || "N/A"}
@@ -118,7 +118,7 @@ const SessionDetails = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6 border border-gray-300">
+        <div className="bg-white rounded-lg shadow-md p-6 border border-gray-300 dark:bg-form-input dark:text-white">
           <h3 className="text-2xl font-semibold text-gray-900 mb-4">
             Session Details
           </h3>
@@ -143,7 +143,11 @@ const SessionDetails = () => {
               {
                 label: "Booked By:",
                 value: data?.form_id
-                  ? `${data.form_id.refereeName} (${data.form_id.referee})`
+                  ? `${data.form_id.referee}${
+                      data?.form_id?.refereeName
+                        ? ` (${data.form_id.refereeName})`
+                        : ""
+                    }`
                   : "N/A",
               },
             ].map(({ label, value }, index) => (
