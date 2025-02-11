@@ -19,3 +19,11 @@ export const login = async (data: any): Promise<any | null> => {
     throw error.response.data;
   }
 };
+export const getDashboard = async (): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.get(`/dashboard`);
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};
