@@ -30,7 +30,9 @@ const numberToDay: Record<number, string> = {
   5: "Friday",
   6: "Saturday",
 };
+
 const AddEntry: React.FC = () => {
+  const VITE_APP_FILE_URL=import.meta.env.VITE_APP_FILE_URL;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
@@ -306,7 +308,7 @@ const AddEntry: React.FC = () => {
                   {data.report.map((fileName: string, index: number) => (
                     <li key={index}>
                       <a
-                        href={`http://localhost:3000/images/${fileName}`}
+                        href={`${VITE_APP_FILE_URL}${fileName}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover:underline"

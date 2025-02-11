@@ -8,6 +8,7 @@ import { upload } from "../../../api/userApi";
 
 const AddEvent = () => {
   const [preview, setPreview] = useState("");
+  const VITE_APP_FILE_URL=import.meta.env.VITE_APP_FILE_URL;
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [eventData, setEventData] = useState<{
@@ -60,7 +61,7 @@ const AddEvent = () => {
 
           setPreview(
             event.requisition_image
-              ? `http://localhost:3000/images/${event.requisition_image}`
+              ? `${VITE_APP_FILE_URL}${event.requisition_image}`
               : ""
           );
         }

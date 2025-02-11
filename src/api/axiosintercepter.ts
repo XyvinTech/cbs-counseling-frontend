@@ -5,6 +5,7 @@ declare global {
     readonly VITE_APP_API_URL: string;
     readonly VITE_API_KEY: string;
     readonly VITE_AUTH_TOKEN: string;
+    readonly VITE_APP_FILE_URL: string;
   }
 
   interface ImportMeta {

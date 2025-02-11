@@ -14,6 +14,7 @@ import Breadcrumb from "../../../components/Breadcrumbs/Breadcrumb";
 
 const SessionDetails = () => {
   const { id } = useParams();
+  const VITE_APP_FILE_URL=import.meta.env.VITE_APP_FILE_URL;
   const [data, setData] = useState<Session | null>(null);
   const location = useLocation();
   const { state } = location;
@@ -167,7 +168,7 @@ const SessionDetails = () => {
                       className="text-blue-500 font-medium cursor-pointer flex items-center gap-2 text-xs"
                       onClick={() =>
                         window.open(
-                          `http://localhost:3000/images/${report}`,
+                          `${VITE_APP_FILE_URL}${report}`,
                           "_blank"
                         )
                       }

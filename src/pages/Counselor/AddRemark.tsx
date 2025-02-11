@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { getUser } from "../../api/userApi";
 
 const AddRemark: React.FC = () => {
+  const VITE_APP_FILE_URL=import.meta.env.VITE_APP_FILE_URL;
   const { id } = useParams();
   const [data, setData] = useState<any>(null);
   const [user, setUser] = useState<any>(null);
@@ -117,7 +118,7 @@ const AddRemark: React.FC = () => {
                   {data.report.map((fileName: string, index: number) => (
                     <li key={index}>
                       <a
-                        href={`http://localhost:3000/images/${fileName}`}
+                        href={`${VITE_APP_FILE_URL}${fileName}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover:underline"

@@ -10,6 +10,7 @@ interface EventTableProps {
 
 const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
   const [packageData, setPackageData] = useState<Event[]>([]);
+  const VITE_APP_FILE_URL=import.meta.env.VITE_APP_FILE_URL;
   const [isChange, setIsChange] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
   const [view, setView] = useState(false);
@@ -132,7 +133,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {(moment(packageItem.date).format("DD-MM-YYYY")) }
+                    {moment(packageItem.date).format("DD-MM-YYYY")}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -308,17 +309,18 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
               </div>
 
               {data?.requisition_image && (
-                <div className="mt-4">
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Requisition Image
-                  </p>
-                  <img
-                    src={data?.requisition_image}
-                    alt="Requisition"
-                    className="w-full h-40 object-cover rounded-md mt-2"
-                  />
-                </div>
-              )}
+  <div className="mt-4">
+    <p className="text-sm text-gray-500 dark:text-gray-400">Requisition Image</p>
+    <div className="w-full h-40 rounded-md overflow-hidden mt-2">
+      <img
+        src={`${VITE_APP_FILE_URL}${data?.requisition_image}`}
+        alt="Requisition"
+        className="w-full h-full object-contain rounded-md"
+      />
+    </div>
+  </div>
+)}
+
 
               <div className="mt-4">
                 <p className="text-sm text-gray-500 dark:text-gray-400">
