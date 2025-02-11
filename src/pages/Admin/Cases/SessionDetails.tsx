@@ -14,7 +14,7 @@ import Breadcrumb from "../../../components/Breadcrumbs/Breadcrumb";
 
 const SessionDetails = () => {
   const { id } = useParams();
-  const VITE_APP_FILE_URL=import.meta.env.VITE_APP_FILE_URL;
+  const VITE_APP_FILE_URL = import.meta.env.VITE_APP_FILE_URL;
   const [data, setData] = useState<Session | null>(null);
   const location = useLocation();
   const { state } = location;
@@ -66,8 +66,13 @@ const SessionDetails = () => {
                     {person?.designation || person?.class || "N/A"}
                   </p>
                   <p className="text-sm text-gray-500">
-                    {person?.grNumber || person?.counsellorType || "N/A"}
+                    {person?.grNumber ||
+                      (Array.isArray(person?.counsellorType) &&
+                      person?.counsellorType.length > 0
+                        ? person.counsellorType.join(", ")
+                        : "N/A")}
                   </p>
+
                   <div className="flex gap-4 mt-2 text-sm">
                     <div className="flex items-center gap-2 text-gray-700">
                       <BsFillTelephoneFill className="text-blue-500" />
@@ -154,7 +159,7 @@ const SessionDetails = () => {
             ].map(({ label, value }, index) => (
               <div key={index} className="flex justify-between text-sm">
                 <p className="text-gray-600">{label}</p>
-                <p className="text-gray-900 font-medium">{value}</p>
+                <p className="text-gray-900 font-medium capitalize">{value}</p>
               </div>
             ))}
 
@@ -167,10 +172,7 @@ const SessionDetails = () => {
                       key={index}
                       className="text-blue-500 font-medium cursor-pointer flex items-center gap-2 text-xs"
                       onClick={() =>
-                        window.open(
-                          `${VITE_APP_FILE_URL}${report}`,
-                          "_blank"
-                        )
+                        window.open(`${VITE_APP_FILE_URL}${report}`, "_blank")
                       }
                     >
                       <BsFillFileEarmarkTextFill className="text-xl" />

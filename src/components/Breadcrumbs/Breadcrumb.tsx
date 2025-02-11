@@ -33,9 +33,12 @@ const Breadcrumb = ({ pageName, titleName, nav }: BreadcrumbProps) => {
         <nav>
           <ol className="flex items-center gap-2">
             <li>
-              <Link className="font-medium dark:text-white" to="/">
+              <button
+                className="font-medium dark:text-white"
+                onClick={() => navigate(-1)}
+              >
                 {titleName} /
-              </Link>
+              </button>
             </li>
             <li className="font-medium text-primary">{pageName}</li>
           </ol>
