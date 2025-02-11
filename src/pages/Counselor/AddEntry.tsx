@@ -58,8 +58,6 @@ const AddEntry: React.FC = () => {
       try {
         const response = await getUser();
         setUser(response.data);
-        
-       
       } catch (error) {}
     };
     fetchData();
@@ -73,9 +71,10 @@ const AddEntry: React.FC = () => {
         }
         setFormState((prev) => ({
           ...prev,
-          interactions:response?.data.interactions,
-          details:response?.data?.case_details,
-        })); 
+          interactions: response?.data.interactions,
+          details: response?.data?.case_details,
+          concern_raised: response?.data?.case_id?.concern_raised,
+        }));
       } catch (error) {
         console.error("Failed to fetch session:", error);
       }
@@ -83,8 +82,7 @@ const AddEntry: React.FC = () => {
 
     if (id) fetchSession();
   }, [id]);
-  console.log("formstae",formState);
-  
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -125,7 +123,6 @@ const AddEntry: React.FC = () => {
 
         if (!fetchId) return;
 
-        console.log("Fetching available days for ID:", fetchId);
         const response = await getDays(fetchId);
         const availableDays = response.data.map(
           (day: string) => dayNameToNumber[day]
@@ -240,8 +237,6 @@ const AddEntry: React.FC = () => {
         formData.time = formState.time;
       }
 
-      console.log("Final Form Data:", formData);
-
       await addEntry(data?.case_id?._id, formData);
       navigate("/counselor-session");
     } catch (error: any) {
@@ -301,7 +296,10 @@ const AddEntry: React.FC = () => {
               },
               {
                 label: "Concern Raised Date",
-                value: data?.concern_raised ? moment(data?.concern_raised).format("MMMM DD, YYYY"): "",
+                value: data?.case_id?.concern_raised 
+                ? new Date(data.case_id.concern_raised).toISOString().split("T")[0] 
+                : "",
+              
               },
             ].map(({ label, value }, index) => (
               <div key={index} className="flex justify-between text-sm">
@@ -505,7 +503,11 @@ const AddEntry: React.FC = () => {
                 <input
                   type="date"
                   name="concern_raised"
-                  value={formState.concern_raised}
+                  value={
+                    formState.concern_raised
+                      ? formState.concern_raised.split("T")[0]
+                      : ""
+                  }
                   onChange={handleChange}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
                 />
