@@ -11,7 +11,10 @@ import { useEffect, useState } from "react";
 import { getSessionById } from "../../../api/sessionApi";
 import { Session } from "../../../types/session";
 import Breadcrumb from "../../../components/Breadcrumbs/Breadcrumb";
-
+import { toast } from "react-toastify";
+import { sessionReport } from "../../../api/reportApi";
+import { saveAs } from "file-saver";
+import * as base64js from "base64-js";
 const SessionDetails = () => {
   const { id } = useParams();
   const VITE_APP_FILE_URL = import.meta.env.VITE_APP_FILE_URL;
@@ -34,11 +37,35 @@ const SessionDetails = () => {
 
     if (id) fetchSession();
   }, [id]);
+  const userType = localStorage.getItem("userType");
+  const handleDownload = async (e: React.FormEvent) => {
+    e.preventDefault();
 
+    try {
+      const response = await sessionReport(id || "");
+      const base64Data = response.data;
+      const byteArray = base64js.toByteArray(base64Data);
+      const pdfBlob = new Blob([byteArray], { type: "application/pdf" });
+      saveAs(pdfBlob, "report.pdf");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
   return (
     <>
       <Breadcrumb pageName={name} titleName="Session" nav={false} />
+      {userType === "admin" && (
+        <div className="flex justify-end mt-4 p-6 pb-0">
+          <button
+            onClick={handleDownload}
+            className="px-6 py-2 bg-[#a266f0] text-white rounded hover:bg-opacity-90 transition"
+          >
+            Download Report
+          </button>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+        
         <div className="col-span-2 flex flex-col gap-6 ">
           {[data?.form_id, data?.counsellor].map((person: any, index) => (
             <div

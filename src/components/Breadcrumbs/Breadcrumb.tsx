@@ -6,6 +6,7 @@ interface BreadcrumbProps {
 }
 const Breadcrumb = ({ pageName, titleName, nav }: BreadcrumbProps) => {
   const navigate = useNavigate();
+  
   return (
     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       {/* Back Button and Page Name in a Row */}

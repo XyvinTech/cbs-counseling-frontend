@@ -1,21 +1,31 @@
 import { useState } from "react";
 import AdminSessionTable from "./AdminSessionTable";
 import Breadcrumb from "../../../components/Breadcrumbs/Breadcrumb";
-
+import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
+import { caseReport } from "../../../api/reportApi";
+import { saveAs } from "file-saver";
+import * as base64js from "base64-js";
 const AdminSessionList = () => {
+  const { id } = useParams();
   const [searchValue, setSearchValue] = useState<string>("");
+  const handleDownload = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await caseReport(id || "");
+      const base64Data = response.data;
+      const byteArray = base64js.toByteArray(base64Data);
+      const pdfBlob = new Blob([byteArray], { type: "application/pdf" });
+      saveAs(pdfBlob, "report.pdf");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
   return (
     <>
       <div className="mb-7.5 flex flex-wrap gap-5 xl:gap-7.5 justify-between">
-      <Breadcrumb pageName={"Sessions"} titleName="Student"  nav={true}/>
-      <div className="flex justify-end mt-4">
-            <button
-              // onClick={handleDownload}
-              className="px-6 py-2 bg-[#a266f0] text-white rounded hover:bg-opacity-90 transition"
-            >
-              Download Report
-            </button>
-          </div>
+        <Breadcrumb pageName={"Sessions"} titleName="Student" nav={true} />
         <div className="relative w-full max-w-xs">
           <div className="relative flex items-center bg-white dark:bg-graydark  rounded-lg shadow-md">
             <button className="absolute left-3 top-1/2 -translate-y-1/2">
@@ -50,6 +60,14 @@ const AdminSessionList = () => {
               className="w-full bg-white pl-10 pr-4 py-2.5 text-black dark:bg-graydark dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
+        </div>{" "}
+        <div className="flex justify-end mt-4">
+          <button
+            onClick={handleDownload}
+            className="px-6 py-2 bg-[#a266f0] text-white rounded hover:bg-opacity-90 transition"
+          >
+            Download Report
+          </button>
         </div>
       </div>
       <AdminSessionTable searchValue={searchValue} />
