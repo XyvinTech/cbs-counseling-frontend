@@ -40,7 +40,28 @@ const SelectType: React.FC<{
         options={options}
         value={options.filter((option) => selectedType.includes(option.value))}
         onChange={handleChange}
-        className="basic-multi-select"
+        styles={{
+          control: (base, { isFocused }) => ({
+            ...base,
+            padding: 6,
+            borderColor: isFocused ? "#a266f0" : "#a266f0",
+            boxShadow: isFocused ? "0 0 0 1px #a266f0" : "none",
+            "&:hover": { borderColor: "#a266f0" },
+          }),
+          multiValue: (base) => ({
+            ...base,
+            backgroundColor: "#a266f0",
+          }),
+          multiValueLabel: (base) => ({
+            ...base,
+            color: "white",
+          }),
+          multiValueRemove: (base) => ({
+            ...base,
+            color: "white",
+            "&:hover": { backgroundColor: "#822bd4", color: "white" },
+          }),
+        }}
         classNamePrefix="select"
         placeholder="Select Counselor Type"
       />

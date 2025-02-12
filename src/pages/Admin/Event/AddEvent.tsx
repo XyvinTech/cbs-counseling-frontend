@@ -69,7 +69,6 @@ const AddEvent = () => {
       fetchEvent();
     }
   }, [isEditMode, eventId]);
-console.log("prev",preview);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

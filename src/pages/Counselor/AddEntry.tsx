@@ -296,10 +296,11 @@ const AddEntry: React.FC = () => {
               },
               {
                 label: "Concern Raised Date",
-                value: data?.case_id?.concern_raised 
-                ? new Date(data.case_id.concern_raised).toISOString().split("T")[0] 
-                : "",
-              
+                value: data?.case_id?.concern_raised
+                  ? new Date(data.case_id.concern_raised)
+                      .toISOString()
+                      .split("T")[0]
+                  : "",
               },
             ].map(({ label, value }, index) => (
               <div key={index} className="flex justify-between text-sm">

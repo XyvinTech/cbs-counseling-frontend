@@ -224,7 +224,6 @@ const SessionTable: React.FC = () => {
     }
   };
   const handleRescheduleSession = async () => {
-    console.log("dds", formState);
 
     try {
       await rescheduleSession(selectedId!, formState);
