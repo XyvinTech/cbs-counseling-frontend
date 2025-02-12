@@ -187,7 +187,7 @@ const AddReport = () => {
                 onChange={handleChange}
                 className="w-full rounded border bg-transparent py-3 px-5 outline-none transition focus:border-[#a266f0] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#a266f0]"
               >
-                <option value="">Select reportType</option>
+                <option value="">Select Report Type</option>
                 <option value="session">Session</option>
                 <option value="case">Case</option>
                 <option value="session-count">Session Count</option>
