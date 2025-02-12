@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { getUsers } from "../../../api/userApi";
-import SelectType from "../../../components/Admin/SelectType";
 import { getReport } from "../../../api/reportApi";
 import { saveAs } from "file-saver";
+import SelectType from "../../../components/Student/SelectType";
+import { toast } from "react-toastify";
 const AddReport = () => {
   const [loading, setLoading] = useState(false);
   const [dwld, setDwld] = useState(false);
@@ -23,14 +24,14 @@ const AddReport = () => {
     endDate: string;
     grNumber: string;
     counsellor: string;
-    counselingType: string[];
+    counselingType: string;
   }>({
     reportType: "",
     startDate: "",
     endDate: "",
     grNumber: "",
     counsellor: "",
-    counselingType: [],
+    counselingType: "",
   });
 
   useEffect(() => {
@@ -93,6 +94,12 @@ const AddReport = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!formState.startDate || !formState.endDate) {
+      toast.error("Start Date and End Date are required.");
+      return;
+    }
+  
     setLoading(true);
     const params: any = {
       ...(formState.reportType ? { reportType: formState.reportType } : {}),
@@ -100,18 +107,18 @@ const AddReport = () => {
       ...(formState.endDate ? { endDate: formState.endDate } : {}),
       ...(formState.grNumber ? { grNumber: formState.grNumber } : {}),
       ...(formState.counsellor ? { counsellor: formState.counsellor } : {}),
-      ...(formState.counselingType.length > 0
+      ...(formState.counselingType
         ? { counselingType: formState.counselingType }
         : {}),
     };
-
+  
     try {
       const report = await getReport(params);
       if (report?.data) {
         setReportData(report?.data);
       }
-    } catch (error) {
-      console.error("Failed to fetch report", error);
+    } catch (error: any) {
+      toast.error(error.message);
     } finally {
       setLoading(false);
       setFormState({
@@ -120,10 +127,11 @@ const AddReport = () => {
         endDate: "",
         grNumber: "",
         counsellor: "",
-        counselingType: [],
+        counselingType: "",
       });
     }
   };
+  
   const handleDownload = async () => {
     if (!reportData) return;
 
@@ -171,7 +179,7 @@ const AddReport = () => {
           <div className="p-6.5">
             <div className="mb-6 w-full">
               <label className="mb-2.5 block text-black dark:text-white">
-                Select reportType
+                Select Report Type
               </label>
               <select
                 name="reportType"
@@ -183,7 +191,7 @@ const AddReport = () => {
                 <option value="session">Session</option>
                 <option value="case">Case</option>
                 <option value="session-count">Session Count</option>
-                <option value="counselling-type">Counseling Type</option>
+                <option value="counseling-type">Counseling Type</option>
               </select>
             </div>
             {formState.reportType === "session" && (
@@ -264,15 +272,12 @@ const AddReport = () => {
               </div>
             )}
 
-            {formState.reportType === "counselling-type" && (
+            {formState.reportType === "counseling-type" && (
               <SelectType
-                onTypeChange={(values: string[]) => {
-                  setFormState((prev) => ({
-                    ...prev,
-                    counselingType: values,
-                  }));
+                onPlanChange={(value: string) => {
+                  setFormState({ ...formState, counselingType: value });
                 }}
-                selectedType={formState.counselingType}
+                selectedPlan={formState.counselingType}
               />
             )}
             <div className="mb-6">

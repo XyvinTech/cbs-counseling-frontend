@@ -13,7 +13,7 @@ export const getReport = async (params: {
         params,
       });
       return response.data;
-    } catch (error) {
-      return null;
+    } catch (error: any) {
+      throw error.response.data;
     }
   };

@@ -8,6 +8,14 @@ const AdminSessionList = () => {
     <>
       <div className="mb-7.5 flex flex-wrap gap-5 xl:gap-7.5 justify-between">
       <Breadcrumb pageName={"Sessions"} titleName="Student"  nav={true}/>
+      <div className="flex justify-end mt-4">
+            <button
+              // onClick={handleDownload}
+              className="px-6 py-2 bg-[#a266f0] text-white rounded hover:bg-opacity-90 transition"
+            >
+              Download Report
+            </button>
+          </div>
         <div className="relative w-full max-w-xs">
           <div className="relative flex items-center bg-white dark:bg-graydark  rounded-lg shadow-md">
             <button className="absolute left-3 top-1/2 -translate-y-1/2">
