@@ -1,4 +1,4 @@
-import { User } from "./user";
+
 
 export type Event = {
   _id: string;
@@ -11,5 +11,5 @@ export type Event = {
   details: string;
   requisition_description: string;
   preview: string;
-  creator: User;
+  creator:string;
 };

@@ -47,7 +47,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
           title: value.title || "",
           date: value.date || "",
           venue: value.venue || "",
-          creator: value.creator?.name || "",
+          creator: value.creator || "",
           requisition_image: value.requisition_image || "",
           guest: value.guest || "",
           details: value.details || "",
@@ -143,7 +143,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {packageItem.creator?.name}
+                    {packageItem.creator}
                   </p>
                 </td>
 
@@ -258,7 +258,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
         )}
         {view && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 mt-16">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-2xl p-6 relative">
+             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-2xl p-6 relative min-h-[500px] max-h-[80vh] overflow-y-auto">
               <button
                 onClick={handleCloseView}
                 className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"

@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import Select from "react-select";
 import SelectTimer from "../../../components/Admin/SelectTimer";
 import { createEvent, getEventById, updateEvent } from "../../../api/eventApi";
 import { toast } from "react-toastify";
-import { upload } from "../../../api/userApi";
+import { getUsers, upload } from "../../../api/userApi";
 
 const AddEvent = () => {
   const [preview, setPreview] = useState("");
-  const VITE_APP_FILE_URL=import.meta.env.VITE_APP_FILE_URL;
+  const [counselor, setCounselor] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const VITE_APP_FILE_URL = import.meta.env.VITE_APP_FILE_URL;
   const [file, setFile] = useState<File | null>(null);
+  const [isOther, setIsOther] = useState(false);
   const [loading, setLoading] = useState(false);
   const [eventData, setEventData] = useState<{
     title: string;
@@ -19,6 +23,8 @@ const AddEvent = () => {
     requisition_image: string;
     remainder: string[];
     details: string;
+    creator: string;
+    counselor: string;
     requisition_description: string;
   }>({
     title: "",
@@ -28,6 +34,8 @@ const AddEvent = () => {
     requisition_image: "",
     remainder: [],
     details: "",
+    creator: "",
+    counselor: "",
     requisition_description: "",
   });
 
@@ -36,6 +44,12 @@ const AddEvent = () => {
   const { state } = location;
   const isEditMode = state?.editMode;
   const eventId = state?.id;
+  const venueOptions = [
+    "Foundation",
+    "Preparatory",
+    "Middle & senior",
+    "Cambridge",
+  ];
 
   useEffect(() => {
     if (isEditMode && eventId) {
@@ -47,15 +61,22 @@ const AddEvent = () => {
           const formattedDate = event.date
             ? new Date(event.date).toLocaleDateString("en-CA")
             : "";
+          if (event?.venue && !venueOptions.includes(event.venue)) {
+            setIsOther(true);
+            setEventData((prev) => ({ ...prev, venue: event.venue }));
+          } else {
+            setIsOther(false);
+          }
           setEventData({
             title: event.title || "",
             date: formattedDate || "",
             venue: event.venue || "",
             guest: event.guest || "",
             requisition_image: event.requisition_image || "",
-
+            creator: event.creator || "",
             remainder: event.remainder || [],
             details: event.details || "",
+            counselor: event.counselor || "",
             requisition_description: event.requisition_description || "",
           });
 
@@ -78,11 +99,10 @@ const AddEvent = () => {
     if (files && files.length > 0) {
       const selectedFile = files[0];
 
-      // Generate a temporary preview URL for UI
       const imageUrl = URL.createObjectURL(selectedFile);
       setPreview(imageUrl);
 
-      setFile(selectedFile); // Store the file for actual upload later
+      setFile(selectedFile);
     } else {
       setEventData((prev) => ({
         ...prev,
@@ -90,7 +110,31 @@ const AddEvent = () => {
       }));
     }
   };
-
+  useEffect(() => {
+    const fetchCounselor = async () => {
+      try {
+        const response = await getUsers({ type: "counsellor" });
+        const counselorOptions = response?.data?.map((counselor: any) => ({
+          value: counselor._id,
+          label: counselor.name,
+        }));
+        setCounselor(counselorOptions);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+    fetchCounselor();
+  }, []);
+  const handleVenueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    if (selectedValue === "other") {
+      setIsOther(true);
+      setEventData({ ...eventData, venue: "" });
+    } else {
+      setIsOther(false);
+      setEventData({ ...eventData, venue: selectedValue });
+    }
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -189,14 +233,32 @@ const AddEvent = () => {
                 <label className="mb-2.5 block text-black dark:text-white">
                   Venue
                 </label>
-                <input
-                  type="text"
+                <select
                   name="venue"
-                  value={eventData.venue}
-                  onChange={handleChange}
-                  placeholder="Enter venue"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
-                />
+                  value={isOther ? "other" : eventData.venue}
+                  onChange={handleVenueChange}
+                  className="w-full rounded border bg-transparent py-3 px-5 outline-none transition focus:border-[#a266f0] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#a266f0]"
+                >
+                  {venueOptions?.map((venue) => (
+                    <option key={venue} value={venue}>
+                      {venue}
+                    </option>
+                  ))}
+                  <option value="other">Other</option>
+                </select>
+
+                {isOther && (
+                  <input
+                    type="text"
+                    name="venue"
+                    value={eventData.venue}
+                    placeholder="Enter venue"
+                    onChange={(e) =>
+                      setEventData({ ...eventData, venue: e.target.value })
+                    }
+                    className="w-full mt-3 rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  />
+                )}
               </div>
               <div className="w-full">
                 <label className="mb-2.5 block text-black dark:text-white">
@@ -215,23 +277,16 @@ const AddEvent = () => {
             <div className="mb-4.5 grid grid-cols-1 gap-6 xl:grid-cols-2">
               <div className="w-full">
                 <label className="mb-2.5 block text-black dark:text-white">
-                  Upload Requisition
+                  Creator
                 </label>
                 <input
-                  type="file"
-                  name="requisition_image"
-                  accept="image/*"
+                  type="text"
+                  name="creator"
+                  value={eventData.creator}
                   onChange={handleChange}
+                  placeholder="Enter Creator"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
                 />
-                {preview && (
-                  <div className="mt-3">
-                    <img
-                      src={preview}
-                      alt="Selected Preview"
-                      className="w-32 h-32 object-cover"
-                    />
-                  </div>
-                )}
               </div>
               <SelectTimer
                 onTimerChange={handleTimerChange}
@@ -266,7 +321,71 @@ const AddEvent = () => {
                 />
               </div>
             </div>
-
+            <div className="mb-4.5 grid grid-cols-1 gap-6 xl:grid-cols-2">
+              <div className="w-full">
+                <label className="mb-2.5 block text-black dark:text-white">
+                  Upload Requisition
+                </label>
+                <input
+                  type="file"
+                  name="requisition_image"
+                  accept="image/*"
+                  onChange={handleChange}
+                />
+                {preview && (
+                  <div className="mt-3">
+                    <img
+                      src={preview}
+                      alt="Selected Preview"
+                      className="w-32 h-32 object-cover"
+                    />
+                  </div>
+                )}
+              </div>
+              <div>
+                <label className="mb-2.5 block text-black dark:text-white">
+                  Select Counselors
+                </label>
+                <Select
+                  options={counselor}
+                  isMulti
+                  value={counselor.filter(
+                    (option) => eventData?.counselor?.includes(option.value)
+                  )}
+                  onChange={(selectedOptions: any) =>
+                    setEventData((prev) => ({
+                      ...prev,
+                      counselor: selectedOptions.map(
+                        (option: any) => option.value
+                      ),
+                    }))
+                  }
+                  classNamePrefix="select"
+                  styles={{
+                    control: (base, { isFocused }) => ({
+                      ...base,
+                      padding: 6,
+                      borderColor: isFocused ? "#a266f0" : "#a266f0",
+                      boxShadow: isFocused ? "0 0 0 1px #a266f0" : "none",
+                      "&:hover": { borderColor: "#a266f0" },
+                    }),
+                    multiValue: (base) => ({
+                      ...base,
+                      backgroundColor: "#a266f0",
+                    }),
+                    multiValueLabel: (base) => ({
+                      ...base,
+                      color: "white",
+                    }),
+                    multiValueRemove: (base) => ({
+                      ...base,
+                      color: "white",
+                      "&:hover": { backgroundColor: "#822bd4", color: "white" },
+                    }),
+                  }}
+                />
+              </div>
+            </div>
             <button
               type="submit"
               className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
