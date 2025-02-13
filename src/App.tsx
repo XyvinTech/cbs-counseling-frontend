@@ -30,6 +30,7 @@ import CounselorCase from "./pages/Counselor/CounselorCase";
 import CounselorRemark from "./pages/Counselor/CounselorRemark";
 import AddRemark from "./pages/Counselor/AddRemark";
 import CaseSessionList from "./pages/Counselor/CaseSessionList";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -74,271 +75,276 @@ function App() {
           </>
         }
       />
-
       <Route
-        path="/counselor"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Counselor" />
-              <AdminCounselorList />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/student"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Student" />
-              <AdminStudentList />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/case-session"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Case" />
-              <AdminCaseList />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/cases/session/:id"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Case" />
-              <AdminSessionList />
-            </DefaultLayout>
-          </>
-        }
-      />
-       <Route
-        path="/counselor-case/:id"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Case" />
-              <CaseSessionList />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/session/:id"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Session" />
-              <SessionDetails />
-            </DefaultLayout>
-          </>
-        }
-      />
+        element={<ProtectedRoute allowedRoles={["counsellor", "admin"]} />}
+      >
         <Route
-        path="/counselor/case/:id"
-        element={
-          <>
+          path="/admin-event"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Event" />
+                <AdminEventList />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Settings" />
+                <AdminPassword />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/add-event"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Event" />
+                <AddEvent />
+              </DefaultLayout>
+            </>
+          }
+        />{" "}
+        <Route
+          path="/dashboard"
+          element={
             <DefaultLayout>
-              <PageTitle title="ABLE || Session" />
-              <SessionDetails />
+              <PageTitle title="ABLE || Dashboard" />
+              <ECommerce />
             </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/admin-event"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Event" />
-              <AdminEventList />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/admin-type"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Counseling Type" />
-              <AdminTypeList />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/admin-report"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Report" />
-              <AddReport />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/settings"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Settings" />
-              <AdminPassword />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/counselor-session"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Session" />
-              <CounselorSession />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/counselor-case"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Case" />
-              <CounselorCase />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/counselors-remark"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Remarks" />
-              <CounselorRemark />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/availability"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Availability" />
-              <AddAvailability />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/session/entry/:id"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Settings" />
-              <AddEntry />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/session/remark/:id"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Settings" />
-              <AddRemark />
-            </DefaultLayout>
-          </>
-        }
-      />
-
-      <Route
-        path="/add-counselor"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Counselor" />
-              <AddCounselor />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/add-student"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Student" />
-              <AddStudent />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/student/:id"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Student" />
-              <Profile />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/counselor/:id"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Counselor" />
-              <CounselorProfile />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/add-event"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Event" />
-              <AddEvent />
-            </DefaultLayout>
-          </>
-        }
-      />
-      <Route
-        path="/add-type"
-        element={
-          <>
-            <DefaultLayout>
-              <PageTitle title="ABLE || Counseling Type" />
-              <AddType />
-            </DefaultLayout>
-          </>
-        }
-      />
-
-      <Route
-        path="/dashboard"
-        element={
-          <DefaultLayout>
-            <PageTitle title="ABLE || Dashboard" />
-            <ECommerce />
-          </DefaultLayout>
-        }
-      />
+          }
+        />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={["counsellor"]} />}>
+        <Route
+          path="/counselor-session"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Session" />
+                <CounselorSession />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/counselor-case"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Case" />
+                <CounselorCase />
+              </DefaultLayout>
+            </>
+          }
+        />{" "}
+        <Route
+          path="/counselor/case/:id"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Session" />
+                <SessionDetails />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/counselor-case/:id"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Case" />
+                <CaseSessionList />
+              </DefaultLayout>
+            </>
+          }
+        />{" "}
+        <Route
+          path="/counselors-remark"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Remarks" />
+                <CounselorRemark />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/availability"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Availability" />
+                <AddAvailability />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/session/entry/:id"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Settings" />
+                <AddEntry />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/session/remark/:id"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Settings" />
+                <AddRemark />
+              </DefaultLayout>
+            </>
+          }
+        />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+        <Route
+          path="/session/:id"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Session" />
+                <SessionDetails />
+              </DefaultLayout>
+            </>
+          }
+        />{" "}
+        <Route
+          path="/cases/session/:id"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Case" />
+                <AdminSessionList />
+              </DefaultLayout>
+            </>
+          }
+        />{" "}
+        <Route
+          path="/admin-type"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Counseling Type" />
+                <AdminTypeList />
+              </DefaultLayout>
+            </>
+          }
+        />{" "}
+        <Route
+          path="/counselor"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Counselor" />
+                <AdminCounselorList />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/student"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Student" />
+                <AdminStudentList />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/case-session"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Case" />
+                <AdminCaseList />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/admin-report"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Report" />
+                <AddReport />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/add-type"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Counseling Type" />
+                <AddType />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/add-student"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Student" />
+                <AddStudent />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/student/:id"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Student" />
+                <Profile />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/counselor/:id"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Counselor" />
+                <CounselorProfile />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/add-counselor"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Counselor" />
+                <AddCounselor />
+              </DefaultLayout>
+            </>
+          }
+        />
+      </Route>
     </Routes>
   );
 }
