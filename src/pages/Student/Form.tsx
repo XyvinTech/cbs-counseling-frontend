@@ -212,7 +212,7 @@ const Form: React.FC = () => {
                 <input
                   type="submit"
                   value="Next"
-                  className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
+                  className="flex w-full justify-center rounded bg-[#0072bc] p-3 font-medium text-gray hover:bg-opacity-90"
                 />
               </div>
             </form>

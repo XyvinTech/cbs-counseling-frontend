@@ -138,7 +138,7 @@ const AddStudent = () => {
                   value={studentData.name}
                   onChange={handleChange}
                   placeholder="Enter Name"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
               <div className="w-full">
@@ -151,7 +151,7 @@ const AddStudent = () => {
                   value={studentData.email}
                   onChange={handleChange}
                   placeholder="Enter Email"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
             </div>
@@ -167,7 +167,7 @@ const AddStudent = () => {
                   value={studentData.StudentReferencesCode}
                   onChange={handleChange}
                   placeholder="Enter GRP Number"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
               <div className="w-full">
@@ -180,7 +180,7 @@ const AddStudent = () => {
                   value={studentData.designation}
                   onChange={handleChange}
                   placeholder="Enter Standard"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
             </div>
@@ -195,7 +195,7 @@ const AddStudent = () => {
                   value={studentData.division}
                   onChange={handleChange}
                   placeholder="Enter Division"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
               <SelectGender
@@ -215,7 +215,7 @@ const AddStudent = () => {
                   value={studentData.mobile}
                   onChange={handleChange}
                   placeholder="+968 9898 9898"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
 
@@ -229,14 +229,14 @@ const AddStudent = () => {
                   value={studentData.parentContact}
                   onChange={handleChange}
                   placeholder="+968 9898 9898"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
+              className="flex w-full justify-center rounded bg-[#0072bc] p-3 font-medium text-gray hover:bg-opacity-90"
             >
               {loading ? "Submitting..." : studentId ? "Update" : "Submit"}
             </button>

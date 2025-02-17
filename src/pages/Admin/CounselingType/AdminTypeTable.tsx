@@ -190,13 +190,13 @@ const AdminTypeTable: React.FC<TypeTableProps> = ({ searchValue }) => {
         }`}
       >
         <div className="flex items-center space-x-2">
-          <span className="text-gray-700 dark:text-violet-100">
+          <span className="text-gray-700 dark:text-blue-100">
             Items per page:
           </span>
           <select
             value={itemsPerPage}
             onChange={(e) => setItemsPerPage(Number(e.target.value))}
-            className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent dark:text-violet-100"
+            className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent dark:text-blue-100"
           >
             <option value={10}>10</option>
             <option value={20}>20</option>
@@ -209,8 +209,8 @@ const AdminTypeTable: React.FC<TypeTableProps> = ({ searchValue }) => {
             disabled={currentPage === 1}
             className={`px-4 py-2 rounded ${
               currentPage === 1
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
-                : "bg-violet-500 text-white dark:via-violet-100"
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-blue-100"
+                : "bg-blue-500 text-white dark:via-blue-100"
             }`}
           >
             Previous
@@ -223,7 +223,7 @@ const AdminTypeTable: React.FC<TypeTableProps> = ({ searchValue }) => {
                   onClick={() => handlePageChange(page)}
                   className={`px-3 py-1 rounded ${
                     page === currentPage
-                      ? "bg-violet-500 text-white"
+                      ? "bg-blue-500 text-white"
                       : "bg-gray-200 text-gray-700"
                   }`}
                 >
@@ -237,8 +237,8 @@ const AdminTypeTable: React.FC<TypeTableProps> = ({ searchValue }) => {
             disabled={currentPage === totalPages}
             className={`px-4 py-2 rounded ${
               currentPage === totalPages
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
-                : "bg-violet-500 text-white dark:text-violet-100"
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-blue-100"
+                : "bg-blue-500 text-white dark:text-blue-100"
             }`}
           >
             Next

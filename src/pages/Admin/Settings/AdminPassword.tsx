@@ -84,7 +84,7 @@ const AdminPassword = () => {
                     value={passwordData.oldPassword}
                     onChange={handleChange}
                     placeholder="Enter your old password"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 pr-12 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 pr-12 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                   />
                   <button
                     type="button"
@@ -113,7 +113,7 @@ const AdminPassword = () => {
                     value={passwordData.newPassword}
                     onChange={handleChange}
                     placeholder="Enter your new password"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 pr-12 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 pr-12 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                   />
                   <button
                     type="button"
@@ -141,7 +141,7 @@ const AdminPassword = () => {
                     value={passwordData.confirmPassword}
                     onChange={handleChange}
                     placeholder="Enter confirm password"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 pr-12 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 pr-12 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                   />
                   <button
                     type="button"
@@ -162,7 +162,7 @@ const AdminPassword = () => {
 
             <button
               type="submit"
-              className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
+              className="flex w-full justify-center rounded bg-[#0072bc] p-3 font-medium text-gray hover:bg-opacity-90"
             >
               {loading ? "Updating..." : "Update Password"}
             </button>

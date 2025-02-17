@@ -210,7 +210,7 @@ const AddEvent = () => {
                   value={eventData.title}
                   onChange={handleChange}
                   placeholder="Enter Name"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
               <div className="w-full">
@@ -223,7 +223,7 @@ const AddEvent = () => {
                   value={eventData.date}
                   onChange={handleChange}
                   placeholder="Enter Date"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
             </div>
@@ -237,7 +237,7 @@ const AddEvent = () => {
                   name="venue"
                   value={isOther ? "other" : eventData.venue}
                   onChange={handleVenueChange}
-                  className="w-full rounded border bg-transparent py-3 px-5 outline-none transition focus:border-[#a266f0] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#a266f0]"
+                  className="w-full rounded border bg-transparent py-3 px-5 outline-none transition focus:border-[#0072bc] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0072bc]"
                 >
                   {venueOptions?.map((venue) => (
                     <option key={venue} value={venue}>
@@ -256,7 +256,7 @@ const AddEvent = () => {
                     onChange={(e) =>
                       setEventData({ ...eventData, venue: e.target.value })
                     }
-                    className="w-full mt-3 rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                    className="w-full mt-3 rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                   />
                 )}
               </div>
@@ -270,7 +270,7 @@ const AddEvent = () => {
                   value={eventData.guest}
                   onChange={handleChange}
                   placeholder="Enter Guest"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
             </div>
@@ -285,7 +285,7 @@ const AddEvent = () => {
                   value={eventData.creator}
                   onChange={handleChange}
                   placeholder="Enter Creator"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
               <SelectTimer
@@ -304,7 +304,7 @@ const AddEvent = () => {
                   value={eventData.details}
                   onChange={handleChange}
                   placeholder="Enter Details"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
               <div className="w-full">
@@ -317,7 +317,7 @@ const AddEvent = () => {
                   value={eventData.requisition_description}
                   onChange={handleChange}
                   placeholder="Enter Description"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
             </div>
@@ -365,13 +365,13 @@ const AddEvent = () => {
                     control: (base, { isFocused }) => ({
                       ...base,
                       padding: 6,
-                      borderColor: isFocused ? "#a266f0" : "#a266f0",
-                      boxShadow: isFocused ? "0 0 0 1px #a266f0" : "none",
-                      "&:hover": { borderColor: "#a266f0" },
+                      borderColor: isFocused ? "#0072bc" : "#0072bc",
+                      boxShadow: isFocused ? "0 0 0 1px #0072bc" : "none",
+                      "&:hover": { borderColor: "#0072bc" },
                     }),
                     multiValue: (base) => ({
                       ...base,
-                      backgroundColor: "#a266f0",
+                      backgroundColor: "#0072bc",
                     }),
                     multiValueLabel: (base) => ({
                       ...base,
@@ -388,7 +388,7 @@ const AddEvent = () => {
             </div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
+              className="flex w-full justify-center rounded bg-[#0072bc] p-3 font-medium text-gray hover:bg-opacity-90"
             >
               {loading ? "Submitting" : eventId ? "Update" : "Submit"}
             </button>

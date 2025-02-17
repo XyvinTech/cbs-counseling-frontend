@@ -185,7 +185,7 @@ const AddAvailability: React.FC = () => {
             key={index}
             className={`px-4 py-2 text-sm font-medium ${
               selectedTab === index
-                ? "border-b-4 border-violet-500 text-violet-600 font-semibold"
+                ? "border-b-4 border-blue-500 text-blue-600 font-semibold"
                 : "text-gray-500 hover:text-gray-700"
             }`}
             onClick={() => handleTabChange(index)}
@@ -200,7 +200,7 @@ const AddAvailability: React.FC = () => {
         {selectedDayTimes.map((timeSlot, index) => (
           <label
             key={index}
-            className="flex items-center gap-2 p-3 border border-violet-500 rounded-lg shadow-md text-violet-600 cursor-pointer hover:bg-violet-50"
+            className="flex items-center gap-2 p-3 border border-blue-500 rounded-lg shadow-md text-blue-600 cursor-pointer hover:bg-blue-50"
           >
             {showCheckboxes && (
               <input
@@ -216,7 +216,7 @@ const AddAvailability: React.FC = () => {
           </label>
         ))}
         <button
-          className="w-10 h-10 flex items-center justify-center bg-violet-500 text-white rounded-full hover:bg-violet-600 transition"
+          className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
           onClick={() => setIsDialogOpen(true)}
           type="button"
         >
@@ -291,7 +291,7 @@ const AddAvailability: React.FC = () => {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600"
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                 onClick={handleAddTime}
               >
                 Add
