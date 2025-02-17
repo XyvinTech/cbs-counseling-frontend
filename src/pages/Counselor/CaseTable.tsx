@@ -100,7 +100,7 @@ const CaseTable: React.FC = () => {
                 </th>
 
                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                  Counselor Type
+                  Counseling Type
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                   Status

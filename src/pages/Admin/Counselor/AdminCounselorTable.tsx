@@ -204,7 +204,7 @@ const AdminCounselorTable: React.FC<CounselorTableProps> = ({
                 Confirm Deletion
               </h2>
               <p className="mt-4 text-gray-600">
-                Are you sure you want to delete this Counselor Type? This action
+                Are you sure you want to delete this Counselor? This action
                 cannot be undone.
               </p>
               <div className="mt-6 flex justify-end space-x-4">

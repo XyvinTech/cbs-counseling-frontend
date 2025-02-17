@@ -95,7 +95,7 @@ const SessionTable: React.FC = () => {
           case "Pending for Approval":
             statusToSend = "pending";
             break;
-          case "Upcomming Sessions":
+          case "Upcoming Sessions":
             statusToSend = "progress";
             break;
           case "Closed":
@@ -290,7 +290,7 @@ const SessionTable: React.FC = () => {
       <div className="flex gap-4 mb-6 mt-6 bg-white p-3 rounded-lg shadow-xl">
         {[
           "Pending for Approval",
-          "Upcomming Sessions",
+          "Upcoming Sessions",
           "Closed",
           "Cancelled",
           "All Sessions",
@@ -339,7 +339,7 @@ const SessionTable: React.FC = () => {
                   Booked By
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                  Counselor Type
+                  Counseling Type
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                   Status

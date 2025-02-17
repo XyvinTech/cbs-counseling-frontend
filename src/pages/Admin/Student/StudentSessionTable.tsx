@@ -64,7 +64,7 @@ const StudentSessionTable: React.FC<CounselorTableProps> = ({
                 Counselor Name
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Counselor Type
+                Counseling Type
               </th>
             </tr>
           </thead>

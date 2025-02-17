@@ -236,7 +236,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                 Confirm Deletion
               </h2>
               <p className="mt-4 text-gray-600">
-                Are you sure you want to delete this Counselor Type? This action
+                Are you sure you want to delete this Event? This action
                 cannot be undone.
               </p>
               <div className="mt-6 flex justify-end space-x-4">

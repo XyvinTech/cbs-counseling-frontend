@@ -144,7 +144,7 @@ const ECommerce: React.FC = () => {
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
         <div className="col-span-12 xl:col-span-12">
           <h2 className="text-title-md2 font-semibold text-black dark:text-white mb-4">
-            Upcomming Events
+            Upcoming Events
           </h2>
           <Calendar />
         </div>
