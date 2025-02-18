@@ -31,7 +31,7 @@ const AdminTypeTable: React.FC<TypeTableProps> = ({ searchValue }) => {
     const fetchData = async () => {
       try {
         const response = await getType({
-          search: searchValue,
+          searchQuery: searchValue,
           page: currentPage,
           limit: itemsPerPage,
         });

@@ -11,7 +11,7 @@ export const createType = async (data: any): Promise<any | null> => {
   }
 };
 export const getType = async (params: {
-  search?: string;
+  searchQuery?: string;
   limit?: number;
   page?: number;
 }): Promise<any | null> => {
