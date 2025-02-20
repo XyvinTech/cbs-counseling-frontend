@@ -211,7 +211,7 @@ function App() {
           }
         />
       </Route>
-      <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+      <Route element={<ProtectedRoute allowedRoles={["admin", "counsellor"]} />}>
         <Route
           path="/session/:id"
           element={
@@ -222,7 +222,8 @@ function App() {
               </DefaultLayout>
             </>
           }
-        />{" "}
+        />{" "}</Route>
+        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
         <Route
           path="/cases/session/:id"
           element={
