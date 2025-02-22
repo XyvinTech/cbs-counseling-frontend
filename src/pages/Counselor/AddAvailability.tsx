@@ -178,15 +178,15 @@ const AddAvailability: React.FC = () => {
     availability.find((time) => time.day === day)?.times || [];
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg">
-      <div className="flex border-b">
+    <div className="bg-white p-6 rounded-lg shadow-lg  dark:bg-boxdark" >
+      <div className="flex border-b dark:border-strokedark">
         {daysOfWeek.map((day, index) => (
           <button
             key={index}
             className={`px-4 py-2 text-sm font-medium ${
               selectedTab === index
                 ? "border-b-4 border-blue-500 text-blue-600 font-semibold"
-                : "text-gray-500 hover:text-gray-700"
+                : "text-gray-500 hover:text-gray-700 dark:text-white"
             }`}
             onClick={() => handleTabChange(index)}
             type="button"
