@@ -269,7 +269,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
         )}
         {view && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 mt-16">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-2xl p-6 relative min-h-[500px] max-h-[80vh] overflow-y-auto">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-2xl p-6 relative min-h-[500px] max-h-[80vh] overflow-y-auto dark:bg-strokedark dark:text-white" >
               <button
                 onClick={handleCloseView}
                 className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
@@ -324,11 +324,11 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     Requisition Image
                   </p>
-                  <div className="w-full h-40 rounded-md overflow-hidden mt-2">
+                  <div className="w-full flex justify-center items-center h-40 rounded-md overflow-hidden mt-2">
                     <img
                       src={`${VITE_APP_FILE_URL}${data?.requisition_image}`}
                       alt="Requisition"
-                      className="w-full h-full object-contain rounded-md"
+                      className="max-w-full max-h-full object-contain rounded-lg bg-black"
                     />
                   </div>
                 </div>
@@ -338,7 +338,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   Details
                 </p>
-                <p className="text-gray-700 dark:text-gray-200">
+                <p className="text-gray-700 dark:text-gray-200 font-medium">
                   {data?.details}
                 </p>
               </div>
@@ -347,7 +347,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   Requisition Description
                 </p>
-                <p className="text-gray-700 dark:text-gray-200">
+                <p className="text-gray-700 dark:text-gray-200 font-medium">
                   {data?.requisition_description}
                 </p>
               </div>

@@ -60,7 +60,7 @@ const SessionDetails = () => {
             onClick={handleDownload}
             className="px-6 py-2 bg-[#0072bc] text-white rounded hover:bg-opacity-90 transition"
           >
-            Download Report
+            Download Session Report
           </button>
         </div>
       )}

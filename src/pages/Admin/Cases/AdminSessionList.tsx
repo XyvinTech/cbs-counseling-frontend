@@ -66,7 +66,7 @@ const AdminSessionList = () => {
             onClick={handleDownload}
             className="px-6 py-2 bg-[#0072bc] text-white rounded hover:bg-opacity-90 transition"
           >
-            Download Report
+            Download Case Report
           </button>
         </div>
       </div>

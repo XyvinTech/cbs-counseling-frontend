@@ -121,14 +121,7 @@ const AddReport = () => {
       toast.error(error.message);
     } finally {
       setLoading(false);
-      setFormState({
-        reportType: "",
-        startDate: "",
-        endDate: "",
-        grNumber: "",
-        counsellor: "",
-        counselingType: "",
-      });
+     
     }
   };
   
@@ -164,6 +157,14 @@ const AddReport = () => {
       console.error("Error downloading report:", error);
     } finally {
       setDwld(false);
+      setFormState({
+        reportType: "",
+        startDate: "",
+        endDate: "",
+        grNumber: "",
+        counsellor: "",
+        counselingType: "",
+      });
     }
   };
 
