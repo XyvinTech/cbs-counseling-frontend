@@ -94,12 +94,12 @@ const AddReport = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formState.startDate || !formState.endDate) {
       toast.error("Start Date and End Date are required.");
       return;
     }
-  
+
     setLoading(true);
     const params: any = {
       ...(formState.reportType ? { reportType: formState.reportType } : {}),
@@ -111,7 +111,7 @@ const AddReport = () => {
         ? { counselingType: formState.counselingType }
         : {}),
     };
-  
+
     try {
       const report = await getReport(params);
       if (report?.data) {
@@ -121,10 +121,9 @@ const AddReport = () => {
       toast.error(error.message);
     } finally {
       setLoading(false);
-     
     }
   };
-  
+
   const handleDownload = async () => {
     if (!reportData) return;
 
@@ -333,7 +332,7 @@ const AddReport = () => {
                 <>
                   <thead>
                     <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                      {reportData.headers.map((header, index) => (
+                      {reportData?.headers?.map((header, index) => (
                         <th
                           key={index}
                           className="py-4 px-4 font-medium text-black dark:text-white xl:pl-11"
@@ -344,30 +343,43 @@ const AddReport = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {reportData.data.map((row, rowIndex) => (
-                      <tr
-                        key={rowIndex}
-                        className={`border-b border-[#eee] dark:border-strokedark ${
-                          rowIndex === reportData.data.length - 1
-                            ? "border-none"
-                            : ""
-                        }`}
-                      >
-                        {reportData.headers.map((header, colIndex) => (
-                          <td
-                            key={colIndex}
-                            className="py-5 px-4 text-black dark:text-white"
-                          >
-                            {row[header.toLowerCase().replace(/\s+/g, "_")]
-                              ?.length > 30
-                              ? row[
-                                  header.toLowerCase().replace(/\s+/g, "_")
-                                ].slice(0, 30) + "..."
-                              : row[header.toLowerCase().replace(/\s+/g, "_")]}
-                          </td>
-                        ))}
+                    {reportData?.data && reportData.data.length > 0 ? (
+                      reportData.data.map((row, rowIndex) => (
+                        <tr
+                          key={rowIndex}
+                          className={`border-b border-[#eee] dark:border-strokedark ${
+                            rowIndex === reportData.data.length - 1
+                              ? "border-none"
+                              : ""
+                          }`}
+                        >
+                          {reportData?.headers?.map((header, colIndex) => (
+                            <td
+                              key={colIndex}
+                              className="py-5 px-4 text-black dark:text-white"
+                            >
+                              {row[header.toLowerCase().replace(/\s+/g, "_")]
+                                ?.length > 30
+                                ? row[
+                                    header.toLowerCase().replace(/\s+/g, "_")
+                                  ].slice(0, 30) + "..."
+                                : row[
+                                    header.toLowerCase().replace(/\s+/g, "_")
+                                  ]}
+                            </td>
+                          ))}
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={reportData?.headers?.length || 1}
+                          className="py-5 px-4 text-center text-gray-500"
+                        >
+                          No data available
+                        </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </>
               </table>
