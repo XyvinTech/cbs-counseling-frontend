@@ -112,6 +112,8 @@ const CounselingSessionTable: React.FC<CounselorTableProps> = ({
                           ? "bg-blue-500 text-gray-600"
                           : packageItem.status === "completed"
                           ? "bg-blue-500 text-blue-600"
+                          : packageItem.status === "referred"
+                          ? "bg-purple-500 text-purple-600"
                           : "bg-gray-500 text-gray-700"
                       }`}
                     >
