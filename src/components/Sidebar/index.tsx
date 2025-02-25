@@ -487,7 +487,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm3 6h6m-6 4h3m-3 4h4"
                       />
                     </svg>
-                    Report
+                    Reports
                   </NavLink>
                 </li>
               )}
