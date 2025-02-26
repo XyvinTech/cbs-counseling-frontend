@@ -142,7 +142,7 @@ const CounselorCaseTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
                 <option value={50}>50</option>
               </select>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 dark:text-blue-100">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
