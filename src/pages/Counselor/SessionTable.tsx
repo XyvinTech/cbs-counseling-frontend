@@ -95,7 +95,7 @@ const SessionTable: React.FC = () => {
           case "Pending for Approval":
             statusToSend = "pending";
             break;
-          case "Upcomming Sessions":
+          case "Upcoming Sessions":
             statusToSend = "progress";
             break;
           case "Closed":
@@ -290,7 +290,7 @@ const SessionTable: React.FC = () => {
       <div className="flex gap-4 mb-6 mt-6 bg-white p-3 rounded-lg shadow-xl">
         {[
           "Pending for Approval",
-          "Upcomming Sessions",
+          "Upcoming Sessions",
           "Closed",
           "Cancelled",
           "All Sessions",
@@ -339,7 +339,7 @@ const SessionTable: React.FC = () => {
                   Booked By
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                  Counselor Type
+                  Counseling Type
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                   Status
@@ -413,7 +413,7 @@ const SessionTable: React.FC = () => {
                             : packageItem.status === "pending"
                             ? "bg-yellow-500 text-yellow-600"
                             : packageItem.status === "reschedule"
-                            ? "bg-violet-500 text-gray-600"
+                            ? "bg-blue-500 text-gray-600"
                             : packageItem.status === "completed"
                             ? "bg-blue-500 text-blue-600"
                             : "bg-gray-500 text-gray-700"
@@ -444,7 +444,7 @@ const SessionTable: React.FC = () => {
                 <tr>
                   <td
                     colSpan={5}
-                    className="text-center py-5 text-gray-500 dark:text-gray-300"
+                    className="text-center py-5 text-gray-500 dark:text-gray-300 dark:text-white"
                   >
                     No data available
                   </td>
@@ -534,7 +534,7 @@ const SessionTable: React.FC = () => {
                     selected={formState.session_date}
                     onChange={handleDateChange}
                     filterDate={filterDate}
-                    className="w-full border border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                    className="w-full border border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                     placeholderText="Select a valid date"
                     wrapperClassName="w-full"
                     popperClassName="!z-50"
@@ -557,7 +557,7 @@ const SessionTable: React.FC = () => {
                         session_time: selectedTime,
                       }));
                     }}
-                    className="w-full border border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                    className="w-full border border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                   >
                     <option value="" disabled>
                       Select Time
@@ -607,13 +607,13 @@ const SessionTable: React.FC = () => {
         </div>
         <div className="mt-4 flex justify-between items-center">
           <div className="flex items-center space-x-2">
-            <span className="text-gray-700 dark:text-violet-100">
+            <span className="text-gray-700 dark:text-blue-100">
               Items per page:
             </span>
             <select
               value={itemsPerPage}
               onChange={(e) => setItemsPerPage(Number(e.target.value))}
-              className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent dark:text-violet-100"
+              className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent dark:text-blue-100"
             >
               <option value={10}>10</option>
               <option value={20}>20</option>
@@ -626,8 +626,8 @@ const SessionTable: React.FC = () => {
               disabled={currentPage === 1}
               className={`px-4 py-2 rounded ${
                 currentPage === 1
-                  ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
-                  : "bg-violet-500 text-white dark:text-violet-100"
+                  ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-blue-100"
+                  : "bg-blue-500 text-white dark:text-blue-100"
               }`}
             >
               Previous
@@ -640,7 +640,7 @@ const SessionTable: React.FC = () => {
                     onClick={() => handlePageChange(page)}
                     className={`px-3 py-1 rounded ${
                       page === currentPage
-                        ? "bg-violet-500 text-white"
+                        ? "bg-blue-500 text-white"
                         : "bg-gray-200 text-gray-700"
                     }`}
                   >
@@ -654,8 +654,8 @@ const SessionTable: React.FC = () => {
               disabled={currentPage === totalPages}
               className={`px-4 py-2 rounded ${
                 currentPage === totalPages
-                  ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
-                  : "bg-violet-500 text-white dark:text-violet-100"
+                  ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-blue-100"
+                  : "bg-blue-500 text-white dark:text-blue-100"
               }`}
             >
               Next

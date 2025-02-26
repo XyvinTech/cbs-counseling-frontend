@@ -73,7 +73,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       <div className="flex items-center justify-center gap-2 px-6 py-5.5 lg:py-0 ">
         <NavLink
           to="/dashboard"
-          className="flex items-center  gap-2 pt-8 font-semibold text-xl text-[#333] hover:text-[#a266f0] transition-colors duration-300 ease-in-out dark:text-white"
+          className="flex items-center  gap-2 pt-8 font-semibold text-xl text-[#333] hover:text-[#0072bc] transition-colors duration-300 ease-in-out dark:text-white"
         >
           <img src={image} alt="Logo" className="w-26 h-24" />
         </NavLink>
@@ -108,10 +108,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/dashboard"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0]  hover:text-white dark:hover:bg-meta-4 dark:text-violet-200 ${
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#0072bc]  hover:text-white dark:hover:bg-meta-4 dark:text-blue-200 ${
                     (pathname === "/dashboard" ||
                       pathname.includes("dashboard")) &&
-                    "bg-[#a266f0] text-white"
+                    "bg-[#0072bc] text-white"
                   }`}
                 >
                   <svg
@@ -146,9 +146,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <li className="relative">
                   <div
                     onClick={toggleDropdown}
-                    className={`group relative flex items-center justify-between dark:text-violet-200 gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 cursor-pointer ${
+                    className={`group relative flex items-center justify-between dark:text-blue-200 gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white dark:hover:bg-meta-4 cursor-pointer ${
                       pathname.includes("counselor") &&
-                      "bg-[#a266f0] text-white"
+                      "bg-[#0072bc] text-white"
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
@@ -183,9 +183,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       <li>
                         <NavLink
                           to="/counselor-session"
-                          className={`group relative flex items-center gap-2.5 py-2 px-4 rounded-sm duration-300 ease-in-out dark:text-violet-200 hover:bg-[#a266f0] hover:text-white ${
+                          className={`group relative flex items-center gap-2.5 py-2 px-4 rounded-sm duration-300 ease-in-out dark:text-blue-200 hover:bg-[#0072bc] hover:text-white ${
                             pathname.includes("session") &&
-                            "bg-[#a266f0] text-white"
+                            "bg-[#0072bc] text-white"
                           }`}
                         >
                           <svg
@@ -208,10 +208,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       <li>
                         <NavLink
                           to="/counselor-case"
-                          className={`group relative flex items-center gap-2.5 py-2 dark:text-violet-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white ${
+                          className={`group relative flex items-center gap-2.5 py-2 dark:text-blue-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white ${
                             pathname.includes("counselor") &&
                             pathname.includes("case")
-                              ? "bg-[#a266f0] text-white"
+                              ? "bg-[#0072bc] text-white"
                               : ""
                           }`}
                         >
@@ -235,9 +235,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       <li>
                         <NavLink
                           to="/counselors-remark"
-                          className={`group relative flex items-center gap-2.5 py-2 dark:text-violet-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white ${
+                          className={`group relative flex items-center gap-2.5 py-2 dark:text-blue-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white ${
                             pathname.includes("remark") &&
-                            "bg-[#a266f0] text-white"
+                            "bg-[#0072bc] text-white"
                           }`}
                         >
                           <svg
@@ -270,9 +270,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <li>
                   <NavLink
                     to="/availability"
-                    className={`group relative flex items-center gap-2.5 dark:text-violet-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
+                    className={`group relative flex items-center gap-2.5 dark:text-blue-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white dark:hover:bg-meta-4 ${
                       pathname.includes("availability") &&
-                      "bg-[#a266f0] text-white"
+                      "bg-[#0072bc] text-white"
                     }`}
                   >
                     <svg
@@ -297,10 +297,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <li className="relative">
                   <div
                     onClick={toggleUserDropdown}
-                    className={`group relative flex items-center justify-between dark:text-violet-200 gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 cursor-pointer ${
+                    className={`group relative flex items-center justify-between dark:text-blue-200 gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white dark:hover:bg-meta-4 cursor-pointer ${
                       (pathname.includes("counselor") ||
                         pathname.includes("student")) &&
-                      "bg-[#a266f0] text-white"
+                      "bg-[#0072bc] text-white"
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
@@ -335,9 +335,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       <li>
                         <NavLink
                           to="/counselor"
-                          className={`group relative flex items-center gap-2.5 py-2 px-4 rounded-sm duration-300 ease-in-out dark:text-violet-200 hover:bg-[#a266f0] hover:text-white ${
+                          className={`group relative flex items-center gap-2.5 py-2 px-4 rounded-sm duration-300 ease-in-out dark:text-blue-200 hover:bg-[#0072bc] hover:text-white ${
                             pathname.includes("counselor") &&
-                            "bg-[#a266f0] text-white"
+                            "bg-[#0072bc] text-white"
                           }`}
                         >
                           <svg
@@ -360,9 +360,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       <li>
                         <NavLink
                           to="/student"
-                          className={`group relative flex items-center gap-2.5 py-2 dark:text-violet-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white ${
+                          className={`group relative flex items-center gap-2.5 py-2 dark:text-blue-200 px-4 rounded-sm duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white ${
                             pathname.includes("student") &&
-                            "bg-[#a266f0] text-white"
+                            "bg-[#0072bc] text-white"
                           }`}
                         >
                           <svg
@@ -390,10 +390,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <li>
                   <NavLink
                     to="/case-session"
-                    className={`group relative flex dark:text-violet-200 items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
+                    className={`group relative flex dark:text-blue-200 items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white dark:hover:bg-meta-4 ${
                       (pathname.includes("case") ||
                         pathname.includes("session")) &&
-                      "bg-[#a266f0] text-white"
+                      "bg-[#0072bc] text-white"
                     }`}
                   >
                     <svg
@@ -417,8 +417,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/admin-event"
-                  className={`group relative flex items-center dark:text-violet-200  gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
-                    pathname.includes("event") && "bg-[#a266f0] text-white"
+                  className={`group relative flex items-center dark:text-blue-200  gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white dark:hover:bg-meta-4 ${
+                    pathname.includes("event") && "bg-[#0072bc] text-white"
                   }`}
                 >
                   <svg
@@ -442,8 +442,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <li>
                   <NavLink
                     to="/admin-type"
-                    className={`group relative flex items-center gap-2.5 dark:text-violet-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
-                      pathname.includes("type") && "bg-[#a266f0] text-white"
+                    className={`group relative flex items-center gap-2.5 dark:text-blue-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white dark:hover:bg-meta-4 ${
+                      pathname.includes("type") && "bg-[#0072bc] text-white"
                     }`}
                   >
                     <svg
@@ -468,9 +468,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <li>
                   <NavLink
                     to="/admin-report"
-                    className={`group relative flex items-center gap-2.5 dark:text-violet-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
+                    className={`group relative flex items-center gap-2.5 dark:text-blue-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white dark:hover:bg-meta-4 ${
                       pathname.includes("admin-report") &&
-                      "bg-[#a266f0] text-white"
+                      "bg-[#0072bc] text-white"
                     }`}
                   >
                     <svg
@@ -487,15 +487,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm3 6h6m-6 4h3m-3 4h4"
                       />
                     </svg>
-                    Report
+                    Reports
                   </NavLink>
                 </li>
               )}
               <li>
                 <NavLink
                   to="/settings"
-                  className={`group relative flex items-center gap-2.5 dark:text-violet-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#a266f0] hover:text-white dark:hover:bg-meta-4 ${
-                    pathname.includes("settings") && "bg-[#a266f0] text-white"
+                  className={`group relative flex items-center gap-2.5 dark:text-blue-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white dark:hover:bg-meta-4 ${
+                    pathname.includes("settings") && "bg-[#0072bc] text-white"
                   }`}
                 >
                   <svg
@@ -520,7 +520,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         </nav>
       </div>
       <div className="mt-auto flex flex-col items-center justify-center py-4 px-6">
-        <span className="text-sm font-medium text-gray-500 dark:text-violet-200">
+        <span className="text-sm font-medium text-gray-500 dark:text-blue-200">
           Powered By
         </span>
         <img src={logo} alt="Logo" className="w-56 h-14 mt-2" />

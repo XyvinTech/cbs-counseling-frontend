@@ -94,12 +94,12 @@ const AddReport = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formState.startDate || !formState.endDate) {
       toast.error("Start Date and End Date are required.");
       return;
     }
-  
+
     setLoading(true);
     const params: any = {
       ...(formState.reportType ? { reportType: formState.reportType } : {}),
@@ -111,7 +111,7 @@ const AddReport = () => {
         ? { counselingType: formState.counselingType }
         : {}),
     };
-  
+
     try {
       const report = await getReport(params);
       if (report?.data) {
@@ -121,17 +121,9 @@ const AddReport = () => {
       toast.error(error.message);
     } finally {
       setLoading(false);
-      setFormState({
-        reportType: "",
-        startDate: "",
-        endDate: "",
-        grNumber: "",
-        counsellor: "",
-        counselingType: "",
-      });
     }
   };
-  
+
   const handleDownload = async () => {
     if (!reportData) return;
 
@@ -164,6 +156,14 @@ const AddReport = () => {
       console.error("Error downloading report:", error);
     } finally {
       setDwld(false);
+      setFormState({
+        reportType: "",
+        startDate: "",
+        endDate: "",
+        grNumber: "",
+        counsellor: "",
+        counselingType: "",
+      });
     }
   };
 
@@ -185,7 +185,7 @@ const AddReport = () => {
                 name="reportType"
                 value={formState.reportType}
                 onChange={handleChange}
-                className="w-full rounded border bg-transparent py-3 px-5 outline-none transition focus:border-[#a266f0] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#a266f0]"
+                className="w-full rounded border bg-transparent py-3 px-5 outline-none transition focus:border-[#0072bc] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0072bc]"
               >
                 <option value="">Select Report Type</option>
                 <option value="session">Session</option>
@@ -211,13 +211,13 @@ const AddReport = () => {
                     control: (base, { isFocused }) => ({
                       ...base,
                       padding: 6,
-                      borderColor: isFocused ? "#a266f0" : "#a266f0",
-                      boxShadow: isFocused ? "0 0 0 1px #a266f0" : "none",
-                      "&:hover": { borderColor: "#a266f0" },
+                      borderColor: isFocused ? "#0072bc" : "#0072bc",
+                      boxShadow: isFocused ? "0 0 0 1px #0072bc" : "none",
+                      "&:hover": { borderColor: "#0072bc" },
                     }),
                     multiValue: (base) => ({
                       ...base,
-                      backgroundColor: "#a266f0",
+                      backgroundColor: "#0072bc",
                     }),
                     multiValueLabel: (base) => ({
                       ...base,
@@ -250,13 +250,13 @@ const AddReport = () => {
                     control: (base, { isFocused }) => ({
                       ...base,
                       padding: 6,
-                      borderColor: isFocused ? "#a266f0" : "#a266f0",
-                      boxShadow: isFocused ? "0 0 0 1px #a266f0" : "none",
-                      "&:hover": { borderColor: "#a266f0" },
+                      borderColor: isFocused ? "#0072bc" : "#0072bc",
+                      boxShadow: isFocused ? "0 0 0 1px #0072bc" : "none",
+                      "&:hover": { borderColor: "#0072bc" },
                     }),
                     multiValue: (base) => ({
                       ...base,
-                      backgroundColor: "#a266f0",
+                      backgroundColor: "#0072bc",
                     }),
                     multiValueLabel: (base) => ({
                       ...base,
@@ -290,7 +290,7 @@ const AddReport = () => {
                 value={formState.startDate}
                 onChange={handleChange}
                 placeholder="Enter Start Date"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
               />
             </div>
 
@@ -304,12 +304,12 @@ const AddReport = () => {
                 value={formState.endDate}
                 onChange={handleChange}
                 placeholder="Enter End Date"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
               />
             </div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
+              className="flex w-full justify-center rounded bg-[#0072bc] p-3 font-medium text-gray hover:bg-opacity-90"
             >
               {loading ? "Loading..." : "Generate Report"}
             </button>
@@ -321,7 +321,7 @@ const AddReport = () => {
           <div className="flex justify-end mt-4">
             <button
               onClick={handleDownload}
-              className="px-6 py-2 bg-[#a266f0] text-white rounded hover:bg-opacity-90 transition"
+              className="px-6 py-2 bg-[#0072bc] text-white rounded hover:bg-opacity-90 transition"
             >
               {dwld ? "Downloading..." : "Download Report"}
             </button>
@@ -332,7 +332,7 @@ const AddReport = () => {
                 <>
                   <thead>
                     <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                      {reportData.headers.map((header, index) => (
+                      {reportData?.headers?.map((header, index) => (
                         <th
                           key={index}
                           className="py-4 px-4 font-medium text-black dark:text-white xl:pl-11"
@@ -343,30 +343,43 @@ const AddReport = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {reportData.data.map((row, rowIndex) => (
-                      <tr
-                        key={rowIndex}
-                        className={`border-b border-[#eee] dark:border-strokedark ${
-                          rowIndex === reportData.data.length - 1
-                            ? "border-none"
-                            : ""
-                        }`}
-                      >
-                        {reportData.headers.map((header, colIndex) => (
-                          <td
-                            key={colIndex}
-                            className="py-5 px-4 text-black dark:text-white"
-                          >
-                            {row[header.toLowerCase().replace(/\s+/g, "_")]
-                              ?.length > 30
-                              ? row[
-                                  header.toLowerCase().replace(/\s+/g, "_")
-                                ].slice(0, 30) + "..."
-                              : row[header.toLowerCase().replace(/\s+/g, "_")]}
-                          </td>
-                        ))}
+                    {reportData?.data && reportData.data.length > 0 ? (
+                      reportData.data.map((row, rowIndex) => (
+                        <tr
+                          key={rowIndex}
+                          className={`border-b border-[#eee] dark:border-strokedark ${
+                            rowIndex === reportData.data.length - 1
+                              ? "border-none"
+                              : ""
+                          }`}
+                        >
+                          {reportData?.headers?.map((header, colIndex) => (
+                            <td
+                              key={colIndex}
+                              className="py-5 px-4 text-black dark:text-white"
+                            >
+                              {row[header.toLowerCase().replace(/\s+/g, "_")]
+                                ?.length > 30
+                                ? row[
+                                    header.toLowerCase().replace(/\s+/g, "_")
+                                  ].slice(0, 30) + "..."
+                                : row[
+                                    header.toLowerCase().replace(/\s+/g, "_")
+                                  ]}
+                            </td>
+                          ))}
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={reportData?.headers?.length || 1}
+                          className="py-5 px-4 text-center text-gray-500"
+                        >
+                          No data available
+                        </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </>
               </table>

@@ -510,7 +510,7 @@ const AddEntry: React.FC = () => {
                       : ""
                   }
                   onChange={handleChange}
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
             )}
@@ -523,7 +523,7 @@ const AddEntry: React.FC = () => {
                 name="interactions"
                 value={formState.interactions}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 placeholder="Add interactions"
               />
             </div>{" "}
@@ -535,7 +535,7 @@ const AddEntry: React.FC = () => {
                 type="file"
                 multiple
                 onChange={handleFileUpload}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
               />
             </div>
             <div className="mb-6">
@@ -546,7 +546,7 @@ const AddEntry: React.FC = () => {
                 name="details"
                 value={formState.details}
                 onChange={handleChange}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 placeholder="Add case details"
                 rows={3}
               />
@@ -563,7 +563,7 @@ const AddEntry: React.FC = () => {
 
                   setFormState((prev) => ({ ...prev, type: selectedValue }));
                 }}
-                className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-[#a266f0] active:border-[#a266f0] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#a266f0] ${
+                className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-[#0072bc] active:border-[#0072bc] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0072bc] ${
                   formState.type ? "text-black dark:text-white" : ""
                 }`}
               >
@@ -589,7 +589,7 @@ const AddEntry: React.FC = () => {
 
                     setFormState((prev) => ({ ...prev, refer: selectedValue }));
                   }}
-                  className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-[#a266f0] active:border-[#a266f0] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#a266f0] ${
+                  className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-[#0072bc] active:border-[#0072bc] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0072bc] ${
                     formState.refer ? "text-black dark:text-white" : ""
                   }`}
                 >
@@ -611,7 +611,7 @@ const AddEntry: React.FC = () => {
                   name="reason_for_closing"
                   value={formState.reason_for_closing}
                   onChange={handleChange}
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                   placeholder="Enter reason for closure"
                   rows={4}
                 />
@@ -629,7 +629,7 @@ const AddEntry: React.FC = () => {
                     selected={formState.session_date}
                     onChange={handleDateChange}
                     filterDate={filterDate}
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                     placeholderText="Select a valid date"
                     wrapperClassName="w-full"
                     popperClassName="!z-50"
@@ -649,7 +649,7 @@ const AddEntry: React.FC = () => {
                         time: selectedTime,
                       }));
                     }}
-                    className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-[#a266f0] active:border-[#a266f0] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#a266f0] ${
+                    className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-[#0072bc] active:border-[#0072bc] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0072bc] ${
                       formState.time ? "text-black dark:text-white" : ""
                     }`}
                   >

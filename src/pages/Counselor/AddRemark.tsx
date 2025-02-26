@@ -239,7 +239,7 @@ const AddRemark: React.FC = () => {
             </label>
             <textarea
               name="remark"
-              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
               placeholder="Type your remark here..."
               rows={3}
               value={remark}

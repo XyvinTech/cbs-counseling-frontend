@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 import SelectType from "../../../components/Admin/SelectType";
 import SelectGender from "../../../components/Admin/SelectGender";
@@ -64,6 +66,13 @@ const AddCounselor = () => {
     }));
   };
 
+  const handleMobileChange = (value: string) => {
+    setCounselorData((prev) => ({
+      ...prev,
+      mobile: value,
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -93,23 +102,6 @@ const AddCounselor = () => {
     setCounselorData((prev) => ({
       ...prev,
       counsellorType: values,
-    }));
-  };
-  const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/\D/g, "");
-    if (value.startsWith("968")) {
-      value = "+968" + value.slice(3);
-    } else if (!value.startsWith("+968")) {
-      value = "+968" + value;
-    }
-
-    if (value === "+968") {
-      value = "";
-    }
-
-    setCounselorData((prev) => ({
-      ...prev,
-      mobile: value,
     }));
   };
 
@@ -149,7 +141,7 @@ const AddCounselor = () => {
                   value={counselorData.name}
                   onChange={handleChange}
                   placeholder="Enter Name"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
               <SelectGender
@@ -169,7 +161,7 @@ const AddCounselor = () => {
                   value={counselorData.designation}
                   onChange={handleChange}
                   placeholder="Enter Designation"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
               <div className="w-full">
@@ -182,7 +174,7 @@ const AddCounselor = () => {
                   value={counselorData.email}
                   onChange={handleChange}
                   placeholder="Enter Email"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
             </div>
@@ -191,13 +183,18 @@ const AddCounselor = () => {
                 <label className="mb-2.5 block text-black dark:text-white">
                   Contact Number
                 </label>
-                <input
-                  type="text"
-                  name="mobile"
+                <PhoneInput
+                  country={'om'}
                   value={counselorData.mobile}
                   onChange={handleMobileChange}
-                  placeholder="+968 9898 9898"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  inputProps={{
+                    name: 'mobile',
+                    required: true,
+                    className: 'w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-10 text-black outline-none transition focus:border-[#0072bc] active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary'
+                  }}
+                  containerClass="phone-input-container"
+                  buttonClass="phone-input-button"
+                  dropdownClass="phone-input-dropdown"
                 />
               </div>
             </div>
@@ -211,7 +208,7 @@ const AddCounselor = () => {
 
             <button
               type="submit"
-              className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
+              className="flex w-full justify-center rounded bg-[#0072bc] p-3 font-medium text-gray hover:bg-opacity-90"
             >
               {loading ? "Submitting..." : counselorId ? "Update" : "Submit"}
             </button>

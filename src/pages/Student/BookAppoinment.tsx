@@ -145,7 +145,7 @@ const BookAppoinment: React.FC = () => {
                     selected={form.session_date}
                     onChange={handleDateChange}
                     filterDate={filterDate}
-                    className="w-full border border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                    className="w-full border border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                     placeholderText="Select a valid date"
                     wrapperClassName="w-full"
                     popperClassName="!z-50"
@@ -166,7 +166,7 @@ const BookAppoinment: React.FC = () => {
                         session_time: JSON.parse(e.target.value),
                       }))
                     }
-                    className="w-full border border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                    className="w-full border border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                   >
                     <option value="" disabled>
                       Select Time
@@ -195,12 +195,12 @@ const BookAppoinment: React.FC = () => {
                     }))
                   }
                   placeholder="Enter Details"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
             </div>
 
-            <button className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90">
+            <button className="flex w-full justify-center rounded bg-[#0072bc] p-3 font-medium text-gray hover:bg-opacity-90">
        {loading ? "Booking..." : "Book"}
             </button>
           </form>

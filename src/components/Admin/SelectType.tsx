@@ -33,7 +33,7 @@ const SelectType: React.FC<{
   return (
     <div className="mb-4.5">
       <label className="mb-2.5 block text-black dark:text-white">
-        Counselor Type
+        Counseling Type
       </label>
       <Select
         isMulti
@@ -44,13 +44,13 @@ const SelectType: React.FC<{
           control: (base, { isFocused }) => ({
             ...base,
             padding: 6,
-            borderColor: isFocused ? "#a266f0" : "#a266f0",
-            boxShadow: isFocused ? "0 0 0 1px #a266f0" : "none",
-            "&:hover": { borderColor: "#a266f0" },
+            borderColor: isFocused ? "#0072bc" : "#0072bc",
+            boxShadow: isFocused ? "0 0 0 1px #0072bc" : "none",
+            "&:hover": { borderColor: "#0072bc" },
           }),
           multiValue: (base) => ({
             ...base,
-            backgroundColor: "#a266f0",
+            backgroundColor: "#0072bc",
           }),
           multiValueLabel: (base) => ({
             ...base,
@@ -63,7 +63,7 @@ const SelectType: React.FC<{
           }),
         }}
         classNamePrefix="select"
-        placeholder="Select Counselor Type"
+        placeholder="Select Counseling Type"
       />
     </div>
   );

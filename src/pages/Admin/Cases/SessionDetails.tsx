@@ -58,9 +58,9 @@ const SessionDetails = () => {
         <div className="flex justify-end mt-4 p-6 pb-0">
           <button
             onClick={handleDownload}
-            className="px-6 py-2 bg-[#a266f0] text-white rounded hover:bg-opacity-90 transition"
+            className="px-6 py-2 bg-[#0072bc] text-white rounded hover:bg-opacity-90 transition"
           >
-            Download Report
+            Download Session Report
           </button>
         </div>
       )}

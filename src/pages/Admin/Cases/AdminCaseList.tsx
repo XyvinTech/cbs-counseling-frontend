@@ -39,7 +39,7 @@ const AdminCaseList = () => {
 
             <input
               type="text"
-              placeholder="Type to search..."
+             placeholder="Search by counselor or student name..."
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               className="w-full bg-white pl-10 pr-4 py-2.5 text-black dark:bg-graydark dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"

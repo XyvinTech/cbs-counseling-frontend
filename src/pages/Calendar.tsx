@@ -33,7 +33,7 @@ const Calendar = () => {
   }, []);
 
   return (
-    <div className="w-full h-screen p-4 bg-white dark:bg-boxdark shadow-md rounded-lg">
+    <div className="w-full h-screen p-4 bg-white dark:bg-boxdark shadow-md rounded-lg dark:text-white">
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin]}
         initialView="dayGridMonth"
@@ -41,7 +41,7 @@ const Calendar = () => {
         height="auto"
         titleFormat={{ year: "numeric", month: "long" }}
         themeSystem="bootstrap"
-        dayHeaderClassNames="bg-[#8B5CF6] text-white py-2 text-sm"
+        dayHeaderClassNames="bg-[#0072bc] text-white py-2 text-sm"
         displayEventTime={false} 
       />
     </div>

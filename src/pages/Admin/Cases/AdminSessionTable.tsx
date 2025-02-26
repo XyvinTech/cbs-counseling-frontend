@@ -124,9 +124,11 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
                           : packageItem.status === "pending"
                           ? "bg-yellow-500 text-yellow-600"
                           : packageItem.status === "reschedule"
-                          ? "bg-violet-500 text-gray-600"
+                          ? "bg-blue-500 text-gray-600"
                           : packageItem.status === "completed"
                           ? "bg-blue-500 text-blue-600"
+                          : packageItem.status === "referred"
+                          ? "bg-purple-500 text-purple-600"
                           : "bg-gray-500 text-gray-700"
                       }`}
                     >
@@ -141,7 +143,7 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
               <tr>
                 <td
                   colSpan={5}
-                  className="text-center py-5 text-gray-500 dark:text-gray-300"
+                  className="text-center py-5 text-gray-500 dark:text-gray-300 dark:text-white"
                 >
                   No data available
                 </td>
@@ -152,13 +154,13 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
       </div>
       <div className={`mt-4 flex justify-between items-center`}>
         <div className="flex items-center space-x-2">
-          <span className="text-gray-700 dark:text-violet-100">
+          <span className="text-gray-700 dark:text-blue-100">
             Items per page:
           </span>
           <select
             value={itemsPerPage}
             onChange={(e) => setItemsPerPage(Number(e.target.value))}
-            className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent dark:text-violet-100"
+            className="px-2 py-1 border rounded text-gray-700 dark:bg-transparent dark:text-blue-100"
           >
             <option value={10}>10</option>
             <option value={20}>20</option>
@@ -171,8 +173,8 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
             disabled={currentPage === 1}
             className={`px-4 py-2 rounded ${
               currentPage === 1
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
-                : "bg-violet-500 text-white dark:via-violet-100"
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-blue-100"
+                : "bg-blue-500 text-white dark:via-blue-100"
             }`}
           >
             Previous
@@ -185,7 +187,7 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
                   onClick={() => handlePageChange(page)}
                   className={`px-3 py-1 rounded ${
                     page === currentPage
-                      ? "bg-violet-500 text-white"
+                      ? "bg-blue-500 text-white"
                       : "bg-gray-200 text-gray-700"
                   }`}
                 >
@@ -199,8 +201,8 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
             disabled={currentPage === totalPages}
             className={`px-4 py-2 rounded ${
               currentPage === totalPages
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-violet-100"
-                : "bg-violet-500 text-white dark:text-violet-100"
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed dark:text-blue-100"
+                : "bg-blue-500 text-white dark:text-blue-100"
             }`}
           >
             Next

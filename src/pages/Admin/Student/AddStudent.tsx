@@ -4,7 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SelectGender from "../../../components/Admin/SelectGender";
 import { createUser, getUserById, updateUser } from "../../../api/userApi";
 import { toast } from "react-toastify";
-
+import PhoneInput from "react-phone-input-2";
+import 'react-phone-input-2/lib/style.css';
 const AddStudent = () => {
   const [loading, setLoading] = useState(false);
   const [studentData, setStudentData] = useState({
@@ -53,33 +54,24 @@ const AddStudent = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    let formattedValue = value;
-  
-    if (name === "mobile" || name === "parentContact") {
-      formattedValue = value.replace(/\D/g, ""); // Remove non-numeric characters
-  
-      if (formattedValue.startsWith("968")) {
-        formattedValue = "+968" + formattedValue.slice(3);
-      } else if (!formattedValue.startsWith("+968")) {
-        formattedValue = "+968" + formattedValue;
-      }
-  
-      if (formattedValue.length > 12) {
-        formattedValue = formattedValue.slice(0, 12);
-      }
-  
-      if (formattedValue === "+968") {
-        formattedValue = "";
-      }
-    }
-  
+
     setStudentData((prev) => ({
       ...prev,
-      [name]: formattedValue,
+      [name]: value,
     }));
   };
-  
-
+  const handleMobileChange = (value: string) => {
+    setStudentData((prev) => ({
+      ...prev,
+      mobile: value,
+    }));
+  };
+  const handleParentMobileChange = (value: string) => {
+    setStudentData((prev) => ({
+      ...prev,
+      parentContact: value,
+    }));
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -138,7 +130,7 @@ const AddStudent = () => {
                   value={studentData.name}
                   onChange={handleChange}
                   placeholder="Enter Name"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
               <div className="w-full">
@@ -151,7 +143,7 @@ const AddStudent = () => {
                   value={studentData.email}
                   onChange={handleChange}
                   placeholder="Enter Email"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
             </div>
@@ -167,7 +159,7 @@ const AddStudent = () => {
                   value={studentData.StudentReferencesCode}
                   onChange={handleChange}
                   placeholder="Enter GRP Number"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
               <div className="w-full">
@@ -180,7 +172,7 @@ const AddStudent = () => {
                   value={studentData.designation}
                   onChange={handleChange}
                   placeholder="Enter Standard"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
             </div>
@@ -195,7 +187,7 @@ const AddStudent = () => {
                   value={studentData.division}
                   onChange={handleChange}
                   placeholder="Enter Division"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
               <SelectGender
@@ -209,13 +201,20 @@ const AddStudent = () => {
                 <label className="mb-2.5 block text-black dark:text-white">
                   Contact Number
                 </label>
-                <input
-                  type="text"
-                  name="mobile"
+
+                <PhoneInput
+                  country={"om"}
                   value={studentData.mobile}
-                  onChange={handleChange}
-                  placeholder="+968 9898 9898"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  onChange={handleMobileChange}
+                  inputProps={{
+                    name: "mobile",
+                    required: true,
+                    className:
+                      "w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-10 text-black outline-none transition focus:border-[#0072bc] active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary",
+                  }}
+                  containerClass="phone-input-container"
+                  buttonClass="phone-input-button"
+                  dropdownClass="phone-input-dropdown"
                 />
               </div>
 
@@ -223,20 +222,26 @@ const AddStudent = () => {
                 <label className="mb-2.5 block text-black dark:text-white">
                   Alternative Contact Number
                 </label>
-                <input
-                  type="text"
-                  name="parentContact"
+              
+                    <PhoneInput
+                  country={'om'}
                   value={studentData.parentContact}
-                  onChange={handleChange}
-                  placeholder="+968 9898 9898"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#a266f0] dark:text-white"
+                  onChange={handleParentMobileChange}
+                  inputProps={{
+                    name: 'parentContact',
+                    required: true,
+                    className: 'w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-10 text-black outline-none transition focus:border-[#0072bc] active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary'
+                  }}
+                  containerClass="phone-input-container"
+                  buttonClass="phone-input-button"
+                  dropdownClass="phone-input-dropdown"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="flex w-full justify-center rounded bg-[#a266f0] p-3 font-medium text-gray hover:bg-opacity-90"
+              className="flex w-full justify-center rounded bg-[#0072bc] p-3 font-medium text-gray hover:bg-opacity-90"
             >
               {loading ? "Submitting..." : studentId ? "Update" : "Submit"}
             </button>
