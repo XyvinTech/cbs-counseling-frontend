@@ -11,7 +11,7 @@ const AddEvent = () => {
   const [counselor, setCounselor] = useState<
     { value: string; label: string }[]
   >([]);
-  const VITE_APP_FILE_URL = import.meta.env.VITE_APP_FILE_URL;
+  const VITE_APP_FILE_URL ="https://able.iswkoman.com/images/"
   const [file, setFile] = useState<File | null>(null);
   const [isOther, setIsOther] = useState(false);
   const [loading, setLoading] = useState(false);

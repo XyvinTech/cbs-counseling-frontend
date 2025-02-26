@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { addTime, deleteTime, getAllTime } from "../../api/timeApi"; // Import API functions
+import Loader from "../../components/Loader";
 
 // Define TypeScript interfaces
 interface TimeSlot {
@@ -26,7 +27,7 @@ const AddAvailability: React.FC = () => {
   const [confirmationInput, setConfirmationInput] = useState<string>("");
   const [isChange, setIsChange] = useState<boolean>(false);
   const [isAnySelected, setIsAnySelected] = useState<boolean>(false);
-
+  const [loader, setLoader] = useState<boolean>(false);
   const daysOfWeek: string[] = [
     "Sunday",
     "Monday",
@@ -39,11 +40,14 @@ const AddAvailability: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoader(true);
       try {
         const response = await getAllTime();
         setAvailability(response.data as Availability[]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
+      } finally {
+        setLoader(false);
       }
     };
 
@@ -178,146 +182,152 @@ const AddAvailability: React.FC = () => {
     availability.find((time) => time.day === day)?.times || [];
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg  dark:bg-boxdark" >
-      <div className="flex border-b dark:border-strokedark">
-        {daysOfWeek.map((day, index) => (
-          <button
-            key={index}
-            className={`px-4 py-2 text-sm font-medium ${
-              selectedTab === index
-                ? "border-b-4 border-blue-500 text-blue-600 font-semibold"
-                : "text-gray-500 hover:text-gray-700 dark:text-white"
-            }`}
-            onClick={() => handleTabChange(index)}
-            type="button"
-          >
-            {day}
-          </button>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 min-h-[10vh]">
-        {selectedDayTimes.map((timeSlot, index) => (
-          <label
-            key={index}
-            className="flex items-center gap-2 p-3 border border-blue-500 rounded-lg shadow-md text-blue-600 cursor-pointer hover:bg-blue-50"
-          >
-            {showCheckboxes && (
-              <input
-                type="checkbox"
-                checked={dayTimes[index.toString()]}
-                onChange={() => handleCheckboxChange(index.toString())}
-                className="w-4 h-4"
-              />
-            )}
-            <span className="text-sm">
-              {timeSlot.start} - {timeSlot.end}
-            </span>
-          </label>
-        ))}
-        <button
-          className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
-          onClick={() => setIsDialogOpen(true)}
-          type="button"
-        >
-          +
-        </button>
-      </div>
-      {selectedDayTimes.length > 0 && (
-        <div className="flex justify-between items-center mt-4">
-          {!showCheckboxes ? (
-            <button
-              className="px-4 py-2 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-              onClick={() => setShowCheckboxes(true)}
-              type="button"
-            >
-              Select to Remove
-            </button>
-          ) : (
-            <div className="flex gap-2">
+    <div className="bg-white p-6 rounded-lg shadow-lg  dark:bg-boxdark">
+      {loader ? (
+        <Loader />
+      ) : (
+        <>
+          <div className="flex border-b dark:border-strokedark">
+            {daysOfWeek.map((day, index) => (
               <button
-                className="px-4 py-2 text-sm font-medium bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition"
-                onClick={() => {
-                  setShowCheckboxes(false);
-                  setDayTimes({});
-                  setIsAnySelected(false);
-                }}
+                key={index}
+                className={`px-4 py-2 text-sm font-medium ${
+                  selectedTab === index
+                    ? "border-b-4 border-blue-500 text-blue-600 font-semibold"
+                    : "text-gray-500 hover:text-gray-700 dark:text-white"
+                }`}
+                onClick={() => handleTabChange(index)}
                 type="button"
               >
-                Cancel
+                {day}
               </button>
+            ))}
+          </div>
 
-              {isAnySelected && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 min-h-[10vh]">
+            {selectedDayTimes.map((timeSlot, index) => (
+              <label
+                key={index}
+                className="flex items-center gap-2 p-3 border border-blue-500 rounded-lg shadow-md text-blue-600 cursor-pointer hover:bg-blue-50"
+              >
+                {showCheckboxes && (
+                  <input
+                    type="checkbox"
+                    checked={dayTimes[index.toString()]}
+                    onChange={() => handleCheckboxChange(index.toString())}
+                    className="w-4 h-4"
+                  />
+                )}
+                <span className="text-sm">
+                  {timeSlot.start} - {timeSlot.end}
+                </span>
+              </label>
+            ))}
+            <button
+              className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
+              onClick={() => setIsDialogOpen(true)}
+              type="button"
+            >
+              +
+            </button>
+          </div>
+          {selectedDayTimes.length > 0 && (
+            <div className="flex justify-between items-center mt-4">
+              {!showCheckboxes ? (
                 <button
                   className="px-4 py-2 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-                  onClick={() => setIsConfirmationDialogOpen(true)}
+                  onClick={() => setShowCheckboxes(true)}
+                  type="button"
                 >
-                  Remove Selected
+                  Select to Remove
                 </button>
+              ) : (
+                <div className="flex gap-2">
+                  <button
+                    className="px-4 py-2 text-sm font-medium bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition"
+                    onClick={() => {
+                      setShowCheckboxes(false);
+                      setDayTimes({});
+                      setIsAnySelected(false);
+                    }}
+                    type="button"
+                  >
+                    Cancel
+                  </button>
+
+                  {isAnySelected && (
+                    <button
+                      className="px-4 py-2 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                      onClick={() => setIsConfirmationDialogOpen(true)}
+                    >
+                      Remove Selected
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           )}
-        </div>
-      )}
-      {isDialogOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-lg font-semibold">Add Time Slot</h3>
-            <div className="mt-4">
-              <input
-                type="time"
-                name="start"
-                value={newTime.start}
-                onChange={(e) =>
-                  setNewTime({ ...newTime, start: e.target.value })
-                }
-                className="p-2 border rounded-md w-full mb-2"
-              />
-              <input
-                type="time"
-                name="end"
-                value={newTime.end}
-                onChange={(e) =>
-                  setNewTime({ ...newTime, end: e.target.value })
-                }
-                className="p-2 border rounded-md w-full"
-              />
+          {isDialogOpen && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                <h3 className="text-lg font-semibold">Add Time Slot</h3>
+                <div className="mt-4">
+                  <input
+                    type="time"
+                    name="start"
+                    value={newTime.start}
+                    onChange={(e) =>
+                      setNewTime({ ...newTime, start: e.target.value })
+                    }
+                    className="p-2 border rounded-md w-full mb-2"
+                  />
+                  <input
+                    type="time"
+                    name="end"
+                    value={newTime.end}
+                    onChange={(e) =>
+                      setNewTime({ ...newTime, end: e.target.value })
+                    }
+                    className="p-2 border rounded-md w-full"
+                  />
+                </div>
+                <div className="flex justify-end mt-4">
+                  <button
+                    className="px-4 py-2 bg-gray-300 rounded-lg mr-2"
+                    onClick={() => setIsDialogOpen(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                    onClick={handleAddTime}
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="flex justify-end mt-4">
-              <button
-                className="px-4 py-2 bg-gray-300 rounded-lg mr-2"
-                onClick={() => setIsDialogOpen(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                onClick={handleAddTime}
-              >
-                Add
-              </button>
+          )}
+          {isConfirmationDialogOpen && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                <h3 className="text-lg font-semibold">Confirm Deletion</h3>
+                <input
+                  type="text"
+                  value={confirmationInput}
+                  onChange={(e) => setConfirmationInput(e.target.value)}
+                  className="p-2 border rounded-md w-full my-2"
+                />
+                <button
+                  onClick={handleConfirmSubmit}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                >
+                  Confirm & Delete
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
-      {isConfirmationDialogOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-lg font-semibold">Confirm Deletion</h3>
-            <input
-              type="text"
-              value={confirmationInput}
-              onChange={(e) => setConfirmationInput(e.target.value)}
-              className="p-2 border rounded-md w-full my-2"
-            />
-            <button
-              onClick={handleConfirmSubmit}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-            >
-              Confirm & Delete
-            </button>
-          </div>
-        </div>
+          )}
+        </>
       )}
     </div>
   );
