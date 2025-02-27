@@ -37,26 +37,25 @@ const AddReport = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await getUsers({ type: "student" ,user:"all"});
+        const response = await getUsers({ type: "student", user: "all" });
 
         const studentOptions = response?.data?.map((student: any) => ({
-          value: student.StudentReferencesCode,
-          label: student.name,
+          value: student?.StudentReferencesCode,
+          label: student?.name,
         }));
-
-        setStudents(studentOptions);
+        setStudents([{ value: "*", label: "All" }, ...studentOptions]);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
     const fetchCounselor = async () => {
       try {
-        const response = await getUsers({ type: "counsellor",user:"all" });
+        const response = await getUsers({ type: "counsellor", user: "all" });
         const counselorOptions = response?.data?.map((counselor: any) => ({
           value: counselor._id,
-          label: counselor.name,
+          label: counselor?.name,
         }));
-        setCounselor(counselorOptions);
+        setCounselor([{ value: "*", label: "All" }, ...counselorOptions]);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -66,20 +65,26 @@ const AddReport = () => {
   }, []);
 
   const handleStudentChange = (selectedOptions: any) => {
-    setFormState((prev) => ({
-      ...prev,
-      grNumber: selectedOptions
-        ? selectedOptions.map((option: any) => option.value)
-        : [],
-    }));
+    if (selectedOptions.some((option: any) => option.value === "*")) {
+      setFormState((prev) => ({ ...prev, grNumber: "*" }));
+    } else {
+      setFormState((prev) => ({
+        ...prev,
+        grNumber: selectedOptions.map((option: any) => option.value),
+      }));
+    }
   };
   const handleCounselorChange = (selectedOptions: any) => {
-    setFormState((prev) => ({
-      ...prev,
-      counsellor: selectedOptions
-        ? selectedOptions.map((option: any) => option.value)
-        : [],
-    }));
+    if (selectedOptions?.some((option: any) => option.value === "*")) {
+      setFormState((prev) => ({ ...prev, counsellor: "*" }));
+    } else {
+      setFormState((prev) => ({
+        ...prev,
+        counsellor: selectedOptions
+          ? selectedOptions.map((option: any) => option.value)
+          : [],
+      }));
+    }
   };
 
   const handleChange = (
@@ -200,11 +205,20 @@ const AddReport = () => {
                   Select Counselors
                 </label>
                 <Select
-                  options={counselor}
+                  options={
+                    formState?.counsellor === "*"
+                      ? [{ value: "*", label: "All" }]
+                      : counselor
+                  }
                   isMulti
-                  value={counselor.filter(
-                    (option) => formState?.counsellor?.includes(option.value)
-                  )}
+                  value={
+                    formState?.counsellor === "*"
+                      ? [{ value: "*", label: "All" }]
+                      : counselor?.filter(
+                          (option) =>
+                            formState?.counsellor?.includes(option.value)
+                        )
+                  }
                   onChange={handleCounselorChange}
                   classNamePrefix="select"
                   styles={{
@@ -239,11 +253,20 @@ const AddReport = () => {
                   Select Students
                 </label>
                 <Select
-                  options={students}
+                  options={
+                    formState.grNumber === "*"
+                      ? [{ value: "*", label: "All" }]
+                      : students
+                  }
                   isMulti
-                  value={students.filter(
-                    (option) => formState?.grNumber?.includes(option.value)
-                  )}
+                  value={
+                    formState?.grNumber === "*"
+                      ? [{ value: "*", label: "All" }]
+                      : students?.filter(
+                          (option) =>
+                            formState?.grNumber?.includes(option.value)
+                        )
+                  }
                   onChange={handleStudentChange}
                   classNamePrefix="select"
                   styles={{
