@@ -37,7 +37,7 @@ const AddReport = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await getUsers({ type: "student" });
+        const response = await getUsers({ type: "student" ,user:"all"});
 
         const studentOptions = response?.data?.map((student: any) => ({
           value: student.StudentReferencesCode,
@@ -51,7 +51,7 @@ const AddReport = () => {
     };
     const fetchCounselor = async () => {
       try {
-        const response = await getUsers({ type: "counsellor" });
+        const response = await getUsers({ type: "counsellor",user:"all" });
         const counselorOptions = response?.data?.map((counselor: any) => ({
           value: counselor._id,
           label: counselor.name,
