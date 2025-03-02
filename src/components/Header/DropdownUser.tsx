@@ -47,8 +47,8 @@ const DropdownUser = () => {
         <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-boxdark border border-gray-200 dark:border-strokedark shadow-lg rounded-md overflow-hidden">
           <button
             onClick={() => {
-              localStorage.removeItem("token");
-              localStorage.removeItem("userType");
+              localStorage.removeItem("423455ehgwhh");
+              localStorage.removeItem("hgyywgywgdydwgy");
               toast.success("Logout successful");
               navigate("/");
             }}

@@ -20,7 +20,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const [sidebarExpanded, setSidebarExpanded] = useState(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
   );
-  const userType = localStorage.getItem("userType");
+  const userType = localStorage.getItem("hgyywgywgdydwgy");
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {

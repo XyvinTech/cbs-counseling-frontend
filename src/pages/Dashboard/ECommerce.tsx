@@ -5,7 +5,7 @@ import { getDashboard } from "../../api/authApi";
 import Loader from "../../components/Loader";
 
 const ECommerce: React.FC = () => {
-  const userType = localStorage.getItem("userType");
+  const userType = localStorage.getItem("hgyywgywgdydwgy");
   const [loading, setLoading] = useState(false);
   const [dashboard, setDashboard] = useState<{
     student_count: string;

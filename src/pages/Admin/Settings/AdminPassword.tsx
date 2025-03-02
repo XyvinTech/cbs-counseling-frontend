@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { resetPassword } from "../../../api/authApi";
 import { toast } from "react-toastify";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const AdminPassword = () => {
   const [loading, setLoading] = useState(false);
@@ -10,7 +11,7 @@ const AdminPassword = () => {
     newPassword: "",
     confirmPassword: "",
   });
-
+const navigate=useNavigate();
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState({
     oldPassword: false,
@@ -54,6 +55,7 @@ const AdminPassword = () => {
       });
 
       setError("");
+      navigate("/");
     } catch (error: any) {
       toast.error(error.message);
       setError("Failed to update password. Please try again.");

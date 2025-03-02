@@ -24,8 +24,8 @@ const SignIn: React.FC = () => {
       const response = await login({ email, password });
 
       if (response?.data?.token) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("userType", response.data.userType);
+        localStorage.setItem("423455ehgwhh", response.data.token);
+        localStorage.setItem("hgyywgywgdydwgy", response.data.userType);
 
         navigate("/dashboard");
       } else {
@@ -61,7 +61,7 @@ const SignIn: React.FC = () => {
     }
     setLoading(true);
     try {
-      await verifyOtp({ email, otp, newPassword });
+      await verifyOtp({ email, otp, password: newPassword });
 
       setForgotPassword(false);
       setOtpSent(false);

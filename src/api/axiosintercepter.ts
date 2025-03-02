@@ -22,7 +22,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token =localStorage.getItem("token");
+    const token =localStorage.getItem("423455ehgwhh");
     const apiKey = import.meta.env.VITE_API_KEY 
 
     if (token) {

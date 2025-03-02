@@ -43,7 +43,7 @@ const SessionDetails = () => {
 
     if (id) fetchSession();
   }, [id]);
-  const userType = localStorage.getItem("userType");
+  const userType = localStorage.getItem("hgyywgywgdydwgy");
   const handleDownload = async (e: React.FormEvent) => {
     e.preventDefault();
 
