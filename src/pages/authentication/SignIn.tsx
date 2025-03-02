@@ -15,7 +15,7 @@ const SignIn: React.FC = () => {
   const [newPassword, setNewPassword] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const navigate = useNavigate();
-
+  const [showforgotpassword, setshowforgotpassword] = useState(false);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -193,15 +193,26 @@ const SignIn: React.FC = () => {
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 px-6 text-black outline-none"
                     />
                   </div>
-                  <div className="mb-4">
+                  <div className="mb-4 relative">
                     <input
-                      type="password"
+                      type={showforgotpassword ? "text" : "password"}
                       placeholder="Enter new password"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       required
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 px-6 text-black outline-none"
                     />
+                    <button
+                      type="button"
+                      onClick={() => setshowforgotpassword(!showforgotpassword)}
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-primary"
+                    >
+                      {showforgotpassword ? (
+                        <AiOutlineEyeInvisible size={22} />
+                      ) : (
+                        <AiOutlineEye size={22} />
+                      )}
+                    </button>
                   </div>
                   <button
                     onClick={handleVerifyOtp}
