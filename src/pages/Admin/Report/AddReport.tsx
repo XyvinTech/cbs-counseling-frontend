@@ -14,6 +14,7 @@ const AddReport = () => {
   const [reportData, setReportData] = useState<{
     headers: string[];
     data: any[];
+    title: string;
   } | null>(null);
   const [counselor, setCounselor] = useState<
     { value: string; label: string }[]
@@ -156,7 +157,8 @@ const AddReport = () => {
         .join("\n");
       const csvContent = csvHeaders + csvRows;
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      saveAs(blob, "report.csv");
+      const fileName = `${reportData?.title || "report"}.csv`; 
+    saveAs(blob, fileName);
     } catch (error) {
       console.error("Error downloading report:", error);
     } finally {
@@ -197,6 +199,7 @@ const AddReport = () => {
                 <option value="case">Case</option>
                 <option value="session-count">Session Count</option>
                 <option value="counseling-type">Counseling Type</option>
+                <option value="consolidated">Consolidated</option>
               </select>
             </div>
             {formState.reportType === "session" && (
@@ -351,61 +354,129 @@ const AddReport = () => {
           </div>
           <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             <div className="max-w-full overflow-x-auto">
-              <table className="w-full table-auto">
+              {formState?.reportType !== "consolidated" ? (
+                <table className="w-full table-auto">
+                  <>
+                    <thead>
+                      <tr className="bg-gray-2 text-left dark:bg-meta-4">
+                        {reportData?.headers?.map((header, index) => (
+                          <th
+                            key={index}
+                            className="py-4 px-4 font-medium text-black dark:text-white xl:pl-11"
+                          >
+                            {header}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reportData?.data && reportData.data.length > 0 ? (
+                        reportData.data.map((row, rowIndex) => (
+                          <tr
+                            key={rowIndex}
+                            className={`border-b border-[#eee] dark:border-strokedark ${
+                              rowIndex === reportData.data.length - 1
+                                ? "border-none"
+                                : ""
+                            }`}
+                          >
+                            {reportData?.headers?.map((header, colIndex) => (
+                              <td
+                                key={colIndex}
+                                className="py-5 px-4 text-black dark:text-white"
+                              >
+                                {row[header.toLowerCase().replace(/\s+/g, "_")]
+                                  ?.length > 30
+                                  ? row[
+                                      header.toLowerCase().replace(/\s+/g, "_")
+                                    ].slice(0, 30) + "..."
+                                  : row[
+                                      header.toLowerCase().replace(/\s+/g, "_")
+                                    ]}
+                              </td>
+                            ))}
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td
+                            colSpan={reportData?.headers?.length || 1}
+                            className="py-5 px-4 text-center text-gray-500"
+                          >
+                            No data available
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </>
+                </table>
+              ) : (
                 <>
-                  <thead>
-                    <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                      {reportData?.headers?.map((header, index) => (
-                        <th
-                          key={index}
-                          className="py-4 px-4 font-medium text-black dark:text-white xl:pl-11"
-                        >
-                          {header}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {reportData?.data && reportData.data.length > 0 ? (
-                      reportData.data.map((row, rowIndex) => (
-                        <tr
-                          key={rowIndex}
-                          className={`border-b border-[#eee] dark:border-strokedark ${
-                            rowIndex === reportData.data.length - 1
-                              ? "border-none"
-                              : ""
-                          }`}
-                        >
-                          {reportData?.headers?.map((header, colIndex) => (
-                            <td
-                              key={colIndex}
-                              className="py-5 px-4 text-black dark:text-white"
+                  <table className="w-full table-auto">
+                    <>
+                      <thead>
+                        <tr className="bg-gray-2 text-left dark:bg-meta-4">
+                          {reportData?.headers?.map((header, index) => (
+                            <th
+                              key={index}
+                              className="py-4 px-4 font-medium text-black dark:text-white xl:pl-11"
                             >
-                              {row[header.toLowerCase().replace(/\s+/g, "_")]
-                                ?.length > 30
-                                ? row[
-                                    header.toLowerCase().replace(/\s+/g, "_")
-                                  ].slice(0, 30) + "..."
-                                : row[
-                                    header.toLowerCase().replace(/\s+/g, "_")
-                                  ]}
-                            </td>
+                              {header}
+                            </th>
                           ))}
                         </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td
-                          colSpan={reportData?.headers?.length || 1}
-                          className="py-5 px-4 text-center text-gray-500"
-                        >
-                          No data available
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
+                      </thead>
+                      <tbody>
+                        {reportData?.data && reportData.data.length > 0 ? (
+                          reportData.data.map((row, rowIndex) => (
+                            <tr
+                              key={rowIndex}
+                              className={`border-b border-[#eee] dark:border-strokedark ${
+                                rowIndex === reportData.data.length - 1
+                                  ? "border-none"
+                                  : ""
+                              }`}
+                            >
+                              {reportData?.headers?.map((header, colIndex) => {
+                                // Special handling for "Particulars" column
+                                const key =
+                                  header === "Particulars"
+                                    ? "particulars"
+                                    : header;
+                                const cellData = String(row[key] ?? "");
+
+                                return (
+                                  <td
+                                    key={colIndex}
+                                    className="py-5 px-4 text-black dark:text-white whitespace-pre-line"
+                                  >
+                                    {cellData.length > 30 ? (
+                                      <span title={cellData}>
+                                        {cellData.slice(0, 30) + "..."}
+                                      </span>
+                                    ) : (
+                                      cellData
+                                    )}
+                                  </td>
+                                );
+                              })}
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td
+                              colSpan={reportData?.headers?.length || 1}
+                              className="py-5 px-4 text-center text-gray-500"
+                            >
+                              No data available
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </>
+                  </table>
                 </>
-              </table>
+              )}
             </div>
           </div>
         </>
