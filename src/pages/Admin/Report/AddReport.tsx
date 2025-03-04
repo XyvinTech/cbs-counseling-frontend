@@ -135,30 +135,55 @@ const AddReport = () => {
 
     setDwld(true);
     try {
-      const csvHeaders = reportData.headers.join(",") + "\n";
+      let csvContent = "";
+      if (formState.reportType === "consolidated") {
+        // Custom behavior for "consolidated" report type
+        const csvHeaders = reportData.headers.join(",") + "\n";
+        const csvRows = reportData.data
+          .map((row) =>
+            reportData.headers
+              .map((header) => {
+                const key = header === "Particulars" ? "particulars" : header;
+                let value = row[key];
 
-      const csvRows = reportData.data
-        .map((row) =>
-          reportData.headers
-            .map((header) => {
-              const key = header.toLowerCase().replace(/\s+/g, "_");
-              let value = row[key];
+                if (Array.isArray(value)) {
+                  value = value.join(", ");
+                }
 
-              if (Array.isArray(value)) {
-                value = value.join(", ");
-              }
+                value = String(value).replace(/"/g, '""'); // Escape double quotes
+                return `"${value}"`;
+              })
+              .join(",")
+          )
+          .join("\n");
+        csvContent = csvHeaders + csvRows;
+      } else {
+        // Default behavior for other report types
+        const csvHeaders = reportData.headers.join(",") + "\n";
+        const csvRows = reportData.data
+          .map((row) =>
+            reportData.headers
+              .map((header) => {
+                const key = header.toLowerCase().replace(/\s+/g, "_");
+                let value = row[key];
 
-              value = String(value).replace(/"/g, '""');
+                if (Array.isArray(value)) {
+                  value = value.join(", ");
+                }
 
-              return `"${value}"`;
-            })
-            .join(",")
-        )
-        .join("\n");
-      const csvContent = csvHeaders + csvRows;
+                value = String(value).replace(/"/g, '""');
+                return `"${value}"`;
+              })
+              .join(",")
+          )
+          .join("\n");
+        csvContent = csvHeaders + csvRows;
+      }
+
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const fileName = `${reportData?.title || "report"}.csv`; 
-    saveAs(blob, fileName);
+      const fileName = `${reportData?.title || "report"}.csv`;
+      saveAs(blob, fileName);
+  
     } catch (error) {
       console.error("Error downloading report:", error);
     } finally {
@@ -171,6 +196,7 @@ const AddReport = () => {
         counsellor: "",
         counselingType: "",
       });
+      setReportData(null);
     }
   };
 
