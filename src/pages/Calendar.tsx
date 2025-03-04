@@ -9,6 +9,7 @@ import { Event } from "../types/event";
 const Calendar = () => {
   const [events, setEvents] = useState([]);
   const [view, setView] = useState(false);
+  const VITE_APP_FILE_URL = "https://able.iswkoman.com/images/";
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -135,7 +136,7 @@ const Calendar = () => {
                 <div className="w-full flex justify-center items-center h-40 rounded-md overflow-hidden mt-2">
                   <img
                     src={`${
-                      import.meta.env.VITE_APP_FILE_URL
+                      VITE_APP_FILE_URL 
                     }${selectedEvent?.requisition_image}`}
                     alt="Requisition"
                     className="max-w-full max-h-full object-contain rounded-lg bg-black"
