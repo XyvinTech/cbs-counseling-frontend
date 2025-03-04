@@ -321,24 +321,26 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                         </p>
                       </div>
                     )}
-{data?.creator && (
-                    <div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Creator
-                      </p>
-                      <p className="text-gray-700 dark:text-gray-200 font-medium">
-                        {data?.creator}
-                      </p>
-                    </div>)}
+                    {data?.creator && (
+                      <div>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Creator
+                        </p>
+                        <p className="text-gray-700 dark:text-gray-200 font-medium">
+                          {data?.creator}
+                        </p>
+                      </div>
+                    )}
                     {data?.guest && (
-                    <div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Guest
-                      </p>
-                      <p className="text-gray-700 dark:text-gray-200 font-medium">
-                        {data?.guest}
-                      </p>
-                    </div>)}
+                      <div>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Guest
+                        </p>
+                        <p className="text-gray-700 dark:text-gray-200 font-medium">
+                          {data?.guest}
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   {data?.requisition_image && (
@@ -365,14 +367,14 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                     </p>
                   </div>
                   {data?.requisition_description && (
-                  <div className="mt-4">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Requisition Description
-                    </p>
-                    <p className="text-gray-700 dark:text-gray-200 font-medium">
-                      {data?.requisition_description}
-                    </p>
-                  </div>
+                    <div className="mt-4">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Requisition Description
+                      </p>
+                      <p className="text-gray-700 dark:text-gray-200 font-medium">
+                        {data?.requisition_description}
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>
