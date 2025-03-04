@@ -11,7 +11,7 @@ interface EventTableProps {
 
 const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
   const [packageData, setPackageData] = useState<Event[]>([]);
-  const VITE_APP_FILE_URL ="https://able.iswkoman.com/images/"
+  const VITE_APP_FILE_URL = "https://able.iswkoman.com/images/";
   const [isChange, setIsChange] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
   const [view, setView] = useState(false);
@@ -23,6 +23,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
     requisition_image: "",
     guest: "",
     details: "",
+    type: "",
     requisition_description: "",
   });
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -52,6 +53,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
           creator: value.creator || "",
           requisition_image: value.requisition_image || "",
           guest: value.guest || "",
+          type: value.type || "",
           details: value.details || "",
           requisition_description: value.requisition_description || "",
         });
@@ -309,7 +311,17 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                         {data?.venue}
                       </p>
                     </div>
-
+                    {data?.type && (
+                      <div>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Type
+                        </p>
+                        <p className="text-gray-700 dark:text-gray-200 font-medium">
+                          {data?.type}
+                        </p>
+                      </div>
+                    )}
+{data?.creator && (
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
                         Creator
@@ -317,8 +329,8 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                       <p className="text-gray-700 dark:text-gray-200 font-medium">
                         {data?.creator}
                       </p>
-                    </div>
-
+                    </div>)}
+                    {data?.guest && (
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
                         Guest
@@ -326,7 +338,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                       <p className="text-gray-700 dark:text-gray-200 font-medium">
                         {data?.guest}
                       </p>
-                    </div>
+                    </div>)}
                   </div>
 
                   {data?.requisition_image && (
@@ -352,7 +364,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                       {data?.details}
                     </p>
                   </div>
-
+                  {data?.requisition_description && (
                   <div className="mt-4">
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       Requisition Description
@@ -361,6 +373,7 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
                       {data?.requisition_description}
                     </p>
                   </div>
+                  )}
                 </div>
               </div>
             )}

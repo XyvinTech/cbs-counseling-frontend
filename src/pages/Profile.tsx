@@ -108,7 +108,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="flex gap-4 mb-6 mt-6 bg-white p-3 mx-4  rounded-lg shadow-xl">
-            {["Counseling Sessions", "Reports"].map((tabs) => (
+            {["Counseling Sessions"].map((tabs) => (
               <button
                 key={tabs}
                 className={`py-2 px-4 rounded ${

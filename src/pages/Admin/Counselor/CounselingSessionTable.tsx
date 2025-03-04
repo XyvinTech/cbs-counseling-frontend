@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Session } from "../../../types/session";
 import { getSessionByCounselor } from "../../../api/sessionApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import Loader from "../../../components/Loader";
 interface CounselorTableProps {
@@ -17,7 +17,7 @@ const CounselingSessionTable: React.FC<CounselorTableProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
-
+const navigate=useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -84,9 +84,17 @@ const CounselingSessionTable: React.FC<CounselorTableProps> = ({
                   packageData?.map((packageItem, key) => (
                     <tr key={key}>
                       <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
-                        <p className="text-black dark:text-white">
-                          {packageItem.session_id}
-                        </p>
+                        <div
+                          className="font-medium text-blue-600  cursor-pointer"
+                          onClick={() => {
+                            navigate(`/session/${packageItem._id}`);
+                          }}
+                        >
+                          {" "}
+                          <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300">
+                            {packageItem.session_id}
+                          </h5>
+                        </div>
                       </td>
                       <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                         <p className="text-black dark:text-white">

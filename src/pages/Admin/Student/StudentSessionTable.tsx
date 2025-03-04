@@ -3,6 +3,7 @@ import { Session } from "../../../types/session";
 import { getSessionByStudent } from "../../../api/sessionApi";
 import moment from "moment";
 import Loader from "../../../components/Loader";
+import { useNavigate } from "react-router-dom";
 
 interface CounselorTableProps {
   searchValue: string;
@@ -18,7 +19,7 @@ const StudentSessionTable: React.FC<CounselorTableProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
-
+const navigate=useNavigate();
   useEffect(() => {
     if (!id) return;
 
@@ -62,7 +63,9 @@ const StudentSessionTable: React.FC<CounselorTableProps> = ({
             <table className={`w-full table-auto  `}>
               <thead>
                 <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                  <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
+                <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
+                    Session No
+                  </th> <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
                     Session Date
                   </th>
                   <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
@@ -81,7 +84,19 @@ const StudentSessionTable: React.FC<CounselorTableProps> = ({
                 {packageData.length > 0 ? (
                   packageData?.map((packageItem, key) => (
                     <tr key={key}>
-                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
+                       <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
+                        <div
+                          className="font-medium text-blue-600  cursor-pointer"
+                          onClick={() => {
+                            navigate(`/session/${packageItem._id}`);
+                          }}
+                        >
+                          {" "}
+                          <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300">
+                            {packageItem.session_id}
+                          </h5>
+                        </div>
+                      </td> <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
                         <p className="text-black dark:text-white">
                           {moment(packageItem.session_date).format(
                             "DD-MM-YYYY"

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Session } from "../../../types/session";
 import { getCaseByCounselor } from "../../../api/sessionApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import Loader from "../../../components/Loader";
 interface CounselorTableProps {
@@ -15,6 +15,7 @@ const CounselorCaseTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const navigate=useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -75,9 +76,17 @@ const CounselorCaseTable: React.FC<CounselorTableProps> = ({ searchValue }) => {
                   packageData?.map((packageItem, key) => (
                     <tr key={key}>
                       <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
-                        <p className="text-black dark:text-white">
-                          {packageItem.case_id}
-                        </p>
+                        <div
+                          className="font-medium text-blue-600  cursor-pointer"
+                          onClick={() => {
+                            navigate(`/cases/session/${packageItem._id}`);
+                          }}
+                        >
+                          {" "}
+                          <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300">
+                            {packageItem.case_id}
+                          </h5>
+                        </div>
                       </td>
                       <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                         <p className="text-black dark:text-white">

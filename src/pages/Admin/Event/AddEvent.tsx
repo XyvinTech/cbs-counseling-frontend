@@ -11,7 +11,7 @@ const AddEvent = () => {
   const [counselor, setCounselor] = useState<
     { value: string; label: string }[]
   >([]);
-  const VITE_APP_FILE_URL ="https://able.iswkoman.com/images/"
+  const VITE_APP_FILE_URL = "https://able.iswkoman.com/images/";
   const [file, setFile] = useState<File | null>(null);
   const [isOther, setIsOther] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -25,6 +25,7 @@ const AddEvent = () => {
     details: string;
     creator: string;
     counselor: string;
+    type: string;
     requisition_description: string;
   }>({
     title: "",
@@ -34,6 +35,7 @@ const AddEvent = () => {
     requisition_image: "",
     remainder: [],
     details: "",
+    type: "",
     creator: "",
     counselor: "",
     requisition_description: "",
@@ -49,6 +51,14 @@ const AddEvent = () => {
     "Preparatory",
     "Middle & senior",
     "Cambridge",
+  ];
+  const typeOptions = [
+    "Team meetings",
+    "session / workshop",
+    "Other meeting",
+    "Invigilation",
+    "substitution",
+    "lesson"
   ];
 
   useEffect(() => {
@@ -76,6 +86,7 @@ const AddEvent = () => {
             creator: event.creator || "",
             remainder: event.remainder || [],
             details: event.details || "",
+            type: event.type || "",
             counselor: event.counselor || "",
             requisition_description: event.requisition_description || "",
           });
@@ -113,7 +124,7 @@ const AddEvent = () => {
   useEffect(() => {
     const fetchCounselor = async () => {
       try {
-        const response = await getUsers({ type: "counsellor",user:"all" });
+        const response = await getUsers({ type: "counsellor", user: "all" });
         const counselorOptions = response?.data?.map((counselor: any) => ({
           value: counselor._id,
           label: counselor.name,
@@ -135,6 +146,11 @@ const AddEvent = () => {
       setEventData({ ...eventData, venue: selectedValue });
     }
   };
+  const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+
+    setEventData({ ...eventData, type: selectedValue });
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -147,10 +163,21 @@ const AddEvent = () => {
           imageUrl = response.data;
         }
       }
-
       const updatedEventData = {
-        ...eventData,
-        requisition_image: imageUrl,
+        ...(eventData.title && { title: eventData.title }),
+        ...(eventData.date && { date: eventData.date }),
+        ...(eventData.venue && { venue: eventData.venue }),
+        ...(eventData.guest && { guest: eventData.guest }),
+        ...(imageUrl && { requisition_image: imageUrl }),
+        ...(eventData.type && { type: eventData.type }),
+        ...(Array.isArray(eventData.remainder) &&
+          eventData.remainder.length > 0 && { remainder: eventData.remainder }),
+        ...(eventData.details && { details: eventData.details }),
+        ...(eventData.creator && { creator: eventData.creator }),
+        ...(eventData.counselor && { counselor: eventData.counselor }),
+        ...(eventData.requisition_description && {
+          requisition_description: eventData.requisition_description,
+        }),
       };
 
       if (isEditMode && eventId) {
@@ -384,6 +411,23 @@ const AddEvent = () => {
                     }),
                   }}
                 />
+              </div>
+              <div className="w-full">
+                <label className="mb-2.5 block text-black dark:text-white">
+                  Type
+                </label>
+                <select
+                  name="type"
+                  value={eventData.type}
+                  onChange={handleTypeChange}
+                  className="w-full rounded border bg-transparent py-3 px-5 outline-none transition focus:border-[#0072bc] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0072bc]"
+                >
+                  {typeOptions?.map((venue) => (
+                    <option key={venue} value={venue}>
+                      {venue}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             <button

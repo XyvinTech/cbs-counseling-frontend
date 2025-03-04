@@ -12,4 +12,7 @@ export type Event = {
   requisition_description: string;
   preview: string;
   creator:string;
+  start: string;
+  end: string;
+  type: string;
 };
