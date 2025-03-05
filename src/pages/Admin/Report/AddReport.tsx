@@ -132,36 +132,36 @@ const AddReport = () => {
 
   const handleDownload = async () => {
     if (!reportData) return;
-
+  
     setDwld(true);
     try {
       let csvContent = "";
       if (formState.reportType === "consolidated") {
-        const csvHeaders = reportData.headers.map((header) => `"${header.replace(/"/g, '""')}"`).join(",") + "\n";
-
+        const csvHeaders =
+          reportData.headers.map((header) => `"${header.replace(/"/g, '""')}"`).join(",") + "\n";
+  
         const csvRows = reportData.data
           .map((row) =>
             reportData.headers
               .map((header) => {
                 const key = header === "Particulars" ? "particulars" : header;
                 let value = row[key];
-        
+  
                 if (Array.isArray(value)) {
                   value = value.join(", ");
                 }
-        
+  
                 value = String(value)
                   .replace(/"/g, '""') 
-                  .replace(/\n/g, "\\n"); 
-        
+                  .replace(/\\n/g, "\n");
+  
                 return `"${value}"`;
               })
               .join(",")
           )
           .join("\n");
-        
-         csvContent = csvHeaders + csvRows;
-        
+  
+        csvContent = csvHeaders + csvRows;
       } else {
         const csvHeaders = reportData.headers.join(",") + "\n";
         const csvRows = reportData.data
@@ -170,11 +170,11 @@ const AddReport = () => {
               .map((header) => {
                 const key = header.toLowerCase().replace(/\s+/g, "_");
                 let value = row[key];
-
+  
                 if (Array.isArray(value)) {
                   value = value.join(", ");
                 }
-
+  
                 value = String(value).replace(/"/g, '""');
                 return `"${value}"`;
               })
@@ -183,11 +183,10 @@ const AddReport = () => {
           .join("\n");
         csvContent = csvHeaders + csvRows;
       }
-
+  
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
       const fileName = `${reportData?.title || "report"}.csv`;
       saveAs(blob, fileName);
-  
     } catch (error) {
       console.error("Error downloading report:", error);
     } finally {
@@ -203,6 +202,7 @@ const AddReport = () => {
       setReportData(null);
     }
   };
+  
 
   return (
     <div className="flex flex-col gap-9">
