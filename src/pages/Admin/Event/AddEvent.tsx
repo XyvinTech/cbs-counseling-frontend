@@ -21,7 +21,6 @@ const AddEvent = () => {
     venue: string;
     guest: string;
     requisition_image: string;
-    remainder: string[];
     details: string;
     creator: string;
     counselor: string;
@@ -33,7 +32,6 @@ const AddEvent = () => {
     venue: "",
     guest: "",
     requisition_image: "",
-    remainder: [],
     details: "",
     type: "",
     creator: "",
@@ -58,7 +56,7 @@ const AddEvent = () => {
     "Other meeting",
     "Invigilation",
     "substitution",
-    "lesson"
+    "lesson",
   ];
 
   useEffect(() => {
@@ -84,7 +82,6 @@ const AddEvent = () => {
             guest: event.guest || "",
             requisition_image: event.requisition_image || "",
             creator: event.creator || "",
-            remainder: event.remainder || [],
             details: event.details || "",
             type: event.type || "",
             counselor: event.counselor || "",
@@ -170,8 +167,6 @@ const AddEvent = () => {
         ...(eventData.guest && { guest: eventData.guest }),
         ...(imageUrl && { requisition_image: imageUrl }),
         ...(eventData.type && { type: eventData.type }),
-        ...(Array.isArray(eventData.remainder) &&
-          eventData.remainder.length > 0 && { remainder: eventData.remainder }),
         ...(eventData.details && { details: eventData.details }),
         ...(eventData.creator && { creator: eventData.creator }),
         ...(eventData.counselor && { counselor: eventData.counselor }),
@@ -192,13 +187,6 @@ const AddEvent = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleTimerChange = (values: string[]) => {
-    setEventData((prev) => ({
-      ...prev,
-      remainder: values,
-    }));
   };
 
   return (
@@ -229,7 +217,7 @@ const AddEvent = () => {
             <div className="mb-4.5 grid grid-cols-1 gap-6 xl:grid-cols-2">
               <div className="w-full">
                 <label className="mb-2.5 block text-black dark:text-white">
-                  Title
+                  Title*
                 </label>
                 <input
                   type="text"
@@ -242,7 +230,7 @@ const AddEvent = () => {
               </div>
               <div className="w-full">
                 <label className="mb-2.5 block text-black dark:text-white">
-                  Date
+                  Date*
                 </label>
                 <input
                   type="date"
@@ -254,11 +242,10 @@ const AddEvent = () => {
                 />
               </div>
             </div>
-
             <div className="mb-4.5 grid grid-cols-1 gap-6 xl:grid-cols-2">
               <div className="w-full">
                 <label className="mb-2.5 block text-black dark:text-white">
-                  Venue
+                  Venue*
                 </label>
                 <select
                   name="venue"
@@ -304,7 +291,7 @@ const AddEvent = () => {
             <div className="mb-4.5 grid grid-cols-1 gap-6 xl:grid-cols-2">
               <div className="w-full">
                 <label className="mb-2.5 block text-black dark:text-white">
-                  Creator
+                  Creator*
                 </label>
                 <input
                   type="text"
@@ -314,16 +301,29 @@ const AddEvent = () => {
                   placeholder="Enter Creator"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
-              </div>
-              <SelectTimer
-                onTimerChange={handleTimerChange}
-                selectedTimer={eventData.remainder}
-              />
+              </div>    <div className="w-full">
+              <label className="mb-2.5 block text-black dark:text-white">
+                Type of Event*
+              </label>
+              <select
+                name="type"
+                value={eventData.type}
+                onChange={handleTypeChange}
+                className="w-full rounded border bg-transparent py-3 px-5 outline-none transition focus:border-[#0072bc] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0072bc]"
+              >
+                {typeOptions?.map((venue) => (
+                  <option key={venue} value={venue}>
+                    {venue}
+                  </option>
+                ))}
+              </select>
             </div>
+            </div>{" "}
+        
             <div className="mb-4.5 grid grid-cols-1 gap-6 xl:grid-cols-2">
               <div className="w-full">
                 <label className="mb-2.5 block text-black dark:text-white">
-                  Details of Event
+                  Details of Event*
                 </label>
                 <textarea
                   rows={6}
@@ -411,23 +411,6 @@ const AddEvent = () => {
                     }),
                   }}
                 />
-              </div>
-              <div className="w-full">
-                <label className="mb-2.5 block text-black dark:text-white">
-                  Type
-                </label>
-                <select
-                  name="type"
-                  value={eventData.type}
-                  onChange={handleTypeChange}
-                  className="w-full rounded border bg-transparent py-3 px-5 outline-none transition focus:border-[#0072bc] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0072bc]"
-                >
-                  {typeOptions?.map((venue) => (
-                    <option key={venue} value={venue}>
-                      {venue}
-                    </option>
-                  ))}
-                </select>
               </div>
             </div>
             <button
