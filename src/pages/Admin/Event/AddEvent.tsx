@@ -301,25 +301,25 @@ const AddEvent = () => {
                   placeholder="Enter Creator"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
-              </div>    <div className="w-full">
-              <label className="mb-2.5 block text-black dark:text-white">
-                Type of Event*
-              </label>
-              <select
-                name="type"
-                value={eventData.type}
-                onChange={handleTypeChange}
-                className="w-full rounded border bg-transparent py-3 px-5 outline-none transition focus:border-[#0072bc] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0072bc]"
-              >
-                {typeOptions?.map((venue) => (
-                  <option key={venue} value={venue}>
-                    {venue}
-                  </option>
-                ))}
-              </select>
-            </div>
+              </div>{" "}
+              <div className="w-full">
+                <label className="mb-2.5 block text-black dark:text-white">
+                  Type of Event*
+                </label>
+                <select
+                  name="type"
+                  value={eventData.type}
+                  onChange={handleTypeChange}
+                  className="w-full rounded border bg-transparent py-3 px-5 outline-none transition focus:border-[#0072bc] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0072bc]"
+                >
+                  {typeOptions?.map((venue) => (
+                    <option key={venue} value={venue}>
+                      {venue}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>{" "}
-        
             <div className="mb-4.5 grid grid-cols-1 gap-6 xl:grid-cols-2">
               <div className="w-full">
                 <label className="mb-2.5 block text-black dark:text-white">

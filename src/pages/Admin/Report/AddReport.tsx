@@ -137,28 +137,32 @@ const AddReport = () => {
     try {
       let csvContent = "";
       if (formState.reportType === "consolidated") {
-        // Custom behavior for "consolidated" report type
-        const csvHeaders = reportData.headers.join(",") + "\n";
+        const csvHeaders = reportData.headers.map((header) => `"${header.replace(/"/g, '""')}"`).join(",") + "\n";
+
         const csvRows = reportData.data
           .map((row) =>
             reportData.headers
               .map((header) => {
                 const key = header === "Particulars" ? "particulars" : header;
                 let value = row[key];
-
+        
                 if (Array.isArray(value)) {
                   value = value.join(", ");
                 }
-
-                value = String(value).replace(/"/g, '""'); // Escape double quotes
+        
+                value = String(value)
+                  .replace(/"/g, '""') 
+                  .replace(/\n/g, "\\n"); 
+        
                 return `"${value}"`;
               })
               .join(",")
           )
           .join("\n");
-        csvContent = csvHeaders + csvRows;
+        
+         csvContent = csvHeaders + csvRows;
+        
       } else {
-        // Default behavior for other report types
         const csvHeaders = reportData.headers.join(",") + "\n";
         const csvRows = reportData.data
           .map((row) =>
