@@ -6,9 +6,10 @@ import moment from "moment";
 import Loader from "../../../components/Loader";
 interface SessionTableProps {
   searchValue: string;
+  onStudentChange: (studentName: string) => void;
 }
 
-const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
+const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue,onStudentChange }) => {
   const [packageData, setPackageData] = useState<Session[]>([]);
   const { id } = useParams();
   const VITE_APP_FILE_URL ="https://able.iswkoman.com/images/"
@@ -30,6 +31,8 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
         setTotalCount(response.totalCount);
         if (response?.data) {
           setPackageData(response.data);
+          const studentName = response.data[0]?.form_id?.name || "report";
+          onStudentChange(studentName);
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -40,7 +43,7 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
 
     fetchData();
   }, [, searchValue, currentPage, itemsPerPage]);
-
+const student=packageData[0]?.form_id?.name
   const navigate = useNavigate();
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
@@ -53,7 +56,6 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
     setOpen(true);
     setSelectedCase(caseItem);
   };
-  console.log("selectedCase", selectedCase);
   type StatusColorMap = {
     [key in
       | "progress"

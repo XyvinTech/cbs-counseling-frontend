@@ -22,7 +22,7 @@ const RemarkTable: React.FC = () => {
     const button = e.currentTarget as HTMLElement;
     const rect = button.getBoundingClientRect();
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
+    
     setModalPosition({
       top: rect.bottom + scrollTop,
       left: rect.left,
@@ -128,9 +128,17 @@ const RemarkTable: React.FC = () => {
                     packageData?.map((packageItem, key) => (
                       <tr key={key}>
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                          <p className="text-black dark:text-white xl:pl-6">
-                            {packageItem.case_id}
-                          </p>
+                          <div
+                            className="font-medium text-blue-600  cursor-pointer"
+                            onClick={() => {
+                              navigate(`/counselor-case/${packageItem._id}`);
+                            }}
+                          >
+                            {" "}
+                            <h5 className="font-medium text-blue-600  hover:underline  dark:text-blue-300 xl:pl-6">
+                              {packageItem.case_id}
+                            </h5>
+                          </div>
                         </td>
 
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">

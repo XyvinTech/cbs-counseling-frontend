@@ -9,6 +9,7 @@ import * as base64js from "base64-js";
 const AdminSessionList = () => {
   const { id } = useParams();
   const [searchValue, setSearchValue] = useState<string>("");
+  const [student, setStudent] = useState<string>("report");
   const handleDownload = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -17,11 +18,12 @@ const AdminSessionList = () => {
       const base64Data = response.data;
       const byteArray = base64js.toByteArray(base64Data);
       const pdfBlob = new Blob([byteArray], { type: "application/pdf" });
-      saveAs(pdfBlob, "report.pdf");
+      saveAs(pdfBlob, `Case ${student}Case.pdf`);
     } catch (error: any) {
       toast.error(error.message);
     }
   };
+  
   return (
     <>
       <div className="mb-7.5 flex flex-wrap gap-5 xl:gap-7.5 justify-between">
@@ -70,7 +72,7 @@ const AdminSessionList = () => {
           </button>
         </div>
       </div>
-      <AdminSessionTable searchValue={searchValue} />
+      <AdminSessionTable searchValue={searchValue} onStudentChange={setStudent} />
     </>
   );
 };

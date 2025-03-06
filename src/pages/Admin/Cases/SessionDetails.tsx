@@ -18,7 +18,7 @@ import * as base64js from "base64-js";
 import Loader from "../../../components/Loader";
 const SessionDetails = () => {
   const { id } = useParams();
-  const VITE_APP_FILE_URL ="https://able.iswkoman.com/images/"
+  const VITE_APP_FILE_URL = "https://able.iswkoman.com/images/";
 
   const [data, setData] = useState<Session | null>(null);
   const [loading, setLoading] = useState(false);
@@ -52,7 +52,8 @@ const SessionDetails = () => {
       const base64Data = response.data;
       const byteArray = base64js.toByteArray(base64Data);
       const pdfBlob = new Blob([byteArray], { type: "application/pdf" });
-      saveAs(pdfBlob, "report.pdf");
+      const fileName = `${data?.form_id?.name || "report"}_session`;
+      saveAs(pdfBlob, `${fileName}.pdf`);
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -139,7 +140,14 @@ const SessionDetails = () => {
                       {data?.description || "N/A"}
                     </p>
                   </div>
-
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-900">
+                Case Details
+                    </h4>
+                    <p className="text-gray-700">
+                      {data?.case_details || "N/A"}
+                    </p>
+                  </div>
                   {data?.c_cancel_remark && (
                     <div>
                       <h4 className="text-lg font-semibold text-gray-900">
