@@ -3,8 +3,10 @@ import { Case } from "../../types/case";
 import { getCase } from "../../api/sessionApi";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
-
-const CaseTable: React.FC = () => {
+interface CaseTableProps {
+  searchValue: string;
+}
+const CaseTable: React.FC<CaseTableProps> = ({ searchValue }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("Active Cases");
   const handleTabChange = (a: string) => {
@@ -42,7 +44,7 @@ const CaseTable: React.FC = () => {
             statusToSend = activeTab;
         }
         const response = await getCase({
-          searchQuery: "",
+          searchQuery: searchValue,
           page: currentPage,
           limit: itemsPerPage,
           ...(statusToSend ? { status: statusToSend } : {}),
@@ -59,7 +61,7 @@ const CaseTable: React.FC = () => {
     };
 
     fetchData();
-  }, [currentPage, itemsPerPage, activeTab]);
+  }, [currentPage, itemsPerPage, activeTab, searchValue]);
 
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 

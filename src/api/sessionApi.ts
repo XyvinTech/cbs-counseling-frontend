@@ -161,6 +161,7 @@ export const addEntry = async (id: string, data: any): Promise<any | null> => {
   }
 };
 export const getRemarks = async (params: {
+  searchQuery?: string;
   limit?: number;
   page?: number;
 }): Promise<any | null> => {

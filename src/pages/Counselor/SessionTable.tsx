@@ -33,7 +33,10 @@ const numberToDay: Record<number, string> = {
   5: "Friday",
   6: "Saturday",
 };
-const SessionTable: React.FC = () => {
+interface SessionTableProps {
+  searchValue: string;
+}
+const SessionTable:React.FC<SessionTableProps> = ({ searchValue }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("Pending for Approval");
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
@@ -114,7 +117,7 @@ const SessionTable: React.FC = () => {
         }
 
         const response = await getSessions({
-          searchQuery: "",
+          searchQuery: searchValue,
           page: currentPage,
           limit: itemsPerPage,
           ...(statusToSend ? { status: statusToSend } : {}),
@@ -132,7 +135,7 @@ const SessionTable: React.FC = () => {
     };
 
     fetchData();
-  }, [currentPage, itemsPerPage, isChange, activeTab]);
+  }, [currentPage, itemsPerPage, isChange, activeTab, searchValue]);
 
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 

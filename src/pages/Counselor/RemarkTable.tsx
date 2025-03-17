@@ -7,8 +7,10 @@ import { FaEllipsisV } from "react-icons/fa";
 import { getRemarks } from "../../api/sessionApi";
 import { Case } from "../../types/case";
 import Loader from "../../components/Loader";
-
-const RemarkTable: React.FC = () => {
+interface RemarkTableProps {
+  searchValue: string;
+}
+const RemarkTable: React.FC<RemarkTableProps> = ({ searchValue }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
@@ -49,6 +51,7 @@ const RemarkTable: React.FC = () => {
       setLoading(true);
       try {
         const response = await getRemarks({
+          searchQuery: searchValue,
           page: currentPage,
           limit: itemsPerPage,
         });
@@ -64,7 +67,7 @@ const RemarkTable: React.FC = () => {
     };
 
     fetchData();
-  }, [currentPage, itemsPerPage]);
+  }, [currentPage, itemsPerPage,searchValue]);
 
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
