@@ -2,10 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import SelectGender from "../../../components/Admin/SelectGender";
-import { createUser, getUserById, updateUser } from "../../../api/userApi";
+import {
+  createUser,
+  getUserById,
+  updateUser,
+  upload,
+} from "../../../api/userApi";
 import { toast } from "react-toastify";
 import PhoneInput from "react-phone-input-2";
-import 'react-phone-input-2/lib/style.css';
+import "react-phone-input-2/lib/style.css";
 const AddStudent = () => {
   const [loading, setLoading] = useState(false);
   const [studentData, setStudentData] = useState({
@@ -16,10 +21,13 @@ const AddStudent = () => {
     designation: "",
     division: "",
     mobile: "",
+    image: "",
     parentContact: "",
     userType: "student",
   });
-
+  const [preview, setPreview] = useState("");
+  const VITE_APP_FILE_URL = "https://able.iswkoman.com/images/";
+  const [file, setFile] = useState<File | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { state } = location;
@@ -38,12 +46,16 @@ const AddStudent = () => {
             email: student.email || "",
             StudentReferencesCode: student.StudentReferencesCode || "",
             gender: student.gender || "",
+            image: student.image || "",
             designation: student.designation || "",
             division: student.division || "",
             mobile: student.mobile || "",
             parentContact: student.parentContact || "",
             userType: "student",
           });
+          setPreview(
+            student.image ? `${VITE_APP_FILE_URL}${student.image}` : ""
+          );
         }
       };
       fetchStudent();
@@ -53,12 +65,20 @@ const AddStudent = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target as HTMLInputElement;
+    if (files && files.length > 0) {
+      const selectedFile = files[0];
 
-    setStudentData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setPreview(imageUrl);
+
+      setFile(selectedFile);
+    } else {
+      setStudentData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
   const handleMobileChange = (value: string) => {
     setStudentData((prev) => ({
@@ -76,10 +96,35 @@ const AddStudent = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      let imageUrl = studentData.image;
+      if (preview && file) {
+        const response = await upload(file);
+        if (response?.data) {
+          imageUrl = response.data;
+        }
+      }
+      const updatedStudentData = {
+        ...(studentData.name && { name: studentData.name }),
+        ...(imageUrl && { image: imageUrl }),
+        ...(studentData.designation && {
+          designation: studentData.designation,
+        }),
+        ...(studentData.email && { email: studentData.email }),
+        ...(studentData.mobile && { mobile: studentData.mobile }),
+        ...(studentData.division && { division: studentData.division }),
+        ...(studentData.gender && { gender: studentData.gender }),
+        ...(studentData.parentContact && {
+          parentContact: studentData.parentContact,
+        }),
+        ...(studentData.StudentReferencesCode && {
+          StudentReferencesCode: studentData.StudentReferencesCode,
+        }),
+        userType: "student",
+      };
       if (isEditMode && studentId) {
-        await updateUser(studentId, studentData);
+        await updateUser(studentId, updatedStudentData);
       } else {
-        await createUser(studentData);
+        await createUser(updatedStudentData);
       }
       navigate("/student");
     } catch (error: any) {
@@ -147,7 +192,6 @@ const AddStudent = () => {
                 />
               </div>
             </div>
-
             <div className="mb-4.5 grid grid-cols-1 gap-6 xl:grid-cols-2">
               <div className="w-full">
                 <label className="mb-2.5 block text-black dark:text-white">
@@ -195,7 +239,6 @@ const AddStudent = () => {
                 selectedGender={studentData.gender}
               />
             </div>
-
             <div className="mb-4.5 grid grid-cols-1 gap-6 xl:grid-cols-2">
               <div className="w-full">
                 <label className="mb-2.5 block text-black dark:text-white">
@@ -222,23 +265,45 @@ const AddStudent = () => {
                 <label className="mb-2.5 block text-black dark:text-white">
                   Alternative Contact Number
                 </label>
-              
-                    <PhoneInput
-                  country={'om'}
+
+                <PhoneInput
+                  country={"om"}
                   value={studentData.parentContact}
                   onChange={handleParentMobileChange}
                   inputProps={{
-                    name: 'parentContact',
+                    name: "parentContact",
                     required: true,
-                    className: 'w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-10 text-black outline-none transition focus:border-[#0072bc] active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary'
+                    className:
+                      "w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-10 text-black outline-none transition focus:border-[#0072bc] active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary",
                   }}
                   containerClass="phone-input-container"
                   buttonClass="phone-input-button"
                   dropdownClass="phone-input-dropdown"
                 />
               </div>
+            </div>{" "}
+            <div className="mb-4.5 grid grid-cols-1 gap-6 xl:grid-cols-2">
+              <div className="w-full">
+                <label className="mb-2.5 block text-black dark:text-white">
+                  Profile Picture
+                </label>
+                <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleChange}
+                />
+                {preview && (
+                  <div className="mt-3">
+                    <img
+                      src={preview}
+                      alt="Selected Preview"
+                      className="w-32 h-32 object-cover"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-
             <button
               type="submit"
               className="flex w-full justify-center rounded bg-[#0072bc] p-3 font-medium text-gray hover:bg-opacity-90"

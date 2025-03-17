@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 import SelectType from "../../../components/Admin/SelectType";
 import SelectGender from "../../../components/Admin/SelectGender";
-import { createUser, getUserById, updateUser } from "../../../api/userApi";
+import {
+  createUser,
+  getUserById,
+  updateUser,
+  upload,
+} from "../../../api/userApi";
 import { toast } from "react-toastify";
 
 const AddCounselor = () => {
   const [loading, setLoading] = useState(false);
+  const [preview, setPreview] = useState("");
+  const VITE_APP_FILE_URL = "https://able.iswkoman.com/images/";
+  const [file, setFile] = useState<File | null>(null);
   const [counselorData, setCounselorData] = useState<{
     name: string;
     userType: string;
     designation: string;
     email: string;
+    image: string;
     mobile: string;
     counsellorType: string[];
     gender: string;
@@ -23,6 +32,7 @@ const AddCounselor = () => {
     userType: "counsellor",
     designation: "",
     email: "",
+    image: "",
     mobile: "",
     counsellorType: [],
     gender: "",
@@ -46,11 +56,15 @@ const AddCounselor = () => {
             designation: counselor.designation || "",
             email: counselor.email || "",
             mobile: counselor.mobile || "",
+            image: counselor.image || "",
             counsellorType: counselor.counsellorType || [],
             gender: counselor.gender || "",
             userType: "counsellor",
           });
         }
+        setPreview(
+          counselor.image ? `${VITE_APP_FILE_URL}${counselor.image}` : ""
+        );
       };
       fetchCounselor();
     }
@@ -59,11 +73,21 @@ const AddCounselor = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
-    setCounselorData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    const { name, value, files } = e.target as HTMLInputElement;
+
+    if (files && files.length > 0) {
+      const selectedFile = files[0];
+
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setPreview(imageUrl);
+
+      setFile(selectedFile);
+    } else {
+      setCounselorData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleMobileChange = (value: string) => {
@@ -76,11 +100,34 @@ const AddCounselor = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     try {
+      let imageUrl = counselorData.image;
+      if (preview && file) {
+        const response = await upload(file);
+        if (response?.data) {
+          imageUrl = response.data;
+        }
+      }
+
+      const updatedCounselorData = {
+        ...(counselorData.name && { name: counselorData.name }),
+        ...(imageUrl && { image: imageUrl }),
+        ...(counselorData.designation && {
+          designation: counselorData.designation,
+        }),
+        ...(counselorData.email && { email: counselorData.email }),
+        ...(counselorData.mobile && { mobile: counselorData.mobile }),
+        ...(counselorData.counsellorType && {
+          counsellorType: counselorData.counsellorType,
+        }),
+        ...(counselorData.gender && { gender: counselorData.gender }),
+        userType: "counsellor",
+      };
       if (isEditMode && counselorId) {
-        await updateUser(counselorId, counselorData);
+        await updateUser(counselorId, updatedCounselorData);
       } else {
-        await createUser(counselorData);
+        await createUser(updatedCounselorData);
       }
       navigate("/counselor");
     } catch (error: any) {
@@ -184,18 +231,39 @@ const AddCounselor = () => {
                   Contact Number
                 </label>
                 <PhoneInput
-                  country={'om'}
+                  country={"om"}
                   value={counselorData.mobile}
                   onChange={handleMobileChange}
                   inputProps={{
-                    name: 'mobile',
+                    name: "mobile",
                     required: true,
-                    className: 'w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-10 text-black outline-none transition focus:border-[#0072bc] active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary'
+                    className:
+                      "w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-10 text-black outline-none transition focus:border-[#0072bc] active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary",
                   }}
                   containerClass="phone-input-container"
                   buttonClass="phone-input-button"
                   dropdownClass="phone-input-dropdown"
                 />
+              </div>{" "}
+              <div className="w-full">
+                <label className="mb-2.5 block text-black dark:text-white">
+                  Profile Picture
+                </label>
+                <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleChange}
+                />
+                {preview && (
+                  <div className="mt-3">
+                    <img
+                      src={preview}
+                      alt="Selected Preview"
+                      className="w-32 h-32 object-cover"
+                    />
+                  </div>
+                )}
               </div>
             </div>
 

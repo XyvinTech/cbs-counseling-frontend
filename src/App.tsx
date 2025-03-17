@@ -13,6 +13,8 @@ import AdminTypeList from "./pages/Admin/CounselingType/AdminTypeList";
 import AddType from "./pages/Admin/CounselingType/AddType";
 import AddReport from "./pages/Admin/Report/AddReport";
 import AdminPassword from "./pages/Admin/Settings/AdminPassword";
+import AdminProfile from "./pages/Admin/Settings/AdminProfile";
+
 import AdminCounselorList from "./pages/Admin/Counselor/AdminCounselorList";
 import AddCounselor from "./pages/Admin/Counselor/AddCounselor";
 import AdminStudentList from "./pages/Admin/Student/AdminStudentList";
@@ -90,7 +92,19 @@ function App() {
           }
         />
         <Route
-          path="/settings"
+          path="/change-profile"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="ABLE || Settings" />
+                {/* <AdminPassword /> */}
+                <AdminProfile />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/change-password"
           element={
             <>
               <DefaultLayout>
@@ -211,7 +225,9 @@ function App() {
           }
         />
       </Route>
-      <Route element={<ProtectedRoute allowedRoles={["admin", "counsellor"]} />}>
+      <Route
+        element={<ProtectedRoute allowedRoles={["admin", "counsellor"]} />}
+      >
         <Route
           path="/session/:id"
           element={
@@ -222,8 +238,9 @@ function App() {
               </DefaultLayout>
             </>
           }
-        />{" "}</Route>
-        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+        />{" "}
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
         <Route
           path="/cases/session/:id"
           element={

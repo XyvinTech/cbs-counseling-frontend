@@ -11,6 +11,7 @@ import Loader from "../../../components/Loader";
 
 const CounselorProfile = () => {
   const { id } = useParams();
+  const VITE_APP_FILE_URL = "https://able.iswkoman.com/images/";
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("Counseling Sessions");
   const handleTabChange = (a: string) => {
@@ -20,6 +21,7 @@ const CounselorProfile = () => {
     name: "",
     email: "",
     mobile: "",
+    image:"",
     designation: "",
     counsellorType: [],
     gender: "",
@@ -60,13 +62,13 @@ const CounselorProfile = () => {
                   <div className="relative h-32 w-32 rounded-full bg-white p-2 shadow-lg">
                     {data?.gender === "male" ? (
                       <img
-                        src={userBoy}
+                        src={`${VITE_APP_FILE_URL}${data?.image}` || userBoy} 
                         alt="profile"
                         className="rounded-full"
                       />
                     ) : (
                       <img
-                        src={userGirl}
+                        src={`${VITE_APP_FILE_URL}${data?.image}` || userGirl}
                         alt="profilePic"
                         className="rounded-full"
                       />

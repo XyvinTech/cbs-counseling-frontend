@@ -8,6 +8,7 @@ import { getUser } from "../../api/userApi";
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const VITE_APP_FILE_URL = "https://able.iswkoman.com/images/";
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -36,7 +37,7 @@ const DropdownUser = () => {
 
         <span className="h-12 w-12 rounded-full overflow-hidden border border-gray-300 dark:border-strokedark">
           <img
-            src={UserOne}
+            src={`${VITE_APP_FILE_URL}${user?.image}` || UserOne}
             alt="User"
             className="w-full h-full object-cover"
           />

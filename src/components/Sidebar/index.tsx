@@ -491,29 +491,100 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </NavLink>
                 </li>
               )}
-              <li>
-                <NavLink
-                  to="/settings"
-                  className={`group relative flex items-center gap-2.5 dark:text-blue-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white dark:hover:bg-meta-4 ${
-                    pathname.includes("settings") && "bg-[#0072bc] text-white"
+              <li className="relative">
+                <div
+                  onClick={toggleDropdown}
+                  className={`group relative flex items-center justify-between dark:text-blue-200 gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white dark:hover:bg-meta-4 cursor-pointer ${
+                    pathname.includes("change") && "bg-[#0072bc] text-white"
                   }`}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 3c.69 0 1.25.56 1.25 1.25V5.3c.45.1.88.26 1.28.47l.87-.87c.49-.49 1.28-.49 1.77 0l1.77 1.77c.49.49.49 1.28 0 1.77l-.87.87c.21.4.37.83.47 1.28h1.05c.69 0 1.25.56 1.25 1.25v2.5c0 .69-.56 1.25-1.25 1.25h-1.05c-.1.45-.26.88-.47 1.28l.87.87c.49.49.49 1.28 0 1.77l-1.77 1.77c-.49.49-1.28.49-1.77 0l-.87-.87c-.4.21-.83.37-1.28.47v1.05c0 .69-.56 1.25-1.25 1.25h-2.5c-.69 0-1.25-.56-1.25-1.25v-1.05c-.45-.1-.88-.26-1.28-.47l-.87.87c-.49.49-1.28.49-1.77 0l-1.77-1.77c-.49-.49-.49-1.28 0-1.77l.87-.87c-.21-.4-.37-.83-.47-1.28H3.25c-.69 0-1.25-.56-1.25-1.25v-2.5c0-.69.56-1.25 1.25-1.25h1.05c.1-.45.26-.88.47-1.28l-.87-.87c-.49-.49-.49-1.28 0-1.77l1.77-1.77c.49-.49 1.28-.49 1.77 0l.87.87c.4-.21.83-.37 1.28-.47V4.25C10.75 3.56 11.31 3 12 3zm0 6.5c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z"
-                    />
-                  </svg>
-                  Settings
-                </NavLink>
+                  <div className="flex items-center gap-2.5">
+                    <svg
+                      className="fill-current"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 2C9.243 2 7 4.243 7 7C7 9.757 9.243 12 12 12C14.757 12 17 9.757 17 7C17 4.243 14.757 2 12 2ZM12 10C10.346 10 9 8.654 9 7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7C15 8.654 13.654 10 12 10Z"
+                        fill=""
+                      />
+                      <path
+                        d="M12 14C9.347 14 4 15.347 4 18V20C4 20.553 4.447 21 5 21H19C19.553 21 20 20.553 20 20V18C20 15.347 14.653 14 12 14ZM6 18C6.217 17.147 9.417 16 12 16C14.583 16 17.783 17.147 18 18H6Z"
+                        fill=""
+                      />
+                    </svg>
+                    Settings
+                  </div>
+                  {isDropdownOpen ? (
+                    <BsChevronUp size={18} />
+                  ) : (
+                    <BsChevronDown size={18} />
+                  )}
+                </div>
+                {isDropdownOpen && (
+                  <ul className="pl-8 mt-2 space-y-2">
+                    <li>
+                      {" "}
+                      <NavLink
+                        to="/change-password"
+                        className={`group relative flex items-center gap-2.5 dark:text-blue-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white dark:hover:bg-meta-4 ${
+                          pathname.includes("password") &&
+                          "bg-[#0072bc] text-white"
+                        }`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="size-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 17a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M8 10V8a4 4 0 118 0v2m-9 0h10a2 2 0 012 2v6a2 2 0 01-2 2H7a2 2 0 01-2-2v-6a2 2 0 012-2z"
+                          />
+                        </svg>
+                        Change Password
+                      </NavLink>
+                    </li>
+                    <li>
+                      {" "}
+                      <NavLink
+                        to="/change-profile"
+                        className={`group relative flex items-center gap-2.5 dark:text-blue-200  rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white dark:hover:bg-meta-4 ${
+                          pathname.includes("profile") &&
+                          "bg-[#0072bc] text-white"
+                        }`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="size-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 14c3.31 0 6-2.69 6-6S15.31 2 12 2 6 4.69 6 8s2.69 6 6 6zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"
+                          />
+                        </svg>
+                        Change Profile
+                      </NavLink>
+                    </li>
+                  </ul>
+                )}
               </li>
             </ul>
           </div>

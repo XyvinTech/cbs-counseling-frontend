@@ -33,7 +33,7 @@ const numberToDay: Record<number, string> = {
 };
 
 const AddEntry: React.FC = () => {
-  const VITE_APP_FILE_URL ="https://able.iswkoman.com/images/"
+  const VITE_APP_FILE_URL = "https://able.iswkoman.com/images/";
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -53,6 +53,7 @@ const AddEntry: React.FC = () => {
     reason_for_closing: "",
     session_date: null as Date | null,
     time: "",
+    session_type: "",
     report: [] as File[],
   });
   useEffect(() => {
@@ -77,6 +78,7 @@ const AddEntry: React.FC = () => {
           interactions: response?.data.interactions,
           details: response?.data?.case_details,
           concern_raised: response?.data?.case_id?.concern_raised,
+          session_type: response?.data?.session_type,
         }));
       } catch (error) {
         console.error("Failed to fetch session:", error);
@@ -196,6 +198,7 @@ const AddEntry: React.FC = () => {
     const formData: any = {
       details: formState.details,
       session_id: id,
+      session_type: formState.session_type,
       form_id: data?.form_id?._id,
       interactions: formState.interactions,
       report: [...(data?.report || [])],
@@ -587,6 +590,32 @@ const AddEntry: React.FC = () => {
                     placeholder="Add case details"
                     rows={3}
                   />
+                </div>
+                <div className="mb-6">
+                  <label className="mb-2.5 block text-black dark:text-white">
+                    Session Type*
+                  </label>
+                  <select
+                    name="session_type"
+                    value={formState.session_type}
+                    onChange={(e) => {
+                      const selectedValue = e.target.value;
+
+                      setFormState((prev) => ({
+                        ...prev,
+                        session_type: selectedValue,
+                      }));
+                    }}
+                    className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-[#0072bc] active:border-[#0072bc] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0072bc] ${
+                      formState.type ? "text-black dark:text-white" : ""
+                    }`}
+                  >
+                    <option value="">Select Session Type</option>
+                    <option value="follow up">⁠Follow up</option>
+                    <option value="remedial">Remedial</option>
+                    <option value="observation">Observation</option>
+                    <option value="assessment">Assessment</option>
+                  </select>
                 </div>
                 <div className="mb-6">
                   <label className="mb-2.5 block text-black dark:text-white">
