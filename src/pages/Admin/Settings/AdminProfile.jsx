@@ -2,9 +2,10 @@ import { BsFillEnvelopeFill, BsFillTelephoneFill } from "react-icons/bs";
 import React, { useEffect, useState } from "react";
 import { getUser, updateUser, upload } from "../../../api/userApi";
 import { toast } from "react-toastify";
-
+import { useUserContext } from "../../../api/UserContext"
 const AdminProfile = () => {
   const [data, setData] = useState(null);
+  const { fetchUsers } = useUserContext();
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -58,6 +59,7 @@ const AdminProfile = () => {
 
       await updateUser(data?._id, updatedUserData);
       const response = await getUser();
+      await fetchUsers();
       setData(response.data);
       setPreview(null);
       setFile(null);

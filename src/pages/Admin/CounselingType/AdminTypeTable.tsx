@@ -83,7 +83,7 @@ const AdminTypeTable: React.FC<TypeTableProps> = ({ searchValue }) => {
                     Name
                   </th>
                   <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                    Created At
+                    Created On
                   </th>
 
                   <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">

@@ -4,20 +4,14 @@ import ClickOutside from "../ClickOutside";
 import UserOne from "../../images/user/user-pro.jpg";
 import { toast } from "react-toastify";
 import { getUser } from "../../api/userApi";
+import { useUserContext } from "../../api/UserContext";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  // const [user, setUser] = useState<any>(null);
+  const{users }=useUserContext( );
   const VITE_APP_FILE_URL = "https://able.iswkoman.com/images/";
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getUser();
-        setUser(response.data);
-      } catch (error) {}
-    };
-    fetchData();
-  }, []);
+
 
   const navigate = useNavigate();
   return (
@@ -28,16 +22,16 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {user?.name}
+            {users?.name}
           </span>
           <span className="block text-xs text-gray-500 dark:text-white capitalize" >
-            {user?.userType}
+            {users?.userType}
           </span>
         </span>
 
         <span className="h-12 w-12 rounded-full overflow-hidden border border-gray-300 dark:border-strokedark">
           <img
-            src={`${VITE_APP_FILE_URL}${user?.image}` || UserOne}
+            src={`${VITE_APP_FILE_URL}${users?.image}` || UserOne}
             alt="User"
             className="w-full h-full object-cover"
           />
