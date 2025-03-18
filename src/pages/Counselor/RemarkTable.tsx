@@ -21,10 +21,11 @@ const RemarkTable: React.FC<RemarkTableProps> = ({ searchValue }) => {
   const [totalCount, setTotalCount] = useState(0);
 
   const handleActionsClick = (e: React.MouseEvent, sessionId: string) => {
+    console.log(sessionId);
     const button = e.currentTarget as HTMLElement;
     const rect = button.getBoundingClientRect();
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
+
     setModalPosition({
       top: rect.bottom + scrollTop,
       left: rect.left,
@@ -67,7 +68,7 @@ const RemarkTable: React.FC<RemarkTableProps> = ({ searchValue }) => {
     };
 
     fetchData();
-  }, [currentPage, itemsPerPage,searchValue]);
+  }, [currentPage, itemsPerPage, searchValue]);
 
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
@@ -185,7 +186,7 @@ const RemarkTable: React.FC<RemarkTableProps> = ({ searchValue }) => {
                               onClick={(e) =>
                                 handleActionsClick(
                                   e,
-                                  packageItem.session_ids[0]?._id
+                                  packageItem.session_ids[0]
                                 )
                               }
                               className="px-4 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md text-gray-700 focus:outline-none flex items-center"
