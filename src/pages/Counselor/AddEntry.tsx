@@ -426,6 +426,10 @@ const AddEntry: React.FC = () => {
                       label: "Interactions",
                       value: data?.interactions || "N/A",
                     },
+                    {
+                      label: "Session Type",
+                      value: data?.session_type || "N/A",
+                    },
 
                     {
                       label: "Counsellor",

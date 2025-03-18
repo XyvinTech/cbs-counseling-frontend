@@ -194,6 +194,10 @@ const AddRemark: React.FC = () => {
                           label: "Interactions",
                           value: session.interactions || "N/A",
                         },
+                        {
+                          label: "Session Type",
+                          value: session.session_type || "N/A",
+                        },
                       ].map(({ label, value }, idx) => (
                         <div key={idx} className="flex justify-between text-sm">
                           <p>{label}:</p>
