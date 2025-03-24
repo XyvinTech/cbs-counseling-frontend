@@ -57,11 +57,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   }, [sidebarExpanded]);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [settingDropdownOpen, setSettingDropdownOpen] = useState(false);
   const toggleUserDropdown = () => {
     setIsUserDropdownOpen(!isUserDropdownOpen);
   };
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+  const toggleDropdownSetting = () => {
+    setSettingDropdownOpen(!settingDropdownOpen);
   };
   return (
     <aside
@@ -100,8 +104,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           </svg>
         </button>
       </div>
+      <div className="flex flex-col overflow-y-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200 hover:scrollbar-thumb-blue-700 scrollbar-thumb-rounded-full scrollbar-track-rounded-lg duration-300 ease-linear">
 
-      <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         <nav className="mt-5 py-4 px-4 lg:mt-0 lg:px-6">
           <div>
             <ul className="mb-6 flex flex-col gap-4.5">
@@ -493,7 +497,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               )}
               <li className="relative">
                 <div
-                  onClick={toggleDropdown}
+                  onClick={toggleDropdownSetting}
                   className={`group relative flex items-center justify-between dark:text-blue-200 gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-[#0072bc] hover:text-white dark:hover:bg-meta-4 cursor-pointer ${
                     pathname.includes("change") && "bg-[#0072bc] text-white"
                   }`}
@@ -518,13 +522,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     </svg>
                     Settings
                   </div>
-                  {isDropdownOpen ? (
+                  {settingDropdownOpen ? (
                     <BsChevronUp size={18} />
                   ) : (
                     <BsChevronDown size={18} />
                   )}
                 </div>
-                {isDropdownOpen && (
+                {settingDropdownOpen && (
                   <ul className="pl-8 mt-2 space-y-2">
                     <li>
                       {" "}
@@ -590,11 +594,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           </div>
         </nav>
       </div>
-      <div className="mt-auto flex flex-col items-center justify-center py-4 px-6">
-        <span className="text-sm font-medium text-gray-500 dark:text-blue-200">
+      <div className="mt-auto flex flex-col items-center justify-center py-6 px-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
+        <span className="text-sm font-semibold text-gray-700 dark:text-blue-300 tracking-wide">
           Powered By
         </span>
-        <img src={logo} alt="Logo" className="w-56 h-14 mt-2" />
+        <img
+          src={logo}
+          alt="Logo"
+          className="w-48 h-auto mt-3 opacity-90 hover:opacity-100 transition-opacity duration-300"
+        />
       </div>
     </aside>
   );
