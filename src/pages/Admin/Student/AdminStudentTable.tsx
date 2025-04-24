@@ -91,7 +91,9 @@ const AdminStudentTable: React.FC<StudentTableProps> = ({ searchValue }) => {
                   <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                     Grade & Section
                   </th>
-
+                  <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                    Status
+                  </th>
                   <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                     Actions
                   </th>
@@ -133,6 +135,21 @@ const AdminStudentTable: React.FC<StudentTableProps> = ({ searchValue }) => {
                           {packageItem.designation}
                           {packageItem?.division}
                         </p>
+                      </td>
+                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                        <span
+                          className={`inline-block rounded-full px-3 py-1 text-sm font-semibold ${
+                            packageItem.status === "true" ||
+                            packageItem.status === true
+                              ? "bg-green-100 text-green-800"
+                              : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {packageItem.status === "true" ||
+                          packageItem.status === true
+                            ? "Active"
+                            : "Inactive"}
+                        </span>
                       </td>
 
                       <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
