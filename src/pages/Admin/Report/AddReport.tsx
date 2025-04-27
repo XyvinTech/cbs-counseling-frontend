@@ -468,7 +468,6 @@ const AddReport = () => {
                               }`}
                             >
                               {reportData?.headers?.map((header, colIndex) => {
-                                // Special handling for "Particulars" column
                                 const key =
                                   header === "Particulars"
                                     ? "particulars"
@@ -480,13 +479,7 @@ const AddReport = () => {
                                     key={colIndex}
                                     className="py-5 px-4 text-black dark:text-white whitespace-pre-line"
                                   >
-                                    {cellData.length > 30 ? (
-                                      <span title={cellData}>
-                                        {cellData.slice(0, 30) + "..."}
-                                      </span>
-                                    ) : (
-                                      cellData
-                                    )}
+                                    {cellData}
                                   </td>
                                 );
                               })}
