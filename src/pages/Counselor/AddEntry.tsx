@@ -619,6 +619,7 @@ const AddEntry: React.FC = () => {
                     <option value="remedial">Remedial</option>
                     <option value="observation">Observation</option>
                     <option value="assessment">Assessment</option>
+                    <option value="interaction">Interaction</option>
                   </select>
                 </div>
                 <div className="mb-6">
