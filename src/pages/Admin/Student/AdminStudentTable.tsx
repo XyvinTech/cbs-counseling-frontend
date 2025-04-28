@@ -50,6 +50,11 @@ const AdminStudentTable: React.FC<StudentTableProps> = ({ searchValue }) => {
 
     fetchData();
   }, [isChange, searchValue, currentPage, itemsPerPage]);
+  useEffect(() => {
+    if (searchValue && searchValue.trim() !== '') {
+      setCurrentPage(1);
+    }
+  }, [searchValue]);
   const handleDelete = async () => {
     try {
       await deleteUser(selectedId!);

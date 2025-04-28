@@ -62,7 +62,11 @@ const CaseTable: React.FC<CaseTableProps> = ({ searchValue }) => {
 
     fetchData();
   }, [currentPage, itemsPerPage, activeTab, searchValue]);
-
+  useEffect(() => {
+    if (searchValue && searchValue.trim() !== '') {
+      setCurrentPage(1);
+    }
+  }, [searchValue]);
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
   const handlePageChange = (page: number) => {

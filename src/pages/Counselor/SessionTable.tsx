@@ -36,7 +36,7 @@ const numberToDay: Record<number, string> = {
 interface SessionTableProps {
   searchValue: string;
 }
-const SessionTable:React.FC<SessionTableProps> = ({ searchValue }) => {
+const SessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("Pending for Approval");
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
@@ -136,7 +136,11 @@ const SessionTable:React.FC<SessionTableProps> = ({ searchValue }) => {
 
     fetchData();
   }, [currentPage, itemsPerPage, isChange, activeTab, searchValue]);
-
+  useEffect(() => {
+    if (searchValue && searchValue.trim() !== "") {
+      setCurrentPage(1);
+    }
+  }, [searchValue]);
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
   const handlePageChange = (page: number) => {

@@ -40,7 +40,11 @@ const navigate=useNavigate();
 
     fetchData();
   }, [searchValue, currentPage, itemsPerPage]);
-
+  useEffect(() => {
+    if (searchValue && searchValue.trim() !== '') {
+      setCurrentPage(1);
+    }
+  }, [searchValue]);
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
   const handlePageChange = (page: number) => {

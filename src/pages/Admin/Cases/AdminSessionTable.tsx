@@ -43,6 +43,11 @@ const AdminSessionTable: React.FC<SessionTableProps> = ({ searchValue,onStudentC
 
     fetchData();
   }, [, searchValue, currentPage, itemsPerPage]);
+  useEffect(() => {
+    if (searchValue && searchValue.trim() !== '') {
+      setCurrentPage(1);
+    }
+  }, [searchValue]);
 const student=packageData[0]?.form_id?.name
   const navigate = useNavigate();
   const totalPages = Math.ceil(totalCount / itemsPerPage);

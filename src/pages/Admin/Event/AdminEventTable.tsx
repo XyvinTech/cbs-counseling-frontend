@@ -88,6 +88,11 @@ const AdminEventTable: React.FC<EventTableProps> = ({ searchValue }) => {
 
     fetchData();
   }, [isChange, searchValue, currentPage, itemsPerPage]);
+  useEffect(() => {
+    if (searchValue && searchValue.trim() !== '') {
+      setCurrentPage(1);
+    }
+  }, [searchValue]);
   const handleDelete = async () => {
     try {
       await deleteEvent(selectedId!);

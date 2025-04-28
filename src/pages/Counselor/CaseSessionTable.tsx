@@ -37,7 +37,11 @@ const CaseSessionTable: React.FC<SessionTableProps> = ({ searchValue }) => {
 
     fetchData();
   }, [, searchValue, currentPage, itemsPerPage]);
-
+  useEffect(() => {
+    if (searchValue && searchValue.trim() !== '') {
+      setCurrentPage(1);
+    }
+  }, [searchValue]);
   const navigate = useNavigate();
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 

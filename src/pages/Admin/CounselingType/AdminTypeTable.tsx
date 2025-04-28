@@ -50,6 +50,11 @@ const AdminTypeTable: React.FC<TypeTableProps> = ({ searchValue }) => {
 
     fetchData();
   }, [isChange, searchValue, currentPage, itemsPerPage]);
+  useEffect(() => {
+    if (searchValue && searchValue.trim() !== '') {
+      setCurrentPage(1);
+    }
+  }, [searchValue]);
   const handleDelete = async () => {
     try {
       await deleteType(selectedId!);

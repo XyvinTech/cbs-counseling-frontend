@@ -38,7 +38,11 @@ const AdminCaseTable: React.FC<CaseTableProps> = ({ searchValue }) => {
 
     fetchData();
   }, [, searchValue, currentPage, itemsPerPage]);
-
+  useEffect(() => {
+    if (searchValue && searchValue.trim() !== '') {
+      setCurrentPage(1);
+    }
+  }, [searchValue]);
   const navigate = useNavigate();
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
