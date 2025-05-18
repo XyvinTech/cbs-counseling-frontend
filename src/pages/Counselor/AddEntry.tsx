@@ -562,14 +562,29 @@ const AddEntry: React.FC = () => {
                   <label className="mb-2.5 block text-black dark:text-white">
                     Interaction with Student/Parent/Teacher/Peers
                   </label>
-                  <input
-                    type="text"
+                  <select
                     name="interactions"
                     value={formState.interactions}
-                    onChange={handleChange}
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
-                    placeholder="Add interactions"
-                  />
+                    onChange={(e) => {
+                      const selectedValue = e.target.value;
+
+                      setFormState((prev) => ({
+                        ...prev,
+                        interactions: selectedValue,
+                      }));
+                    }}
+                    className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-[#0072bc] active:border-[#0072bc] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0072bc] ${
+                      formState.interactions ? "text-black dark:text-white" : ""
+                    }`}
+                  >
+                    <option value="">Select Interaction</option>
+                    <option value="teaching">⁠Teaching</option>
+                    <option value="guidance">Guidance</option>
+                    <option value="classroom">Classroom</option>
+                    <option value="meeting">Meeting</option>
+                    <option value="team">Team</option>
+                    <option value="inter dept">Inter Dept</option>
+                  </select>
                 </div>{" "}
                 <div className="mb-6">
                   <label className="mb-2.5 block text-black dark:text-white">
@@ -611,7 +626,7 @@ const AddEntry: React.FC = () => {
                       }));
                     }}
                     className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-[#0072bc] active:border-[#0072bc] dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0072bc] ${
-                      formState.type ? "text-black dark:text-white" : ""
+                      formState.session_type ? "text-black dark:text-white" : ""
                     }`}
                   >
                     <option value="">Select Session Type</option>
