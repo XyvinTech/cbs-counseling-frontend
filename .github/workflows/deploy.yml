@@ -3,7 +3,7 @@ name: Deploy React App to AWS Lightsail
 on:
   push:
     branches:
-      - main
+      - mainsdfsdfsdf
 
 jobs:
   deploy:
