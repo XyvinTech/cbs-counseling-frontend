@@ -1,0 +1,42 @@
+name: Deploy React Frontend for Backend Integration (Windows)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install Dependencies and Build
+        shell: powershell
+        env:
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+          VITE_APP_API_URL: ${{ secrets.VITE_APP_API_URL }}
+          VITE_APP_FILE_URL: ${{ secrets.VITE_APP_FILE_URL }}
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy build to backend folder
+        shell: powershell
+        run: |
+          $backendPath = "C:\cbs-councelling-app\cbs-counseling-frontend"
+          $targetDist = Join-Path $backendPath "dist"
+
+          if (Test-Path $targetDist) {
+            Remove-Item -Recurse -Force $targetDist
+          }
+
+          New-Item -Path $backendPath -ItemType Directory -Force
+          Move-Item -Path ".\dist" -Destination $targetDist
