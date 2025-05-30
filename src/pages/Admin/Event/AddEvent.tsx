@@ -52,11 +52,9 @@ const AddEvent = () => {
   ];
   const typeOptions = [
     "Team meetings",
-    "session / workshop",
     "Other meeting",
     "Invigilation",
-    "substitution",
-    "lesson",
+    "Workshop",
   ];
 
   useEffect(() => {

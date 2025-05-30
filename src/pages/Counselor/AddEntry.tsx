@@ -630,11 +630,10 @@ const AddEntry: React.FC = () => {
                     }`}
                   >
                     <option value="">Select Session Type</option>
-                    <option value="follow up">⁠Follow up</option>
+                    <option value="counseling">Counseling</option>
                     <option value="remedial">Remedial</option>
                     <option value="observation">Observation</option>
                     <option value="assessment">Assessment</option>
-                    <option value="interaction">Interaction</option>
                   </select>
                 </div>
                 <div className="mb-6">
