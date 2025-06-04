@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Select from "react-select";
-import SelectTimer from "../../../components/Admin/SelectTimer";
 import { createEvent, getEventById, updateEvent } from "../../../api/eventApi";
 import { toast } from "react-toastify";
 import { getUsers, upload } from "../../../api/userApi";
@@ -23,8 +22,10 @@ const AddEvent = () => {
     requisition_image: string;
     details: string;
     creator: string;
-    counselor: string;
+    counselor: string | string[];
     type: string;
+    start_time: string;
+    end_time: string;
     requisition_description: string;
   }>({
     title: "",
@@ -33,6 +34,8 @@ const AddEvent = () => {
     guest: "",
     requisition_image: "",
     details: "",
+    start_time: "",
+    end_time: "",
     type: "",
     creator: "",
     counselor: "",
@@ -82,6 +85,8 @@ const AddEvent = () => {
             creator: event.creator || "",
             details: event.details || "",
             type: event.type || "",
+            start_time: event.start_time || "",
+            end_time: event.end_time || "",
             counselor: event.counselor || "",
             requisition_description: event.requisition_description || "",
           });
@@ -116,6 +121,7 @@ const AddEvent = () => {
       }));
     }
   };
+
   useEffect(() => {
     const fetchCounselor = async () => {
       try {
@@ -131,6 +137,7 @@ const AddEvent = () => {
     };
     fetchCounselor();
   }, []);
+
   const handleVenueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     if (selectedValue === "other") {
@@ -141,11 +148,12 @@ const AddEvent = () => {
       setEventData({ ...eventData, venue: selectedValue });
     }
   };
+
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
-
     setEventData({ ...eventData, type: selectedValue });
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -165,6 +173,8 @@ const AddEvent = () => {
         ...(eventData.guest && { guest: eventData.guest }),
         ...(imageUrl && { requisition_image: imageUrl }),
         ...(eventData.type && { type: eventData.type }),
+        ...(eventData.start_time && { start_time: eventData.start_time }),
+        ...(eventData.end_time && { end_time: eventData.end_time }),
         ...(eventData.details && { details: eventData.details }),
         ...(eventData.creator && { creator: eventData.creator }),
         ...(eventData.counselor && { counselor: eventData.counselor }),
@@ -184,6 +194,55 @@ const AddEvent = () => {
       toast.error(error.message || "Failed to upload image!");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Create options with "All" as first option
+  const counselorOptions = [
+    { value: "*", label: "All" },
+    ...counselor
+  ];
+
+  // Check if "All" is selected
+  const isAllSelected = Array.isArray(eventData.counselor) 
+    ? eventData.counselor.includes("*")
+    : eventData.counselor === "*";
+
+  // Get current selected values for display
+  const getSelectedValues = () => {
+    if (isAllSelected) {
+      return [{ value: "*", label: "All" }];
+    }
+    
+    if (Array.isArray(eventData.counselor)) {
+      return counselorOptions.filter(option => 
+        eventData.counselor.includes(option.value) && option.value !== "*"
+      );
+    }
+    
+    if (eventData.counselor) {
+      return counselorOptions.filter(option => option.value === eventData.counselor);
+    }
+    
+    return [];
+  };
+
+  // Handle counselor selection change
+  const handleCounselorChange = (selectedOptions: any) => {
+    const selectedValues = selectedOptions ? selectedOptions.map((option: any) => option.value) : [];
+    
+    if (selectedValues.includes("*")) {
+      // If "All" is selected, set counselor to ["*"]
+      setEventData((prev) => ({
+        ...prev,
+        counselor: ["*"],
+      }));
+    } else {
+      // If "All" is not selected, set individual counselors
+      setEventData((prev) => ({
+        ...prev,
+        counselor: selectedValues,
+      }));
     }
   };
 
@@ -236,6 +295,34 @@ const AddEvent = () => {
                   value={eventData.date}
                   onChange={handleChange}
                   placeholder="Enter Date"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
+                />
+              </div>
+            </div>
+            <div className="mb-4.5 grid grid-cols-1 gap-6 xl:grid-cols-2">
+              <div className="w-full">
+                <label className="mb-2.5 block text-black dark:text-white">
+                  Start Time
+                </label>
+                <input
+                  type="time"
+                  name="start_time"
+                  value={eventData.start_time}
+                  onChange={handleChange}
+                  placeholder="Start Time"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
+                />
+              </div>
+              <div className="w-full">
+                <label className="mb-2.5 block text-black dark:text-white">
+                  End Time
+                </label>
+                <input
+                  type="time"
+                  name="end_time"
+                  value={eventData.end_time}
+                  onChange={handleChange}
+                  placeholder="End Time"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-[#0072bc] dark:text-white"
                 />
               </div>
@@ -372,19 +459,10 @@ const AddEvent = () => {
                   Select Counselors
                 </label>
                 <Select
-                  options={counselor}
+                  options={isAllSelected ? [{ value: "*", label: "All" }] : counselorOptions}
                   isMulti
-                  value={counselor.filter(
-                    (option) => eventData?.counselor?.includes(option.value)
-                  )}
-                  onChange={(selectedOptions: any) =>
-                    setEventData((prev) => ({
-                      ...prev,
-                      counselor: selectedOptions.map(
-                        (option: any) => option.value
-                      ),
-                    }))
-                  }
+                  value={getSelectedValues()}
+                  onChange={handleCounselorChange}
                   classNamePrefix="select"
                   styles={{
                     control: (base, { isFocused }) => ({
